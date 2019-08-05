@@ -9,10 +9,11 @@
 import Foundation
 
 struct LoginAcceptedCommand: IncomingServerCommand {
-    init?(server: TASServer, arguments: [String], dataSource: IncomingServerCommandDataSource, delegate: IncomingServerCommandDelegate) {
-        
+    weak var delegate: IncomingServerCommandDelegate?
+    init?(server: TASServer, payload: String, dataSource: IncomingServerCommandDataSource, delegate: IncomingServerCommandDelegate) {
+        self.delegate = delegate
     }
     func execute() {
-
+        delegate?.completeLogin()
     }
 }

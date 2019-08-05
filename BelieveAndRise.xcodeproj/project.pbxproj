@@ -10,6 +10,7 @@
 		3E04709A22CD6B91005241E6 /* ServerCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E04709922CD6B91005241E6 /* ServerCommand.swift */; };
 		3E04709D22CD71C3005241E6 /* ListViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E04709C22CD71C3005241E6 /* ListViewControllerDelegate.swift */; };
 		3E04709F22CD71D3005241E6 /* ListViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E04709E22CD71D3005241E6 /* ListViewControllerDataSource.swift */; };
+		3E2D1C2A22DD47CC008596E1 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2D1C2922DD47CC008596E1 /* List.swift */; };
 		3E33C9D922C203B200C340F9 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E33C9D822C203B200C340F9 /* ListViewController.swift */; };
 		3E46333522C0C2D000AE0F2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E46333422C0C2D000AE0F2F /* AppDelegate.swift */; };
 		3E46333722C0C2D200AE0F2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E46333622C0C2D200AE0F2F /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 		3EB5912E22C1A74B00103CDE /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5912D22C1A74B00103CDE /* String+MD5.swift */; };
 		3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5912F22C1A75600103CDE /* Data+Base64.swift */; };
 		3EB5913222C1AA6E00103CDE /* Battlelist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5913122C1AA6E00103CDE /* Battlelist.swift */; };
+		3EF20F7422F825D10005650E /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EF20F7322F825D10005650E /* ListViewController.xib */; };
 		6B769C8D22DBE29B006F2347 /* TASServerCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B769C8C22DBE29B006F2347 /* TASServerCommand.swift */; };
 		6B769C8F22DBE2AF006F2347 /* LoginAcceptedCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B769C8E22DBE2AF006F2347 /* LoginAcceptedCommand.swift */; };
 		6B7C82D022D88A600031F9C9 /* ServerSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82CE22D88A600031F9C9 /* ServerSelectionViewController.swift */; };
@@ -70,6 +72,7 @@
 		3E04709922CD6B91005241E6 /* ServerCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCommand.swift; sourceTree = "<group>"; };
 		3E04709C22CD71C3005241E6 /* ListViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerDelegate.swift; sourceTree = "<group>"; };
 		3E04709E22CD71D3005241E6 /* ListViewControllerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerDataSource.swift; sourceTree = "<group>"; };
+		3E2D1C2922DD47CC008596E1 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		3E33C9D822C203B200C340F9 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		3E46333122C0C2D000AE0F2F /* BelieveAndRise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BelieveAndRise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E46333422C0C2D000AE0F2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +106,7 @@
 		3EB5912D22C1A74B00103CDE /* String+MD5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
 		3EB5912F22C1A75600103CDE /* Data+Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Base64.swift"; sourceTree = "<group>"; };
 		3EB5913122C1AA6E00103CDE /* Battlelist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battlelist.swift; sourceTree = "<group>"; };
+		3EF20F7322F825D10005650E /* ListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListViewController.xib; sourceTree = "<group>"; };
 		6B769C8C22DBE29B006F2347 /* TASServerCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TASServerCommand.swift; sourceTree = "<group>"; };
 		6B769C8E22DBE2AF006F2347 /* LoginAcceptedCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAcceptedCommand.swift; sourceTree = "<group>"; };
 		6B7C82CE22D88A600031F9C9 /* ServerSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelectionViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +151,7 @@
 			children = (
 				3E77162622C179E500B8C6C0 /* TableHeaderData.swift */,
 				3E33C9D822C203B200C340F9 /* ListViewController.swift */,
+				3EF20F7322F825D10005650E /* ListViewController.xib */,
 				3E04709E22CD71D3005241E6 /* ListViewControllerDataSource.swift */,
 				3E04709C22CD71C3005241E6 /* ListViewControllerDelegate.swift */,
 			);
@@ -181,6 +186,7 @@
 				6BC6B42522C85AA0003B4FEC /* IncomingServerCommand */,
 				3EB5912D22C1A74B00103CDE /* String+MD5.swift */,
 				3EB5913122C1AA6E00103CDE /* Battlelist.swift */,
+				3E2D1C2922DD47CC008596E1 /* List.swift */,
 				3EB5912F22C1A75600103CDE /* Data+Base64.swift */,
 				3EB5912322C1A21800103CDE /* Server */,
 				3E46336B22C0C7CC00AE0F2F /* ViewController */,
@@ -420,6 +426,7 @@
 			files = (
 				3E77162D22C180F700B8C6C0 /* TableSectionHeaderView.xib in Resources */,
 				3E77162322C1762A00B8C6C0 /* SingleColumnTableColumnRowView.xib in Resources */,
+				3EF20F7422F825D10005650E /* ListViewController.xib in Resources */,
 				3E46333722C0C2D200AE0F2F /* Assets.xcassets in Resources */,
 				6B7C82D122D88A600031F9C9 /* ServerSelectionViewController.xib in Resources */,
 				3E46333A22C0C2D200AE0F2F /* MainMenu.xib in Resources */,
@@ -465,6 +472,7 @@
 				3E04709D22CD71C3005241E6 /* ListViewControllerDelegate.swift in Sources */,
 				6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */,
 				3E77162522C1775A00B8C6C0 /* NibLoadable.swift in Sources */,
+				3E2D1C2A22DD47CC008596E1 /* List.swift in Sources */,
 				3EB5912522C1A24700103CDE /* TASServer.swift in Sources */,
 				3E04709F22CD71D3005241E6 /* ListViewControllerDataSource.swift in Sources */,
 				3E46335F22C0C2E000AE0F2F /* Battle.swift in Sources */,

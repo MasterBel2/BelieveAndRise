@@ -90,7 +90,9 @@ final class UserAuthenticationController: UserAuthenticationViewControllerDelega
 
     // MARK: - Dependencies
 
-    private var _viewController: UserAuthenticationViewController?
+    // weak, because if its view isn't in the view stack
+    // it doesn't need to be kept around
+    private weak var _viewController: UserAuthenticationViewController?
     let credentialsManager: CredentialsManager
     let server: TASServer
 
@@ -103,6 +105,8 @@ final class UserAuthenticationController: UserAuthenticationViewControllerDelega
 
     // MARK: - Presentation
 
+    /// The view controller gathering user input for the user authentication
+    /// process.
     var viewController: NSViewController {
         return _viewController ?? {
             let userAuthenticationViewController = UserAuthenticationViewController()
@@ -122,7 +126,7 @@ final class UserAuthenticationController: UserAuthenticationViewControllerDelega
         }()
     }
 
-    // MARK: -
+    // MARK: - 
 
     func loginDidSucceed() {
         
@@ -130,20 +134,32 @@ final class UserAuthenticationController: UserAuthenticationViewControllerDelega
 
     // MARK: - UserAuthenticationViewControllerDelegate
 
-    func login(for userAuthenticationViewController: UserAuthenticationViewController) {
+    func submitLogin(for userAuthenticationViewController: UserAuthenticationViewController) {
         #warning("Hard-coded data")
         let username = "BelieveAndRise"
         let password = "Believe"
 
         //
         do {
-            #warning("fails if credentials are already written")
+			#warning("fails if credentials are already written; implement a check, possibly just for whether the credentials were read")
             try credentialsManager.writeCredentials(Credentials(username: username, password: password), forServerWithAddress: server.socket.address)
         } catch {
             #warning("Error invisible to user")
             print(error)
         }
 
-        server.send(LoginCommand(username: username, password: password))
+        server.send(
+            LoginCommand(
+                username: username,
+                password: password,
+                compatabilityFlags: [
+                    .sayForBattleChatAndSayFrom,
+                    .springEngineVersionAndNameInBattleOpened,
+                    .lobbyIDInAddUser,
+                    .joinBattleRequestAcceptDeny,
+                    .scriptPasswords,
+                ]
+            )
+        )
     }
 }

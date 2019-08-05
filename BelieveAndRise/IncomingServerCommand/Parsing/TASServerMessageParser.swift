@@ -35,7 +35,7 @@ final class TASServerMessageParser: TASServerDelegate, IncomingServerCommandData
         let components = serverCommand.components(separatedBy: " ")
         guard let _command = components.first?.uppercased(),
             let recognisedCommand = recognisedCommands[_command],
-            let command = recognisedCommand.init(server: server, arguments: Array(components.dropFirst()), dataSource: self, delegate: self) else {
+            let command = recognisedCommand.init(server: server, payload: components.dropFirst().joined(separator: " "), dataSource: self, delegate: self) else {
                 return
         }
         command.execute()
@@ -57,7 +57,7 @@ final class TASServerMessageParser: TASServerDelegate, IncomingServerCommandData
 
     func connectedToServer(_ server: TASServer) {
          recognisedCommands = [
-            "ACCEPTED" : DummyCommand.self,
+            "ACCEPTED" : LoginAcceptedCommand.self,
             "DENIED" : DummyCommand.self,
             "LOGININFOEND" : DummyCommand.self,
 
@@ -71,7 +71,7 @@ final class TASServerMessageParser: TASServerDelegate, IncomingServerCommandData
     private func presentLogin(for server: TASServer) {
         let userAuthenticationController = UserAuthenticationController(server: server)
         let viewController = userAuthenticationController.viewController
-        mainWindow?.contentViewController = viewController
+        keyWindow?.contentViewController = viewController
         self.userAuthenticationController = userAuthenticationController
     }
 
@@ -85,6 +85,19 @@ final class TASServerMessageParser: TASServerDelegate, IncomingServerCommandData
 
     func completeLogin() {
         userAuthenticationController?.loginDidSucceed()
+
+        executeOnMain(target: self) { parser in
+            let battlelistViewController = ListViewController()
+			if let mainWindow = parser.mainWindow {
+				mainWindow.contentViewController = battelistViewController
+				mainWindow.sheets.forEach { mainWindow.endSheet($0)}
+			}
+			
+            // Maintain the same window size if possible
+            parser.something()
+
+            parser.battelistViewController = battlelistViewController
+        }
     }
 
     // Battleroom
@@ -99,26 +112,25 @@ final class TASServerMessageParser: TASServerDelegate, IncomingServerCommandData
 
     func createBattle(_ battle: Battle, identifiedBy id: Int) {
         battlelist.addBattle(battle, with: id)
-        let battlelistViewController = battelistViewController ?? ListViewController()
-        self.battelistViewController = battlelistViewController
-
-        battlelistViewController.setTableSections(
-            [
-                ListTableSection(
-                    title: "All Battles",
-                    entries: [
-                        ListTableEntry(primaryTitle: battle.title, secondaryTitle: "\(battle.playerCount)/\(battle.maxPlayers) + \(battle.spectatorCount)")
-                    ]
-                )
-            ]
+        something()
+    }
+    private func something() {
+        let rows = battlelist.battles.map {
+            return ListTableEntry(primaryTitle: $0.value.founder, secondaryTitle: "\($0.value.playerCount) players")
+        }
+        let x = ListTableSection(
+            title: "Battles",
+            entries: rows
         )
+
+        executeOnMain(target: self) { parser in
+            parser.battelistViewController?.setTableSections([x])
+        }
     }
 
     func createBattleWithID(identifiedBy id: Int) {}
 
     func notifyUser(of message: CustomStringConvertible, isError: Bool) {}
-
-
 }
 
 protocol ActionTriggeringSheet {

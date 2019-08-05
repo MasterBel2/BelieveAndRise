@@ -47,23 +47,11 @@ final class ListViewController: NSViewController, NSTableViewDelegate, NSTableVi
 	private var rows: [Row] = []
 	
 	// MARK: - Lifecycle
-	
-	override func loadView() {
-		let tableView = NSTableView()
-		
-		tableView.autoresizingMask = [.width, .height]
-		tableView.usesAutomaticRowHeights = true
-		
-		tableView.delegate = self
-		tableView.dataSource = self
-		
-		tableView.addTableColumn(NSTableColumn())
-		
-		view = tableView
-	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		tableView.delegate = self
+		tableView.dataSource = self
 		tableView.reloadData()
     }
 	

@@ -40,7 +40,7 @@ struct Battle {
 		let hash: Int
 	}
     
-    init(isReplay: Bool, natType: NATType, founder: String, founderID: Int, ip: String, port: Int, maxPlayers: Int, passworded: Bool, rank: Int, mapHash: Int, engineName: String, engineVersion: String, mapName: String, title: String, gameName: String) {
+    init(isReplay: Bool, natType: NATType, founder: String, founderID: Int, ip: String, port: Int, maxPlayers: Int, passworded: Bool, rank: Int, mapHash: Int, engineName: String, engineVersion: String, mapName: String, title: String, gameName: String, channel: String) {
         self.isReplay = isReplay
         self.natType = natType
         self.founder = founder
@@ -59,7 +59,7 @@ struct Battle {
         self.gameName = gameName
         
         #warning("Setting static value for property instead of passing in through initialiser")
-        self.channel = ""
+        self.channel = channel
     }
 	
 	init() {
@@ -78,7 +78,8 @@ struct Battle {
             engineVersion: "",
             mapName: "",
             title: "",
-            gameName: ""
+            gameName: "",
+            channel: ""
         )
 	}
 }

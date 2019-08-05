@@ -9,12 +9,12 @@
 import Cocoa
 
 protocol IncomingServerCommand {
-    init?(server: TASServer, arguments: [String], dataSource: IncomingServerCommandDataSource, delegate: IncomingServerCommandDelegate)
+    init?(server: TASServer, payload: String, dataSource: IncomingServerCommandDataSource, delegate: IncomingServerCommandDelegate)
     /// Executes the command.
     func execute()
 }
 
 struct DummyCommand: IncomingServerCommand {
-    init?(server: TASServer, arguments: [String], dataSource: IncomingServerCommandDataSource, delegate: IncomingServerCommandDelegate) {}
+    init?(server: TASServer, payload: String, dataSource: IncomingServerCommandDataSource, delegate: IncomingServerCommandDelegate) {}
     func execute() {}
 }

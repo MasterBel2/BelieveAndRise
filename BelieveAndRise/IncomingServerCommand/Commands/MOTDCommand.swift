@@ -9,11 +9,11 @@
 import Foundation
 
 struct MOTDCommand: IncomingServerCommand {
-    let arguments: [String]
-    init?(server: TASServer, arguments: [String], dataSource: IncomingServerCommandDataSource, delegate: IncomingServerCommandDelegate) {
-        self.arguments = arguments
+    let payload: String
+    init?(server: TASServer, payload: String, dataSource: IncomingServerCommandDataSource, delegate: IncomingServerCommandDelegate) {
+        self.payload = payload
     }
     func execute() {
-        print(arguments.joined(separator: " "))
+        print(payload)
     }
 }

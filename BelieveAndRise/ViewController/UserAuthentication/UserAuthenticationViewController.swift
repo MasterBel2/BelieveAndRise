@@ -9,7 +9,7 @@
 import Cocoa
 
 protocol UserAuthenticationViewControllerDelegate: AnyObject {
-    func login(for userAuthenticationViewController: UserAuthenticationViewController)
+    func submitLogin(for userAuthenticationViewController: UserAuthenticationViewController)
 }
 
 /// A controller for the user authentication process.
@@ -70,6 +70,6 @@ final class UserAuthenticationViewController: NSViewController {
 
     ///
     @IBAction func login(_ sender: Any) {
-        delegate?.login(for: self)
+        delegate?.submitLogin(for: self)
     }
 }
