@@ -8,6 +8,12 @@
 
 import Cocoa
 
+enum TextFieldKey {
+    case username
+    case password
+    case email
+}
+
 protocol UserAuthenticationViewControllerDelegate: AnyObject {
     func submitLogin(for userAuthenticationViewController: UserAuthenticationViewController)
 }
@@ -19,6 +25,10 @@ final class UserAuthenticationViewController: NSViewController {
 
     @IBOutlet weak var contentStackView: NSStackView!
     @IBOutlet weak var loginButton: NSButton!
+    
+    // MARK: - Properties
+    
+    private(set) var fields: [(key: TextFieldKey, field: NSTextField)] = []
 
     /// A function called in viewDidLoad() which allows operations accessing the view to be delayed until
     /// after the view has loaded.
@@ -30,6 +40,7 @@ final class UserAuthenticationViewController: NSViewController {
         super.viewDidLoad()
         // Allows configuration to be postponed until after view has loaded.
         configureViewsAfterViewLoaded?()
+        configureViewsAfterViewLoaded = nil
     }
 
     // MARK: - Dependencies
@@ -49,10 +60,12 @@ final class UserAuthenticationViewController: NSViewController {
             textField.placeholderString = "Username"
             textField.stringValue = input.username ?? ""
             self.contentStackView.addArrangedSubview(textField)
+            self.fields.append((key: .username, field: textField))
 
             let textField2 = NSSecureTextField()
             textField2.placeholderString = "Password"
             textField2.stringValue = input.password ?? ""
+            self.fields.append((key: .password, field: textField2))
 
             self.contentStackView.addArrangedSubview(textField2)
 

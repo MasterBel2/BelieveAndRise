@@ -134,12 +134,14 @@ final class UserAuthenticationController: UserAuthenticationViewControllerDelega
 
     // MARK: - UserAuthenticationViewControllerDelegate
 
+    /// Takes the username and password from the fields 'username' and 'password' and sends a login command.
     func submitLogin(for userAuthenticationViewController: UserAuthenticationViewController) {
-        #warning("Hard-coded data")
-        let username = "BelieveAndRise"
-        let password = "Believe"
+        guard let usernameField = userAuthenticationViewController.fields.filter({ $0.key == .username }).first, let passwordField = userAuthenticationViewController.fields.filter({ $0.key == .password }).first else {
+            return
+        }
+        let username = usernameField.field.stringValue
+        let password = passwordField.field.stringValue
 
-        //
         do {
 			#warning("fails if credentials are already written; implement a check, possibly just for whether the credentials were read")
             try credentialsManager.writeCredentials(Credentials(username: username, password: password), forServerWithAddress: server.socket.address)
