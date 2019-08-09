@@ -75,8 +75,12 @@ final class ServerSelectionViewController: NSViewController, NSComboBoxDataSourc
 
     /// Attempts to construct a server address from the input string.
     private func validServerAddress(from string: String) -> ServerAddress? {
-        #warning("Function returns dummy value")
-        return ServerAddress(location: "lobby.springrts.com", port: 8200)
+        if string == "Official Server" {
+            return ServerAddress(location: "lobby.springrts.com", port: 8200)
+        }
+        let storedValue = string.components(separatedBy: ":")
+        guard storedValue.count == 2, let port = Int(storedValue[1]) else { return nil }
+        return ServerAddress(location: storedValue[0], port: port)
     }
 }
 
