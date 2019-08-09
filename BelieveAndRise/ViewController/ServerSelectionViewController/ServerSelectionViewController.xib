@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="comboBox" destination="VO5-4k-tfC" id="hOK-Tf-Tp0"/>
                 <outlet property="doneButton" destination="0Mi-Z7-Qrv" id="ZAs-37-1De"/>
+                <outlet property="spinner" destination="bMU-Uy-cK1" id="tdk-G8-E6Y"/>
                 <outlet property="titleField" destination="46b-lX-mYE" id="B9A-sk-OGP"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -56,10 +57,15 @@ DQ
                         <action selector="completeEditing:" target="-2" id="1ri-gF-X9Q"/>
                     </connections>
                 </button>
+                <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="bMU-Uy-cK1">
+                    <rect key="frame" x="232" y="128" width="16" height="16"/>
+                </progressIndicator>
             </subviews>
             <constraints>
                 <constraint firstItem="VO5-4k-tfC" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="NvZ-I0-YgJ"/>
                 <constraint firstAttribute="bottom" secondItem="0Mi-Z7-Qrv" secondAttribute="bottom" constant="20" id="R3z-fh-RTu"/>
+                <constraint firstItem="bMU-Uy-cK1" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="Ymh-hj-g1S"/>
+                <constraint firstItem="bMU-Uy-cK1" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="c4N-sX-7Pu"/>
                 <constraint firstItem="VO5-4k-tfC" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="c5i-Pz-Qm7"/>
                 <constraint firstItem="VO5-4k-tfC" firstAttribute="leading" secondItem="46b-lX-mYE" secondAttribute="leading" id="cfp-VX-B7H"/>
                 <constraint firstAttribute="trailing" secondItem="0Mi-Z7-Qrv" secondAttribute="trailing" constant="24" id="hHx-E1-lns"/>

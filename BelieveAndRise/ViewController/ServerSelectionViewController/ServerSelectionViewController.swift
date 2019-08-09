@@ -20,7 +20,8 @@ final class ServerSelectionViewController: NSViewController, NSComboBoxDataSourc
     @IBOutlet weak var titleField: NSTextField!
     @IBOutlet weak var comboBox: NSComboBox!
     @IBOutlet weak var doneButton: NSButton!
-
+    @IBOutlet weak var spinner: NSProgressIndicator!
+    
     // MARK: - Dependencies
 
     /// The server selection view controller's delegate.
@@ -70,7 +71,10 @@ final class ServerSelectionViewController: NSViewController, NSComboBoxDataSourc
     /// Disables the interface and presents a spinner to indicate work in progress.
     private func disableUI() {
         // TODO: this could be applicable to more view controllers; consider adding this as an internal extension of NSViewController
-        #warning("Stubbed function")
+        comboBox.isEnabled = false
+        doneButton.isEnabled = false
+        spinner.startAnimation(self)
+        spinner.isHidden = false
     }
 
     /// Attempts to construct a server address from the input string.
