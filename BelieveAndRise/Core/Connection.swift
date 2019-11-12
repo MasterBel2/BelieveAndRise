@@ -66,10 +66,6 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
 		start()
 	}
 
-    // MARK: - Configuration
-
-
-
     // MARK: - Window
 
     func createAndShowWindow() {
