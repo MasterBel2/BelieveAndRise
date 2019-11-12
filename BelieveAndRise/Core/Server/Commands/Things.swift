@@ -184,7 +184,7 @@ struct SCCompFlags: SCCommand {
 }
 
 
-struct SCRedirect: SCCommand {
+struct SCRedirectCommand: SCCommand {
 	
 	let ip: String
 	let port: Int
@@ -208,7 +208,7 @@ struct SCRedirect: SCCommand {
 	}
 	
 	func execute(on connection: Connection) {
-		
+		connection.redirect(to: ServerAddress(location: ip, port: port))
 	}
 	
 	var description: String {

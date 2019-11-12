@@ -22,9 +22,13 @@ final class CommandHandler: TASServerDelegate {
 
     // MARK: - Something
 
-    private var incomingCommands: [String : SCCommand.Type] = [
-        "TASSERVER" : TASServerCommand.self
-    ]
+	private var incomingCommands: [String : SCCommand.Type] = [:]
+	
+	// MARK: - Lifecycle
+	
+	init() {
+		setProtocol(.unknown)
+	}
 
     // MARK: - TASServerDelegate
 
@@ -52,15 +56,21 @@ final class CommandHandler: TASServerDelegate {
 
     ///
     enum ServerProtocol {
+		case unknown
         case tasServer(version: String)
         case zeroKServer
     }
 
     func setProtocol(_ serverProtocol: ServerProtocol) {
         switch serverProtocol {
+		case .unknown:
+			incomingCommands = [
+				"TASSERVER" : TASServerCommand.self
+			]
         case .tasServer(_):
             incomingCommands = [
                 "TASSERVER" : TASServerCommand.self,
+				"REDIRECT" : SCRedirectCommand.self,
                 "ACCEPTED" : SCLoginAcceptedCommand.self,
                 "MOTD" : MOTDCommand.self,
 

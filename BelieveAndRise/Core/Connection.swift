@@ -53,6 +53,18 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
     func start() {
         server.connect()
     }
+	
+	func redirect(to address: ServerAddress) {
+		server.disconnect()
+		commandHandler?.setProtocol(.unknown)
+		#warning("Pass information to the user!")
+		
+		let server = TASServer(address: address)
+		server.delegate = commandHandler
+		self.server = server
+		
+		start()
+	}
 
     // MARK: - Configuration
 
@@ -130,9 +142,9 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
     func serverSelectionViewController(_ serverSelectionViewController: ServerSelectionViewController, didSelectServerAt serverAddress: ServerAddress) {
         let server = TASServer(address: serverAddress)
         server.delegate = commandHandler
-        server.connect()
-
         self.server = server
+		
+		start()
     }
 
     // MARK: - Helpers

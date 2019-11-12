@@ -27,7 +27,7 @@ final class TASServer: NSObject, SocketDelegate {
 	// MARK: - Properties
 
     /// The socket that connects to the remote server.
-	let socket: Socket
+	private(set) var socket: Socket
     /// The delay after which the keepalive "PING" should be sent in order to maintain the server connection.
     /// A delay of 30 seconds is reccomended by TASServer documentation.
     var keepaliveDelay: TimeInterval = 30
@@ -57,6 +57,11 @@ final class TASServer: NSObject, SocketDelegate {
 	func disconnect() {
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(TASServer.sendPing), object: nil)
 		socket.disconnect()
+	}
+	
+	/// Closes the connection to one server, and connects to the new address
+	func redirect(to ip: String, port: Int) {
+		
 	}
 
     /// Sends an encoded command over the socket and delays the keepalive to avoid sending superfluous messages to the server.
