@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ChatBar" customModule="BelieveAndRise" customModuleProvider="target"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="ChatBar" customModule="BelieveAndRise" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="22"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="1MI-YG-RcN">
+                    <rect key="frame" x="0.0" y="0.0" width="413" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="OzV-0T-FmH"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Type messages here…" bezelStyle="round" id="GGn-hG-svr">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fBQ-O8-2Nq">
+                    <rect key="frame" x="415" y="-6" width="71" height="32"/>
+                    <buttonCell key="cell" type="push" title="Send" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CF7-nz-gyK">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                    </buttonCell>
+                    <connections>
+                        <action selector="sendMessage:" target="c22-O7-iKe" id="Q5Q-Qc-HIY"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="1MI-YG-RcN" secondAttribute="bottom" id="08X-4d-54I"/>
+                <constraint firstItem="fBQ-O8-2Nq" firstAttribute="leading" secondItem="1MI-YG-RcN" secondAttribute="trailing" constant="8" id="6Yu-ZP-Xat"/>
+                <constraint firstItem="1MI-YG-RcN" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="E9Z-s6-rCb"/>
+                <constraint firstItem="1MI-YG-RcN" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="LDA-ee-pga"/>
+                <constraint firstAttribute="trailing" secondItem="fBQ-O8-2Nq" secondAttribute="trailing" id="Pgy-Tf-qUT"/>
+                <constraint firstItem="fBQ-O8-2Nq" firstAttribute="centerY" secondItem="1MI-YG-RcN" secondAttribute="centerY" id="rc8-I9-wax"/>
+            </constraints>
+            <connections>
+                <outlet property="bottomConstraint" destination="08X-4d-54I" id="aF6-Ur-ZkP"/>
+                <outlet property="button" destination="fBQ-O8-2Nq" id="dP9-wL-IpW"/>
+                <outlet property="leadingConstraint" destination="E9Z-s6-rCb" id="Ny6-xY-DBt"/>
+                <outlet property="textField" destination="1MI-YG-RcN" id="Qba-fz-d7g"/>
+                <outlet property="topConstraint" destination="LDA-ee-pga" id="E0l-tw-FzZ"/>
+                <outlet property="trailingConstraint" destination="Pgy-Tf-qUT" id="wwZ-08-CiJ"/>
+            </connections>
+            <point key="canvasLocation" x="76" y="163"/>
+        </customView>
+    </objects>
+</document>
