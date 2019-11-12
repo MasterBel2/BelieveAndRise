@@ -383,7 +383,7 @@ struct SCSaidExCommand: SCCommand {
     }
 }
 
-struct SCChannel: SCCommand {
+struct SCChannelCommand: SCCommand {
 	
 	let channelName: String
 	let userCount: Int
@@ -422,7 +422,7 @@ struct SCChannel: SCCommand {
 	}
 }
 
-struct SCEndOfChannels: SCCommand {
+struct SCEndOfChannelsCommand: SCCommand {
 	
 	// MARK: - Manual Construction
 	

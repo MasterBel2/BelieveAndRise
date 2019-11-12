@@ -130,28 +130,28 @@ class List<ListItem: Sortable>: ListProtocol {
     }
 
     private func _addItem(_ item: ListItem, with id: Int) {
-        if itemCount == 0 {
-            sortedItemsByID.append(id)
-            itemIndicies[id] = 1
-            items[id] = item
-            delegate?.list(self, didAddItemWithID: id, at: 0)
-            return
-        }
         for index in 0..<itemCount {
             let idAtIndex = sortedItemsByID[index]
             guard let itemAtIndex = items[idAtIndex] else {
                 return
             }
+			if !(item is User) {
+				debugOnlyPrint(item.relationTo(itemAtIndex, forSortKey: sortKey))
+			}
             if item.relationTo(itemAtIndex, forSortKey: sortKey) != .greater {
-                items[id] = item
-                sortedItemsByID.insert(id, at: index)
-                itemIndicies[id] = index
-                itemIndicies[idAtIndex] = index + 1
-                delegate?.list(self, didAddItemWithID: id, at: index)
+				itemIndicies[idAtIndex] = index + 1
+				placeItem(item, with: id, at: index)
                 return
             }
         }
+		placeItem(item, with: id, at: itemCount)
     }
+	private func placeItem(_ item: ListItem, with id: Int, at index: Int) {
+		items[id] = item
+		sortedItemsByID.insert(id, at: index)
+		itemIndicies[id] = index
+		delegate?.list(self, didAddItemWithID: id, at: index)
+	}
 
     /// A helper function ensuring an item is in the parent list before 
     func addItemFromParent(id: Int) {

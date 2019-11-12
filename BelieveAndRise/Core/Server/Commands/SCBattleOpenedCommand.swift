@@ -9,7 +9,7 @@
 import Foundation
 
 /// See https://springrts.com/dl/LobbyProtocol/ProtocolDescription.html#BATTLEOPENED:server
-struct BattleOpenedCommand: SCCommand {
+struct SCBattleOpenedCommand: SCCommand {
     private let battleID: Int
 
     private let isReplay: Bool

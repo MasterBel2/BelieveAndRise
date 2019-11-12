@@ -74,7 +74,6 @@ struct SCUnignoreCommand: SCCommand {
 	}
 }
 
-
 struct SCIgnoreListBegin: SCCommand {
 	
 	// MARK: - Manual Construction
@@ -94,8 +93,7 @@ struct SCIgnoreListBegin: SCCommand {
 	}
 }
 
-
-struct SCIgnoreList: SCCommand {
+struct SCIgnoreListCommand: SCCommand {
 	
 	let username: String
 	let reason: String?
@@ -130,7 +128,7 @@ struct SCIgnoreList: SCCommand {
 	}
 }
 
-struct SCCIgnoreListEnd: SCCommand {
+struct SCCIgnoreListEndCommand: SCCommand {
 	
 	// MARK: - Manual Construction
 	
@@ -149,8 +147,7 @@ struct SCCIgnoreListEnd: SCCommand {
 	}
 }
 
-
-struct SCCompFlags: SCCommand {
+struct SCCompFlagsCommand: SCCommand {
 	
 	let compatabilityFlags: [CompatabilityFlag]
 	private let unrecognisedFlags: [String]
@@ -182,7 +179,6 @@ struct SCCompFlags: SCCommand {
 		return "COMPFLAGS \(compatabilityFlags.map({$0.rawValue}).joined(separator: " "))"
 	}
 }
-
 
 struct SCRedirectCommand: SCCommand {
 	
@@ -217,7 +213,7 @@ struct SCRedirectCommand: SCCommand {
 }
 
 
-struct SCFailed: SCCommand {
+struct SCFailedCommand: SCCommand {
 	
 	// MARK: - Manual Construction
 	
@@ -236,11 +232,10 @@ struct SCFailed: SCCommand {
 	}
 }
 
-
 /**
 A command used to send information to clients in JSON format. (Currently rarely used.)
 */
-struct SCJSON: SCCommand {
+struct SCJSONCommand: SCCommand {
 	
 	let json: String
 	
@@ -269,7 +264,7 @@ struct SCJSON: SCCommand {
 /**
 Sent as the response to a PING command.
 */
-struct SCPong: SCCommand {
+struct SCPongCommand: SCCommand {
 	
 	let time = Date()
 	
@@ -290,11 +285,10 @@ struct SCPong: SCCommand {
 	}
 }
 
-
 /**
 Sent as the response to a STLS command. The client now can now start the tls connection. The server will send again the greeting TASSERVER.
 */
-struct SCOK: SCCommand {
+struct SCOKCommand: SCCommand {
 	
 	// MARK: - Manual Construction
 	
@@ -312,4 +306,3 @@ struct SCOK: SCCommand {
 		return "OK"
 	}
 }
-

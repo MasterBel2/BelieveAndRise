@@ -177,7 +177,7 @@ struct SCClientBattleStatusCommand: SCCommand {
 	}
 }
 
-struct SCRequestBattleStatus: SCCommand {
+struct SCRequestBattleStatusCommand: SCCommand {
 	
 	// MARK: - Manual Construction
 	
@@ -195,7 +195,6 @@ struct SCRequestBattleStatus: SCCommand {
 		return "REQUESTBATTLESTATUS"
 	}
 }
-
 
 struct SCAddBotCommand: SCCommand {
 	
@@ -251,7 +250,6 @@ struct SCAddBotCommand: SCCommand {
 	}
 }
 
-
 struct SCRemoveBotCommand: SCCommand {
 	
 	let botName: String
@@ -283,7 +281,6 @@ struct SCRemoveBotCommand: SCCommand {
 		return "REMOVEBOT \(botName)"
 	}
 }
-
 
 struct SCUpdateBotCommand: SCCommand {
 	
@@ -332,7 +329,6 @@ struct SCUpdateBotCommand: SCCommand {
 	}
 }
 
-
 struct SCAddStartRectCommand: SCCommand {
 	
 	let allyNo: Int
@@ -378,7 +374,6 @@ struct SCAddStartRectCommand: SCCommand {
 	}
 }
 
-
 struct SCRemoveStartRectCommand: SCCommand {
 	
 	let allyNo: Int
@@ -408,39 +403,61 @@ struct SCRemoveStartRectCommand: SCCommand {
 	}
 }
 
+struct SCSetScriptTagsCommand: SCCommand {
 
-//struct SCSetScriptTagsCommand: SCCommand {
-//
-//	let <#propertyName#>: <#propertyType#>
-//
-//	// MARK: - Manual Construction
-//
-//	init(<#arguments#>) {
-//		<#code#>
-//	}
-//
-//	// MARK: - SCCommand
-//
-//	init?(description: String) {
-//		guard let (words, sentences) = try? wordsAndSentences(for: description, wordCount: <#wordCount#>, sentenceCount: <#sentenceCount#>) else {
-//			return nil
-//		}
-//		<#code#>
-//	}
-//
-//	func execute(on connection: Connection) {
-//		<#code#>
-//	}
-//
-//	var description: String {
-//		return <#string#>
-//	}
-//}
-//
-//struct SCRemoveScriptTagsCommand: SCCommand {
-//
-//}
+	let tags: [String]
 
+	// MARK: - Manual Construction
+
+	init(tags: [String]) {
+		self.tags = tags
+	}
+
+	// MARK: - SCCommand
+
+	init?(description: String) {
+		guard let (_, sentences) = try? wordsAndSentences(for: description, wordCount: 0, sentenceCount: 1, optionalSentences: 1000) else {
+			return nil
+		}
+		tags = sentences
+	}
+
+	func execute(on connection: Connection) {
+		#warning("todo")
+	}
+
+	var description: String {
+		return "SETSCRIPTTAGS \(tags.joined(separator: "\t"))"
+	}
+}
+
+struct SCRemoveScriptTagsCommand: SCCommand {
+
+	let keys: [String]
+
+	// MARK: - Manual Construction
+
+	init(keys: [String]) {
+		self.keys = keys
+	}
+
+	// MARK: - SCCommand
+
+	init?(description: String) {
+		guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 1, sentenceCount: 0, optionalWords: 1000) else {
+			return nil
+		}
+		keys = words
+	}
+
+	func execute(on connection: Connection) {
+		#warning("todo")
+	}
+
+	var description: String {
+		return "REMOVESCRIPTTAGS \(keys.joined(separator: " "))"
+	}
+}
 struct SCJoinBattleRequestCommand: SCCommand {
 	
 	let username: String
@@ -788,7 +805,7 @@ struct SCForceQuitBattleCommand: SCCommand {
 /**
 Sent by the server to all clients in a battle, telling them that some units have been added to disabled units list. Also see the DISABLEUNITS command.
 */
-struct SCDisableUnits: SCCommand {
+struct SCDisableUnitsCommand: SCCommand {
 	
 	let units: [String]
 	
@@ -819,7 +836,7 @@ struct SCDisableUnits: SCCommand {
 /**
 Sent by the server to all clients in a battle, telling them that some units have been added to enabled units list. Also see the DISABLEUNITS command.
 */
-struct SCEnableUnits: SCCommand {
+struct SCEnableUnitsCommand: SCCommand {
 	
 	let units: [String]
 	
@@ -849,7 +866,7 @@ struct SCEnableUnits: SCCommand {
 /**
 Sent to notify a client that another user requested that a "ring" sound be played to them.
 */
-struct Ring: SCCommand {
+struct SCRingCommand: SCCommand {
 	
 	let username: String
 	

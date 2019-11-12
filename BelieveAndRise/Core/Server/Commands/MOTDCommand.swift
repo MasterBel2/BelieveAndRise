@@ -29,7 +29,7 @@ struct MOTDCommand: SCCommand {
     }
 }
 
-struct SCServerMessage: SCCommand {
+struct SCServerMessageCommand: SCCommand {
 	
 	let message: String
 	
@@ -57,7 +57,7 @@ struct SCServerMessage: SCCommand {
 	}
 }
 
-struct SCServerMessageBox: SCCommand {
+struct SCServerMessageBoxCommand: SCCommand {
 	
 	let message: String
 	let url: URL?

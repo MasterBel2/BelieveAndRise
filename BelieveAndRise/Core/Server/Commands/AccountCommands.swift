@@ -83,7 +83,7 @@ struct SCLoginDeniedCommand: SCCommand {
 /**
 Sent in response to a REGISTER command, if registration has been refused.
 */
-struct SCRegistrationDenied: SCCommand {
+struct SCRegistrationDeniedCommand: SCCommand {
 	
 	let reason: String
 	
@@ -119,7 +119,7 @@ If email verification is enabled, sending of this command notifies that the serv
 
 Upon reciept of this command, a lobby client would normally be expected to reply with a LOGIN attempt (but this is not a requirement of the protocol).
 */
-struct SCRegistrationAccepted: SCCommand {
+struct SCRegistrationAcceptedCommand: SCCommand {
 	
 	// MARK: - Manual Construction
 	
@@ -211,7 +211,7 @@ struct SCAgreementEndCommand: SCCommand {
 }
 
 
-struct SCChangeEmailRequestAccepted: SCCommand {
+struct SCChangeEmailRequestAcceptedCommand: SCCommand {
 	
 	// MARK: - Manual Construction
 	
@@ -233,7 +233,7 @@ struct SCChangeEmailRequestAccepted: SCCommand {
 }
 
 
-struct SCChangeEmailRequestDenied: SCCommand {
+struct SCChangeEmailRequestDeniedCommand: SCCommand {
 	
 	let errorMessage: String
 	
@@ -262,7 +262,7 @@ struct SCChangeEmailRequestDenied: SCCommand {
 }
 
 
-struct SCChangeEmailAccepted: SCCommand {
+struct SCChangeEmailAcceptedCommand: SCCommand {
 	
 	// MARK: - Manual Construction
 	
@@ -284,7 +284,7 @@ struct SCChangeEmailAccepted: SCCommand {
 }
 
 
-struct SCChangeEmailDenied: SCCommand {
+struct SCChangeEmailDeniedCommand: SCCommand {
 	
 	let errorMessage: String
 	
@@ -313,7 +313,7 @@ struct SCChangeEmailDenied: SCCommand {
 }
 
 
-struct SCResendVerificationAccepted: SCCommand {
+struct SCResendVerificationAcceptedCommand: SCCommand {
 	
 	// MARK: - Manual Construction
 	
@@ -335,7 +335,7 @@ struct SCResendVerificationAccepted: SCCommand {
 }
 
 
-struct SCResendVerificationDenied: SCCommand {
+struct SCResendVerificationDeniedCommand: SCCommand {
 	
 	let errorMessage: String
 	
@@ -363,7 +363,7 @@ struct SCResendVerificationDenied: SCCommand {
 	}
 }
 
-struct SCResetPasswordRequestAccepted: SCCommand {
+struct SCResetPasswordRequestAcceptedCommand: SCCommand {
 
 	
 	// MARK: - Manual Construction
@@ -385,7 +385,7 @@ struct SCResetPasswordRequestAccepted: SCCommand {
 	}
 }
 
-struct SCResetPasswordRequestDenied: SCCommand {
+struct SCResetPasswordRequestDeniedCommand: SCCommand {
 	
 	let errorMessage: String
 	
@@ -417,7 +417,7 @@ struct SCResetPasswordRequestDenied: SCCommand {
 /**
  Notifies that client that their password was changed, in response to RESETPASSWORD. The new password will be emailed to the client.
 */
-struct SCResetPasswordAccepted: SCCommand {
+struct SCResetPasswordAcceptedCommand: SCCommand {
 	
 	// MARK: - Manual Construction
 	
@@ -437,7 +437,7 @@ struct SCResetPasswordAccepted: SCCommand {
 }
 
 
-struct SCResetPasswordDenied: SCCommand {
+struct SCResetPasswordDeniedCommand: SCCommand {
 	
 	let errorMessage: String
 	

@@ -81,7 +81,10 @@ struct SCRemoveUserCommand: SCCommand {
 	}
 	
 	func execute(on connection: Connection) {
-//		connection.userList.removeItem()
+		guard let userID = connection.id(forPlayerNamed: username) else {
+			return
+		}
+		connection.userList.removeItem(withID: userID)
 	}
 	
 	var description: String {
