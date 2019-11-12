@@ -382,3 +382,61 @@ struct SCSaidExCommand: SCCommand {
         channel.receivedNewMessage(ChatMessage(time: Date(), sender: username, content: message, isIRCStyle: true))
     }
 }
+
+struct SCChannel: SCCommand {
+	
+	let channelName: String
+	let userCount: Int
+	let topic: String?
+	
+	// MARK: - Manual Construction
+	
+	init(channelName: String, userCount: Int, topic: String?) {
+		self.channelName = channelName
+		self.userCount = userCount
+		self.topic = topic
+	}
+	
+	// MARK: - SCCommand
+	
+	init?(description: String) {
+		guard let (words, sentences) = try? wordsAndSentences(for: description, wordCount: 2, sentenceCount: 0, optionalSentences: 1),
+		let userCount = Int(words[1]) else {
+			return nil
+		}
+		channelName = words[0]
+		self.userCount = userCount
+		topic = sentences.count == 1 ? sentences[0] : nil
+	}
+	
+	func execute(on connection: Connection) {
+		#warning("todo")
+	}
+	
+	var description: String {
+		var string = "CHANNEL \(channelName) \(userCount)"
+		if let topic = topic {
+			string += " \(topic)"
+		}
+		return string
+	}
+}
+
+struct SCEndOfChannels: SCCommand {
+	
+	// MARK: - Manual Construction
+	
+	init() {}
+	
+	// MARK: - SCCommand
+	
+	init?(description: String) {}
+	
+	func execute(on connection: Connection) {
+		#warning("todo")
+	}
+	
+	var description: String {
+		return "ENDOFCHANNELS"
+	}
+}

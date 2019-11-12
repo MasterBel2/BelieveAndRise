@@ -10,6 +10,8 @@
 		3E04709A22CD6B91005241E6 /* ServerCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E04709922CD6B91005241E6 /* ServerCommand.swift */; };
 		3E04709D22CD71C3005241E6 /* ListViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E04709C22CD71C3005241E6 /* ListViewControllerDelegate.swift */; };
 		3E04709F22CD71D3005241E6 /* ListViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E04709E22CD71D3005241E6 /* ListViewControllerDataSource.swift */; };
+		3E1A49CF237A970600F549FF /* BattleCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1A49CE237A970600F549FF /* BattleCommands.swift */; };
+		3E1A49D1237AA53200F549FF /* Things.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1A49D0237AA53200F549FF /* Things.swift */; };
 		3E2D1C2A22DD47CC008596E1 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2D1C2922DD47CC008596E1 /* List.swift */; };
 		3E2E50A822FB77CF00831EF8 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2E50A722FB77CF00831EF8 /* WindowManager.swift */; };
 		3E33C9D922C203B200C340F9 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E33C9D822C203B200C340F9 /* ListViewController.swift */; };
@@ -33,6 +35,8 @@
 		3E77162B22C17A4600B8C6C0 /* IconLoading+NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E77162A22C17A4500B8C6C0 /* IconLoading+NSImage.swift */; };
 		3E77162D22C180F700B8C6C0 /* TableSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */; };
 		3E7F3D332319DBA60012A743 /* Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F3D322319DBA60012A743 /* Sortable.swift */; };
+		3E98F86B237AC98D00DD2999 /* Private Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E98F86A237AC98D00DD2999 /* Private Messages.swift */; };
+		3E98F86D237ACC6A00DD2999 /* Client Bridging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E98F86C237ACC6A00DD2999 /* Client Bridging.swift */; };
 		3EB5912522C1A24700103CDE /* TASServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5912422C1A24700103CDE /* TASServer.swift */; };
 		3EB5912922C1A6E200103CDE /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5912822C1A6E200103CDE /* Socket.swift */; };
 		3EB5912E22C1A74B00103CDE /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5912D22C1A74B00103CDE /* String+MD5.swift */; };
@@ -60,8 +64,8 @@
 		6BE233B523269ACE0029425E /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BE233B323269ACE0029425E /* ChatViewController.xib */; };
 		6BE233B723269ECA0029425E /* ChatBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE233B623269ECA0029425E /* ChatBarController.swift */; };
 		6BE441452326A5E100951B49 /* CommandParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE441442326A5E100951B49 /* CommandParsing.swift */; };
-		6BE4414E2326A63500951B49 /* JoinCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE441462326A63400951B49 /* JoinCommand.swift */; };
-		6BE4414F2326A63500951B49 /* LoginAcceptedCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE441472326A63400951B49 /* LoginAcceptedCommand.swift */; };
+		6BE4414E2326A63500951B49 /* ChannelCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE441462326A63400951B49 /* ChannelCommands.swift */; };
+		6BE4414F2326A63500951B49 /* AccountCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE441472326A63400951B49 /* AccountCommands.swift */; };
 		6BE441502326A63500951B49 /* CommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE441482326A63400951B49 /* CommandHandler.swift */; };
 		6BE441512326A63500951B49 /* TASServerCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE441492326A63500951B49 /* TASServerCommand.swift */; };
 		6BE441522326A63500951B49 /* BattleOpenedCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414A2326A63500951B49 /* BattleOpenedCommand.swift */; };
@@ -92,6 +96,8 @@
 		3E04709922CD6B91005241E6 /* ServerCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCommand.swift; sourceTree = "<group>"; };
 		3E04709C22CD71C3005241E6 /* ListViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerDelegate.swift; sourceTree = "<group>"; };
 		3E04709E22CD71D3005241E6 /* ListViewControllerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerDataSource.swift; sourceTree = "<group>"; };
+		3E1A49CE237A970600F549FF /* BattleCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleCommands.swift; sourceTree = "<group>"; };
+		3E1A49D0237AA53200F549FF /* Things.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Things.swift; sourceTree = "<group>"; };
 		3E2D1C2922DD47CC008596E1 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		3E2E50A722FB77CF00831EF8 /* WindowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		3E33C9D822C203B200C340F9 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +128,8 @@
 		3E77162A22C17A4500B8C6C0 /* IconLoading+NSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IconLoading+NSImage.swift"; sourceTree = "<group>"; };
 		3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableSectionHeaderView.xib; sourceTree = "<group>"; };
 		3E7F3D322319DBA60012A743 /* Sortable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sortable.swift; sourceTree = "<group>"; };
+		3E98F86A237AC98D00DD2999 /* Private Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Private Messages.swift"; sourceTree = "<group>"; };
+		3E98F86C237ACC6A00DD2999 /* Client Bridging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Client Bridging.swift"; sourceTree = "<group>"; };
 		3EB5912422C1A24700103CDE /* TASServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TASServer.swift; sourceTree = "<group>"; };
 		3EB5912822C1A6E200103CDE /* Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
 		3EB5912A22C1A71200103CDE /* BelieveAndRise-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BelieveAndRise-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -150,8 +158,8 @@
 		6BE233B323269ACE0029425E /* ChatViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ChatViewController.xib; path = BelieveAndRise/UI/View/ChatBar/ChatViewController.xib; sourceTree = SOURCE_ROOT; };
 		6BE233B623269ECA0029425E /* ChatBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBarController.swift; sourceTree = "<group>"; };
 		6BE441442326A5E100951B49 /* CommandParsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandParsing.swift; sourceTree = "<group>"; };
-		6BE441462326A63400951B49 /* JoinCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinCommand.swift; sourceTree = "<group>"; };
-		6BE441472326A63400951B49 /* LoginAcceptedCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAcceptedCommand.swift; sourceTree = "<group>"; };
+		6BE441462326A63400951B49 /* ChannelCommands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelCommands.swift; sourceTree = "<group>"; };
+		6BE441472326A63400951B49 /* AccountCommands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountCommands.swift; sourceTree = "<group>"; };
 		6BE441482326A63400951B49 /* CommandHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandHandler.swift; sourceTree = "<group>"; };
 		6BE441492326A63500951B49 /* TASServerCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TASServerCommand.swift; sourceTree = "<group>"; };
 		6BE4414A2326A63500951B49 /* BattleOpenedCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleOpenedCommand.swift; sourceTree = "<group>"; };
@@ -401,15 +409,19 @@
 		6BE441562326AB0000951B49 /* Commands */ = {
 			isa = PBXGroup;
 			children = (
+				3E98F86C237ACC6A00DD2999 /* Client Bridging.swift */,
+				6BE4414C2326A63500951B49 /* Command.swift */,
 				6BE441442326A5E100951B49 /* CommandParsing.swift */,
 				6BE4414A2326A63500951B49 /* BattleOpenedCommand.swift */,
-				6BE4414C2326A63500951B49 /* Command.swift */,
 				6BE441482326A63400951B49 /* CommandHandler.swift */,
-				6BE441462326A63400951B49 /* JoinCommand.swift */,
+				6BE441462326A63400951B49 /* ChannelCommands.swift */,
+				3E1A49CE237A970600F549FF /* BattleCommands.swift */,
 				6BC4473D2379C1F9006842DD /* SCUserCommands.swift */,
-				6BE441472326A63400951B49 /* LoginAcceptedCommand.swift */,
+				6BE441472326A63400951B49 /* AccountCommands.swift */,
 				6BE4414B2326A63500951B49 /* MOTDCommand.swift */,
 				6BE441492326A63500951B49 /* TASServerCommand.swift */,
+				3E1A49D0237AA53200F549FF /* Things.swift */,
+				3E98F86A237AC98D00DD2999 /* Private Messages.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -559,9 +571,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EB5912922C1A6E200103CDE /* Socket.swift in Sources */,
+				3E98F86D237ACC6A00DD2999 /* Client Bridging.swift in Sources */,
 				3EB5912E22C1A74B00103CDE /* String+MD5.swift in Sources */,
 				6BE441452326A5E100951B49 /* CommandParsing.swift in Sources */,
 				3E2E50A822FB77CF00831EF8 /* WindowManager.swift in Sources */,
+				3E1A49D1237AA53200F549FF /* Things.swift in Sources */,
 				3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */,
 				3E46333522C0C2D000AE0F2F /* AppDelegate.swift in Sources */,
 				3E46336822C0C31700AE0F2F /* NATType.swift in Sources */,
@@ -582,6 +596,7 @@
 				3EB5912522C1A24700103CDE /* TASServer.swift in Sources */,
 				6BAE46BF2379A7FD0065CD53 /* File.swift in Sources */,
 				3E04709F22CD71D3005241E6 /* ListViewControllerDataSource.swift in Sources */,
+				3E1A49CF237A970600F549FF /* BattleCommands.swift in Sources */,
 				3E46335F22C0C2E000AE0F2F /* Battle.swift in Sources */,
 				6B815EF12313C99A000FD850 /* ServerController.swift in Sources */,
 				3E77162722C179E500B8C6C0 /* TableHeaderData.swift in Sources */,
@@ -589,12 +604,13 @@
 				3E77162122C175E500B8C6C0 /* SingleColumnTableColumnRowView.swift in Sources */,
 				3E46336322C0C2EF00AE0F2F /* ServerModel.swift in Sources */,
 				6BE441552326A63500951B49 /* Clients.swift in Sources */,
-				6BE4414F2326A63500951B49 /* LoginAcceptedCommand.swift in Sources */,
+				6BE4414F2326A63500951B49 /* AccountCommands.swift in Sources */,
 				6BC4473E2379C1F9006842DD /* SCUserCommands.swift in Sources */,
 				3E77162922C17A4000B8C6C0 /* IconLoading.swift in Sources */,
 				6BE441542326A63500951B49 /* Command.swift in Sources */,
 				3E77162B22C17A4600B8C6C0 /* IconLoading+NSImage.swift in Sources */,
-				6BE4414E2326A63500951B49 /* JoinCommand.swift in Sources */,
+				3E98F86B237AC98D00DD2999 /* Private Messages.swift in Sources */,
+				6BE4414E2326A63500951B49 /* ChannelCommands.swift in Sources */,
 				6B2C64D0232517930017A1BC /* ChatBar.swift in Sources */,
 				6BAE46C52379A8C70065CD53 /* GenericList.swift in Sources */,
 				6BF48DB8232B9BA7006411BB /* BattlelistViewController.swift in Sources */,

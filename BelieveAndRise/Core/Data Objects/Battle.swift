@@ -8,16 +8,14 @@
 
 import Foundation
 
-struct Battle: Sortable {
+final class Battle: Sortable {
     
     let userList: List<User>
-    let allyLists: [List<User>] = []
-    let spectatorList: List<User>
 	var spectatorCount: Int = 0
-	let map: Map
+	var map: Map
 	
 	var playerCount: Int {
-        return userList.itemCount - spectatorList.itemCount
+        return userList.itemCount - spectatorCount
 	}
 	
 	let title: String
@@ -29,7 +27,8 @@ struct Battle: Sortable {
 	let engineVersion: String
 	
 	let maxPlayers: Int
-	let passworded: Bool
+	let hasPassword: Bool
+	var isLocked: Bool = false
 	let rank: Int
 	
     let founder: String
@@ -42,19 +41,15 @@ struct Battle: Sortable {
 	
 	struct Map {
 		let name: String
-		let hash: Int
+		let hash: Int32
 	}
 	
 	// MARK: - Lifecycle
     
     init(serverUserList: List<User>,
         isReplay: Bool, natType: NATType, founder: String, founderID: Int, ip: String, port: Int,
-        maxPlayers: Int, passworded: Bool, rank: Int, mapHash: Int, engineName: String,
+        maxPlayers: Int, hasPassword: Bool, rank: Int, mapHash: Int32, engineName: String,
         engineVersion: String, mapName: String, title: String, gameName: String, channel: String) {
-
-        // Lists
-        userList = List<User>(title: "", sortKey: .rank, parent: serverUserList)
-        spectatorList = List<User>(title: "Spectators", sortKey: .rank, parent: userList)
 
         self.isReplay = isReplay
         self.natType = natType
@@ -63,7 +58,7 @@ struct Battle: Sortable {
         self.ip = ip
         self.port = port
         self.maxPlayers = maxPlayers
-        self.passworded = passworded
+        self.hasPassword = hasPassword
         self.rank = rank
         self.map = Map(name: mapName, hash: mapHash)
         
@@ -73,7 +68,9 @@ struct Battle: Sortable {
         self.gameName = gameName
 
         self.channel = channel
-
+		
+		userList = List<User>(title: "", sortKey: .rank, parent: serverUserList)
+		
         userList.addItemFromParent(id: founderID)
     }
 	

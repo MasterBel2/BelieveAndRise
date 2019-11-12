@@ -17,11 +17,27 @@ protocol ViewControllerDisplayTarget {}
 class ListViewController: NSViewController,
                             ListDisplay, ListDelegate,
                             NSTableViewDelegate, NSTableViewDataSource {
+	
+	// MARK: - Nested Types
+	
+	/// Represents the data for a header or item in a list view controller's table view.
+	///
+	/// List view controllers can display sections which consist of a header and a
+	/// number of items. Use the .header case to represent a header, and the .item case
+	/// to represent a section's item.
+	private enum Row {
+		/// Represents a list section header.
+		case header(String)
+		/// Represents a list item. Stores the item's ID.
+		case item(Int)
+	}
 
     // MARK: - Configuration
 
     /// Determines whether the content rows should be selectable.
     var displaysSelectableContent: Bool = true
+	
+//	var viewControllerDisplayTarget: ViewControllerDisplayTarget
 
     var shouldDisplayRowCountInHeader: Bool = true {
         didSet {
@@ -43,20 +59,6 @@ class ListViewController: NSViewController,
             }
         }
     }
-
-	// MARK: - Nested Types
-	
-	/// Represents the data for a header or item in a list view controller's table view.
-	///
-	/// List view controllers can display sections which consist of a header and a
-	/// number of items. Use the .header case to represent a header, and the .item case
-	/// to represent a section's item.
-	private enum Row {
-		/// Represents a list section header.
-		case header(String)
-		/// Represents a list item. Stores the item's ID.
-		case item(Int)
-	}
 
     override var nibName: NSNib.Name? {
         return "ListViewController"
@@ -86,6 +88,9 @@ class ListViewController: NSViewController,
 	/// Rows may be either displayed as a header or an item.
 	private var rows: [Row] = []
 
+	/// The lists that provide the data for each of the sections.
+    private(set) var sections: [ListProtocol] = []
+
 	// MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -99,6 +104,7 @@ class ListViewController: NSViewController,
     // MARK: - Accessories
 
     private(set) var hasFooter = false
+	
     /// Returns the list's footer, or nil if one has not been set.
     var footer: NSView? {
         get {
@@ -118,13 +124,19 @@ class ListViewController: NSViewController,
             }
         }
     }
-	
-	// MARK: - Data
 
-    private(set) var sections: [ListProtocol] = []
+	/// Creates a header for the given section.
+    private func header(for list: ListProtocol) -> Row {
+        if shouldDisplayRowCountInHeader {
+            return .header("\(list.itemCount) " + list.title)
+        } else {
+            return .header(list.title)
+        }
+    }
 
     // MARK: - ListDisplay
 
+	/// Adds a section to the list.
     func addSection(_ list: ListProtocol) {
         list.delegate = self
         sections.append(list)
@@ -141,10 +153,12 @@ class ListViewController: NSViewController,
         tableView.headerView = nil
 	}
 
+	/// Sets the item provider. When this value is updated, the list's rows are automatically reloaded.
     func setItemViewProvider(_ itemViewProvider: ItemViewProvider) {
         self.itemViewProvider = itemViewProvider
     }
 
+	/// Calculates the offset for the first item in the section, such that the first item is at offset `offset`, the second at `offset + 1`, and the section header at `offset - 1`.
     private func offset(forSectionNamed sectionName: String) -> Int {
         var count = 0
         for section in sections {
@@ -234,15 +248,5 @@ class ListViewController: NSViewController,
             return 1
         }
         return view.fittingSize.height
-    }
-
-    // MARK: - Formatting
-
-    private func header(for list: ListProtocol) -> Row {
-        if shouldDisplayRowCountInHeader {
-            return .header("\(list.itemCount) " + list.title)
-        } else {
-            return .header(list.title)
-        }
     }
 }

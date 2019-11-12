@@ -42,40 +42,10 @@ func wordsAndSentences(for commandPayload: String, wordCount: Int, sentenceCount
     }
 
     x(array: &words, count: wordCount, separator: " ")
-	
-//    while words.count < wordCount {
-//        guard let character = remainingCharacters.first else {
-//            words.append(String(buffer))
-//            return (words: words, sentences: sentences)
-//        }
-//        if character == " " {
-//            words.append(String(buffer))
-//            buffer = []
-//        } else {
-//            buffer.append(character)
-//        }
-//
-//        remainingCharacters = String(remainingCharacters.dropFirst())
-//    }
 
 	// Sentences are separated by a tab character. There is no tab character before the first sentence
 
     x(array: &sentences, count: sentenceCount, separator: "\t")
-	
-//    while sentences.count < sentenceCount {
-//        guard let character = remainingCharacters.first else {
-//            sentences.append(String(buffer))
-//            return (words: words, sentences: sentences)
-//        }
-//        if character == "\t" {
-//            sentences.append(String(buffer))
-//            remainingCharacters = String(remainingCharacters.dropFirst())
-//            buffer = []
-//        } else {
-//            buffer.append(character)
-//            remainingCharacters = String(remainingCharacters.dropFirst())
-//        }
-//    }
 
 	if remainingCharacters != "" {
 		print("Command payload incorrectly parsed: remaning text was \"\(remainingCharacters)\"")

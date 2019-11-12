@@ -20,7 +20,7 @@ struct BattleOpenedCommand: SCCommand {
     private let maxPlayers: Int
     private let passworded: Bool
     private let rank: Int
-    private let mapHash: Int
+    private let mapHash: Int32
 
     private let engineName: String
     private let engineVersion: String
@@ -45,7 +45,7 @@ struct BattleOpenedCommand: SCCommand {
                 let port = Int(words[5]),
                 let maxPlayers = Int(words[6]),
                 let rank = Int(words[8]),
-                let mapHash = Int(words[9])
+                let mapHash = Int32(words[9])
                 else {
                     return nil
             }
@@ -98,7 +98,7 @@ struct BattleOpenedCommand: SCCommand {
             ip: ip,
             port: port,
             maxPlayers: maxPlayers,
-            passworded: passworded,
+			hasPassword: passworded,
             rank: rank,
             mapHash: mapHash,
             engineName: engineName,
@@ -120,3 +120,58 @@ struct BattleOpenedCommand: SCCommand {
         return ""
     }
 }
+
+struct SCOpenBattleCommand: SCCommand {
+	
+	let battleID: Int
+	
+	// MARK: - Manual Construction
+	
+	init(battleID: Int) {
+		self.battleID = battleID
+	}
+	
+	// MARK: - SCCommand
+	
+	init?(description: String) {
+		guard let battleID = Int(description) else {
+			return nil
+		}
+		self.battleID = battleID
+	}
+	
+	func execute(on connection: Connection) {
+		#warning("TODO")
+	}
+	
+	var description: String {
+		return "OPENBATTLE \(battleID)"
+	}
+	
+}
+
+struct SCOpenBattleFailedCommand: SCCommand {
+	
+	let reason: String
+	
+	// MARK: - Manual Construction
+	
+	init(reason: String) {
+		self.reason = reason
+	}
+	
+	// MARK: - SCCommand
+	
+	init?(description: String) {
+		reason = description
+	}
+	
+	func execute(on connection: Connection) {
+		connection.receivedError(.openBattleFailed(reason: reason))
+	}
+	
+	var description: String {
+		return "OPENBATTLEFAILED \(reason)"
+	}
+}
+

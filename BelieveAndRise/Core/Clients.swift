@@ -13,23 +13,17 @@ import Foundation
 // - SCJoinedCommand
 // - SCLeftCommand
 
-
-// TODO: - Add these functions as helpers on `Connection`
-
-private func userIDs(for usernames: [String], on connection: Connection) -> [Int] {
-    return usernames.map { userID(for: $0, on: connection) }
-}
-
-private func userID(for username: String, on connection: Connection) -> Int {
-    let matches = connection.userList.items.filter({ $0.value.profile.username == username })
-    // We can guarantee that there will be one and only one entry filtered for every
-    // username; there will never be 0 or two.
-    return matches.keys.first!
-}
-
 private func addClientsToChannel(named channelName: String, on connection: Connection, usernames: [String]) {
-    guard let channel = connection.channelList.items[0] else { return }
-    userIDs(for: usernames, on: connection).forEach(channel.userlist.addItemFromParent(id:))
+    guard let channel = connection.channelList.items[connection.id(forChannelnamed: channelName)] else {
+		return
+	}
+	
+	for username in usernames {
+		guard let id = connection.id(forPlayerNamed: username) else {
+			return
+		}
+		channel.userlist.addItemFromParent(id: id)
+	}
 }
 
 // MARK: - Functions
@@ -142,7 +136,11 @@ struct SCLeftCommand: SCCommand {
     }
 
     func execute(on connection: Connection) {
-        guard let channel = connection.channelList.items[0] else { return }
-        channel.userlist.removeItem(withID: userID(for: username, on: connection))
+        guard let channel = connection.channelList.items[0],
+			let id = connection.id(forPlayerNamed: username)
+			else {
+				return
+		}
+		channel.userlist.removeItem(withID: id)
     }
 }

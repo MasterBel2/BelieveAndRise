@@ -8,9 +8,13 @@
 
 import Foundation
 
-struct User: Sortable {
+final class User: Sortable {
 	enum PropertyKey {
 		case rank
+	}
+	
+	init(profile: Profile) {
+		self.profile = profile
 	}
 	
 	/// The user's profile as contained on the server
@@ -32,15 +36,6 @@ struct User: Sortable {
 	struct Profile {
 		let id: Int
 		let username: String
-		/// Indicates whether the account is automated.
-		///
-		/// An automated account is usually referred to as a "Bot" in the context of the SpringRTS lobby server.
-		/// This property is also referred to as a "botflag".
-        #warning("""
-        Whether a user account is automated should be sent as part of the log-on profile,
-        not as part of the continually-updating status.
-        """)
-		var isAutomatedAccount: Bool?
         /// A string identifying which lobby client the user is using
         var lobbyID: String
 		
@@ -48,11 +43,49 @@ struct User: Sortable {
 	
 	struct Status {
 		/// Indicates whether the user is AFK.
-		var isAway: Bool
-        var rank: Int
+		let isAway: Bool
+		let isIngame: Bool
+        let rank: Int
+		let isModerator: Bool
+		/// Indicates whether the account is automated.
+		///
+		/// An automated account is usually referred to as a "Bot" in the context of the SpringRTS lobby server.
+		/// This property is also referred to as a "botflag".
+		var isAutomatedAccount: Bool
+		#warning("""
+        Whether a user account is automated should be sent as part of the log-on profile,
+        not as part of the continually-updating status.
+        """)
 
         static var `default`: Status {
-            return Status(isAway: false, rank: -1)
+            return Status(rawValue: 0)
         }
+		
+		init(isAway: Bool, isIngame: Bool, rank: Int, isModerator: Bool, isAutomatedAccount: Bool) {
+			self.isAway = isAway
+			self.isIngame = isIngame
+			self.rank = rank
+			self.isModerator = isModerator
+			self.isAutomatedAccount = isAutomatedAccount
+		}
+		
+		init(rawValue: Int) {
+			isIngame = (rawValue & 0b01) == 1
+			isAway = (rawValue & 0b10) >> 1 == 1
+			rank = (rawValue & 0b11100) >> 2
+			isModerator = (rawValue & (1 << 4)) == 1
+			isAutomatedAccount = (rawValue & (1 << 5)) == 1
+		}
+		
+		var rawValue: Int {
+			var value = 0
+			value += isIngame ? 1 : 0
+			value += isIngame ? 2 : 0
+			value += rank << 2
+			value += isModerator ? 8 : 0
+			value += isAutomatedAccount ? 16 : 0
+			
+			return value
+		}
 	}
 }

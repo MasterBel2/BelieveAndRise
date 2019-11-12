@@ -41,6 +41,8 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
     let channelList = List<Channel>(title: "All Channels", sortKey: .id)
     let userList = List<User>(title: "All Users", sortKey: .rank)
     let battleList = List<Battle>(title: "All Battles", sortKey: .playerCount)
+	
+	var battleroom: Battleroom?
 
     // MARK: - Components
 
@@ -89,6 +91,9 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
         switch error {
         case .joinFailed(let (channel, reason)):
             print("Join #\(channel) failed: \(reason)")
+		default:
+			fatalError()
+			#warning("FIXME")
         }
     }
 
@@ -137,4 +142,15 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
             return user.profile.username == username
         }?.key
     }
+	
+	private var channelIDs: [String : Int] = [:]
+	func id(forChannelnamed channelName: String) -> Int {
+		if let id = channelIDs[channelName] {
+			return id
+		} else {
+			let id = channelIDs.count
+			channelIDs[channelName] = id
+			return id
+		}
+	}
 }

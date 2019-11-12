@@ -49,7 +49,7 @@ struct SCAddUserCommand: SCCommand {
     }
 
     func execute(on connection: Connection) {
-        let userProfile = User.Profile(id: userID, username: username, isAutomatedAccount: nil, lobbyID: lobbyID)
+        let userProfile = User.Profile(id: userID, username: username, lobbyID: lobbyID)
         let user = User(profile: userProfile)
         connection.userList.addItem(user, with: userID)
     }
@@ -59,5 +59,69 @@ struct SCAddUserCommand: SCCommand {
 //        return "ADDUSER \(username) \(country) \(cpu) \(userID) \(lobbyID)"
     }
 
+}
+
+struct SCRemoveUserCommand: SCCommand {
+	
+	let username: String
+	
+	// MARK: - Manual Construction
+	
+	init(username: String) {
+		self.username = username
+	}
+	
+	// MARK: - SCCommand
+	
+	init?(description: String) {
+		guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 1, sentenceCount: 0) else {
+			return nil
+		}
+		username = words[0]
+	}
+	
+	func execute(on connection: Connection) {
+//		connection.userList.removeItem()
+	}
+	
+	var description: String {
+		return "REMOVEUSER \(username)"
+	}
+}
+
+struct SCClientStatusCommand: SCCommand {
+	
+	let username: String
+	let status: User.Status
+	
+	// MARK: - Manual Construction
+	
+	init(username: String, status: User.Status) {
+		self.username = username
+		self.status = status
+	}
+	
+	// MARK: - SCCommand
+	
+	init?(description: String) {
+		guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 2, sentenceCount: 0),
+		let statusValue = Int(words[1]) else {
+			return nil
+		}
+		username = words[0]
+		status = User.Status(rawValue: statusValue)
+	}
+	
+	func execute(on connection: Connection) {
+		guard let userID = connection.id(forPlayerNamed: username),
+			let user = connection.userList.items[userID] else {
+				return
+		}
+		user.status = status
+	}
+	
+	var description: String {
+		return "CLIENTSTATUS \(username) \(status.rawValue)"
+	}
 }
 
