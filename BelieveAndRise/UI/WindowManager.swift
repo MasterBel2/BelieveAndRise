@@ -16,7 +16,7 @@ protocol WindowManager {
 	
     func presentInitialWindow()
 
-    func mainWindowController() -> MainWindowController
+	func mainWindowController() -> MainWindowController
 
     func presentServerSelection(toWindowFor windowController: WindowController?, delegate: ServerSelectionViewControllerDelegate?)
 }
@@ -119,8 +119,7 @@ final class MacOSWindowManager: WindowManager {
 	}
 
     func mainWindowController() -> MainWindowController {
-        let mainWindowController = MainNSWindowController()
-        return mainWindowController
+        return MainNSWindowController()
     }
 	
 	func presentPrompt(to window: Window) {

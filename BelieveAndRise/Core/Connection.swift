@@ -17,36 +17,48 @@ import Cocoa
  */
 final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelegate {
 
-    // MARK: - Helper types
+    // MARK: - Dependencies
 
-    /// Contains information about a lobby server.
-    struct ServerMetaData {
-        let ip: String
-        let port: Int
-        var motd: String
-    }
+    /// Provides platform-specific windows.
+    private let windowManager: WindowManager
 
     // MARK: - Components
 
+    /// Processes incoming commands and updates the model and UI appropriately.
+    let commandHandler = CommandHandler()
+    /// Processes chat-related information directed back towards the server
+    private(set) var chatController: ChatController!
+	private(set) var battleController: BattleController!
     /// Controls the main window associated with the server conenction.
     private(set) var windowController: MainWindowController!
-    /// The server
+    /// The server.
     private(set) var server: TASServer!
     private(set) var userAuthenticationController: UserAuthenticationController?
+	
 
     // MARK: - Data
 
     private var serverMetaData: ServerMetaData?
 
-    let channelList = List<Channel>(title: "All Channels", sortKey: .id)
+    let channelList = List<Channel>(title: "All Channels", sortKey: .title)
     let userList = List<User>(title: "All Users", sortKey: .rank)
     let battleList = List<Battle>(title: "All Battles", sortKey: .playerCount)
-	
-	var battleroom: Battleroom?
 
-    // MARK: - Components
+    // MARK: - Lifecycle
 
-    private(set) var client: LobbyClient?
+
+    init(windowManager: WindowManager, address: ServerAddress? = nil) {
+        self.windowManager = windowManager
+
+        // Configure the command handler
+        commandHandler.connection = self
+        commandHandler.setProtocol(.unknown)
+
+        // Initialise server
+        if let address = address {
+            initialiseServer(address)
+        }
+    }
 
     // MARK: - Controlling the server connection
 
@@ -56,20 +68,30 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
 	
 	func redirect(to address: ServerAddress) {
 		server.disconnect()
-		commandHandler?.setProtocol(.unknown)
+		commandHandler.setProtocol(.unknown)
 		#warning("Pass information to the user!")
-		
+		initialiseServer(address)
+		start()
+	}
+	
+	func initialiseServer(_ address: ServerAddress) {
 		let server = TASServer(address: address)
 		server.delegate = commandHandler
-		self.server = server
 		
-		start()
+		chatController = ChatController(server: server, windowManager: windowManager)
+		battleController = BattleController(battleList: battleList, server: server)
+		
+		windowController.primaryListDisplay.selectionHandler = DefaultBattleListSelectionHandler(battlelist: battleList, battleController: battleController)
+		
+		windowController.setChatController(chatController)
+		
+		self.server = server
 	}
 
     // MARK: - Window
 
     func createAndShowWindow() {
-        let windowController = windowManager.mainWindowController()
+		let windowController = windowManager.mainWindowController()
         configureWindow(for: windowController)
         if server == nil {
             windowManager.presentServerSelection(toWindowFor: windowController, delegate: self)
@@ -80,9 +102,9 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
 
     private func configureWindow(for windowController: MainWindowController) {
         windowController.primaryListDisplay.addSection(battleList)
-        windowController.primaryListDisplay.setItemViewProvider(BattlelistItemViewProvider(list: battleList))
+        windowController.primaryListDisplay.itemViewProvider = BattlelistItemViewProvider(list: battleList)
         windowController.supplementaryListDisplay.addSection(userList)
-        windowController.supplementaryListDisplay.setItemViewProvider(DefaultPlayerListItemViewProvider(list: userList))
+        windowController.supplementaryListDisplay.itemViewProvider = DefaultPlayerListItemViewProvider(list: userList)
     }
 
     // MARK: - Presenting information
@@ -97,48 +119,17 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
 
     func receivedError(_ error: ServerError) {
         switch error {
-        case .joinFailed(let (channel, reason)):
-            print("Join #\(channel) failed: \(reason)")
 		default:
 			fatalError()
 			#warning("FIXME")
         }
     }
 
-    // MARK: - Dependencies
-
-    /// Provides platform-specific windows.
-    private let windowManager: WindowManager
-
-    // MARK: - Lifecycle
-
-
-    init(windowManager: WindowManager, address: ServerAddress? = nil) {
-        self.windowManager = windowManager
-
-        // Initialise command handler
-        let commandHandler = CommandHandler()
-        commandHandler.connection = self
-        self.commandHandler = commandHandler
-
-        // Initialise server
-        if let address = address {
-            let server = TASServer(address: address)
-            server.delegate = commandHandler
-            self.server = server
-        }
-    }
-
     // MARK: - ServerSelectionViewControllerDelegate
-
-    /// Processes incoming commands and updates the model and UI appropriately.
-    private(set) var commandHandler: CommandHandler?
 
     ///
     func serverSelectionViewController(_ serverSelectionViewController: ServerSelectionViewController, didSelectServerAt serverAddress: ServerAddress) {
-        let server = TASServer(address: serverAddress)
-        server.delegate = commandHandler
-        self.server = server
+        initialiseServer(serverAddress)
 		
 		start()
     }
@@ -161,4 +152,13 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
 			return id
 		}
 	}
+
+    // MARK: - Helper types
+
+    /// Contains information about a lobby server.
+    struct ServerMetaData {
+        let ip: String
+        let port: Int
+        var motd: String
+    }
 }

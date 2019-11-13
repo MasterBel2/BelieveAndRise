@@ -136,7 +136,8 @@ struct SCLeftCommand: SCCommand {
     }
 
     func execute(on connection: Connection) {
-        guard let channel = connection.channelList.items[0],
+		let channelID = connection.id(forChannelnamed: channelName)
+        guard let channel = connection.channelList.items[channelID],
 			let id = connection.id(forPlayerNamed: username)
 			else {
 				return

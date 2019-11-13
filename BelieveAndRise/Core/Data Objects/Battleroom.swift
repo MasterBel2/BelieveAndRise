@@ -8,27 +8,97 @@
 
 import Foundation
 
+protocol BattleDelegate: AnyObject {}
+protocol BattleroomDelegate: BattleDelegate {
+}
+
 final class Battleroom {
-	let battle: Battle
-	var bots: [Bot] = []
+
+    // MARK: - Data
+
+    let battle: Battle
+    let channel: Channel
+
+    var allyTeamLists: [Int : List<User>] = [:]
+    let spectatorList: List<User>
+    var bots: [Bot] = []
+
+    private(set) var startRects: [Int : CGRect] = [:]
+
 	/// Updated by CLIENTBATTLESTATUS command
-	var userStatuses: [Int : UserStatus] = [:]
+	private(set) var userStatuses: [Int : UserStatus] = [:]
+    /// Updated by CLIENTBATTLESTATUS command
 	var colors: [Int : Int32] = [:]
 	/// Updated by SETSCRIPTTAGS command
+
 	var scriptTags: [ScriptTag] = []
 	/// Computed by the host's unitsync using the current map, game, and other dependencies.
 	/// It is used to check that the client has correct non-corrupt downloads of the required content.
-	var hashCode: Int32
+    var disabledUnits: [String] = []
+
+    /// A hash code taken from the map, game, and engine. Calculated by Unitsync.
+    var hashCode: Int32
+
+    // MARK: - Dependencies
+
+    weak var spectatorListDisplay: ListDisplay?
+    weak var allyTeamListDisplay: ListDisplay?
+
+    weak var delegate: BattleroomDelegate?
+
+    // MARK: - Updates
+
+    func setUserStatus(_ userStatus: UserStatus, forUserIdentifiedBy id: Int) {
+        let wasSpectator = userStatuses[id]?.isSpectator
+        if wasSpectator != true {
+            if let previousAllyNumber = userStatuses[id]?.allyNumber,
+                userStatus.allyNumber != previousAllyNumber,
+                let allyTeamList = allyTeamLists[previousAllyNumber] {
+                allyTeamList.removeItem(withID: id)
+                if allyTeamList.itemCount == 0 {
+                    allyTeamListDisplay?.removeSection(allyTeamList)
+                    allyTeamLists.removeValue(forKey: previousAllyNumber)
+                }
+            }
+        }
+        userStatuses[id] = userStatus
+        if !userStatus.isSpectator {
+            if let allyTeamList = allyTeamLists[userStatus.allyNumber] {
+                allyTeamList.addItemFromParent(id: id)
+            } else {
+                let allyTeamList = List<User>(title: "AllyTeam \(userStatus.allyNumber)", sortKey: .rank, parent: battle.userList)
+                allyTeamList.addItemFromParent(id: id)
+                allyTeamListDisplay?.addSection(allyTeamList)
+                allyTeamLists[userStatus.allyNumber] = allyTeamList
+            }
+        } else if wasSpectator != true {
+            spectatorList.addItemFromParent(id: id)
+        }
+        
+    }
+
+    private func updateAllyNumber(_ userStatus: UserStatus, forUserIdentifiedBy id: Int) {
+
+    }
+
+    private func addStartRect(_ rect: CGRect, for allyTeam: Int) {
+
+    }
+
+    private func removeStartRect(for allyTeam: Int) {
+
+    }
+
+    // MARK: - Lifecycle
 	
-	var disabledUnits: [String] = []
-	
-	init(battle: Battle, hashCode: Int32, channel: Channel) {
+	init(battle: Battle, channel: Channel, hashCode: Int32) {
 		self.battle = battle
 		self.hashCode = hashCode
 		self.channel = channel
+        spectatorList = List<User>(title: "Spectators", sortKey: .rank, parent: battle.userList)
 	}
-	
-	var channel: Channel
+
+    // MARK: - Nested Types
 	
 	class Bot {
 		let name: String

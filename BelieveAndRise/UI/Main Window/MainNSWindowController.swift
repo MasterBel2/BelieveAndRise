@@ -12,7 +12,7 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
 
     // MARK: - Dependencies
 
-    var connection: Connection?
+    weak var connection: Connection?
 
     // MARK: - Data
 
@@ -23,6 +23,8 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
         return chatViewController.logViewController
     }
     private(set) var supplementaryListViewController = ListViewController()
+
+    private(set) var battleroomViewController: BattleroomViewController?
 
     // MARK: - MainWindowController
 
@@ -37,6 +39,21 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
     var supplementaryListDisplay: ListDisplay {
         return supplementaryListViewController
     }
+
+    func displayBattleroom(_ battleroom: Battleroom) {
+        battleroomViewController?.removeFromParent()
+
+        let battleroomViewController = BattleroomViewController()
+        battleroomViewController.battleroom = battleroom
+        battleroom.delegate = battleroomViewController
+        chatViewController.addChild(battleroomViewController)
+        chatViewController.stackView.insertView(battleroomViewController.view, at: 0, in: .top)
+        chatViewController.setChannel(battleroom.channel)
+    }
+	
+	func setChatController(_ chatController: ChatController) {
+		chatViewController.chatController = chatController
+	}
 
     // MARK: - Presentation
 

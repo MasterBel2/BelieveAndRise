@@ -9,10 +9,14 @@
 import Cocoa
 
 protocol ChatBarControllerDelegate: AnyObject {
-    func sendMessage(toChannelNamed channelName: String)
+    func send(_ message: String)
 }
 
 final class ChatBarController: NSViewController, ChatBarDelegate {
+	
+	// MARK: - Dependencies
+	
+	weak var delegate: ChatBarControllerDelegate?
 
     // MARK: - Interface
 
@@ -32,6 +36,23 @@ final class ChatBarController: NSViewController, ChatBarDelegate {
     // MARK: - ChatBarDelegate
 
     func chatBar(_ chatBar: ChatBar, shouldSendMessage message: String) -> Bool {
+		delegate?.send(message)
         return true
     }
 }
+
+//protocol AccountAPI {
+//
+//}
+
+//protocol ChannelAPI {
+//    func channels()
+//    func joinChannel(named channelName: String, password: String?)
+//    func leaveChannel(named channelName: String)
+//}
+//
+//protocol BattleAPI {
+//    func joinBattle(identifiedBy id: Int, password: String?)
+//    func leaveBattle()
+//    func sendBattleStatus(_ userStatus: Battleroom.UserStatus, color: UInt32)
+//}

@@ -10,8 +10,6 @@ import Foundation
 
 /// A set of functions allowing instances of a type to be generically sorted by properties, made available by the keys specified by the implementing type.
 protocol Sortable {
-//	 An integer that may be used to uniquely identify this
-//    var id: Int { get }
 	/// A type containing a list of keys that may indicate a type's property. Used for operations such as sorting.
     associatedtype PropertyKey
 	/// Compares the

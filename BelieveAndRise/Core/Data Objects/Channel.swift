@@ -9,7 +9,6 @@
 import Foundation
 
 class Channel: Sortable {
-    let id = 0
 
     let title: String
     let userlist: List<User>
@@ -19,23 +18,23 @@ class Channel: Sortable {
 
     // MARK: - Lifecycle
 
-    init(title: String) {
+    init(title: String, rootList: List<User>) {
         topic = title
         self.title = title
-        userlist = List<User>(title: title, sortKey: .rank)
+        userlist = List<User>(title: title, sortKey: .rank, parent: rootList)
         messageList = List<ChatMessage>(title: title, sortKey: .time)
     }
 
     // MARK: - Sortable
 
     enum PropertyKey {
-        case id
+        case title
     }
 
     func relationTo(_ other: Channel, forSortKey sortKey: Channel.PropertyKey) -> ValueRelation {
         switch sortKey {
-        case .id:
-            return ValueRelation(value1: self.id, value2: other.id)
+        case .title:
+			return ValueRelation(value1: self.title, value2: other.title)
         }
     }
 
@@ -45,7 +44,15 @@ class Channel: Sortable {
 }
 
 /// A chat message received from another client in a channel or private message.
-struct ChatMessage: Sortable {
+class ChatMessage: Sortable {
+	
+	init(time: Date, sender: String, content: String, isIRCStyle: Bool) {
+		self.time = time
+		self.sender = sender
+		self.content = content
+		self.isIRCStyle = isIRCStyle
+	}
+	
     let time: Date
     let sender: String
     let content: String
@@ -58,7 +65,7 @@ struct ChatMessage: Sortable {
     func relationTo(_ other: ChatMessage, forSortKey sortKey: ChatMessage.PropertyKey) -> ValueRelation {
         switch sortKey {
         case .time:
-            return ValueRelation(value1: time, value2: time)
+			return ValueRelation(value1: self.time, value2: other.time)
         }
     }
 }

@@ -8,8 +8,6 @@
 
 import Cocoa
 
-protocol ViewControllerDisplayTarget {}
-
 /**
  A view controller wrapping a single-column table view that displays a sectioned list of
  information.
@@ -36,8 +34,6 @@ class ListViewController: NSViewController,
 
     /// Determines whether the content rows should be selectable.
     var displaysSelectableContent: Bool = true
-	
-//	var viewControllerDisplayTarget: ViewControllerDisplayTarget
 
     var shouldDisplayRowCountInHeader: Bool = true {
         didSet {
@@ -51,7 +47,9 @@ class ListViewController: NSViewController,
         }
     }
 
-    /// Provides views for rows corresponding to items
+    /// Provides views for rows corresponding to items.
+	///
+	/// Views are automatically reloaded when the view provider changes.
     var itemViewProvider: ItemViewProvider = DefaultItemViewProvider() {
         didSet {
             if isViewLoaded {
@@ -70,6 +68,8 @@ class ListViewController: NSViewController,
 	weak var delegate: ListViewControllerDelegate?
 	/// The list view controller's data source.
 	weak var dataSource: ListViewControllerDataSource?
+	/// The list's selection handler.
+	var selectionHandler: ListSelectionHandler?
 	
 	// MARK: - Interface
 	
@@ -141,22 +141,15 @@ class ListViewController: NSViewController,
         list.delegate = self
         sections.append(list)
         rows.append(.header(list.title))
+		rows.append(contentsOf: list.sortedItemsByID.map({ Row.item($0) }))
         if isViewLoaded {
             tableView.reloadData()
         }
     }
-	
-	/// Sets the data to the table header.
-	func setHeaderData(_ headerData: TableHeaderData) {
-		#warning("Stub implementation")
-		let headerView = NSTableHeaderView()
-        tableView.headerView = nil
-	}
 
-	/// Sets the item provider. When this value is updated, the list's rows are automatically reloaded.
-    func setItemViewProvider(_ itemViewProvider: ItemViewProvider) {
-        self.itemViewProvider = itemViewProvider
-    }
+    func removeSection(_ list: ListProtocol) {
+        sections = sections.filter({ $0 !== list })
+	}
 
 	/// Calculates the offset for the first item in the section, such that the first item is at offset `offset`, the second at `offset + 1`, and the section header at `offset - 1`.
     private func offset(forSectionNamed sectionName: String) -> Int {
@@ -194,12 +187,20 @@ class ListViewController: NSViewController,
         }
     }
 
+    func list(_ list: ListProtocol, itemWasUpdatedAt index: Int) {
+        executeOnMain(target: tableView) { tableView in
+                        tableView.reloadData(forRowIndexes: IndexSet(integer: index), columnIndexes: IndexSet(integer: 0))
+        }
+    }
+
     func list(_ list: ListProtocol, didMoveItemFrom index1: Int, to index2: Int) {
         executeOnMain(target: self) { viewController in
             let sectionOffset = viewController.offset(forSectionNamed: list.title)
 
-            viewController.rows.swapAt(sectionOffset + index1, sectionOffset + index2)
-            viewController.tableView.moveRow(at: sectionOffset + index1, to: sectionOffset + index2)
+            let from = sectionOffset + index1
+            let to = sectionOffset + index2
+            viewController.rows.moveItem(at: from, to: to)
+            viewController.tableView.moveRow(at: from, to: to)
         }
     }
 	
@@ -231,7 +232,8 @@ class ListViewController: NSViewController,
 		switch rows[row] {
 		case .header(_):
 			return false
-		case .item(_):
+		case .item(let id):
+			selectionHandler?.primarySelect(itemIdentifiedBy: id)
 			return displaysSelectableContent && true
 		}
 	}

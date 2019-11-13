@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattleroomViewController" customModule="BelieveAndRise" customModuleProvider="target">
+            <connections>
+                <outlet property="infoView" destination="fuk-Rc-c7h" id="5Le-Lm-vVL"/>
+                <outlet property="minimapView" destination="OCH-eC-hnO" id="Wox-Cq-bya"/>
+                <outlet property="stackView" destination="Qfc-FH-h2B" id="fSP-W5-87W"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qfc-FH-h2B">
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                    <subviews>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="H2L-md-WCe">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                            <subviews>
+                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OCH-eC-hnO" customClass="MinimapView" customModule="BelieveAndRise" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="110" width="300" height="190"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="300" id="ABT-SI-X64"/>
+                                        <constraint firstAttribute="height" constant="190" id="zUD-3P-cio"/>
+                                    </constraints>
+                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSColorPanel" id="GYN-T9-knx"/>
+                                </imageView>
+                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="fuk-Rc-c7h">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="300" id="UJ3-q2-gkk"/>
+                                    </constraints>
+                                </customView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="fuk-Rc-c7h" secondAttribute="bottom" id="40Z-AB-uR5"/>
+                                <constraint firstItem="fuk-Rc-c7h" firstAttribute="top" secondItem="H2L-md-WCe" secondAttribute="top" id="CoC-3b-esh"/>
+                                <constraint firstAttribute="trailing" secondItem="OCH-eC-hnO" secondAttribute="trailing" id="XMS-ds-75B"/>
+                                <constraint firstItem="OCH-eC-hnO" firstAttribute="leading" secondItem="H2L-md-WCe" secondAttribute="leading" id="acl-yh-9he"/>
+                                <constraint firstItem="fuk-Rc-c7h" firstAttribute="width" secondItem="OCH-eC-hnO" secondAttribute="width" id="bJU-7s-OOh"/>
+                                <constraint firstItem="fuk-Rc-c7h" firstAttribute="leading" secondItem="H2L-md-WCe" secondAttribute="leading" id="sWb-Ua-YKc"/>
+                                <constraint firstItem="OCH-eC-hnO" firstAttribute="top" secondItem="H2L-md-WCe" secondAttribute="top" id="yp4-w5-Itb"/>
+                            </constraints>
+                        </customView>
+                    </subviews>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Qfc-FH-h2B" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="9kK-qb-vxM"/>
+                <constraint firstItem="Qfc-FH-h2B" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="KHf-z7-CCR"/>
+                <constraint firstAttribute="bottom" secondItem="Qfc-FH-h2B" secondAttribute="bottom" id="RvE-zb-7eZ"/>
+                <constraint firstAttribute="trailing" secondItem="Qfc-FH-h2B" secondAttribute="trailing" id="sEQ-UE-yPw"/>
+            </constraints>
+            <point key="canvasLocation" x="193" y="110"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="NSColorPanel" width="32" height="32"/>
+    </resources>
+</document>

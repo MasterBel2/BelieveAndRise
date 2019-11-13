@@ -31,8 +31,12 @@ struct SCJoinCommand: SCCommand {
     }
 
     func execute(on connection: Connection) {
-        let channel = Channel(title: channelName)
-        connection.channelList.addItem(channel, with: 0)
+		let channelID = connection.id(forChannelnamed: channelName)
+		guard connection.channelList.items[channelID] == nil else {
+			return
+		}
+        let channel = Channel(title: channelName, rootList: connection.userList)
+        connection.channelList.addItem(channel, with: channelID)
     }
 }
 
@@ -130,7 +134,8 @@ struct SCChannelTopicCommand: SCCommand {
     }
 
     func execute(on connection: Connection) {
-        guard let channel = connection.channelList.items[0] else {
+		let channelID = connection.id(forChannelnamed: channelName)
+        guard let channel = connection.channelList.items[channelID] else {
             return
         }
         channel.topic = topic
@@ -305,7 +310,10 @@ struct SCSaidCommand: SCCommand {
     }
 
     func execute(on connection: Connection) {
-        guard let channel = connection.channelList.items[0] else { return }
+		let channelID = connection.id(forChannelnamed: channelName)
+		guard let channel = connection.channelList.items[channelID] else {
+				return
+		}
         channel.receivedNewMessage(ChatMessage(time: Date(), sender: username, content: message, isIRCStyle: false))
     }
 }
@@ -378,7 +386,10 @@ struct SCSaidExCommand: SCCommand {
     }
 
     func execute(on connection: Connection) {
-        guard let channel = connection.channelList.items[0] else { return }
+		let channelID = connection.id(forChannelnamed: channelName)
+        guard let channel = connection.channelList.items[channelID] else {
+            return
+        }
         channel.receivedNewMessage(ChatMessage(time: Date(), sender: username, content: message, isIRCStyle: true))
     }
 }

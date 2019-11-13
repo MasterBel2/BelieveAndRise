@@ -147,7 +147,10 @@ final class UserAuthenticationController: UserAuthenticationViewControllerDelega
 
         do {
 			#warning("fails if credentials are already written; implement a check, possibly just for whether the credentials were read")
-            try credentialsManager.writeCredentials(Credentials(username: username, password: password), forServerWithAddress: server.socket.address)
+            try credentialsManager.writeCredentials(
+                Credentials(username: username, password: password),
+                forServerWithAddress: server.socket.address
+            )
         } catch {
             #warning("Error invisible to user")
             print(error)

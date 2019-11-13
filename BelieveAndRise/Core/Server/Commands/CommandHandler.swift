@@ -8,6 +8,11 @@
 
 import Foundation
 
+/**
+ Interprets commands received from the server and updates the connection.
+
+ By default, the CommandHandler does not recognise any commands. A protocol must be set (`setProtocol(_:)` before any commands will be recognised. If you do not know the protocol you will be connecting to, setting `ServerProtocol.unknown` will allow the handler to detect which protocol is being used by the server it connects to, and therefore update its protocol handling appropriately.
+ */
 final class CommandHandler: TASServerDelegate {
 
     // MARK: - Dependencies
@@ -23,12 +28,6 @@ final class CommandHandler: TASServerDelegate {
     // MARK: - Something
 
 	private var incomingCommands: [String : SCCommand.Type] = [:]
-	
-	// MARK: - Lifecycle
-	
-	init() {
-		setProtocol(.unknown)
-	}
 
     // MARK: - TASServerDelegate
 

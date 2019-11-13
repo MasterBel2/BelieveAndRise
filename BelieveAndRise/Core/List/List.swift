@@ -14,6 +14,8 @@ protocol ListDelegate: AnyObject {
     /// Notifies the delegate that the list removed an item at the given index.
     func list(_ list: ListProtocol, didRemoveItemAt index: Int)
     /// Notifies the delegate that the list moved an item between the given indices.
+    func list(_ list: ListProtocol, itemWasUpdatedAt index: Int)
+    /// Notifies the delegate that the list moved an item between the given indices.
     func list(_ list: ListProtocol, didMoveItemFrom index1: Int, to index2: Int)
 }
 
@@ -33,10 +35,11 @@ protocol ListProtocol: AnyObject {
     var title: String { get }
     var itemCount: Int { get }
     var delegate: ListDelegate? { get set }
+	var sortedItemsByID: [Int] { get }
 }
 
 /// A list wraps a set of objects by their ID.
-class List<ListItem: Sortable>: ListProtocol {
+final class List<ListItem: Sortable>: ListProtocol {
 
     // MARK: - Behaviour
 
@@ -58,7 +61,7 @@ class List<ListItem: Sortable>: ListProtocol {
     /// A key value indicating by which property the list items should be sorted
     private(set) var sortKey: ListItem.PropertyKey
     /// An array of item IDs, sorted in the order determined by the values of the item's properties, as indicated by the sort key.
-    private var sortedItemsByID: [Int] = []
+    private(set) var sortedItemsByID: [Int] = []
     /// The items contained in the list, keyed by their ID.
     private(set) var items: [Int : ListItem] = [:]
     /// The locations of the items in the sorted list, keyed by their ID.
@@ -67,7 +70,7 @@ class List<ListItem: Sortable>: ListProtocol {
     // Structure
 
     /// The list of which this is a sublist.
-    let parent: List<ListItem>?
+    private(set) weak var parent: List<ListItem>?
 
     /// An array of lists that are a subset of this list.
     ///
@@ -82,9 +85,9 @@ class List<ListItem: Sortable>: ListProtocol {
     // MARK: - Dependencies
 
     /// The List object's delegate.
-        weak var delegate: ListDelegate?
+	var delegate: ListDelegate?
     /// The List object's data source.
-        weak var dataSource: ListDataSource?
+	weak var dataSource: ListDataSource?
 
     // MARK: - Lifecycle
 
@@ -97,7 +100,7 @@ class List<ListItem: Sortable>: ListProtocol {
         queue = DispatchQueue(label: title)
     }
 
-    // MARK: - Computed Properties
+    // MARK: - Retrieving list data
 
     /// The number of items in the list
     var itemCount: Int {
@@ -106,7 +109,7 @@ class List<ListItem: Sortable>: ListProtocol {
 
     /// The ID of the item at the given location
     func itemID(at index: Int) -> Int? {
-        guard sortedItemsByID.count > index else {
+        guard (0..<itemCount).contains(index) else {
             return nil
         }
         return sortedItemsByID[index]
@@ -119,7 +122,7 @@ class List<ListItem: Sortable>: ListProtocol {
         return items[itemID]
     }
 
-    // MARK: - Mutating methods
+    // MARK: - Updating list content
 
     /// Inserts the item into the list, with the ID as its key, locating it according to the
     /// selected sorting method.
@@ -129,15 +132,21 @@ class List<ListItem: Sortable>: ListProtocol {
         }
     }
 
+    /// A helper function ensuring an item is in the parent list before
+    func addItemFromParent(id: Int) {
+        queue.sync {
+            if let item = self.parent?.items[id] {
+                self._addItem(item, with: id)
+            }
+        }
+    }
+
     private func _addItem(_ item: ListItem, with id: Int) {
         for index in 0..<itemCount {
             let idAtIndex = sortedItemsByID[index]
             guard let itemAtIndex = items[idAtIndex] else {
                 return
             }
-			if !(item is User) {
-				debugOnlyPrint(item.relationTo(itemAtIndex, forSortKey: sortKey))
-			}
             if item.relationTo(itemAtIndex, forSortKey: sortKey) != .greater {
 				itemIndicies[idAtIndex] = index + 1
 				placeItem(item, with: id, at: index)
@@ -146,19 +155,45 @@ class List<ListItem: Sortable>: ListProtocol {
         }
 		placeItem(item, with: id, at: itemCount)
     }
-	private func placeItem(_ item: ListItem, with id: Int, at index: Int) {
-		items[id] = item
-		sortedItemsByID.insert(id, at: index)
-		itemIndicies[id] = index
-		delegate?.list(self, didAddItemWithID: id, at: index)
-	}
 
-    /// A helper function ensuring an item is in the parent list before 
-    func addItemFromParent(id: Int) {
+    /// Places an item in the list and sets its indexes etc. Does not update the item that it is overwriting
+    private func placeItem(_ item: ListItem, with id: Int, at index: Int) {
+        items[id] = item
+        sortedItemsByID.insert(id, at: index)
+        itemIndicies[id] = index
+        delegate?.list(self, didAddItemWithID: id, at: index)
+    }
+
+    /// Updates the list's sort order and notifies the delegate that the item has been updated.
+    func respondToUpdatesOnItem(identifiedBy id: Int) {
         queue.sync {
-            if let item = self.parent?.items[id] {
-                self._addItem(item, with: id)
+            guard let index = self.itemIndicies[id],
+                let updatedItem = item(at: index) else {
+                return
             }
+
+            var indexesToUpdate: [Int] = []
+            var newIndex = index
+
+            for (relation, offset) in [(ValueRelation.lesser, 1), (ValueRelation.greater, -1)] {
+                while let otherItem = item(at: newIndex + offset),
+                    updatedItem.relationTo(otherItem, forSortKey: sortKey) == relation {
+                        indexesToUpdate.append(index)
+                        newIndex += offset
+                }
+
+                if newIndex != index {
+                    sortedItemsByID.moveItem(at: index, to: newIndex)
+                    indexesToUpdate.forEach({
+                        if let currentIndex = itemIndicies[$0] {
+                            itemIndicies[$0] = currentIndex + offset
+                        }
+                    })
+                    delegate?.list(self, didMoveItemFrom: index, to: newIndex)
+                    break
+                }
+            }
+            delegate?.list(self, itemWasUpdatedAt: newIndex)
         }
     }
 

@@ -38,7 +38,7 @@ struct TASServerCommand: SCCommand {
     }
 
     func execute(on connection: Connection) {
-        connection.commandHandler?.setProtocol(.tasServer(version: protocolVersion))
+        connection.commandHandler.setProtocol(.tasServer(version: protocolVersion))
         connection.presentLogin()
     }
 }
