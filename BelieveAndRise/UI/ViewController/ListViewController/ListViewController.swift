@@ -35,9 +35,31 @@ class ListViewController: NSViewController,
     /// Determines whether the content rows should be selectable.
     var displaysSelectableContent: Bool = true
 
+    var shouldDisplaySectionHeaders: Bool = true {
+        willSet {
+            if !shouldDisplayRowCountInHeader && newValue {
+                sections.reversed().forEach({
+                    let index = offset(forSectionNamed: $0.title)
+                    rows.insert(.header($0.title), at: index)
+                    if isViewLoaded {
+                        tableView.insertRows(at: IndexSet(integer: 0), withAnimation: .effectFade)
+                    }
+                })
+            } else if shouldDisplayRowCountInHeader && !newValue {
+                sections.forEach({
+                    let index = offset(forSectionNamed: $0.title) - 1
+                    rows.remove(at: index)
+                    if isViewLoaded {
+                        tableView.removeRows(at: IndexSet(integer: 0), withAnimation: .effectFade)
+                    }
+                })
+            }
+        }
+    }
+
     var shouldDisplayRowCountInHeader: Bool = true {
         didSet {
-            if isViewLoaded {
+            if isViewLoaded && shouldDisplaySectionHeaders {
                 var offset = 0
                 for section in sections {
                     tableView.reloadData(forRowIndexes: IndexSet(integer: offset), columnIndexes: IndexSet(integer: 0))
@@ -140,7 +162,9 @@ class ListViewController: NSViewController,
     func addSection(_ list: ListProtocol) {
         list.delegate = self
         sections.append(list)
-        rows.append(.header(list.title))
+        if shouldDisplaySectionHeaders {
+            rows.append(.header(list.title))
+        }
 		rows.append(contentsOf: list.sortedItemsByID.map({ Row.item($0) }))
         if isViewLoaded {
             tableView.reloadData()
@@ -149,6 +173,12 @@ class ListViewController: NSViewController,
 
     func removeSection(_ list: ListProtocol) {
         sections = sections.filter({ $0 !== list })
+        let sectionBegin = offset(forSectionNamed: list.title)
+        let sectionEnd = sectionBegin + list.itemCount + (shouldDisplaySectionHeaders ? 1 : 0)
+        tableView.removeRows(
+            at: IndexSet(integersIn: sectionBegin...sectionEnd),
+            withAnimation: .effectFade
+        )
 	}
 
 	/// Calculates the offset for the first item in the section, such that the first item is at offset `offset`, the second at `offset + 1`, and the section header at `offset - 1`.
