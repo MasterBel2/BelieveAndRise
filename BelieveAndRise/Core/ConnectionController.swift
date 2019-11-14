@@ -14,9 +14,11 @@ import Foundation
 final class ConnectionController {
     private(set) var connections: [Connection] = []
     private let windowManager: WindowManager
+    private let resourceManager: ResourceManager
 
-    init(windowManager: WindowManager) {
+    init(windowManager: WindowManager, resourceManager: ResourceManager) {
         self.windowManager = windowManager
+        self.resourceManager = resourceManager
     }
 
     /// On update, inserts the most recent connection
@@ -33,7 +35,7 @@ final class ConnectionController {
 
     /// Initiates a connection to the given address.
     func connect(to address: ServerAddress) {
-        let connection = Connection(windowManager: windowManager, address: address)
+        let connection = Connection(windowManager: windowManager, resourceManager: resourceManager, address: address)
         connection.start()
         connection.createAndShowWindow()
         self.connections.append(connection)
@@ -41,7 +43,7 @@ final class ConnectionController {
 
     /// Creates a new connection without a predefined server
     func createNewConnection() {
-        let connection = Connection(windowManager: windowManager)
+        let connection = Connection(windowManager: windowManager, resourceManager: resourceManager)
         connection.createAndShowWindow()
         self.connections.append(connection)
     }

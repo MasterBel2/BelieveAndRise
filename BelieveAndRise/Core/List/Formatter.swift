@@ -53,7 +53,7 @@ final class DefaultPlayerListItemViewProvider: ItemViewProvider {
         }
         let view = SingleColumnTableColumnRowView.loadFromNib()
         view.primaryLabel.stringValue = user.profile.username
-        view.secondaryLabel.stringValue = "\(user.profile.lobbyID)"
+        view.secondaryLabel.stringValue = "\(user.status.rank)"
         return view
     }
 }

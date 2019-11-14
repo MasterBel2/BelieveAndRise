@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class BattleroomViewController: NSViewController, BattleroomDelegate {
+class BattleroomViewController: NSViewController {
 
     // MARK: - Outlets
 
@@ -25,6 +25,20 @@ class BattleroomViewController: NSViewController, BattleroomDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureListViews()
+        configureInfoViews()
+    }
+
+    private func configureInfoViews() {
+        battleroom.minimapDisplay = minimapView
+        battleroom.mapInfoDisplay = infoView
+        battleroom.gameInfoDisplay = infoView
+    }
+
+    /**
+     Handles the setup of the spectatorListViewController and allyTeamListViewController.
+     */
+    private func configureListViews() {
         let spectatorListViewController = ListViewController()
         let allyTeamListViewController = ListViewController()
 
@@ -36,72 +50,22 @@ class BattleroomViewController: NSViewController, BattleroomDelegate {
 
         addChild(spectatorListViewController)
         stackView.addArrangedSubview(spectatorListViewController.view)
-		addChild(allyTeamListViewController)
-		stackView.addArrangedSubview(allyTeamListViewController.view)
-		
-		spectatorListViewController.view.widthAnchor.constraint(equalTo: allyTeamListViewController.view.widthAnchor).isActive = true
+        addChild(allyTeamListViewController)
+        stackView.addArrangedSubview(allyTeamListViewController.view)
+
+        spectatorListViewController.view.widthAnchor.constraint(equalTo: allyTeamListViewController.view.widthAnchor).isActive = true
     }
 
     // MARK: - Battleroom Delegate
 
 }
 
-final class BattleroomInfoView: NSView {
-	
-}
+final class BattleroomInfoView: NSView, BattleroomMapInfoDisplay, BattleroomGameInfoDisplay {
+    func addCustomisedMapOption(_ option: String, value: UnitsyncWrapper.InfoValue) {}
 
-final class MinimapView: NSImageView {
-	var startRects: [Int : NSView] = [:]
-	
-	private var map: Map? {
-		didSet {
-			guard let map = map,
-				let mapRect = mapRect
-				else {
-				return
-			}
-			map.image.size = mapRect.size
-			startRects = [:]
-			image = map.image
-		}
-	}
-	
-	var mapRect: CGRect? {
-		guard let map = map else {
-			return nil
-		}
-		
-		let widthFactor = bounds.width / map.width
-		let heightFactor = bounds.height / map.height
-		let factor = widthFactor < heightFactor ? widthFactor : heightFactor
-		
-		let width = map.width * factor
-		let height = map.height * factor
-		let x = (bounds.width - width) / 2
-		let y = (bounds.height - height) / 2
-		
-		return CGRect(x: x, y: y, width: width, height: height)
-	}
-	
-	func addStartRect(_ rect: CGRect, for allyTeam: Int) {
-		guard let mapRect = mapRect else {
-			return
-		}
-		let x = rect.minX / 200 * mapRect.width
-		let y = rect.minY / 200 * mapRect.height
-		let width = rect.width / 200 * mapRect.width
-		let height = rect.height / 200 * mapRect.height
-		let newRect = CGRect(x: x + mapRect.minX, y: y + mapRect.minY, width: width, height: height)
-		
-		let view = StartRectOverlayView.loadFromNib()
-		view.frame = newRect
-		view.allyTeamNumberLabel.stringValue = String(allyTeam)
-		view.backgroundColor = NSColor(deviceRed: 1, green: 1, blue: 1, alpha: 1)
-	}
-	
-	struct Map {
-		let image: NSImage
-		let width: CGFloat
-		let height: CGFloat
-	}
+    func removeCustomisedMapOption(_ option: String) {}
+
+    func addCustomisedGameOption(_ option: String, value: UnitsyncWrapper.InfoValue) {}
+
+    func removeCustomisedGameOption(_ option: String) {}
 }

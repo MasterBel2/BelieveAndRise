@@ -8,11 +8,21 @@
 
 import Foundation
 
-protocol BattleDelegate: AnyObject {}
-protocol BattleroomDelegate: BattleDelegate {
+protocol BattleroomMapInfoDisplay: AnyObject {
+    func addCustomisedMapOption(_ option: String, value: UnitsyncWrapper.InfoValue)
+    func removeCustomisedMapOption(_ option: String)
 }
 
-final class Battleroom {
+protocol BattleroomGameInfoDisplay: AnyObject {
+    func addCustomisedGameOption(_ option: String, value: UnitsyncWrapper.InfoValue)
+    func removeCustomisedGameOption(_ option: String)
+}
+
+protocol BattleroomDisplay: MinimapDisplay, BattleroomGameInfoDisplay, BattleroomMapInfoDisplay {
+
+}
+
+final class Battleroom: BattleDelegate {
 
     // MARK: - Data
 
@@ -41,10 +51,27 @@ final class Battleroom {
 
     // MARK: - Dependencies
 
+    let resourceManager: ResourceManager
+
     weak var spectatorListDisplay: ListDisplay?
     weak var allyTeamListDisplay: ListDisplay?
 
-    weak var delegate: BattleroomDelegate?
+    weak var minimapDisplay: MinimapDisplay?
+    weak var mapInfoDisplay: BattleroomMapInfoDisplay?
+    weak var gameInfoDisplay: BattleroomGameInfoDisplay?
+
+    // MARK: - Player information
+
+    private let myID: Int
+    private let scriptPassword: Int
+
+    var myBattleStatus: Battleroom.UserStatus {
+        return userStatuses[myID] ?? UserStatus.default
+    }
+
+    var myColor: Int32 {
+        return colors[myID] ?? Int32(myID) & 0x00FFFFFF
+    }
 
     // MARK: - Updates
 
@@ -82,20 +109,41 @@ final class Battleroom {
     }
 
     private func addStartRect(_ rect: CGRect, for allyTeam: Int) {
-
+        startRects[allyTeam] = rect
+        minimapDisplay?.addStartRect(rect, for: allyTeam)
     }
 
     private func removeStartRect(for allyTeam: Int) {
+        startRects.removeValue(forKey: allyTeam)
+        minimapDisplay?.removeStartRect(for: allyTeam)
+    }
 
+    // MARK: - Map
+
+    func mapDidUpdate(to map: Battle.Map) {
+        if let (mapInfo, _, _) = resourceManager.infoForMap(named: map.name, preferredChecksum: map.hash, preferredEngineVersion: battle.engineVersion) {
+            guard let (imageData, dimension) = resourceManager.minimapData(forMapNamed: map.name) else {
+                minimapDisplay?.displayMapUnknown()
+                return
+            }
+            minimapDisplay?.displayMap(imageData, dimension: dimension, realWidth: mapInfo.width, realHeight: mapInfo.height)
+        } else {
+            minimapDisplay?.displayMapUnknown()
+        }
     }
 
     // MARK: - Lifecycle
 	
-	init(battle: Battle, channel: Channel, hashCode: Int32) {
+    init(battle: Battle, channel: Channel, hashCode: Int32, resourceManager: ResourceManager, myID: Int) {
 		self.battle = battle
 		self.hashCode = hashCode
 		self.channel = channel
         spectatorList = List<User>(title: "Spectators", sortKey: .rank, parent: battle.userList)
+        self.resourceManager = resourceManager
+        self.myID = 0
+        self.scriptPassword = myID.hashValue
+
+        battle.delegate = self
 	}
 
     // MARK: - Nested Types
@@ -128,6 +176,28 @@ final class Battleroom {
 			case synced = 1
 			case unsynced = 2
 		}
+
+        static var `default`: UserStatus {
+            return UserStatus(
+                isReady: false,
+                teamNumber: 1,
+                allyNumber: 1,
+                isSpectator: true,
+                handicap: 0,
+                syncStatus: .unknown,
+                side: 0
+            )
+        }
+
+        init(isReady: Bool, teamNumber: Int, allyNumber: Int, isSpectator: Bool, handicap: Int = 0, syncStatus: SyncStatus, side: Int) {
+            self.isReady = isReady
+            self.teamNumber = teamNumber
+            self.allyNumber = allyNumber
+            self.isSpectator = isSpectator
+            self.handicap = handicap
+            self.syncStatus = syncStatus
+            self.side = side
+        }
 		
 		init?(statusValue: Int) {
 			isReady = (statusValue & 0b10) == 0b10

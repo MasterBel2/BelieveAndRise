@@ -21,6 +21,8 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
 
     /// Provides platform-specific windows.
     private let windowManager: WindowManager
+    ///
+    let resourceManager: ResourceManager
 
     // MARK: - Components
 
@@ -34,7 +36,6 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
     /// The server.
     private(set) var server: TASServer!
     private(set) var userAuthenticationController: UserAuthenticationController?
-	
 
     // MARK: - Data
 
@@ -47,8 +48,9 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
     // MARK: - Lifecycle
 
 
-    init(windowManager: WindowManager, address: ServerAddress? = nil) {
+    init(windowManager: WindowManager, resourceManager: ResourceManager, address: ServerAddress? = nil) {
         self.windowManager = windowManager
+        self.resourceManager = resourceManager
 
         // Configure the command handler
         commandHandler.connection = self
@@ -82,7 +84,7 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
 		battleController = BattleController(battleList: battleList, server: server)
 		
 		windowController.primaryListDisplay.selectionHandler = DefaultBattleListSelectionHandler(battlelist: battleList, battleController: battleController)
-		
+
 		windowController.setChatController(chatController)
 		
 		self.server = server

@@ -124,6 +124,11 @@ struct SCJoinBattleCommand: SCCommand {
 	}
 	
 	func execute(on connection: Connection) {
+        guard let myUsername = connection.userAuthenticationController?.username,
+            let myID = connection.id(forPlayerNamed: myUsername) else {
+            debugOnlyPrint("Error: was instructed to join a battle when not logged in!")
+            return
+        }
 		guard connection.battleController.battleroom == nil else {
 			fatalError("Was instructed to join a battleroom when already in one!")
 		}
@@ -133,7 +138,7 @@ struct SCJoinBattleCommand: SCCommand {
 		
 		let battleroomChannel = Channel(title: battle.channel, rootList: battle.userList)
 		connection.channelList.addItem(battleroomChannel, with: connection.id(forChannelnamed: battleroomChannel.title))
-		connection.battleController.battleroom = Battleroom(battle: battle, channel: battleroomChannel, hashCode: hashCode)
+        connection.battleController.battleroom = Battleroom(battle: battle, channel: battleroomChannel, hashCode: hashCode, resourceManager: connection.resourceManager, myID: myID)
 		connection.windowController.displayBattleroom(connection.battleController.battleroom!)
 	}
 }

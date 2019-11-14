@@ -91,6 +91,10 @@ final class CredentialsManager {
 /// A controller for the user authentication process.
 final class UserAuthenticationController: UserAuthenticationViewControllerDelegate {
 
+    // MARK: - Data
+
+    var username: String?
+
     // MARK: - Dependencies
 
     // weak, because if its view isn't in the view stack
@@ -131,8 +135,8 @@ final class UserAuthenticationController: UserAuthenticationViewControllerDelega
 
     // MARK: - 
 
-    func loginDidSucceed() {
-        
+    func loginDidSucceed(for username: String) {
+        self.username = username
     }
 
     // MARK: - UserAuthenticationViewControllerDelegate

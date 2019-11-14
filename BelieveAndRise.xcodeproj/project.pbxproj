@@ -51,6 +51,9 @@
 		3EF20F7422F825D10005650E /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EF20F7322F825D10005650E /* ListViewController.xib */; };
 		6B2C64D0232517930017A1BC /* ChatBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2C64CF232517930017A1BC /* ChatBar.swift */; };
 		6B2C64D2232517A00017A1BC /* ChatBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B2C64D1232517A00017A1BC /* ChatBar.xib */; };
+		6B30FB4B237D72F700A893C8 /* NSImage+RGB565.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B30FB4A237D72F700A893C8 /* NSImage+RGB565.swift */; };
+		6B30FB4D237D72FF00A893C8 /* UInt16+RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B30FB4C237D72FF00A893C8 /* UInt16+RGB.swift */; };
+		6B30FB4F237D73D600A893C8 /* MinimapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B30FB4E237D73D600A893C8 /* MinimapView.swift */; };
 		6B3D83A02324C41A00CE04BB /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3D839F2324C41A00CE04BB /* Connection.swift */; };
 		6B3D83A22324C43100CE04BB /* ConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3D83A12324C43100CE04BB /* ConnectionController.swift */; };
 		6B4F07692321151800B52C7E /* MainNSWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F07672321151800B52C7E /* MainNSWindowController.swift */; };
@@ -82,6 +85,13 @@
 		6BF85C63237C648900A19493 /* Array+MoveItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C62237C648900A19493 /* Array+MoveItem.swift */; };
 		6BF85C65237C68EB00A19493 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C64237C68EB00A19493 /* ChatMessage.swift */; };
 		6BF85C67237C691800A19493 /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C66237C691700A19493 /* ServerError.swift */; };
+		6BF85C6D237C6A7100A19493 /* ResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C6C237C6A7100A19493 /* ResourceManager.swift */; };
+		6BF85C6F237C6A7B00A19493 /* LocalResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C6E237C6A7A00A19493 /* LocalResourceManager.swift */; };
+		6BF85C71237C6A8400A19493 /* RemoteResourceFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C70237C6A8400A19493 /* RemoteResourceFetcher.swift */; };
+		6BF85C75237C6DA000A19493 /* DynamicLibraryHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C72237C6DA000A19493 /* DynamicLibraryHandle.swift */; };
+		6BF85C76237C6DA100A19493 /* UnitsyncConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C73237C6DA000A19493 /* UnitsyncConfig.swift */; };
+		6BF85C77237C6DA100A19493 /* UnitsyncWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C74237C6DA000A19493 /* UnitsyncWrapper.swift */; };
+		6BF85C7A237C87C700A19493 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BF85C79237C87C700A19493 /* NetworkExtension.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +164,9 @@
 		3EF20F7322F825D10005650E /* ListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListViewController.xib; sourceTree = "<group>"; };
 		6B2C64CF232517930017A1BC /* ChatBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBar.swift; sourceTree = "<group>"; };
 		6B2C64D1232517A00017A1BC /* ChatBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatBar.xib; sourceTree = "<group>"; };
+		6B30FB4A237D72F700A893C8 /* NSImage+RGB565.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage+RGB565.swift"; sourceTree = "<group>"; };
+		6B30FB4C237D72FF00A893C8 /* UInt16+RGB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UInt16+RGB.swift"; sourceTree = "<group>"; };
+		6B30FB4E237D73D600A893C8 /* MinimapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimapView.swift; sourceTree = "<group>"; };
 		6B3D839F2324C41A00CE04BB /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		6B3D83A12324C43100CE04BB /* ConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionController.swift; sourceTree = "<group>"; };
 		6B4F07672321151800B52C7E /* MainNSWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNSWindowController.swift; sourceTree = "<group>"; };
@@ -185,6 +198,13 @@
 		6BF85C62237C648900A19493 /* Array+MoveItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+MoveItem.swift"; sourceTree = "<group>"; };
 		6BF85C64237C68EB00A19493 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		6BF85C66237C691700A19493 /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
+		6BF85C6C237C6A7100A19493 /* ResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceManager.swift; sourceTree = "<group>"; };
+		6BF85C6E237C6A7A00A19493 /* LocalResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalResourceManager.swift; sourceTree = "<group>"; };
+		6BF85C70237C6A8400A19493 /* RemoteResourceFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteResourceFetcher.swift; sourceTree = "<group>"; };
+		6BF85C72237C6DA000A19493 /* DynamicLibraryHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicLibraryHandle.swift; sourceTree = "<group>"; };
+		6BF85C73237C6DA000A19493 /* UnitsyncConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitsyncConfig.swift; sourceTree = "<group>"; };
+		6BF85C74237C6DA000A19493 /* UnitsyncWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitsyncWrapper.swift; sourceTree = "<group>"; };
+		6BF85C79237C87C700A19493 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +212,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BF85C7A237C87C700A19493 /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +253,7 @@
 				3E46334422C0C2D200AE0F2F /* BelieveAndRiseTests */,
 				3E46334F22C0C2D200AE0F2F /* BelieveAndRiseUITests */,
 				3E46333222C0C2D000AE0F2F /* Products */,
+				6BF85C78237C87C700A19493 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -311,6 +333,7 @@
 		3E46336C22C0C7DD00AE0F2F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6B30FB4E237D73D600A893C8 /* MinimapView.swift */,
 				6B395F5B2325C52C00D35686 /* ChatBar */,
 				3E77161E22C175A800B8C6C0 /* TableSectionHeaderView.swift */,
 				3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */,
@@ -331,6 +354,15 @@
 				3EB5912822C1A6E200103CDE /* Socket.swift */,
 			);
 			path = Server;
+			sourceTree = "<group>";
+		};
+		6B30FB50237D743500A893C8 /* Cocoa Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6BE233B0232668E60029425E /* NSView+BackgroundColor.swift */,
+				6B30FB4A237D72F700A893C8 /* NSImage+RGB565.swift */,
+			);
+			path = "Cocoa Extensions";
 			sourceTree = "<group>";
 		};
 		6B395F5B2325C52C00D35686 /* ChatBar */ = {
@@ -367,6 +399,7 @@
 		6BAE46C02379A80E0065CD53 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				6BF85C6B237C6A5A00A19493 /* Resources */,
 				6BDDDCDC23798FB900292BAE /* List */,
 				6B815EF02313C99A000FD850 /* ServerController.swift */,
 				3EB5912322C1A21800103CDE /* Server */,
@@ -394,8 +427,9 @@
 				6BF85C62237C648900A19493 /* Array+MoveItem.swift */,
 				3EB5912D22C1A74B00103CDE /* String+MD5.swift */,
 				6BAE46BE2379A7FD0065CD53 /* File.swift */,
-				6BE233B0232668E60029425E /* NSView+BackgroundColor.swift */,
+				6B30FB50237D743500A893C8 /* Cocoa Extensions */,
 				3EB5912F22C1A75600103CDE /* Data+Base64.swift */,
+				6B30FB4C237D72FF00A893C8 /* UInt16+RGB.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -451,6 +485,27 @@
 				3E98F86A237AC98D00DD2999 /* Private Messages.swift */,
 			);
 			path = Commands;
+			sourceTree = "<group>";
+		};
+		6BF85C6B237C6A5A00A19493 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6BF85C6C237C6A7100A19493 /* ResourceManager.swift */,
+				6BF85C70237C6A8400A19493 /* RemoteResourceFetcher.swift */,
+				6BF85C6E237C6A7A00A19493 /* LocalResourceManager.swift */,
+				6BF85C72237C6DA000A19493 /* DynamicLibraryHandle.swift */,
+				6BF85C73237C6DA000A19493 /* UnitsyncConfig.swift */,
+				6BF85C74237C6DA000A19493 /* UnitsyncWrapper.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6BF85C78237C87C700A19493 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6BF85C79237C87C700A19493 /* NetworkExtension.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -600,10 +655,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EB5912922C1A6E200103CDE /* Socket.swift in Sources */,
+				6B30FB4B237D72F700A893C8 /* NSImage+RGB565.swift in Sources */,
 				3E98F86D237ACC6A00DD2999 /* Client Bridging.swift in Sources */,
+				6B30FB4D237D72FF00A893C8 /* UInt16+RGB.swift in Sources */,
 				3EB5912E22C1A74B00103CDE /* String+MD5.swift in Sources */,
 				6BE441452326A5E100951B49 /* CommandParsing.swift in Sources */,
 				3E2E50A822FB77CF00831EF8 /* WindowManager.swift in Sources */,
+				6BF85C77237C6DA100A19493 /* UnitsyncWrapper.swift in Sources */,
 				6BF85C63237C648900A19493 /* Array+MoveItem.swift in Sources */,
 				3E1A49D1237AA53200F549FF /* Things.swift in Sources */,
 				3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */,
@@ -614,8 +672,10 @@
 				3E46336A22C0C32D00AE0F2F /* Battleroom.swift in Sources */,
 				6BF85C67237C691800A19493 /* ServerError.swift in Sources */,
 				3E7F3D332319DBA60012A743 /* Sortable.swift in Sources */,
+				6B30FB4F237D73D600A893C8 /* MinimapView.swift in Sources */,
 				6BE441512326A63500951B49 /* TASServerCommand.swift in Sources */,
 				6B3D83A02324C41A00CE04BB /* Connection.swift in Sources */,
+				6BF85C6F237C6A7B00A19493 /* LocalResourceManager.swift in Sources */,
 				3E04709A22CD6B91005241E6 /* ServerCommand.swift in Sources */,
 				6B4F07692321151800B52C7E /* MainNSWindowController.swift in Sources */,
 				3E46336522C0C2F700AE0F2F /* Channel.swift in Sources */,
@@ -638,9 +698,11 @@
 				6BE441552326A63500951B49 /* Clients.swift in Sources */,
 				6BE4414F2326A63500951B49 /* AccountCommands.swift in Sources */,
 				6BC4473E2379C1F9006842DD /* SCUserCommands.swift in Sources */,
+				6BF85C76237C6DA100A19493 /* UnitsyncConfig.swift in Sources */,
 				3E77162922C17A4000B8C6C0 /* IconLoading.swift in Sources */,
 				6BE441542326A63500951B49 /* Command.swift in Sources */,
 				3E77162B22C17A4600B8C6C0 /* IconLoading+NSImage.swift in Sources */,
+				6BF85C71237C6A8400A19493 /* RemoteResourceFetcher.swift in Sources */,
 				3E98F86B237AC98D00DD2999 /* Private Messages.swift in Sources */,
 				6BE4414E2326A63500951B49 /* ChannelCommands.swift in Sources */,
 				3E93BB9C237B86A1009036E7 /* BattleController.swift in Sources */,
@@ -650,8 +712,10 @@
 				3EB5913222C1AA6E00103CDE /* Battlelist.swift in Sources */,
 				3E46336122C0C2EB00AE0F2F /* User.swift in Sources */,
 				3E86E057237B087B0032BCBF /* StartRectOverlayView.swift in Sources */,
+				6BF85C6D237C6A7100A19493 /* ResourceManager.swift in Sources */,
 				6BC447402379E324006842DD /* Formatter.swift in Sources */,
 				6BE233B723269ECA0029425E /* ChatBarController.swift in Sources */,
+				6BF85C75237C6DA000A19493 /* DynamicLibraryHandle.swift in Sources */,
 				6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */,
 				3E93BB9E237B9F50009036E7 /* ListSelectionHandler.swift in Sources */,
 				6BE441502326A63500951B49 /* CommandHandler.swift in Sources */,

@@ -46,4 +46,5 @@ final class BattleController {
 	func toggleReady() {}
 	func setAlly(_ number: Int) {}
 	func setTeam(_ number: Int) {}
+    func setColor(_ color: Int32) {}
 }

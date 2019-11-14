@@ -19,14 +19,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var server: TASServer!
     var window: NSWindow?
 	var parser: TASServerDelegate!
+
 	var connectionController: ConnectionController!
+    var resourceManager = ResourceManager()
     var mainWindowController: NSWindowController?
     let windowManager: WindowManager = MacOSWindowManager()
 
     // MARK: - NSApplicationDelegate
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let connectionController = ConnectionController(windowManager: windowManager)
+        resourceManager.loadLocalResources()
+        let connectionController = ConnectionController(windowManager: windowManager, resourceManager: resourceManager)
         connectionController.createNewConnection()
         self.connectionController = connectionController
 	}

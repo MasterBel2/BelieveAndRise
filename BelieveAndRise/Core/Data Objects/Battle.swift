@@ -8,12 +8,26 @@
 
 import Foundation
 
+protocol BattleDelegate: AnyObject {
+    func mapDidUpdate(to map: Battle.Map)
+}
+
 final class Battle: Sortable {
+
+    // MARK: - Dependencies
+
+    weak var delegate: BattleDelegate?
+
+    // MARK: - Properties
     
     let userList: List<User>
 	var spectatorCount: Int = 0
-	var map: Map
-	
+    var map: Map {
+        didSet {
+            delegate?.mapDidUpdate(to: map)
+        }
+    }
+
 	var playerCount: Int {
         return userList.itemCount - spectatorCount
 	}

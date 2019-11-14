@@ -45,7 +45,6 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
 
         let battleroomViewController = BattleroomViewController()
         battleroomViewController.battleroom = battleroom
-        battleroom.delegate = battleroomViewController
         chatViewController.addChild(battleroomViewController)
         chatViewController.stackView.insertView(battleroomViewController.view, at: 0, in: .top)
         chatViewController.setChannel(battleroom.channel)
