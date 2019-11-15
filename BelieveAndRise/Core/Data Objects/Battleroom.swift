@@ -22,7 +22,7 @@ protocol BattleroomDisplay: MinimapDisplay, BattleroomGameInfoDisplay, Battleroo
 
 }
 
-final class Battleroom: BattleDelegate {
+final class Battleroom: BattleDelegate, ListDelegate {
 
     // MARK: - Data
 
@@ -75,33 +75,51 @@ final class Battleroom: BattleDelegate {
 
     // MARK: - Updates
 
-    func setUserStatus(_ userStatus: UserStatus, forUserIdentifiedBy id: Int) {
-        let wasSpectator = userStatuses[id]?.isSpectator
-        if wasSpectator != true {
-            if let previousAllyNumber = userStatuses[id]?.allyNumber,
-                userStatus.allyNumber != previousAllyNumber,
-                let allyTeamList = allyTeamLists[previousAllyNumber] {
-                allyTeamList.removeItem(withID: id)
-                if allyTeamList.itemCount == 0 {
-                    allyTeamListDisplay?.removeSection(allyTeamList)
-                    allyTeamLists.removeValue(forKey: previousAllyNumber)
+    /// Sets the status for a user, as specified by their ID. 
+    func setUserStatus(_ newUserStatus: UserStatus, forUserIdentifiedBy id: Int) {
+        // Ally/spectator
+        if let previousUserStatus = userStatuses[id] {
+            if !previousUserStatus.isSpectator {
+                if newUserStatus.isSpectator {
+                    // !isSpectator -> isSpectator
+                    removeUser(identifiedBy: id, fromAllyTeam: previousUserStatus.allyNumber)
+                    spectatorList.addItemFromParent(id: id)
+                } else if previousUserStatus.allyNumber != newUserStatus.allyNumber {
+                    // !wasSpectator && allyTeam != allyTeam
+                    removeUser(identifiedBy: id, fromAllyTeam: previousUserStatus.allyNumber)
+                    addUser(identifiedBy: id, toAllyTeam: newUserStatus.allyNumber)
+                }
+            } else {
+                if !newUserStatus.isSpectator {
+                    // wasSpectator -> allyteam
+                    spectatorList.removeItem(withID: id)
+                    addUser(identifiedBy: id, toAllyTeam: newUserStatus.allyNumber)
                 }
             }
         }
-        userStatuses[id] = userStatus
-        if !userStatus.isSpectator {
-            if let allyTeamList = allyTeamLists[userStatus.allyNumber] {
-                allyTeamList.addItemFromParent(id: id)
-            } else {
-                let allyTeamList = List<User>(title: "AllyTeam \(userStatus.allyNumber)", sortKey: .rank, parent: battle.userList)
-                allyTeamList.addItemFromParent(id: id)
-                allyTeamListDisplay?.addSection(allyTeamList)
-                allyTeamLists[userStatus.allyNumber] = allyTeamList
-            }
-        } else if wasSpectator != true {
-            spectatorList.addItemFromParent(id: id)
+        userStatuses[id] = newUserStatus
+    }
+
+    private func addUser(identifiedBy id: Int, toAllyTeam allyTeam: Int) {
+        if let allyTeamList = allyTeamLists[allyTeam] {
+            allyTeamList.addItemFromParent(id: id)
+        } else {
+            let allyTeamList = List<User>(title: "AllyTeam \(allyTeam)", sortKey: .rank, parent: battle.userList)
+            allyTeamList.addItemFromParent(id: id)
+            allyTeamListDisplay?.addSection(allyTeamList)
+            allyTeamLists[allyTeam] = allyTeamList
         }
-        
+    }
+
+    private func removeUser(identifiedBy id: Int, fromAllyTeam allyTeam: Int) {
+        guard let allyTeamList = allyTeamLists[allyTeam] else {
+            return
+        }
+        allyTeamList.removeItem(withID: id)
+        if allyTeamList.itemCount == 0 {
+            allyTeamLists.removeValue(forKey: allyTeam)
+            allyTeamListDisplay?.removeSection(allyTeamList)
+        }
     }
 
     private func updateAllyNumber(_ userStatus: UserStatus, forUserIdentifiedBy id: Int) {
@@ -132,6 +150,15 @@ final class Battleroom: BattleDelegate {
         }
     }
 
+    // MARK: - ListDelegate
+
+    func list(_ list: ListProtocol, didAddItemWithID id: Int, at index: Int) {}
+
+    func list(_ list: ListProtocol, didMoveItemFrom index1: Int, to index2: Int) {}
+
+    func list(_ list: ListProtocol, didRemoveItemAt index: Int) {}
+    func list(_ list: ListProtocol, itemWasUpdatedAt index: Int) {}
+
     // MARK: - Lifecycle
 	
     init(battle: Battle, channel: Channel, hashCode: Int32, resourceManager: ResourceManager, myID: Int) {
@@ -145,6 +172,16 @@ final class Battleroom: BattleDelegate {
 
         battle.delegate = self
 	}
+
+    deinit {
+        spectatorList.sortedItemsByID.forEach(spectatorList.removeItem(withID:))
+        if let minimapDisplay = minimapDisplay {
+            allyTeamLists.map({ $0.key }).forEach(minimapDisplay.removeStartRect(for:))
+        }
+        allyTeamLists.map({ $0.value }).forEach({ list in
+            list.sortedItemsByID.forEach(list.removeItem(withID:))
+        })
+    }
 
     // MARK: - Nested Types
 	

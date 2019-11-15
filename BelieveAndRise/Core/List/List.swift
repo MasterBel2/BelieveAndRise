@@ -60,14 +60,20 @@ final class List<ListItem: Sortable>: ListProtocol {
 
     /// A key value indicating by which property the list items should be sorted
     private(set) var sortKey: ListItem.PropertyKey
-    /// An array of item IDs, sorted in the order determined by the values of the item's properties, as indicated by the sort key.
-    private(set) var sortedItemsByID: [Int] = []
+    /// An array of item IDs, sorted in the order determined by the values of the item's properties, as indicated by the sort key. `itemIndicies` and `items` must be updated before updating this array.
+    private(set) var sortedItemsByID: [Int] = [] {
+        didSet {
+            #if DEBUG
+            validateList()
+            #endif
+        }
+    }
     /// The items contained in the list, keyed by their ID.
     private(set) var items: [Int : ListItem] = [:]
     /// The locations of the items in the sorted list, keyed by their ID.
-    private var itemIndicies: [Int : Int] = [:]
+    private(set) var itemIndicies: [Int : Int] = [:]
 
-    // Structure
+    // MARK: - Structure
 
     /// The list of which this is a sublist.
     private(set) weak var parent: List<ListItem>?
@@ -78,9 +84,9 @@ final class List<ListItem: Sortable>: ListProtocol {
     /// sublist of another list allows modifications happen to all sublists automatically.
     private(set) var sublists: [List<ListItem>] = []
 
-    // Thread safety
+    // MARK: - Thread safety
 
-    private let queue: DispatchQueue
+    let queue: DispatchQueue
 
     // MARK: - Dependencies
 
@@ -147,8 +153,13 @@ final class List<ListItem: Sortable>: ListProtocol {
             guard let itemAtIndex = items[idAtIndex] else {
                 return
             }
-            if item.relationTo(itemAtIndex, forSortKey: sortKey) != .greater {
-				itemIndicies[idAtIndex] = index + 1
+            if item.relationTo(itemAtIndex, forSortKey: sortKey) != .lesser {
+                // Update the location of the items this displaces. Must happen before we sort the
+                // so that we can identify them by their current location.
+                for indexToUpdate in index..<itemCount {
+                    let idToUpdate = sortedItemsByID[indexToUpdate]
+                    itemIndicies[idToUpdate] = indexToUpdate + 1
+                }
 				placeItem(item, with: id, at: index)
                 return
             }
@@ -156,11 +167,11 @@ final class List<ListItem: Sortable>: ListProtocol {
 		placeItem(item, with: id, at: itemCount)
     }
 
-    /// Places an item in the list and sets its indexes etc. Does not update the item that it is overwriting
+    /// Places an item in the list and sets its indexes etc. Does not update the items that it displaces.
     private func placeItem(_ item: ListItem, with id: Int, at index: Int) {
         items[id] = item
-        sortedItemsByID.insert(id, at: index)
         itemIndicies[id] = index
+        sortedItemsByID.insert(id, at: index)
         delegate?.list(self, didAddItemWithID: id, at: index)
     }
 
@@ -172,23 +183,31 @@ final class List<ListItem: Sortable>: ListProtocol {
                 return
             }
 
+            // ID : Position
             var indexesToUpdate: [Int] = []
             var newIndex = index
 
             for (relation, offset) in [(ValueRelation.lesser, 1), (ValueRelation.greater, -1)] {
                 while let otherItem = item(at: newIndex + offset),
                     updatedItem.relationTo(otherItem, forSortKey: sortKey) == relation {
-                        indexesToUpdate.append(index)
+                        // the new value for newIndex is the position we're going to move into, so
+                        // that's the item that will be displaced.
                         newIndex += offset
+                        // Remember the index needs to be updated later. We won't update the dictionary yet since
+                        // we're not actually moving things in sortedItemsByID yet.
+                        indexesToUpdate.append(newIndex)
                 }
 
                 if newIndex != index {
-                    sortedItemsByID.moveItem(at: index, to: newIndex)
+                    // Update indexes associated with IDs before updating IDs associated with indexes, because it depends on the array
+                    // -1 * offset, since they move the opposite direction to the updated item
                     indexesToUpdate.forEach({
-                        if let currentIndex = itemIndicies[$0] {
-                            itemIndicies[$0] = currentIndex + offset
-                        }
+                        itemIndicies[sortedItemsByID[$0]] = $0 - offset
                     })
+                    // Update the index associated with the updated ID
+                    itemIndicies[id] = newIndex
+                    debugOnlyPrint("List: Moving item \(id) from \(index) to \(newIndex)")
+                    sortedItemsByID.moveItem(from: index, to: newIndex)
                     delegate?.list(self, didMoveItemFrom: index, to: newIndex)
                     break
                 }
@@ -203,12 +222,48 @@ final class List<ListItem: Sortable>: ListProtocol {
             guard let index = self.itemIndicies[id] else {
                 return
             }
-            self.sortedItemsByID.remove(at: index)
             self.itemIndicies.removeValue(forKey: id)
+            for indexToUpdate in (index + 1)..<itemCount {
+                let idToUpdate = sortedItemsByID[indexToUpdate]
+                itemIndicies[idToUpdate] = indexToUpdate - 1
+            }
             self.items.removeValue(forKey: id)
+            self.sortedItemsByID.remove(at: index)
             self.sublists.forEach { $0.removeItem(withID: id) }
 
             self.delegate?.list(self, didRemoveItemAt: index)
+        }
+    }
+
+    // MARK: - List integrity
+
+    /// Checks whether `itemIndicies` and `sortedItemsByID` agree, and prints an error message to the console if an inconsistency is detected
+    private func validateList() {
+        var valid = true
+        items.forEach({
+            let key = $0.key
+            if let position = itemIndicies[$0.key] {
+                let itemAtPosition = sortedItemsByID[position]
+
+                if key != itemAtPosition {
+                    valid = false
+                }
+            } else {
+                valid = false
+            }
+        })
+
+        if !valid {
+            debugOnlyPrint("Internal inconsistency detected in list \(title): \(self)")
+            items.map({
+                let key = $0.key
+                if let position = itemIndicies[$0.key] {
+                    let itemAtPosition = sortedItemsByID[position]
+                    return "Item \($0.key): Position \(position), ItemAtPosition \(itemAtPosition), valid: \(key == itemAtPosition)"
+                } else {
+                    return "Item \($0.key): Position: nil, valid: false"
+                }
+            }).forEach({ debugOnlyPrint($0)})
         }
     }
 }

@@ -110,7 +110,6 @@ struct SCBattleOpenedCommand: SCCommand {
         )
 
         connection.battleList.addItem(battle, with: battleID)
-        print("battleCount: \(connection.battleList.itemCount)")
     }
 
     // MARK: - String representation

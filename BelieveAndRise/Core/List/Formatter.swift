@@ -59,19 +59,19 @@ final class DefaultPlayerListItemViewProvider: ItemViewProvider {
 }
 
 final class DefaultMessageListItemViewProvider: ItemViewProvider {
-	let list: List<ChatMessage>
-	
-	init(list: List<ChatMessage>) {
-		self.list = list
-	}
-	
-	func view(forItemIdentifiedBy id: Int) -> NSView? {
+    let list: List<ChatMessage>
+
+    init(list: List<ChatMessage>) {
+        self.list = list
+    }
+
+    func view(forItemIdentifiedBy id: Int) -> NSView? {
         guard let message = list.items[id] else {
             return nil
         }
         let view = SingleColumnTableColumnRowView.loadFromNib()
-		view.primaryLabel.stringValue = message.sender
-		view.secondaryLabel.stringValue = message.content
+        view.primaryLabel.stringValue = message.sender
+        view.secondaryLabel.stringValue = message.content
         return view
     }
 }

@@ -10,14 +10,9 @@ import Foundation
 
 extension Array {
     /// Removes an item from its current index in the array and places it at the new index.
-    mutating func moveItem(at oldIndex: Int, to newIndex: Int) {
+    mutating func moveItem(from oldIndex: Int, to newIndex: Int) {
         let value = self[oldIndex]
-        if oldIndex > newIndex {
-            remove(at: oldIndex)
-            insert(value, at: newIndex)
-        } else {
-            insert(value, at: newIndex)
-            remove(at: oldIndex)
-        }
+        remove(at: oldIndex)
+        insert(value, at: newIndex)
     }
 }

@@ -160,26 +160,30 @@ class ListViewController: NSViewController,
 
 	/// Adds a section to the list.
     func addSection(_ list: ListProtocol) {
-        list.delegate = self
-        sections.append(list)
-        if shouldDisplaySectionHeaders {
-            rows.append(.header(list.title))
-        }
-		rows.append(contentsOf: list.sortedItemsByID.map({ Row.item($0) }))
-        if isViewLoaded {
-            tableView.reloadData()
+        executeOnMain(target: self) {
+            list.delegate = $0
+            $0.sections.append(list)
+            if $0.shouldDisplaySectionHeaders {
+                $0.rows.append(.header(list.title))
+            }
+            $0.rows.append(contentsOf: list.sortedItemsByID.map({ Row.item($0) }))
+            if $0.isViewLoaded {
+                $0.tableView.reloadData()
+            }
         }
     }
 
     func removeSection(_ list: ListProtocol) {
-        sections = sections.filter({ $0 !== list })
-        let sectionBegin = offset(forSectionNamed: list.title)
-        let sectionEnd = sectionBegin + list.itemCount + (shouldDisplaySectionHeaders ? 1 : 0)
-        tableView.removeRows(
-            at: IndexSet(integersIn: sectionBegin...sectionEnd),
-            withAnimation: .effectFade
-        )
-	}
+        executeOnMain(target: self) {
+            let sectionBegin = $0.offset(forSectionNamed: list.title)
+            let sectionEnd = sectionBegin + list.itemCount + ($0.shouldDisplaySectionHeaders ? 1 : 0)
+            $0.sections = $0.sections.filter({ $0 !== list })
+            $0.tableView.removeRows(
+                at: IndexSet(integersIn: sectionBegin..<sectionEnd),
+                withAnimation: .effectFade
+            )
+        }
+    }
 
 	/// Calculates the offset for the first item in the section, such that the first item is at offset `offset`, the second at `offset + 1`, and the section header at `offset - 1`.
     private func offset(forSectionNamed sectionName: String) -> Int {
@@ -218,8 +222,11 @@ class ListViewController: NSViewController,
     }
 
     func list(_ list: ListProtocol, itemWasUpdatedAt index: Int) {
-        executeOnMain(target: tableView) { tableView in
-                        tableView.reloadData(forRowIndexes: IndexSet(integer: index), columnIndexes: IndexSet(integer: 0))
+        executeOnMain(target: self) { viewController in
+            viewController.tableView.reloadData(
+                forRowIndexes: IndexSet(integer: viewController.offset(forSectionNamed: list.title) + index),
+                columnIndexes: IndexSet(integer: 0)
+            )
         }
     }
 
@@ -229,7 +236,7 @@ class ListViewController: NSViewController,
 
             let from = sectionOffset + index1
             let to = sectionOffset + index2
-            viewController.rows.moveItem(at: from, to: to)
+            viewController.rows.moveItem(from: from, to: to)
             viewController.tableView.moveRow(at: from, to: to)
         }
     }
