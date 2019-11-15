@@ -53,6 +53,12 @@ final class MinimapView: NSImageView, MinimapDisplay {
     // MARK: - MinimapDisplay
 
     func addStartRect(_ rect: CGRect, for allyTeam: Int) {
+        executeOnMain(target: self) {
+            $0._addStartRect(rect, for: allyTeam)
+        }
+    }
+
+    func _addStartRect(_ rect: CGRect, for allyTeam: Int) {
         guard let map = map else {
             return
         }
@@ -67,27 +73,35 @@ final class MinimapView: NSImageView, MinimapDisplay {
         let view = StartRectOverlayView.loadFromNib()
         view.frame = newRect
         view.allyTeamNumberLabel.stringValue = String(allyTeam)
-        view.backgroundColor = NSColor(deviceRed: 1, green: 1, blue: 1, alpha: 1)
+        view.backgroundColor = NSColor(deviceRed: 1, green: 1, blue: 1, alpha: 0.3)
+        startRects[allyTeam] = view
+        addSubview(view)
     }
 
     func removeStartRect(for allyTeam: Int) {
-        if let view = startRects[allyTeam] {
-            view.removeFromSuperview()
-            startRects[allyTeam] = nil
+        executeOnMain(target: self) {
+            if let view = $0.startRects[allyTeam] {
+                view.removeFromSuperview()
+                $0.startRects[allyTeam] = nil
+            }
         }
     }
 
     func displayMapUnknown() {
-        map = nil
+        executeOnMain(target: self) {
+            $0.map = nil
+        }
     }
 
     func displayMap(_ imageData: [UInt16], dimension: Int, realWidth: Int, realHeight: Int) {
-        guard let image = NSImage(rgb565Pixels: imageData, width: dimension, height: dimension) else {
-            displayMapUnknown()
-            return
+        executeOnMain(target: self) {
+            guard let image = NSImage(rgb565Pixels: imageData, width: dimension, height: dimension) else {
+                $0.displayMapUnknown()
+                return
+            }
+            let map = Map(image: image, width: CGFloat(realWidth), height: CGFloat(realHeight))
+            $0.map = map
         }
-        let map = Map(image: image, width: CGFloat(realWidth), height: CGFloat(realHeight))
-        self.map = map
     }
 
     // MARK: - Associated types

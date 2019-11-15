@@ -20,9 +20,9 @@ extension RGB565Color {
 		let g6 = (rgb >> 5)  & 0x3F
 		let b5 = (rgb)       & 0x1F
 		
-		let r8 = (r5 << 3) | (r5 >> 2)
-		let g8 = (g6 << 2) | (g6 >> 4)
-		let b8 = (b5 << 3) | (b5 >> 2)
+		let r8 = (r5 << 3)
+		let g8 = (g6 << 2)
+		let b8 = (b5 << 3)
 		
 		return (b8 << 16) | (g8 << 8) | r8 | 0xFF000000
 	}

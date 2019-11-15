@@ -40,14 +40,31 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
         return supplementaryListViewController
     }
 
+    /**
+     Displays a battleroom and configures it with the information that should be already populated
+     */
     func displayBattleroom(_ battleroom: Battleroom) {
-        battleroomViewController?.removeFromParent()
+        // Remove previous battleroom
+        if let battleroomViewController = battleroomViewController {
+            battleroomViewController.removeFromParent()
+            battleroomViewController.view.removeFromSuperview()
+            chatViewController.stackView.removeArrangedSubview(battleroomViewController.view)
+        }
+
+        // Set up views
 
         let battleroomViewController = BattleroomViewController()
         battleroomViewController.battleroom = battleroom
         chatViewController.addChild(battleroomViewController)
         chatViewController.stackView.insertView(battleroomViewController.view, at: 0, in: .top)
         chatViewController.setChannel(battleroom.channel)
+
+        // Update data
+
+        battleroom.mapDidUpdate(to: battleroom.battle.map)
+        battleroom.startRects.forEach({
+            battleroomViewController.minimapView.addStartRect($0.value, for: $0.key)
+        })
     }
 	
 	func setChatController(_ chatController: ChatController) {

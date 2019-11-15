@@ -98,6 +98,9 @@ final class Battleroom: BattleDelegate, ListDelegate {
             }
         }
         userStatuses[id] = newUserStatus
+
+        // Update the view
+        battle.userList.respondToUpdatesOnItem(identifiedBy: id)
     }
 
     private func addUser(identifiedBy id: Int, toAllyTeam allyTeam: Int) {
@@ -126,12 +129,12 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
     }
 
-    private func addStartRect(_ rect: CGRect, for allyTeam: Int) {
+    func addStartRect(_ rect: CGRect, for allyTeam: Int) {
         startRects[allyTeam] = rect
         minimapDisplay?.addStartRect(rect, for: allyTeam)
     }
 
-    private func removeStartRect(for allyTeam: Int) {
+    func removeStartRect(for allyTeam: Int) {
         startRects.removeValue(forKey: allyTeam)
         minimapDisplay?.removeStartRect(for: allyTeam)
     }
@@ -140,11 +143,14 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
     func mapDidUpdate(to map: Battle.Map) {
         if let (mapInfo, _, _) = resourceManager.infoForMap(named: map.name, preferredChecksum: map.hash, preferredEngineVersion: battle.engineVersion) {
-            guard let (imageData, dimension) = resourceManager.minimapData(forMapNamed: map.name) else {
-                minimapDisplay?.displayMapUnknown()
-                return
+            resourceManager.loadMinimapData(forMapNamed: map.name, mipLevels: Range(0...5)) { [weak self] result in
+                guard let (imageData, dimension) = result else {
+                    self?.minimapDisplay?.displayMapUnknown()
+                    return
+                }
+                self?.minimapDisplay?.displayMap(imageData, dimension: dimension, realWidth: mapInfo.width, realHeight: mapInfo.height)
             }
-            minimapDisplay?.displayMap(imageData, dimension: dimension, realWidth: mapInfo.width, realHeight: mapInfo.height)
+            minimapDisplay?.displayMap([0], dimension: 1, realWidth: mapInfo.width, realHeight: mapInfo.height)
         } else {
             minimapDisplay?.displayMapUnknown()
         }

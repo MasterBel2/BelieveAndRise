@@ -138,8 +138,9 @@ struct SCJoinBattleCommand: SCCommand {
 		
 		let battleroomChannel = Channel(title: battle.channel, rootList: battle.userList)
 		connection.channelList.addItem(battleroomChannel, with: connection.id(forChannelnamed: battleroomChannel.title))
-        connection.battleController.battleroom = Battleroom(battle: battle, channel: battleroomChannel, hashCode: hashCode, resourceManager: connection.resourceManager, myID: myID)
-		connection.windowController.displayBattleroom(connection.battleController.battleroom!)
+        let battleroom = Battleroom(battle: battle, channel: battleroomChannel, hashCode: hashCode, resourceManager: connection.resourceManager, myID: myID)
+        connection.battleController.battleroom = battleroom
+		connection.windowController.displayBattleroom(battleroom)
 	}
 }
 
@@ -400,7 +401,11 @@ struct SCAddStartRectCommand: SCCommand {
 	}
 	
 	func execute(on connection: Connection) {
-		#warning("TODO")
+        guard let battleroom = connection.battleController.battleroom else {
+            return
+        }
+        let rect = CGRect(x: left, y: top, width: right - left, height: bottom - top)
+        battleroom.addStartRect(rect, for: allyNo)
 	}
 	
 	var description: String {
@@ -429,7 +434,7 @@ struct SCRemoveStartRectCommand: SCCommand {
 	}
 	
 	func execute(on connection: Connection) {
-		#warning("todo")
+        connection.battleController.battleroom?.removeStartRect(for: allyNo)
 	}
 	
 	var description: String {

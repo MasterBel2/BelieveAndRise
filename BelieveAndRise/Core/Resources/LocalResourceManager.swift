@@ -93,21 +93,26 @@ final class LocalResourceManager {
     /**
      Retrieves an array of dimension * dimension pixels that form the minimap for the given map, where dimension = 1024 / (2^mipLevel).
      */
-    func minimapData(forMapNamed mapName: String, mipLevel: Int) -> (data: [UInt16], dimension: Int)? {
-        if let data = minimaps[mapName] {
-            return data
+    func loadMinimapData(forMapNamed mapName: String, mipLevel: Int, completionBlock: @escaping ((data: [UInt16], dimension: Int)?) -> Void) {
+        if let (data, dimension) = minimaps[mapName],
+            dimension == 1024 / Int(pow(2, Float(mipLevel))) {
+            completionBlock((data, dimension))
+            return
         }
-        return queue.sync {
-            guard let mostRecentUnitsync = engineVersions.first?.unitsyncWrapper else {
-                return nil
+        queue.async { [weak self] in
+            guard let self = self,
+                let mostRecentUnitsync = self.engineVersions.first?.unitsyncWrapper else {
+                completionBlock(nil)
+                return
             }
             let dimension = 1024 / Int(pow(2, Float(mipLevel)))
-            guard let mapIndex = maps.enumerated().first(where: { $0.element.name == mapName })?.offset,
+            guard let mapIndex = self.maps.enumerated().first(where: { $0.element.name == mapName })?.offset,
                 let data = mostRecentUnitsync.minimap(forMapAt: mapIndex, mipLevel: mipLevel) else {
-                return nil
+                completionBlock(nil)
+                return
             }
 
-            return (data, dimension)
+            completionBlock((data, dimension))
         }
     }
 }

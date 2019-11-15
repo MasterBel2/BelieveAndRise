@@ -62,7 +62,17 @@ final class ResourceManager {
 
     // MARK: - Maps
 
-    func minimapData(forMapNamed mapName: String) -> (data: [UInt16], dimension: Int)? {
-        return localResourceManager.minimapData(forMapNamed: mapName, mipLevel: 2)
+    /// Loads a minimap of the given resolution. Calls the completion block four times as it loads from the lowest to the highest. (This is to ensure the user sees visual feedback through the loading process)
+    func loadMinimapData(forMapNamed mapName: String, mipLevels: Range<Int>, completionBlock: @escaping ((data: [UInt16], dimension: Int)?) -> Void) {
+        guard let mipLevel = mipLevels.last else {
+            completionBlock(nil)
+            return
+        }
+        localResourceManager.loadMinimapData(forMapNamed: mapName, mipLevel: mipLevel) { [weak self] result in
+            completionBlock(result)
+            if mipLevels.count > 1 {
+                self?.loadMinimapData(forMapNamed: mapName, mipLevels: mipLevels.dropLast(), completionBlock: completionBlock)
+            }
+        }
     }
 }

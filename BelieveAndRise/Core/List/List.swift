@@ -206,13 +206,15 @@ final class List<ListItem: Sortable>: ListProtocol {
                     })
                     // Update the index associated with the updated ID
                     itemIndicies[id] = newIndex
-                    debugOnlyPrint("List: Moving item \(id) from \(index) to \(newIndex)")
                     sortedItemsByID.moveItem(from: index, to: newIndex)
                     delegate?.list(self, didMoveItemFrom: index, to: newIndex)
                     break
                 }
             }
             delegate?.list(self, itemWasUpdatedAt: newIndex)
+            for sublist in sublists {
+                sublist.respondToUpdatesOnItem(identifiedBy: id)
+            }
         }
     }
 

@@ -30,7 +30,8 @@ class ChatMessage: Sortable {
     func relationTo(_ other: ChatMessage, forSortKey sortKey: ChatMessage.PropertyKey) -> ValueRelation {
         switch sortKey {
         case .time:
-            return ValueRelation(value1: self.time, value2: other.time)
+            // Reverse order, since we want the lowest time at the top, and the highest time at the bottom
+            return ValueRelation(value1: other.time, value2: self.time)
         }
     }
 }
