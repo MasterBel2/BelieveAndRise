@@ -130,10 +130,12 @@ struct SCJoinBattleCommand: SCCommand {
             return
         }
 		guard connection.battleController.battleroom == nil else {
-			fatalError("Was instructed to join a battleroom when already in one!")
+			debugOnlyPrint("Was instructed to join a battleroom when already in one!")
+            return
 		}
 		guard let battle = connection.battleList.items[battleID] else {
-			fatalError("Was instructed to join a battleroom that doesn't exist!")
+			debugOnlyPrint("Was instructed to join a battleroom that doesn't exist!")
+            return
 		}
 		
 		let battleroomChannel = Channel(title: battle.channel, rootList: battle.userList)
