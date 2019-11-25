@@ -15,7 +15,7 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
     @IBOutlet var stackView: NSStackView!
 
     let chatBarController = ChatBarController()
-    let logViewController = ListViewController()
+    let logViewController = ChatLogViewController()
 
     // MARK: - Dependencies
 
