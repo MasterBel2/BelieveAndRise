@@ -38,6 +38,8 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .white
+
         addChild(logViewController)
         stackView.addArrangedSubview(logViewController.view)
 

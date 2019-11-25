@@ -20,6 +20,9 @@
             <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
+                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ZsV-Gr-QJj">
+                    <rect key="frame" x="0.0" y="-2" width="300" height="5"/>
+                </box>
                 <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qfc-FH-h2B">
                     <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                     <subviews>
@@ -62,8 +65,11 @@
             </subviews>
             <constraints>
                 <constraint firstItem="Qfc-FH-h2B" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="9kK-qb-vxM"/>
+                <constraint firstItem="ZsV-Gr-QJj" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="HZk-2k-a6y"/>
                 <constraint firstItem="Qfc-FH-h2B" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="KHf-z7-CCR"/>
                 <constraint firstAttribute="bottom" secondItem="Qfc-FH-h2B" secondAttribute="bottom" id="RvE-zb-7eZ"/>
+                <constraint firstAttribute="trailing" secondItem="ZsV-Gr-QJj" secondAttribute="trailing" id="ovt-Lu-30g"/>
+                <constraint firstAttribute="bottom" secondItem="ZsV-Gr-QJj" secondAttribute="bottom" id="rUJ-VT-lk0"/>
                 <constraint firstAttribute="trailing" secondItem="Qfc-FH-h2B" secondAttribute="trailing" id="sEQ-UE-yPw"/>
             </constraints>
             <point key="canvasLocation" x="193" y="110"/>
