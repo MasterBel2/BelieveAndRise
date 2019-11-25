@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -58,6 +58,13 @@
 		6B3D83A22324C43100CE04BB /* ConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3D83A12324C43100CE04BB /* ConnectionController.swift */; };
 		6B4F07692321151800B52C7E /* MainNSWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F07672321151800B52C7E /* MainNSWindowController.swift */; };
 		6B4F076A2321151800B52C7E /* MainNSWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B4F07682321151800B52C7E /* MainNSWindowController.xib */; };
+		6B5A333A23863A7800A32433 /* ArrayDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A333923863A7800A32433 /* ArrayDownloader.swift */; };
+		6B5A333D23863AD000A32433 /* DataCompression in Frameworks */ = {isa = PBXBuildFile; productRef = 6B5A333C23863AD000A32433 /* DataCompression */; };
+		6B5A333F23863AE500A32433 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A333E23863AE500A32433 /* Platform.swift */; };
+		6B5A334123863B0200A32433 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334023863B0200A32433 /* Resource.swift */; };
+		6B5A334323863B0F00A32433 /* RapidArchiveInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334223863B0F00A32433 /* RapidArchiveInfo.swift */; };
+		6B5A334523863B2200A32433 /* Int+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334423863B2200A32433 /* Int+Data.swift */; };
+		6B5A334723863B5700A32433 /* SpringArchiveInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334623863B5700A32433 /* SpringArchiveInfo.swift */; };
 		6B7C82D022D88A600031F9C9 /* ServerSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82CE22D88A600031F9C9 /* ServerSelectionViewController.swift */; };
 		6B7C82D122D88A600031F9C9 /* ServerSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7C82CF22D88A600031F9C9 /* ServerSelectionViewController.xib */; };
 		6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */; };
@@ -171,6 +178,12 @@
 		6B3D83A12324C43100CE04BB /* ConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionController.swift; sourceTree = "<group>"; };
 		6B4F07672321151800B52C7E /* MainNSWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNSWindowController.swift; sourceTree = "<group>"; };
 		6B4F07682321151800B52C7E /* MainNSWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainNSWindowController.xib; sourceTree = "<group>"; };
+		6B5A333923863A7800A32433 /* ArrayDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayDownloader.swift; sourceTree = "<group>"; };
+		6B5A333E23863AE500A32433 /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
+		6B5A334023863B0200A32433 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		6B5A334223863B0F00A32433 /* RapidArchiveInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidArchiveInfo.swift; sourceTree = "<group>"; };
+		6B5A334423863B2200A32433 /* Int+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Data.swift"; sourceTree = "<group>"; };
+		6B5A334623863B5700A32433 /* SpringArchiveInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringArchiveInfo.swift; sourceTree = "<group>"; };
 		6B7C82CE22D88A600031F9C9 /* ServerSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelectionViewController.swift; sourceTree = "<group>"; };
 		6B7C82CF22D88A600031F9C9 /* ServerSelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerSelectionViewController.xib; sourceTree = "<group>"; };
 		6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationViewController.swift; sourceTree = "<group>"; };
@@ -213,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BF85C7A237C87C700A19493 /* NetworkExtension.framework in Frameworks */,
+				6B5A333D23863AD000A32433 /* DataCompression in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +391,30 @@
 			path = ChatBar;
 			sourceTree = "<group>";
 		};
+		6B5A334823863B9B00A32433 /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				6BF85C6C237C6A7100A19493 /* ResourceManager.swift */,
+				6BF85C70237C6A8400A19493 /* RemoteResourceFetcher.swift */,
+				6B5A334023863B0200A32433 /* Resource.swift */,
+				6B5A334623863B5700A32433 /* SpringArchiveInfo.swift */,
+				6B5A334223863B0F00A32433 /* RapidArchiveInfo.swift */,
+				6B5A333923863A7800A32433 /* ArrayDownloader.swift */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
+		6B5A334923863BAC00A32433 /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				6BF85C6E237C6A7A00A19493 /* LocalResourceManager.swift */,
+				6BF85C72237C6DA000A19493 /* DynamicLibraryHandle.swift */,
+				6BF85C73237C6DA000A19493 /* UnitsyncConfig.swift */,
+				6BF85C74237C6DA000A19493 /* UnitsyncWrapper.swift */,
+			);
+			path = Local;
+			sourceTree = "<group>";
+		};
 		6B8C499D22DD240000C59FFF /* ServerSelectionViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -424,12 +462,14 @@
 		6BAE46C22379A8300065CD53 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				6B5A333E23863AE500A32433 /* Platform.swift */,
 				6BF85C62237C648900A19493 /* Array+MoveItem.swift */,
 				3EB5912D22C1A74B00103CDE /* String+MD5.swift */,
 				6BAE46BE2379A7FD0065CD53 /* File.swift */,
 				6B30FB50237D743500A893C8 /* Cocoa Extensions */,
 				3EB5912F22C1A75600103CDE /* Data+Base64.swift */,
 				6B30FB4C237D72FF00A893C8 /* UInt16+RGB.swift */,
+				6B5A334423863B2200A32433 /* Int+Data.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -490,12 +530,8 @@
 		6BF85C6B237C6A5A00A19493 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				6BF85C6C237C6A7100A19493 /* ResourceManager.swift */,
-				6BF85C70237C6A8400A19493 /* RemoteResourceFetcher.swift */,
-				6BF85C6E237C6A7A00A19493 /* LocalResourceManager.swift */,
-				6BF85C72237C6DA000A19493 /* DynamicLibraryHandle.swift */,
-				6BF85C73237C6DA000A19493 /* UnitsyncConfig.swift */,
-				6BF85C74237C6DA000A19493 /* UnitsyncWrapper.swift */,
+				6B5A334923863BAC00A32433 /* Local */,
+				6B5A334823863B9B00A32433 /* Remote */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -524,6 +560,9 @@
 			dependencies = (
 			);
 			name = BelieveAndRise;
+			packageProductDependencies = (
+				6B5A333C23863AD000A32433 /* DataCompression */,
+			);
 			productName = BelieveAndRise;
 			productReference = 3E46333122C0C2D000AE0F2F /* BelieveAndRise.app */;
 			productType = "com.apple.product-type.application";
@@ -602,6 +641,9 @@
 				Base,
 			);
 			mainGroup = 3E46332822C0C2D000AE0F2F;
+			packageReferences = (
+				6B5A333B23863AD000A32433 /* XCRemoteSwiftPackageReference "DataCompression" */,
+			);
 			productRefGroup = 3E46333222C0C2D000AE0F2F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -665,7 +707,9 @@
 				6BF85C63237C648900A19493 /* Array+MoveItem.swift in Sources */,
 				3E1A49D1237AA53200F549FF /* Things.swift in Sources */,
 				3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */,
+				6B5A334523863B2200A32433 /* Int+Data.swift in Sources */,
 				3E46333522C0C2D000AE0F2F /* AppDelegate.swift in Sources */,
+				6B5A333A23863A7800A32433 /* ArrayDownloader.swift in Sources */,
 				3E46336822C0C31700AE0F2F /* NATType.swift in Sources */,
 				6BE233B423269ACE0029425E /* ChatViewController.swift in Sources */,
 				6BE441522326A63500951B49 /* SCBattleOpenedCommand.swift in Sources */,
@@ -682,6 +726,8 @@
 				3E04709D22CD71C3005241E6 /* ListViewControllerDelegate.swift in Sources */,
 				6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */,
 				3E77162522C1775A00B8C6C0 /* NibLoadable.swift in Sources */,
+				6B5A334123863B0200A32433 /* Resource.swift in Sources */,
+				6B5A334723863B5700A32433 /* SpringArchiveInfo.swift in Sources */,
 				6BE233B1232668E60029425E /* NSView+BackgroundColor.swift in Sources */,
 				3E2D1C2A22DD47CC008596E1 /* List.swift in Sources */,
 				3EB5912522C1A24700103CDE /* TASServer.swift in Sources */,
@@ -707,6 +753,7 @@
 				6BE4414E2326A63500951B49 /* ChannelCommands.swift in Sources */,
 				3E93BB9C237B86A1009036E7 /* BattleController.swift in Sources */,
 				6B2C64D0232517930017A1BC /* ChatBar.swift in Sources */,
+				6B5A333F23863AE500A32433 /* Platform.swift in Sources */,
 				6BAE46C52379A8C70065CD53 /* GenericList.swift in Sources */,
 				6BF48DB8232B9BA7006411BB /* BattlelistViewController.swift in Sources */,
 				3EB5913222C1AA6E00103CDE /* Battlelist.swift in Sources */,
@@ -718,6 +765,7 @@
 				6BF85C75237C6DA000A19493 /* DynamicLibraryHandle.swift in Sources */,
 				6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */,
 				3E93BB9E237B9F50009036E7 /* ListSelectionHandler.swift in Sources */,
+				6B5A334323863B0F00A32433 /* RapidArchiveInfo.swift in Sources */,
 				6BE441502326A63500951B49 /* CommandHandler.swift in Sources */,
 				3E33C9D922C203B200C340F9 /* ListViewController.swift in Sources */,
 				6B7C82D022D88A600031F9C9 /* ServerSelectionViewController.swift in Sources */,
@@ -1044,6 +1092,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6B5A333B23863AD000A32433 /* XCRemoteSwiftPackageReference "DataCompression" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mw99/DataCompression.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6B5A333C23863AD000A32433 /* DataCompression */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B5A333B23863AD000A32433 /* XCRemoteSwiftPackageReference "DataCompression" */;
+			productName = DataCompression;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3E46332922C0C2D000AE0F2F /* Project object */;
 }

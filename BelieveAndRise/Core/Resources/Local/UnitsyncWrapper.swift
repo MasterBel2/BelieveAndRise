@@ -20,6 +20,12 @@ final class UnitsyncWrapper {
 
     // MARK: - General
 
+    // Un-initialises and re-initialises unitsync
+    func refresh() {
+        UnInit()
+        _ = Init(true, 0)
+    }
+
     var springVersion: String {
         return String(cString: GetSpringVersion())
     }
@@ -85,7 +91,7 @@ final class UnitsyncWrapper {
     }
 
     /**
-     Retrieves information about the game at the given index
+     Retrieves information about the game at the given index.
      */
     func gameInfo(at index: Int) -> [String : InfoValue] {
         var values: [String : InfoValue] = [:]
@@ -281,6 +287,24 @@ final class UnitsyncWrapper {
     private let IsSpringReleaseVersion: @convention(c)() -> Bool
 
     // Initialization/Un-init
+    /**
+    Initializes the unitsync library
+    @return Zero on error; non-zero on success
+    - parameter isServer indicates whether the caller is hosting or joining a game
+    - parameter id unused parameter TODO
+
+    Call this function before calling any other function in unitsync.
+    In case unitsync was already initialized, it is uninitialized and then
+    reinitialized.
+
+    Calling this function is currently the only way to clear the VFS of the
+    files which are mapped into it.  In other words, after using AddArchive() or
+    AddAllArchives() you have to call Init when you want to remove the archives
+    from the VFS and start with a clean state.
+
+    The config handler will not be reset. It will however, be initialised if it
+    was not before (with SetSpringConfigFile()).
+    */
     private let Init: @convention(c) (Bool, CInt) -> CInt
     private let UnInit: @convention(c) () -> Void
 

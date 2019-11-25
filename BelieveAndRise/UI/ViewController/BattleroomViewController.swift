@@ -15,10 +15,20 @@ class BattleroomViewController: NSViewController {
     @IBOutlet var stackView: NSStackView!
     @IBOutlet weak var infoView: BattleroomInfoView!
 	@IBOutlet weak var minimapView: MinimapView!
+    let spectatorListViewController = ListViewController()
+    let allyTeamListViewController = ListViewController()
 
     // MARK: - Data
 
-    var battleroom: Battleroom!
+    var battleroom: Battleroom! {
+        didSet {
+            battleroom.allyTeamListDisplay = allyTeamListViewController
+            battleroom.spectatorListDisplay = spectatorListViewController
+
+            allyTeamListViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: battleroom.battle.userList)
+            spectatorListViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: battleroom.battle.userList)
+        }
+    }
 
     // MARK: - Lifecycle
 	
@@ -39,19 +49,11 @@ class BattleroomViewController: NSViewController {
      Handles the setup of the spectatorListViewController and allyTeamListViewController.
      */
     private func configureListViews() {
-        let spectatorListViewController = ListViewController()
-        let allyTeamListViewController = ListViewController()
-
-        battleroom.allyTeamListDisplay = allyTeamListViewController
-        battleroom.spectatorListDisplay = spectatorListViewController
-
-        spectatorListViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: battleroom.battle.userList)
-        allyTeamListViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: battleroom.battle.userList)
-
-        addChild(spectatorListViewController)
-        stackView.addArrangedSubview(spectatorListViewController.view)
         addChild(allyTeamListViewController)
         stackView.addArrangedSubview(allyTeamListViewController.view)
+        allyTeamListViewController.tableView.enclosingScrollView?.autohidesScrollers = true
+        addChild(spectatorListViewController)
+        stackView.addArrangedSubview(spectatorListViewController.view)
 
         spectatorListViewController.view.widthAnchor.constraint(equalTo: allyTeamListViewController.view.widthAnchor).isActive = true
     }

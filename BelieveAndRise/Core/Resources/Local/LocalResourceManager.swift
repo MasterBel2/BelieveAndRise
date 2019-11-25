@@ -19,56 +19,100 @@ final class LocalResourceManager {
     private(set) var maps: [Map] = []
     private var minimaps: [String : (data: [UInt16], dimension: Int)] = [:]
 
+    private var mostRecentUnitsync: UnitsyncWrapper? {
+        return engineVersions.sorted(by: { $0.version > $1.version }).first?.unitsyncWrapper
+    }
+
     // MARK: - Lifecycle
 
-    func loadLocalResources() {
-        queue.async {
-            self._loadLocalResources()
+    func refresh() {
+        queue.sync {
+            for engineVersion in engineVersions {
+                engineVersion.unitsyncWrapper.refresh()
+            }
         }
     }
 
-    private func _loadLocalResources() {
+    /// Must be called after
+    func loadMaps() {
+        queue.sync {
+            self._loadMaps()
+        }
+    }
+    func loadGames() {
+        queue.async {
+            self._loadGames()
+        }
+    }
+    /// Searches for downloaded engines, and identifies their unitsync libraries.
+    ///
+    /// This function must be called before `loadGames()` or `loadMaps()` for either of them to be successful.
+    func loadEngines() {
+        queue.async {
+            self.autodetectSpringVersions()
+        }
+    }
 
-        autodetectSpringVersions()
-
-        engineVersions.sort(by: { $0.version > $1.version })
-        guard let mostRecentUnitsync = engineVersions.first?.unitsyncWrapper else {
+    private func _loadGames() {
+        guard let mostRecentUnitsync = mostRecentUnitsync else {
             return
         }
+
+        // Wipe previous cache
+        games = []
+
+        // A mapCount of -1 indicates an error in unitsync, and 0 indicates there are no maps to load.
         let gameCount = mostRecentUnitsync.gameCount
-        // A gameCount of -1 indicates an error; 0 would also crash, so we'll mask that out too
-        if gameCount > 0 {
-            for index in 0..<gameCount {
-                //            let gameName = mostRecentUnitsync.mod(at: index)
-                let checksum = mostRecentUnitsync.gameChecksum(at: index)
-                print(mostRecentUnitsync.gameInfo(at: index))
-                //            games.append(Game(
-                //                name: gameName,
-                //                checksum: checksum
-                //            ))
-            }
+        guard gameCount > 0 else {
+            return
         }
 
-        let mapCount = mostRecentUnitsync.mapCount
-        // As above with the gameCount
-        if mapCount > 0 {
-            for index in 0..<mostRecentUnitsync.mapCount {
-                let mapName = mostRecentUnitsync.mapName(at: index)
-                let checksum = mostRecentUnitsync.mapChecksum(at: index)
-                let description = mostRecentUnitsync.mapDescription(at: index)
-                let width = mostRecentUnitsync.mapWidth(at: index)
-                let height = mostRecentUnitsync.mapHeight(at: index)
-                maps.append(Map(
-                    name: mapName,
-                    checksum: checksum,
-                    description: description,
-                    width: width,
-                    height: height
-                ))
-            }
+        for index in 0..<gameCount {
+//            let gameName = mostRecentUnitsync.mod(at: index)
+            let checksum = mostRecentUnitsync.gameChecksum(at: index)
+            print(mostRecentUnitsync.gameInfo(at: index))
+//            games.append(Game(
+//                name: gameName,
+//                checksum: checksum
+//            ))
         }
+
+        print("\(Date()): Loaded Games!")
     }
 
+    private func _loadMaps() {
+        guard let mostRecentUnitsync = mostRecentUnitsync else {
+            return
+        }
+
+        // Wipe previous cache
+        maps = []
+
+        // A mapCount of -1 indicates an error in unitsync, and 0 indicates there are no maps to load.
+        let mapCount = mostRecentUnitsync.mapCount
+        guard mapCount > 0 else {
+            return
+        }
+
+        for index in 0..<mapCount {
+//            print("\(Date()): Loading map \(index + 1)")
+            let mapName = mostRecentUnitsync.mapName(at: index)
+            let checksum = mostRecentUnitsync.mapChecksum(at: index)
+//            let description = mostRecentUnitsync.mapDescription(at: index)
+//            let width = mostRecentUnitsync.mapWidth(at: index)
+//            let height = mostRecentUnitsync.mapHeight(at: index)
+            maps.append(Map(
+                name: mapName,
+                checksum: checksum,
+//                description: description,
+                width: 1,//width,
+                height: 1//height
+            ))
+        }
+        print("\(Date()): Done!")
+    }
+
+    /// Attempts to auto-detect spring versions in common directories by attempting to initialise unitsync on their contents.
     private func autodetectSpringVersions() {
         let fileManager = FileManager.default
         let allApplicationURLs =
@@ -86,6 +130,7 @@ final class LocalResourceManager {
                 }
             }
         }
+        print("\(Date()): Loaded Engines!")
     }
 
     // MARK: - Retrieving data
@@ -131,7 +176,7 @@ struct Game {
 struct Map {
     let name: String
     let checksum: Int32
-    let description: String
+//    let description: String
 
     let width: Int
     let height: Int

@@ -83,6 +83,7 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
 		logViewController.itemViewProvider = DefaultMessageListItemViewProvider(list: channel.messageList)
         logViewController.sections.forEach(logViewController.removeSection(_:))
         logViewController.addSection(channel.messageList)
+        logViewController.shouldDisplaySectionHeaders = false
         title = channel.title
         self.channel = channel
     }

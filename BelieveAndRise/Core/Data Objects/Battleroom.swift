@@ -53,7 +53,11 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
     let resourceManager: ResourceManager
 
-    weak var spectatorListDisplay: ListDisplay?
+    weak var spectatorListDisplay: ListDisplay? {
+        didSet {
+            spectatorListDisplay?.addSection(spectatorList)
+        }
+    }
     weak var allyTeamListDisplay: ListDisplay?
 
     weak var minimapDisplay: MinimapDisplay?
@@ -96,6 +100,10 @@ final class Battleroom: BattleDelegate, ListDelegate {
                     addUser(identifiedBy: id, toAllyTeam: newUserStatus.allyNumber)
                 }
             }
+        } else if newUserStatus.isSpectator {
+            spectatorList.addItemFromParent(id: id)
+        } else {
+            addUser(identifiedBy: id, toAllyTeam: newUserStatus.allyNumber)
         }
         userStatuses[id] = newUserStatus
 
@@ -126,7 +134,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
     }
 
     private func updateAllyNumber(_ userStatus: UserStatus, forUserIdentifiedBy id: Int) {
-
+        #warning("TODO")
     }
 
     func addStartRect(_ rect: CGRect, for allyTeam: Int) {
@@ -142,17 +150,39 @@ final class Battleroom: BattleDelegate, ListDelegate {
     // MARK: - Map
 
     func mapDidUpdate(to map: Battle.Map) {
-        if let (mapInfo, _, _) = resourceManager.infoForMap(named: map.name, preferredChecksum: map.hash, preferredEngineVersion: battle.engineVersion) {
+        if let (mapInfo, checksumMatch, _) = resourceManager.infoForMap(named: map.name, preferredChecksum: map.hash, preferredEngineVersion: battle.engineVersion) {
+            if !checksumMatch {
+                debugOnlyPrint("Warning: Map checksums do not match.")
+            }
             resourceManager.loadMinimapData(forMapNamed: map.name, mipLevels: Range(0...5)) { [weak self] result in
-                guard let (imageData, dimension) = result else {
-                    self?.minimapDisplay?.displayMapUnknown()
+                guard let self = self,
+                    let minimapDisplay = self.minimapDisplay else {
                     return
                 }
-                self?.minimapDisplay?.displayMap(imageData, dimension: dimension, realWidth: mapInfo.width, realHeight: mapInfo.height)
+                guard let (imageData, dimension) = result else {
+                    minimapDisplay.displayMapUnknown()
+                    return
+                }
+                minimapDisplay.displayMap(imageData, dimension: dimension, realWidth: mapInfo.width, realHeight: mapInfo.height)
+                minimapDisplay.removeAllStartRects()
+                self.startRects.forEach({
+                    minimapDisplay.addStartRect($0.value, for: $0.key)
+                })
+
             }
             minimapDisplay?.displayMap([0], dimension: 1, realWidth: mapInfo.width, realHeight: mapInfo.height)
         } else {
             minimapDisplay?.displayMapUnknown()
+            resourceManager.download(.map(name: map.name), completionHandler: { [weak self] successful in
+                guard let self = self else {
+                    return
+                }
+                if successful {
+                    self.mapDidUpdate(to: map)
+                } else {
+                    print("Unsuccessful download of map \(map.name)")
+                }
+            })
         }
     }
 
@@ -180,12 +210,12 @@ final class Battleroom: BattleDelegate, ListDelegate {
 	}
 
     deinit {
-        spectatorList.sortedItemsByID.forEach(spectatorList.removeItem(withID:))
+        spectatorListDisplay?.removeSection(spectatorList)
         if let minimapDisplay = minimapDisplay {
             allyTeamLists.map({ $0.key }).forEach(minimapDisplay.removeStartRect(for:))
         }
         allyTeamLists.map({ $0.value }).forEach({ list in
-            list.sortedItemsByID.forEach(list.removeItem(withID:))
+            allyTeamListDisplay?.removeSection(list)
         })
     }
 

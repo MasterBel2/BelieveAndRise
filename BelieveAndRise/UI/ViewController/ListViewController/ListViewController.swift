@@ -175,7 +175,7 @@ class ListViewController: NSViewController,
 
     func removeSection(_ list: ListProtocol) {
         executeOnMain(target: self) {
-            let sectionBegin = $0.offset(forSectionNamed: list.title)
+            let sectionBegin = $0.offset(forSectionNamed: list.title) - ($0.shouldDisplaySectionHeaders ? 1 : 0)
             let sectionEnd = sectionBegin + list.itemCount + ($0.shouldDisplaySectionHeaders ? 1 : 0)
             $0.sections = $0.sections.filter({ $0 !== list })
             $0.tableView.removeRows(
@@ -185,11 +185,13 @@ class ListViewController: NSViewController,
         }
     }
 
-	/// Calculates the offset for the first item in the section, such that the first item is at offset `offset`, the second at `offset + 1`, and the section header at `offset - 1`.
+    /// Calculates the offset for the first item in the section, such that the first item is at offset `offset`, the second at `offset + 1`, and the section header (if it should be displayed) at `offset - 1`.
     private func offset(forSectionNamed sectionName: String) -> Int {
         var count = 0
         for section in sections {
-            count += 1
+            if shouldDisplaySectionHeaders {
+                count += 1
+            }
             if section.title == sectionName {
                 return count
             }
@@ -207,7 +209,9 @@ class ListViewController: NSViewController,
             viewController.rows.insert(.item(id), at: sectionOffset + index)
             viewController.tableView.insertRows(at: IndexSet(integer: sectionOffset + index), withAnimation: .effectFade)
 
-            viewController.rows[sectionOffset - 1] = .header("\(list.itemCount) " + list.title)
+            if shouldDisplaySectionHeaders, shouldDisplayRowCountInHeader {
+                viewController.rows[sectionOffset - 1] = .header("\(list.itemCount) " + list.title)
+            }
         }
     }
 

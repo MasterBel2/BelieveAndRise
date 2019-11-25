@@ -9,9 +9,17 @@
 import Cocoa
 
 protocol MinimapDisplay: AnyObject {
+    /// Draws a start rect overlay on the minimap for the specified allyteam.
     func addStartRect(_ rect: CGRect, for allyTeam: Int)
+    /// Removes the start rect coresponding to the specified ally team.
     func removeStartRect(for allyTeam: Int)
+    /// Removes all start rects that have been displayed.
+    func removeAllStartRects()
+
+    /// Displays an image in place of the map, indicating the minimap cannot be loaded for the specified map (likely because the map
+    /// has not yet been downloaded).
     func displayMapUnknown()
+    /// Displays a minimap with the given image dimension, and the given map dimensions.
     func displayMap(_ imageData: [UInt16], dimension: Int, realWidth: Int, realHeight: Int)
 }
 
@@ -19,7 +27,7 @@ final class MinimapView: NSImageView, MinimapDisplay {
 
     // MARK: - View Components
 
-    private(set) var startRects: [Int : NSView] = [:]
+    private var startRects: [Int : NSView] = [:]
 
     // MARK: - Properties
 
@@ -31,7 +39,6 @@ final class MinimapView: NSImageView, MinimapDisplay {
                 return
             }
             map.image.size = mapRect(for: map).size
-            startRects = [:]
             image = map.image
         }
     }
@@ -58,9 +65,13 @@ final class MinimapView: NSImageView, MinimapDisplay {
         }
     }
 
-    func _addStartRect(_ rect: CGRect, for allyTeam: Int) {
+    private func _addStartRect(_ rect: CGRect, for allyTeam: Int) {
         guard let map = map else {
             return
+        }
+
+        if startRects[allyTeam] != nil {
+            _removeStartRect(for: allyTeam)
         }
 
         let mapRect = self.mapRect(for: map)
@@ -80,10 +91,27 @@ final class MinimapView: NSImageView, MinimapDisplay {
 
     func removeStartRect(for allyTeam: Int) {
         executeOnMain(target: self) {
-            if let view = $0.startRects[allyTeam] {
-                view.removeFromSuperview()
-                $0.startRects[allyTeam] = nil
-            }
+            $0._removeStartRect(for: allyTeam)
+        }
+    }
+
+    private func _removeStartRect(for allyTeam: Int) {
+        if let view = startRects[allyTeam] {
+            view.removeFromSuperview()
+            startRects[allyTeam] = nil
+        }
+    }
+
+    func removeAllStartRects() {
+        executeOnMain(target: self) {
+            $0._removeAllStartRects()
+        }
+    }
+
+    private func _removeAllStartRects() {
+        for (key, value) in startRects {
+            value.removeFromSuperview()
+            startRects[key] = nil
         }
     }
 
@@ -93,6 +121,8 @@ final class MinimapView: NSImageView, MinimapDisplay {
         }
     }
 
+    /// Converts image data into an image and displays a new map with the given aspect ratio. If image generation fails, the view
+    /// assumes a "map unknown" state
     func displayMap(_ imageData: [UInt16], dimension: Int, realWidth: Int, realHeight: Int) {
         executeOnMain(target: self) {
             guard let image = NSImage(rgb565Pixels: imageData, width: dimension, height: dimension) else {

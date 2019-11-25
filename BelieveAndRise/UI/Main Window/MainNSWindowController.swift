@@ -44,26 +44,26 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
      Displays a battleroom and configures it with the information that should be already populated
      */
     func displayBattleroom(_ battleroom: Battleroom) {
-        // Remove previous battleroom
-        if let battleroomViewController = battleroomViewController {
-            battleroomViewController.removeFromParent()
-            battleroomViewController.view.removeFromSuperview()
-            chatViewController.stackView.removeArrangedSubview(battleroomViewController.view)
-        }
 
         // Set up views
 
-        let battleroomViewController = BattleroomViewController()
-        battleroomViewController.battleroom = battleroom
-        chatViewController.addChild(battleroomViewController)
-        chatViewController.stackView.insertView(battleroomViewController.view, at: 0, in: .top)
-        chatViewController.setChannel(battleroom.channel)
+        if let battleroomViewController = self.battleroomViewController {
+            battleroomViewController.battleroom = battleroom
+        } else {
+            let battleroomViewController = BattleroomViewController()
+            battleroomViewController.battleroom = battleroom
+            chatViewController.addChild(battleroomViewController)
+            chatViewController.stackView.insertView(battleroomViewController.view, at: 0, in: .top)
+            self.battleroomViewController = battleroomViewController
+        }
 
         // Update data
 
+        chatViewController.setChannel(battleroom.channel)
+
         battleroom.mapDidUpdate(to: battleroom.battle.map)
         battleroom.startRects.forEach({
-            battleroomViewController.minimapView.addStartRect($0.value, for: $0.key)
+            battleroomViewController?.minimapView.addStartRect($0.value, for: $0.key)
         })
     }
 	
