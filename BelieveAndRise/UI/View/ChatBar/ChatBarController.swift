@@ -33,6 +33,18 @@ final class ChatBarController: NSViewController, ChatBarDelegate {
         self.chatBar = chatBar
     }
 
+    // MARK: - Interacting with the chat bar
+
+    // Enables the chat bar
+    func enableChatBar() {
+        chatBar.isEnabled = true
+    }
+
+    // Disables the chat bar
+    func disableChatBar() {
+        chatBar.isEnabled = false
+    }
+
     // MARK: - ChatBarDelegate
 
     func chatBar(_ chatBar: ChatBar, shouldSendMessage message: String) -> Bool {

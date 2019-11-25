@@ -48,6 +48,7 @@ class ListViewController: NSViewController,
             } else if shouldDisplayRowCountInHeader && !newValue {
                 sections.forEach({
                     let index = offset(forSectionNamed: $0.title) - 1
+                    #warning("Crashes here")
                     rows.remove(at: index)
                     if isViewLoaded {
                         tableView.removeRows(at: IndexSet(integer: 0), withAnimation: .effectFade)

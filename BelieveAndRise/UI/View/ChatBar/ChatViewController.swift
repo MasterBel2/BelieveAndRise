@@ -24,13 +24,20 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
 
     // MARK: - Configuration
 
-    func setChannel(_ channel: Channel) {
+    func setChannel(_ channel: Channel?) {
+        self.channel = channel
+
+        guard let channel = channel else {
+            chatBarController.disableChatBar()
+            return
+        }
+
+        chatBarController.enableChatBar()
 		logViewController.itemViewProvider = DefaultMessageListItemViewProvider(list: channel.messageList)
         logViewController.sections.forEach(logViewController.removeSection(_:))
         logViewController.addSection(channel.messageList)
         logViewController.shouldDisplaySectionHeaders = false
         title = channel.title
-        self.channel = channel
     }
 
     // MARK: - Lifecycle
@@ -38,7 +45,11 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Appearance
+
         view.backgroundColor = .white
+
+        // View components
 
         addChild(logViewController)
         stackView.addArrangedSubview(logViewController.view)
@@ -47,6 +58,10 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
         stackView.addArrangedSubview(chatBarController.view)
 		
 		chatBarController.delegate = self
+
+        // Data
+
+        setChannel(channel)
     }
 
     // MARK: - ChatBarControllerDelegate
