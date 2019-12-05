@@ -311,10 +311,17 @@ struct SCSaidCommand: SCCommand {
 
     func execute(on connection: Connection) {
 		let channelID = connection.id(forChannelnamed: channelName)
-		guard let channel = connection.channelList.items[channelID] else {
+		guard let channel = connection.channelList.items[channelID],
+            let userID = connection.id(forPlayerNamed: username) else {
 				return
 		}
-        channel.receivedNewMessage(ChatMessage(time: Date(), sender: username, content: message, isIRCStyle: false))
+        channel.receivedNewMessage(ChatMessage(
+            time: Date(),
+            senderID: userID,
+            senderName: username,
+            content: message,
+            isIRCStyle: false
+        ))
     }
 }
 
@@ -387,10 +394,17 @@ struct SCSaidExCommand: SCCommand {
 
     func execute(on connection: Connection) {
 		let channelID = connection.id(forChannelnamed: channelName)
-        guard let channel = connection.channelList.items[channelID] else {
+        guard let channel = connection.channelList.items[channelID],
+            let senderID = connection.id(forPlayerNamed: username) else {
             return
         }
-        channel.receivedNewMessage(ChatMessage(time: Date(), sender: username, content: message, isIRCStyle: true))
+        channel.receivedNewMessage(ChatMessage(
+            time: Date(),
+            senderID: senderID,
+            senderName: username,
+            content: message,
+            isIRCStyle: true
+        ))
     }
 }
 

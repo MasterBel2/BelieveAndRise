@@ -11,15 +11,19 @@ import Foundation
 /// A chat message received from another client in a channel or private message.
 class ChatMessage: Sortable {
 
-    init(time: Date, sender: String, content: String, isIRCStyle: Bool) {
+    init(time: Date, senderID: Int, senderName: String, content: String, isIRCStyle: Bool) {
         self.time = time
-        self.sender = sender
+        self.senderID = senderID
         self.content = content
         self.isIRCStyle = isIRCStyle
+        self.senderName = senderName
     }
 
     let time: Date
-    let sender: String
+    /// UserID of the message sender.
+    let senderID: Int
+    /// Username of the sender. Used as a fallback when a user disconnects.
+    let senderName: String
     let content: String
     let isIRCStyle: Bool
 

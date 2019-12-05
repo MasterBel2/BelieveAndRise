@@ -18,18 +18,25 @@ protocol BattleroomGameInfoDisplay: AnyObject {
     func removeCustomisedGameOption(_ option: String)
 }
 
-protocol BattleroomDisplay: MinimapDisplay, BattleroomGameInfoDisplay, BattleroomMapInfoDisplay {
-
+protocol BattleroomDisplay: AnyObject {
+    /// Notifies the display of the host's and user's updated in-game states.
+    func display(isHostIngame: Bool, isPlayerIngame: Bool)
+    /// Notifiies the display that a new team was added.
+    func addedTeam(named teamName: String)
+    /// Notifies the display that a team was removed.
+    func removedTeam(named teamName: String)
 }
 
 final class Battleroom: BattleDelegate, ListDelegate {
 
     // MARK: - Data
 
+    /// The battleroom's associated battle.
     let battle: Battle
+    /// The battleroom's associated channel.
     let channel: Channel
 
-    var allyTeamLists: [Int : List<User>] = [:]
+    private(set) var allyTeamLists: [Int : List<User>] = [:]
     let spectatorList: List<User>
     var bots: [Bot] = []
 
@@ -58,59 +65,78 @@ final class Battleroom: BattleDelegate, ListDelegate {
             spectatorListDisplay?.addSection(spectatorList)
         }
     }
+
+    // MARK: - Displays
+
     weak var allyTeamListDisplay: ListDisplay?
 
     weak var minimapDisplay: MinimapDisplay?
     weak var mapInfoDisplay: BattleroomMapInfoDisplay?
     weak var gameInfoDisplay: BattleroomGameInfoDisplay?
+    weak var generalDisplay: BattleroomDisplay?
 
     // MARK: - Player information
 
-    private let myID: Int
-    private let scriptPassword: Int
+    let myID: Int
 
     var myBattleStatus: Battleroom.UserStatus {
         return userStatuses[myID] ?? UserStatus.default
     }
 
     var myColor: Int32 {
-        return colors[myID] ?? Int32(myID) & 0x00FFFFFF
+        return colors[myID] ?? Int32(myID.hashValue & 0x00FFFFFF)
+    }
+    /// Whether the player is ingame.
+    private var isPlayerIngame: Bool {
+        return battle.userList.items[myID]?.status.isIngame ?? false
+    }
+
+    /// Whether the host is ingame.
+    private var isHostIngame: Bool {
+        return battle.userList.items[battle.founderID]?.status.isIngame ?? false
     }
 
     // MARK: - Updates
 
+    func displayIngameStatus() {
+        generalDisplay?.display(isHostIngame: isHostIngame, isPlayerIngame: isPlayerIngame)
+    }
+
     /// Sets the status for a user, as specified by their ID. 
-    func setUserStatus(_ newUserStatus: UserStatus, forUserIdentifiedBy id: Int) {
+    func setUserStatus(_ newUserStatus: UserStatus, forUserIdentifiedBy userID: Int) {
         // Ally/spectator
-        if let previousUserStatus = userStatuses[id] {
+        if let previousUserStatus = userStatuses[userID] {
             if !previousUserStatus.isSpectator {
                 if newUserStatus.isSpectator {
                     // !isSpectator -> isSpectator
-                    removeUser(identifiedBy: id, fromAllyTeam: previousUserStatus.allyNumber)
-                    spectatorList.addItemFromParent(id: id)
+                    removeUser(identifiedBy: userID, fromAllyTeam: previousUserStatus.allyNumber)
+                    spectatorList.addItemFromParent(id: userID)
                 } else if previousUserStatus.allyNumber != newUserStatus.allyNumber {
                     // !wasSpectator && allyTeam != allyTeam
-                    removeUser(identifiedBy: id, fromAllyTeam: previousUserStatus.allyNumber)
-                    addUser(identifiedBy: id, toAllyTeam: newUserStatus.allyNumber)
+                    removeUser(identifiedBy: userID, fromAllyTeam: previousUserStatus.allyNumber)
+                    addUser(identifiedBy: userID, toAllyTeam: newUserStatus.allyNumber)
                 }
             } else {
                 if !newUserStatus.isSpectator {
                     // wasSpectator -> allyteam
-                    spectatorList.removeItem(withID: id)
-                    addUser(identifiedBy: id, toAllyTeam: newUserStatus.allyNumber)
+                    spectatorList.removeItem(withID: userID)
+                    addUser(identifiedBy: userID, toAllyTeam: newUserStatus.allyNumber)
                 }
             }
         } else if newUserStatus.isSpectator {
-            spectatorList.addItemFromParent(id: id)
+            spectatorList.addItemFromParent(id: userID)
         } else {
-            addUser(identifiedBy: id, toAllyTeam: newUserStatus.allyNumber)
+            addUser(identifiedBy: userID, toAllyTeam: newUserStatus.allyNumber)
         }
-        userStatuses[id] = newUserStatus
+
+        // Update the data
+        userStatuses[userID] = newUserStatus
 
         // Update the view
-        battle.userList.respondToUpdatesOnItem(identifiedBy: id)
+        battle.userList.respondToUpdatesOnItem(identifiedBy: userID)
     }
 
+    /// Adds a user to an allyteam, creating a new list if one was not already created.
     private func addUser(identifiedBy id: Int, toAllyTeam allyTeam: Int) {
         if let allyTeamList = allyTeamLists[allyTeam] {
             allyTeamList.addItemFromParent(id: id)
@@ -119,9 +145,13 @@ final class Battleroom: BattleDelegate, ListDelegate {
             allyTeamList.addItemFromParent(id: id)
             allyTeamListDisplay?.addSection(allyTeamList)
             allyTeamLists[allyTeam] = allyTeamList
+
+            generalDisplay?.addedTeam(named: String(allyTeam))
         }
     }
 
+    /// Removes the specified user from the specified allyteam, removing the allyteam from the list if there are no longer any players in
+    /// the allyteam
     private func removeUser(identifiedBy id: Int, fromAllyTeam allyTeam: Int) {
         guard let allyTeamList = allyTeamLists[allyTeam] else {
             return
@@ -133,15 +163,13 @@ final class Battleroom: BattleDelegate, ListDelegate {
         }
     }
 
-    private func updateAllyNumber(_ userStatus: UserStatus, forUserIdentifiedBy id: Int) {
-        #warning("TODO")
-    }
-
+    /// Adds a start rect.
     func addStartRect(_ rect: CGRect, for allyTeam: Int) {
         startRects[allyTeam] = rect
         minimapDisplay?.addStartRect(rect, for: allyTeam)
     }
 
+    /// Removes a start rect.
     func removeStartRect(for allyTeam: Int) {
         startRects.removeValue(forKey: allyTeam)
         minimapDisplay?.removeStartRect(for: allyTeam)
@@ -149,6 +177,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
     // MARK: - Map
 
+    /// Updates sync status, and loads minimap if the map is found.
     func mapDidUpdate(to map: Battle.Map) {
         if let (mapInfo, checksumMatch, _) = resourceManager.infoForMap(named: map.name, preferredChecksum: map.hash, preferredEngineVersion: battle.engineVersion) {
             if !checksumMatch {
@@ -187,13 +216,18 @@ final class Battleroom: BattleDelegate, ListDelegate {
     }
 
     // MARK: - ListDelegate
+    // The Battleroom is the delegate of the battle's userlist. Updates happen there.
 
     func list(_ list: ListProtocol, didAddItemWithID id: Int, at index: Int) {}
 
     func list(_ list: ListProtocol, didMoveItemFrom index1: Int, to index2: Int) {}
 
     func list(_ list: ListProtocol, didRemoveItemAt index: Int) {}
-    func list(_ list: ListProtocol, itemWasUpdatedAt index: Int) {}
+    func list(_ list: ListProtocol, itemWasUpdatedAt index: Int) {
+        if list.sortedItemsByID[index] == myID {
+            displayIngameStatus()
+        }
+    }
 
     // MARK: - Lifecycle
 	
@@ -204,9 +238,9 @@ final class Battleroom: BattleDelegate, ListDelegate {
         spectatorList = List<User>(title: "Spectators", sortKey: .rank, parent: battle.userList)
         self.resourceManager = resourceManager
         self.myID = 0
-        self.scriptPassword = myID.hashValue
 
         battle.delegate = self
+        battle.userList.delegate = self
 	}
 
     deinit {
@@ -221,7 +255,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
     // MARK: - Nested Types
 	
-	class Bot {
+	final class Bot {
 		let name: String
 		let owner: User
 		var status: UserStatus

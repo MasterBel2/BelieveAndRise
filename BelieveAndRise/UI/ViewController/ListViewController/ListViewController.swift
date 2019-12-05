@@ -35,9 +35,10 @@ class ListViewController: NSViewController,
     /// Determines whether the content rows should be selectable.
     var displaysSelectableContent: Bool = true
 
+    /// Whether cells should be displayed for the section headers. Automatically updates the table view on a value update.
     var shouldDisplaySectionHeaders: Bool = true {
         willSet {
-            if !shouldDisplayRowCountInHeader && newValue {
+            if !shouldDisplaySectionHeaders && newValue {
                 sections.reversed().forEach({
                     let index = offset(forSectionNamed: $0.title)
                     rows.insert(.header($0.title), at: index)
@@ -45,10 +46,9 @@ class ListViewController: NSViewController,
                         tableView.insertRows(at: IndexSet(integer: 0), withAnimation: .effectFade)
                     }
                 })
-            } else if shouldDisplayRowCountInHeader && !newValue {
+            } else if shouldDisplaySectionHeaders && !newValue {
                 sections.forEach({
                     let index = offset(forSectionNamed: $0.title) - 1
-                    #warning("Crashes here")
                     rows.remove(at: index)
                     if isViewLoaded {
                         tableView.removeRows(at: IndexSet(integer: 0), withAnimation: .effectFade)
@@ -58,6 +58,8 @@ class ListViewController: NSViewController,
         }
     }
 
+    /// Whether header cells are displayed with the the number of rows in the section prefixed to the section title. Has no effect when
+    /// `shouldDisplaySectionHeaders == false`.
     var shouldDisplayRowCountInHeader: Bool = true {
         didSet {
             if isViewLoaded && shouldDisplaySectionHeaders {

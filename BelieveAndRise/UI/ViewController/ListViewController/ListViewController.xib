@@ -37,7 +37,7 @@
                                         <tableColumns>
                                             <tableColumn width="477" minWidth="40" maxWidth="1000" id="PbB-6e-eVY">
                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                    <font key="font" metaFont="palette"/>
+                                                    <font key="font" metaFont="message" size="11"/>
                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                 </tableHeaderCell>
@@ -73,6 +73,7 @@
                                 </subviews>
                                 <nil key="backgroundColor"/>
                             </clipView>
+                            <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                             <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="IrZ-GF-bgI">
                                 <rect key="frame" x="-100" y="-100" width="223" height="15"/>
                                 <autoresizingMask key="autoresizingMask"/>

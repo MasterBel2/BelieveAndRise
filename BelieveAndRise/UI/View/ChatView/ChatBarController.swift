@@ -18,6 +18,28 @@ final class ChatBarController: NSViewController, ChatBarDelegate {
 	
 	weak var delegate: ChatBarControllerDelegate?
 
+    /**
+     whether the chat bar is enabled.
+
+     Don't retrieve this value directly; use `isChatBarEnabled`.
+     */
+    private var _isChatBarEnabled = true {
+        didSet {
+            if isViewLoaded {
+                chatBar.isEnabled = isChatBarEnabled
+            }
+        }
+    }
+
+    var isChatBarEnabled: Bool {
+        set {
+            _isChatBarEnabled = newValue
+        }
+        get {
+            return isViewLoaded ? chatBar.isEnabled : _isChatBarEnabled
+        }
+    }
+
     // MARK: - Interface
 
     /// The view controller's chat bar. Set in loadView
@@ -29,20 +51,9 @@ final class ChatBarController: NSViewController, ChatBarDelegate {
     override func loadView() {
         let chatBar = ChatBar.loadFromNib()
         chatBar.delegate = self
+        chatBar.isEnabled = isChatBarEnabled
         view = chatBar
         self.chatBar = chatBar
-    }
-
-    // MARK: - Interacting with the chat bar
-
-    // Enables the chat bar
-    func enableChatBar() {
-        chatBar.isEnabled = true
-    }
-
-    // Disables the chat bar
-    func disableChatBar() {
-        chatBar.isEnabled = false
     }
 
     // MARK: - ChatBarDelegate

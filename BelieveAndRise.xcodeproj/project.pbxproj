@@ -35,8 +35,6 @@
 		3E77162B22C17A4600B8C6C0 /* IconLoading+NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E77162A22C17A4500B8C6C0 /* IconLoading+NSImage.swift */; };
 		3E77162D22C180F700B8C6C0 /* TableSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */; };
 		3E7F3D332319DBA60012A743 /* Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F3D322319DBA60012A743 /* Sortable.swift */; };
-		3E86E054237AFF6A0032BCBF /* BattleroomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E86E052237AFF6A0032BCBF /* BattleroomViewController.swift */; };
-		3E86E055237AFF6A0032BCBF /* BattleroomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E86E053237AFF6A0032BCBF /* BattleroomViewController.xib */; };
 		3E86E057237B087B0032BCBF /* StartRectOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E86E056237B087B0032BCBF /* StartRectOverlayView.swift */; };
 		3E86E059237B08840032BCBF /* StartRectOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E86E058237B08840032BCBF /* StartRectOverlayView.xib */; };
 		3E93BB9C237B86A1009036E7 /* BattleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E93BB9B237B86A1009036E7 /* BattleController.swift */; };
@@ -49,6 +47,8 @@
 		3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5912F22C1A75600103CDE /* Data+Base64.swift */; };
 		3EB5913222C1AA6E00103CDE /* Battlelist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5913122C1AA6E00103CDE /* Battlelist.swift */; };
 		3EF20F7422F825D10005650E /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EF20F7322F825D10005650E /* ListViewController.xib */; };
+		6B08BD7723927AF6001F9C3F /* ExtendedChatMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B08BD7623927AF6001F9C3F /* ExtendedChatMessageView.swift */; };
+		6B08BD7923927B05001F9C3F /* ExtendedChatMessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B08BD7823927B05001F9C3F /* ExtendedChatMessageView.xib */; };
 		6B2C64D0232517930017A1BC /* ChatBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2C64CF232517930017A1BC /* ChatBar.swift */; };
 		6B2C64D2232517A00017A1BC /* ChatBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B2C64D1232517A00017A1BC /* ChatBar.xib */; };
 		6B30FB4B237D72F700A893C8 /* NSImage+RGB565.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B30FB4A237D72F700A893C8 /* NSImage+RGB565.swift */; };
@@ -56,6 +56,8 @@
 		6B30FB4F237D73D600A893C8 /* MinimapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B30FB4E237D73D600A893C8 /* MinimapView.swift */; };
 		6B3D83A02324C41A00CE04BB /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3D839F2324C41A00CE04BB /* Connection.swift */; };
 		6B3D83A22324C43100CE04BB /* ConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3D83A12324C43100CE04BB /* ConnectionController.swift */; };
+		6B4266022391FA3E00AB46A2 /* BattleroomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4266002391FA3E00AB46A2 /* BattleroomViewController.swift */; };
+		6B4266032391FA3E00AB46A2 /* BattleroomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B4266012391FA3E00AB46A2 /* BattleroomViewController.xib */; };
 		6B4F07692321151800B52C7E /* MainNSWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F07672321151800B52C7E /* MainNSWindowController.swift */; };
 		6B4F076A2321151800B52C7E /* MainNSWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B4F07682321151800B52C7E /* MainNSWindowController.xib */; };
 		6B5A333A23863A7800A32433 /* ArrayDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A333923863A7800A32433 /* ArrayDownloader.swift */; };
@@ -71,6 +73,7 @@
 		6B7C82D722D9489A0031F9C9 /* UserAuthenticationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */; };
 		6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82D822D948A50031F9C9 /* UserAuthenticationController.swift */; };
 		6B815EF12313C99A000FD850 /* ServerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B815EF02313C99A000FD850 /* ServerController.swift */; };
+		6B898F152398BE0D002AC64B /* GameTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B898F142398BE0D002AC64B /* GameTypes.swift */; };
 		6BAE46BF2379A7FD0065CD53 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAE46BE2379A7FD0065CD53 /* File.swift */; };
 		6BAE46C52379A8C70065CD53 /* GenericList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAE46C42379A8C70065CD53 /* GenericList.swift */; };
 		6BBF44A2238B64E10076B656 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF44A1238B64E10076B656 /* ChatController.swift */; };
@@ -90,7 +93,12 @@
 		6BE441532326A63500951B49 /* MOTDCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414B2326A63500951B49 /* MOTDCommand.swift */; };
 		6BE441542326A63500951B49 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414C2326A63500951B49 /* Command.swift */; };
 		6BE441552326A63500951B49 /* Clients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414D2326A63500951B49 /* Clients.swift */; };
+		6BF044CA2391F50D008CCE3C /* BattleroomHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */; };
+		6BF044CC2391F518008CCE3C /* BattleroomHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BF044CB2391F518008CCE3C /* BattleroomHeaderView.xib */; };
 		6BF48DB8232B9BA7006411BB /* BattlelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF48DB7232B9BA7006411BB /* BattlelistViewController.swift */; };
+		6BF65C972397A9CB00D85DDE /* SpringProcessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */; };
+		6BF65C992397AAB300D85DDE /* LaunchScriptWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF65C982397AAB300D85DDE /* LaunchScriptWriter.swift */; };
+		6BF65C9B2397BBAD00D85DDE /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF65C9A2397BBAD00D85DDE /* CountryCode.swift */; };
 		6BF85C63237C648900A19493 /* Array+MoveItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C62237C648900A19493 /* Array+MoveItem.swift */; };
 		6BF85C65237C68EB00A19493 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C64237C68EB00A19493 /* ChatMessage.swift */; };
 		6BF85C67237C691800A19493 /* ServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C66237C691700A19493 /* ServerError.swift */; };
@@ -156,8 +164,6 @@
 		3E77162A22C17A4500B8C6C0 /* IconLoading+NSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IconLoading+NSImage.swift"; sourceTree = "<group>"; };
 		3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableSectionHeaderView.xib; sourceTree = "<group>"; };
 		3E7F3D322319DBA60012A743 /* Sortable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sortable.swift; sourceTree = "<group>"; };
-		3E86E052237AFF6A0032BCBF /* BattleroomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleroomViewController.swift; sourceTree = "<group>"; };
-		3E86E053237AFF6A0032BCBF /* BattleroomViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattleroomViewController.xib; sourceTree = "<group>"; };
 		3E86E056237B087B0032BCBF /* StartRectOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRectOverlayView.swift; sourceTree = "<group>"; };
 		3E86E058237B08840032BCBF /* StartRectOverlayView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartRectOverlayView.xib; sourceTree = "<group>"; };
 		3E93BB9B237B86A1009036E7 /* BattleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleController.swift; sourceTree = "<group>"; };
@@ -171,6 +177,8 @@
 		3EB5912F22C1A75600103CDE /* Data+Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Base64.swift"; sourceTree = "<group>"; };
 		3EB5913122C1AA6E00103CDE /* Battlelist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battlelist.swift; sourceTree = "<group>"; };
 		3EF20F7322F825D10005650E /* ListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListViewController.xib; sourceTree = "<group>"; };
+		6B08BD7623927AF6001F9C3F /* ExtendedChatMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedChatMessageView.swift; sourceTree = "<group>"; };
+		6B08BD7823927B05001F9C3F /* ExtendedChatMessageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExtendedChatMessageView.xib; sourceTree = "<group>"; };
 		6B2C64CF232517930017A1BC /* ChatBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBar.swift; sourceTree = "<group>"; };
 		6B2C64D1232517A00017A1BC /* ChatBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatBar.xib; sourceTree = "<group>"; };
 		6B30FB4A237D72F700A893C8 /* NSImage+RGB565.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage+RGB565.swift"; sourceTree = "<group>"; };
@@ -178,6 +186,8 @@
 		6B30FB4E237D73D600A893C8 /* MinimapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimapView.swift; sourceTree = "<group>"; };
 		6B3D839F2324C41A00CE04BB /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		6B3D83A12324C43100CE04BB /* ConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionController.swift; sourceTree = "<group>"; };
+		6B4266002391FA3E00AB46A2 /* BattleroomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleroomViewController.swift; sourceTree = "<group>"; };
+		6B4266012391FA3E00AB46A2 /* BattleroomViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattleroomViewController.xib; sourceTree = "<group>"; };
 		6B4F07672321151800B52C7E /* MainNSWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNSWindowController.swift; sourceTree = "<group>"; };
 		6B4F07682321151800B52C7E /* MainNSWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainNSWindowController.xib; sourceTree = "<group>"; };
 		6B5A333923863A7800A32433 /* ArrayDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayDownloader.swift; sourceTree = "<group>"; };
@@ -192,6 +202,7 @@
 		6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserAuthenticationViewController.xib; sourceTree = "<group>"; };
 		6B7C82D822D948A50031F9C9 /* UserAuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationController.swift; sourceTree = "<group>"; };
 		6B815EF02313C99A000FD850 /* ServerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerController.swift; sourceTree = "<group>"; };
+		6B898F142398BE0D002AC64B /* GameTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTypes.swift; sourceTree = "<group>"; };
 		6BAE46BE2379A7FD0065CD53 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		6BAE46C42379A8C70065CD53 /* GenericList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericList.swift; sourceTree = "<group>"; };
 		6BBF44A1238B64E10076B656 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
@@ -211,7 +222,12 @@
 		6BE4414B2326A63500951B49 /* MOTDCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MOTDCommand.swift; sourceTree = "<group>"; };
 		6BE4414C2326A63500951B49 /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		6BE4414D2326A63500951B49 /* Clients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clients.swift; sourceTree = "<group>"; };
+		6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleroomHeaderView.swift; sourceTree = "<group>"; };
+		6BF044CB2391F518008CCE3C /* BattleroomHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattleroomHeaderView.xib; sourceTree = "<group>"; };
 		6BF48DB7232B9BA7006411BB /* BattlelistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlelistViewController.swift; sourceTree = "<group>"; };
+		6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringProcessController.swift; sourceTree = "<group>"; };
+		6BF65C982397AAB300D85DDE /* LaunchScriptWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScriptWriter.swift; sourceTree = "<group>"; };
+		6BF65C9A2397BBAD00D85DDE /* CountryCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		6BF85C62237C648900A19493 /* Array+MoveItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+MoveItem.swift"; sourceTree = "<group>"; };
 		6BF85C64237C68EB00A19493 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		6BF85C66237C691700A19493 /* ServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerError.swift; sourceTree = "<group>"; };
@@ -266,6 +282,7 @@
 		3E46332822C0C2D000AE0F2F = {
 			isa = PBXGroup;
 			children = (
+				6BF65C9A2397BBAD00D85DDE /* CountryCode.swift */,
 				3EB5912A22C1A71200103CDE /* BelieveAndRise-Bridging-Header.h */,
 				3E46333322C0C2D000AE0F2F /* BelieveAndRise */,
 				3E46334422C0C2D200AE0F2F /* BelieveAndRiseTests */,
@@ -289,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				3E46333422C0C2D000AE0F2F /* AppDelegate.swift */,
+				6B898F162398BE1C002AC64B /* Engine Interface */,
 				6BAE46C22379A8300065CD53 /* Utility */,
 				6BAE46C02379A80E0065CD53 /* Core */,
 				6BAE46C32379A8480065CD53 /* UI */,
@@ -335,15 +353,12 @@
 		3E46336B22C0C7CC00AE0F2F /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				3E86E052237AFF6A0032BCBF /* BattleroomViewController.swift */,
-				3E86E053237AFF6A0032BCBF /* BattleroomViewController.xib */,
-				3E86E056237B087B0032BCBF /* StartRectOverlayView.swift */,
-				3E86E058237B08840032BCBF /* StartRectOverlayView.xib */,
 				6B8C499E22DD240D00C59FFF /* UserAuthentication */,
 				6B8C499D22DD240000C59FFF /* ServerSelectionViewController */,
 				3E04709B22CD71B5005241E6 /* ListViewController */,
 				3E77162822C17A4000B8C6C0 /* IconLoading.swift */,
 				3E77162A22C17A4500B8C6C0 /* IconLoading+NSImage.swift */,
+				6B7BE5F2238E5D530039697A /* Battleroom */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -419,6 +434,39 @@
 				6BF85C74237C6DA000A19493 /* UnitsyncWrapper.swift */,
 			);
 			path = Local;
+			sourceTree = "<group>";
+		};
+		6B7BE5F2238E5D530039697A /* Battleroom */ = {
+			isa = PBXGroup;
+			children = (
+				6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */,
+				6BF044CB2391F518008CCE3C /* BattleroomHeaderView.xib */,
+				6B4266002391FA3E00AB46A2 /* BattleroomViewController.swift */,
+				6B4266012391FA3E00AB46A2 /* BattleroomViewController.xib */,
+				6B08BD7623927AF6001F9C3F /* ExtendedChatMessageView.swift */,
+				6B08BD7823927B05001F9C3F /* ExtendedChatMessageView.xib */,
+				6B7BE5F3238E5D710039697A /* Components */,
+			);
+			path = Battleroom;
+			sourceTree = "<group>";
+		};
+		6B7BE5F3238E5D710039697A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				3E86E056237B087B0032BCBF /* StartRectOverlayView.swift */,
+				3E86E058237B08840032BCBF /* StartRectOverlayView.xib */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		6B898F162398BE1C002AC64B /* Engine Interface */ = {
+			isa = PBXGroup;
+			children = (
+				6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */,
+				6B898F142398BE0D002AC64B /* GameTypes.swift */,
+				6BF65C982397AAB300D85DDE /* LaunchScriptWriter.swift */,
+			);
+			path = "Engine Interface";
 			sourceTree = "<group>";
 		};
 		6B8C499D22DD240000C59FFF /* ServerSelectionViewController */ = {
@@ -666,8 +714,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E86E055237AFF6A0032BCBF /* BattleroomViewController.xib in Resources */,
 				3E77162D22C180F700B8C6C0 /* TableSectionHeaderView.xib in Resources */,
+				6BF044CC2391F518008CCE3C /* BattleroomHeaderView.xib in Resources */,
+				6B4266032391FA3E00AB46A2 /* BattleroomViewController.xib in Resources */,
 				3E86E059237B08840032BCBF /* StartRectOverlayView.xib in Resources */,
 				6B2C64D2232517A00017A1BC /* ChatBar.xib in Resources */,
 				3E77162322C1762A00B8C6C0 /* SingleColumnTableColumnRowView.xib in Resources */,
@@ -676,6 +725,7 @@
 				6BE233B523269ACE0029425E /* ChatViewController.xib in Resources */,
 				3E46333722C0C2D200AE0F2F /* Assets.xcassets in Resources */,
 				6B7C82D122D88A600031F9C9 /* ServerSelectionViewController.xib in Resources */,
+				6B08BD7923927B05001F9C3F /* ExtendedChatMessageView.xib in Resources */,
 				3E46333A22C0C2D200AE0F2F /* MainMenu.xib in Resources */,
 				6B7C82D722D9489A0031F9C9 /* UserAuthenticationViewController.xib in Resources */,
 			);
@@ -703,6 +753,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EB5912922C1A6E200103CDE /* Socket.swift in Sources */,
+				6B898F152398BE0D002AC64B /* GameTypes.swift in Sources */,
 				6B30FB4B237D72F700A893C8 /* NSImage+RGB565.swift in Sources */,
 				3E98F86D237ACC6A00DD2999 /* Client Bridging.swift in Sources */,
 				6B30FB4D237D72FF00A893C8 /* UInt16+RGB.swift in Sources */,
@@ -710,6 +761,7 @@
 				6BE441452326A5E100951B49 /* CommandParsing.swift in Sources */,
 				3E2E50A822FB77CF00831EF8 /* WindowManager.swift in Sources */,
 				6BF85C77237C6DA100A19493 /* UnitsyncWrapper.swift in Sources */,
+				6BF65C9B2397BBAD00D85DDE /* CountryCode.swift in Sources */,
 				6BF85C63237C648900A19493 /* Array+MoveItem.swift in Sources */,
 				3E1A49D1237AA53200F549FF /* Things.swift in Sources */,
 				3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */,
@@ -736,9 +788,12 @@
 				6B5A334723863B5700A32433 /* SpringArchiveInfo.swift in Sources */,
 				6BE233B1232668E60029425E /* NSView+BackgroundColor.swift in Sources */,
 				3E2D1C2A22DD47CC008596E1 /* List.swift in Sources */,
+				6BF044CA2391F50D008CCE3C /* BattleroomHeaderView.swift in Sources */,
 				3EB5912522C1A24700103CDE /* TASServer.swift in Sources */,
 				6BAE46BF2379A7FD0065CD53 /* File.swift in Sources */,
 				3E04709F22CD71D3005241E6 /* ListViewControllerDataSource.swift in Sources */,
+				6B4266022391FA3E00AB46A2 /* BattleroomViewController.swift in Sources */,
+				6BF65C992397AAB300D85DDE /* LaunchScriptWriter.swift in Sources */,
 				3E1A49CF237A970600F549FF /* BattleCommands.swift in Sources */,
 				3E46335F22C0C2E000AE0F2F /* Battle.swift in Sources */,
 				6B815EF12313C99A000FD850 /* ServerController.swift in Sources */,
@@ -766,6 +821,7 @@
 				6BF48DB8232B9BA7006411BB /* BattlelistViewController.swift in Sources */,
 				3EB5913222C1AA6E00103CDE /* Battlelist.swift in Sources */,
 				3E46336122C0C2EB00AE0F2F /* User.swift in Sources */,
+				6BF65C972397A9CB00D85DDE /* SpringProcessController.swift in Sources */,
 				3E86E057237B087B0032BCBF /* StartRectOverlayView.swift in Sources */,
 				6BF85C6D237C6A7100A19493 /* ResourceManager.swift in Sources */,
 				6BC447402379E324006842DD /* Formatter.swift in Sources */,
@@ -774,10 +830,10 @@
 				6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */,
 				3E93BB9E237B9F50009036E7 /* ListSelectionHandler.swift in Sources */,
 				6B5A334323863B0F00A32433 /* RapidArchiveInfo.swift in Sources */,
+				6B08BD7723927AF6001F9C3F /* ExtendedChatMessageView.swift in Sources */,
 				6BE441502326A63500951B49 /* CommandHandler.swift in Sources */,
 				3E33C9D922C203B200C340F9 /* ListViewController.swift in Sources */,
 				6B7C82D022D88A600031F9C9 /* ServerSelectionViewController.swift in Sources */,
-				3E86E054237AFF6A0032BCBF /* BattleroomViewController.swift in Sources */,
 				6BE441532326A63500951B49 /* MOTDCommand.swift in Sources */,
 				3E77161F22C175A800B8C6C0 /* TableSectionHeaderView.swift in Sources */,
 			);

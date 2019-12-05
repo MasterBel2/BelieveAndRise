@@ -86,6 +86,7 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
 		windowController.primaryListDisplay.selectionHandler = DefaultBattleListSelectionHandler(battlelist: battleList, battleController: battleController)
 
 		windowController.setChatController(chatController)
+        windowController.setBattleController(battleController)
 		
 		self.server = server
 	}
@@ -140,7 +141,7 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
 
     func id(forPlayerNamed username: String) -> Int? {
         return userList.items.first { (_, user) in
-            return user.profile.username == username
+            return user.profile.fullUsername == username
         }?.key
     }
 	

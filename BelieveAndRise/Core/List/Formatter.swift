@@ -52,26 +52,77 @@ final class DefaultPlayerListItemViewProvider: ItemViewProvider {
             return nil
         }
         let view = SingleColumnTableColumnRowView.loadFromNib()
-        view.primaryLabel.stringValue = user.profile.username
+        view.primaryLabel.stringValue = user.profile.fullUsername
         view.secondaryLabel.stringValue = "\(user.status.rank)"
         return view
     }
 }
 
 final class DefaultMessageListItemViewProvider: ItemViewProvider {
-    let list: List<ChatMessage>
+    let messageList: List<ChatMessage>
+    let userlist: List<User>
 
-    init(list: List<ChatMessage>) {
-        self.list = list
+    init(messageList: List<ChatMessage>, userlist: List<User>) {
+        self.messageList = messageList
+        self.userlist = userlist
     }
 
     func view(forItemIdentifiedBy id: Int) -> NSView? {
-        guard let message = list.items[id] else {
+        guard let message = messageList.items[id],
+            let sender = userlist.items[message.senderID] else {
             return nil
         }
         let view = SingleColumnTableColumnRowView.loadFromNib()
-        view.primaryLabel.stringValue = message.sender
+        view.primaryLabel.stringValue = sender.profile.fullUsername
         view.secondaryLabel.stringValue = message.content
+        return view
+    }
+}
+
+final class BattleroomMessageListItemViewProvider: ItemViewProvider {
+    let list: List<ChatMessage>
+    let battleroom: Battleroom
+
+    init(list: List<ChatMessage>, battleroom: Battleroom) {
+        self.list = list
+        self.battleroom = battleroom
+    }
+
+    func view(forItemIdentifiedBy id: Int) -> NSView? {
+        guard let message = list.items[id]
+            else {
+            return nil
+        }
+        let user = battleroom.battle.userList.items[message.senderID] ?? User(profile: User.Profile(id: 0, fullUsername: message.senderName, lobbyID: ""))
+
+        let view = ExtendedChatMessageView.loadFromNib()
+
+        view.messageField.stringValue = message.content
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "[HH:mm:ss]"
+        view.timeLabel.stringValue = dateFormatter.string(from: message.time)
+
+        view.clanTagField.stringValue = user.profile.clans.first ?? ""
+        view.clanTagField.textColor = NSColor(named: "minorMajorLabel")
+        view.usernameField.stringValue = user.profile.username
+
+        guard let battleStatus = battleroom.userStatuses[user.id] else {
+            return view
+        }
+
+        let myAlly = battleroom.myBattleStatus.allyNumber
+        if battleStatus.isSpectator || battleroom.myBattleStatus.isSpectator {
+            //
+        } else if battleStatus.allyNumber == myAlly {
+            view.usernameField.textColor = NSColor(named: "userIsAlly")
+        } else {
+            view.usernameField.textColor = NSColor(named: "userIsEnemy")
+        }
+
+        // Alpha value makes chat too hard to read. Let's just leave that for the player list.
+//        view.alphaValue = battleStatus.isReady && !battleStatus.isSpectator ? 1 : 0.3
+
         return view
     }
 }

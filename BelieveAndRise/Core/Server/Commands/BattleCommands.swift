@@ -73,7 +73,7 @@ struct CSLeaveBattleCommand: CSCommand {
 	
 	init() {}
 	
-	// MARK: - SCCommand
+	// MARK: - CSCommand
 	
 	init?(description: String) {}
 	
@@ -84,6 +84,61 @@ struct CSLeaveBattleCommand: CSCommand {
 	}
 }
 
+/**
+ Sent by a client to the server, telling him his battle status changed.
+
+ # String Representation
+
+ battleStatus: An integer, but with limited range: 0..2147483647 (use signed int and consider only positive values and zero) This number is sent as text. Each bit has its meaning:
+ - b0 = undefined (reserved for future use)
+ - b1 = ready (0=not ready, 1=ready)
+ - b2..b5 = team no. (from 0 to 15. b2 is LSB, b5 is MSB)
+ - b6..b9 = ally team no. (from 0 to 15. b6 is LSB, b9 is MSB)
+ - b10 = mode (0 = spectator, 1 = normal player)
+ - b11..b17 = handicap (7-bit number. Must be in range 0..100). Note: Only host can change handicap values of the players in the battle (with HANDICAP command). These 7 bits are always ignored in this command. They can only be changed using HANDICAP command.
+ - b18..b21 = reserved for future use (with pre 0.71 versions these bits were used for team color index)
+ - b22..b23 = sync status (0 = unknown, 1 = synced, 2 = unsynced)
+ - b24..b27 = side (e.g.: arm, core, tll, ... Side index can be between 0 and 15, inclusive)
+ - b28..b31 = undefined (reserved for future use)
+
+
+ myTeamColor: Should be a 32-bit signed integer in decimal form (e.g. 255 and not FF) where each color channel should occupy 1 byte (e.g. in hexdecimal: $00BBGGRR, B = blue, G = green, R = red). Example: 255 stands for $000000FF.
+
+ # Response
+ The status change will communicated to relevant users via the CLIENTBATTLESTATUS and UPDATEBATTLEINFO commands.
+ */
+struct CSMyBattleStatusCommand: CSCommand {
+
+    let battleStatus: Battleroom.UserStatus
+    let color: Int32
+
+    // MARK: - Manual Construction
+
+    init(battleStatus: Battleroom.UserStatus, color: Int32) {
+        self.battleStatus = battleStatus
+        self.color = color
+    }
+
+    // MARK: - CSCommand
+
+    init?(description: String) {
+        guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 2, sentenceCount: 0),
+            let statusAsInt = Int(words[0]),
+            let battleStatus = Battleroom.UserStatus(statusValue: statusAsInt),
+            let color = Int32(words[1]) else {
+            return nil
+        }
+        self.init(battleStatus: battleStatus, color: color)
+    }
+
+    func execute(on server: LobbyServer) {
+        #warning("Serverside: TODO")
+    }
+
+    var description: String {
+        return "MYBATTLESTATUS \(battleStatus.integerValue) \(color)"
+    }
+}
 
 /**
  Notifies a client that their request to JOINBATTLE was successful, and that they have just joined the battle.
@@ -210,7 +265,7 @@ struct SCClientBattleStatusCommand: SCCommand {
 	}
 	
 	var description: String {
-		return "CLIENTBATTLESTATUS \(username) \(battleStatus) \(teamColor)"
+        return "CLIENTBATTLESTATUS \(username) \(battleStatus.integerValue) \(teamColor)"
 	}
 }
 
@@ -225,7 +280,14 @@ struct SCRequestBattleStatusCommand: SCCommand {
 	init?(description: String) {}
 	
 	func execute(on connection: Connection) {
-		#warning("todo")
+        guard let battleroom = connection.battleController.battleroom else {
+            return
+        }
+        
+        connection.server.send(CSMyBattleStatusCommand(
+            battleStatus: battleroom.myBattleStatus,
+            color: battleroom.myColor
+        ))
 	}
 	
 	var description: String {

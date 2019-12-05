@@ -40,6 +40,7 @@ protocol MainWindowController: WindowController {
     func displayBattleroom(_ battleroom: Battleroom)
 	
 	func setChatController(_ chatController: ChatController)
+    func setBattleController(_ battleController: BattleController)
 }
 
 protocol MainWindowDelegate: AnyObject {

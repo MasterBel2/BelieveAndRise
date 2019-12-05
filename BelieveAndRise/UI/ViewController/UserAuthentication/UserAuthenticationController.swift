@@ -43,6 +43,7 @@ final class CredentialsManager {
 
     /// Retrieves from the keychin the credentials associated with the server address.
     func credentials(forServerWithAddress serverAddress: String) throws -> Credentials {
+        return Credentials(username: "BelieveAndRise", password: "BelieveAndRise")
         let query: [String: Any] = [
             kSecClass as String: kSecClassInternetPassword,
             kSecAttrServer as String: serverAddress,
@@ -59,12 +60,12 @@ final class CredentialsManager {
         guard let existingItem = item as? [String : Any],
             let passwordData = existingItem[kSecValueData as String] as? Data,
             let password = String(data: passwordData, encoding: String.Encoding.utf8),
-            let account = existingItem[kSecAttrAccount as String] as? String
+            let accountName = existingItem[kSecAttrAccount as String] as? String
             else {
                 throw KeychainError.unexpectedPasswordData
         }
 
-        return Credentials(username: account, password: password)
+        return Credentials(username: accountName, password: password)
     }
 
     // MARK: - Writing credentials

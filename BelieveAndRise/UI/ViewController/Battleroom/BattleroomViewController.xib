@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattleroomViewController" customModule="BelieveAndRise" customModuleProvider="target">
+            <connections>
+                <outlet property="stackView" destination="9Kr-ge-wU9" id="ZUE-KT-Fqm"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="pIA-ot-8Q4"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="668" height="407"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Kr-ge-wU9">
+                    <rect key="frame" x="0.0" y="0.0" width="668" height="407"/>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="9Kr-ge-wU9" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="FQb-uu-RI8"/>
+                <constraint firstItem="9Kr-ge-wU9" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Y5D-OE-ejL"/>
+                <constraint firstAttribute="trailing" secondItem="9Kr-ge-wU9" secondAttribute="trailing" id="aKa-Ww-nGg"/>
+                <constraint firstAttribute="bottom" secondItem="9Kr-ge-wU9" secondAttribute="bottom" id="bYg-vq-daO"/>
+            </constraints>
+            <point key="canvasLocation" x="55" y="104.5"/>
+        </customView>
+    </objects>
+</document>

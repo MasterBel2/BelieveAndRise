@@ -49,7 +49,7 @@ struct SCAddUserCommand: SCCommand {
     }
 
     func execute(on connection: Connection) {
-        let userProfile = User.Profile(id: userID, username: username, lobbyID: lobbyID)
+        let userProfile = User.Profile(id: userID, fullUsername: username, lobbyID: lobbyID)
         let user = User(profile: userProfile)
         connection.userList.addItem(user, with: userID)
     }
@@ -120,6 +120,21 @@ struct SCClientStatusCommand: SCCommand {
 			let user = connection.userList.items[userID] else {
 				return
 		}
+
+        // Update battleroom before we update the status, so we can access the previous status
+        if let battleroom = connection.battleController.battleroom,
+            userID == battleroom.battle.founderID,
+            user.status.isIngame != status.isIngame {
+            // TODO: move this logic into `Battleroom.list(_:itemWasUpdatedAt:)` ?
+            if status.isIngame {
+                connection.battleController.startGame()
+            }
+            user.status = status
+            /// Display new status after the update.
+            battleroom.displayIngameStatus()
+            return
+        }
+
 		user.status = status
 	}
 	

@@ -28,12 +28,12 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
         self.channel = channel
 
         guard let channel = channel else {
-            chatBarController.disableChatBar()
+            chatBarController.isChatBarEnabled = false
             return
         }
 
-        chatBarController.enableChatBar()
-		logViewController.itemViewProvider = DefaultMessageListItemViewProvider(list: channel.messageList)
+        chatBarController.isChatBarEnabled = true
+        logViewController.itemViewProvider = DefaultMessageListItemViewProvider(messageList: channel.messageList, userlist: channel.userlist)
         logViewController.sections.forEach(logViewController.removeSection(_:))
         logViewController.addSection(channel.messageList)
         logViewController.shouldDisplaySectionHeaders = false

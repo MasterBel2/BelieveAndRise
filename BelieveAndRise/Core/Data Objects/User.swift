@@ -35,19 +35,50 @@ final class User: Sortable {
 	
 	struct Profile {
 		let id: Int
-		let username: String
+		let fullUsername: String
+        let clans: [String]
+        let username: String
         /// A string identifying which lobby client the user is using
         var lobbyID: String
-		
-	}
-	
-	struct Status {
-		/// Indicates whether the user is AFK.
-		let isAway: Bool
-		let isIngame: Bool
+
+        init(id: Int, fullUsername: String, lobbyID: String) {
+            self.id = id
+            self.lobbyID = lobbyID
+            self.fullUsername = fullUsername
+
+            guard let regex = try? NSRegularExpression(pattern: "\\[.+?\\]") else {
+                self.clans = []
+                username = fullUsername
+                return
+            }
+
+            let tagRanges = regex.matches(
+                in: fullUsername,
+                range: NSRange(fullUsername.startIndex..., in: fullUsername)
+            ).compactMap({ Range($0.range, in: fullUsername) })
+
+            self.clans = tagRanges.map({ range in String(fullUsername[range]) })
+
+            var username = ""
+            var startIndex = fullUsername.startIndex
+            if tagRanges.count > 0 {
+                for tagRange in tagRanges {
+                    username.append(String(fullUsername[startIndex..<tagRange.lowerBound]))
+                    startIndex = tagRange.upperBound
+                }
+            }
+            username.append(String(fullUsername[startIndex..<fullUsername.endIndex]))
+            self.username = username
+        }
+    }
+
+    struct Status {
+        /// Indicates whether the user is AFK.
+        let isAway: Bool
+        let isIngame: Bool
         let rank: Int
-		let isModerator: Bool
-		/// Indicates whether the account is automated.
+        let isModerator: Bool
+        /// Indicates whether the account is automated.
 		///
 		/// An automated account is usually referred to as a "Bot" in the context of the SpringRTS lobby server.
 		/// This property is also referred to as a "botflag".

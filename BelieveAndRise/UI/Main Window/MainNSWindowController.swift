@@ -13,6 +13,8 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
     // MARK: - Dependencies
 
     weak var connection: Connection?
+    private weak var chatController: ChatController?
+    private weak var battleController: BattleController?
 
     // MARK: - Data
 
@@ -24,7 +26,9 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
     }
     private(set) var supplementaryListViewController = ListViewController()
 
-    private(set) var battleroomViewController: BattleroomViewController?
+    private(set) var battleroomViewController: NSViewController?
+
+    private var splitViewController: NSSplitViewController!
 
     // MARK: - MainWindowController
 
@@ -45,31 +49,36 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
      */
     func displayBattleroom(_ battleroom: Battleroom) {
 
-        // Set up views
-
-        if let battleroomViewController = self.battleroomViewController {
-            battleroomViewController.battleroom = battleroom
-        } else {
-            let battleroomViewController = BattleroomViewController()
-            battleroomViewController.battleroom = battleroom
-            chatViewController.addChild(battleroomViewController)
-            chatViewController.stackView.insertView(battleroomViewController.view, at: 0, in: .top)
-            self.battleroomViewController = battleroomViewController
-        }
+        // Set up view
 
         // Update data
 
-        chatViewController.setChannel(battleroom.channel)
-
-        battleroom.mapDidUpdate(to: battleroom.battle.map)
-        battleroom.startRects.forEach({
-            battleroomViewController?.minimapView.addStartRect($0.value, for: $0.key)
-        })
+        if let battleroomViewController = self.battleroomViewController as? BattleroomViewController {
+            battleroomViewController.battleroom = battleroom
+            let middleSplitViewItem = splitViewController.splitViewItems[1]
+            if middleSplitViewItem.viewController !== battleroomViewController {
+                splitViewController.removeSplitViewItem(middleSplitViewItem)
+                splitViewController.insertSplitViewItem(NSSplitViewItem(viewController: battleroomViewController), at: 1)
+            }
+        } else {
+            let battleroomViewController = BattleroomViewController()
+            battleroomViewController.battleroom = battleroom
+            battleroomViewController.battleController = battleController
+            battleroomViewController.chatViewController.chatController = chatController
+            splitViewController.removeSplitViewItem(splitViewController.splitViewItems[1])
+            splitViewController.insertSplitViewItem(NSSplitViewItem(viewController: battleroomViewController), at: 1)
+            self.battleroomViewController = battleroomViewController
+        }
     }
 	
 	func setChatController(_ chatController: ChatController) {
 		chatViewController.chatController = chatController
+        self.chatController = chatController
 	}
+
+    func setBattleController(_ battleController: BattleController) {
+        self.battleController = battleController
+    }
 
     // MARK: - Presentation
 
@@ -87,6 +96,8 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
         splitViewController.view.frame = window?.contentView?.frame ?? .zero
         splitViewController.view.autoresizingMask = [.width, .height]
         splitViewController.view.viewDidMoveToWindow()
+
+        self.splitViewController = splitViewController
     }
 
     private func newSplitViewController() -> NSSplitViewController {
