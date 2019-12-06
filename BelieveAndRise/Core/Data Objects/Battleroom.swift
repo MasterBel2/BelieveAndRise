@@ -9,6 +9,7 @@
 import Foundation
 
 protocol BattleroomMapInfoDisplay: AnyObject {
+    func displayMapName(_ mapName: String)
     func addCustomisedMapOption(_ option: String, value: UnitsyncWrapper.InfoValue)
     func removeCustomisedMapOption(_ option: String)
 }
@@ -180,6 +181,9 @@ final class Battleroom: BattleDelegate, ListDelegate {
     /// Updates sync status, and loads minimap if the map is found.
     func mapDidUpdate(to map: Battle.Map) {
         if let (mapInfo, checksumMatch, _) = resourceManager.infoForMap(named: map.name, preferredChecksum: map.hash, preferredEngineVersion: battle.engineVersion) {
+
+            mapInfoDisplay?.displayMapName(map.name)
+
             if !checksumMatch {
                 debugOnlyPrint("Warning: Map checksums do not match.")
             }

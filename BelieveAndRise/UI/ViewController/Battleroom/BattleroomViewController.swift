@@ -8,7 +8,7 @@
 
 import Cocoa
 
-final class BattleroomViewController: NSViewController, BattleroomDisplay, BattleroomHeaderViewDelegate {
+final class BattleroomViewController: NSViewController, BattleroomDisplay, BattleroomMapInfoDisplay, BattleroomHeaderViewDelegate {
 
     // MARK: - Dependencies
 
@@ -79,6 +79,7 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
 
         battleroom.minimapDisplay = header.minimapView
         battleroom.generalDisplay = self
+        battleroom.mapInfoDisplay = self
         
         // FIXME: Hacky solution to the way map loading & Stuff currently works.
         battleroom.mapDidUpdate(to: battleroom.battle.map)
@@ -151,6 +152,12 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
                 ))
             }
         ))
+
+        let host = battleroom.battle.userList.items[battleroom.battle.founderID]
+        header.hostClanField.stringValue = host?.profile.clans.first ?? ""
+        header.hostNameField.stringValue = host?.profile.username ?? ""
+
+        header.battleDescriptionField.stringValue = battleroom.battle.title
     }
 
     // MARK: - Battleroom Display
@@ -183,6 +190,20 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
 
     func removedTeam(named teamName: String) {
         header.removeAllyItem(named: "Ally \(teamName)")
+    }
+
+    // MARK: - BattleroomMapInfoDisplay
+
+    func displayMapName(_ mapName: String) {
+        header.mapNameField.stringValue = mapName
+    }
+
+    func addCustomisedMapOption(_ option: String, value: UnitsyncWrapper.InfoValue) {
+        // TODO
+    }
+
+    func removeCustomisedMapOption(_ option: String) {
+        // TODO
     }
 
     // MARK: - BattleroomHeaderViewDelegate
