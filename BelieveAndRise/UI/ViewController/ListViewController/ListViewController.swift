@@ -154,7 +154,7 @@ class ListViewController: NSViewController,
 	/// Creates a header for the given section.
     private func header(for list: ListProtocol) -> Row {
         if shouldDisplayRowCountInHeader {
-            return .header("\(list.itemCount) " + list.title)
+            return .header(list.title + " (\(list.itemCount))")
         } else {
             return .header(list.title)
         }
