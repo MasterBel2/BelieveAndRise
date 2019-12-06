@@ -192,6 +192,10 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
         header.removeAllyItem(named: "Ally \(teamName)")
     }
 
+    func displaySyncStatus(_ syncStatus: Bool) {
+        header.displaySyncStatus(syncStatus)
+    }
+
     // MARK: - BattleroomMapInfoDisplay
 
     func displayMapName(_ mapName: String) {

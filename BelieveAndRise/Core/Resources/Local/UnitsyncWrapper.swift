@@ -26,18 +26,30 @@ final class UnitsyncWrapper {
         _ = Init(true, 0)
     }
 
+    /// The version of spring Unitsync was compiled for, combined with the version patchset.
     var springVersion: String {
-        return String(cString: GetSpringVersion())
+        return String(cString: GetSpringVersion()) + "." + String(cString: GetSpringVersionPatchset())
+    }
+
+    /// Whether the version of spring compiled with unitsync was a release version.
+    var isSpringVersionAReleaseVersion: Bool {
+        return IsSpringReleaseVersion()
     }
 
     // MARK: - Maps
 
+    /// The number of maps available to unitsync
     var mapCount: Int { return Int(GetMapCount()) }
 
+    /// Returns the name of the specified map. Maps are generally sorted alphabetially.
     func mapName(at index: Int) -> String {
         return String(cString: GetMapName(CInt(index)))
     }
 
+    /// Returns a description of the specified map.
+    ///
+    /// Warning: this is not a free function. Only load this value when necessary, and make sure to cache instead of re-fetching, when
+    /// possible
     func mapDescription(at index: Int) -> String {
         return String(cString: GetMapDescription(CInt(index)))
     }
@@ -46,14 +58,18 @@ final class UnitsyncWrapper {
         return String(cString: GetMapFileName(CInt(index)))
     }
 
+    /// Returns a checksum for the specified map file, which can be used to verify its integrity
+    ///
     func mapChecksum(at index: Int) -> Int32 {
         return GetMapChecksum(CInt(index))
     }
 
+    /// Returns the width of the specified map.
     func mapWidth(at index: Int) -> Int {
         return Int(GetMapWidth(CInt(index)))
     }
 
+    /// Returns the height of the specified map.
     func mapHeight(at index: Int) -> Int {
         return Int(GetMapHeight(CInt(index)))
     }
@@ -64,7 +80,6 @@ final class UnitsyncWrapper {
         }
         let factor = 1024 / Int(pow(2, Float(mipLevel)))
 
-//        let namePointer = UnsafePointer(mapName.cString(using: .utf8)!)
         let namePointer = GetMapName(CInt(index))
         guard let minimapPointer = GetMinimap(namePointer, CInt(mipLevel)) else {
             return nil
@@ -97,18 +112,18 @@ final class UnitsyncWrapper {
         var values: [String : InfoValue] = [:]
         performBlockAndWait {
             for infoIndex in 0..<gameInfoCount(at: index) {
-                let type = infoType(at: infoIndex)
-                switch infoKey(at: infoIndex) {
+                let key = infoKey(at: infoIndex)
+                switch infoType(at: infoIndex) {
                 case .bool:
-                    values[type] = .bool(infoBoolValue(at: infoIndex))
+                    values[key] = .bool(infoBoolValue(at: infoIndex))
                 case .float:
-                    values[type] = .float(infoFloatValue(at: infoIndex))
+                    values[key] = .float(infoFloatValue(at: infoIndex))
                 case .integer:
-                    values[type] = .integer(infoIntegerValue(at: infoIndex))
+                    values[key] = .integer(infoIntegerValue(at: infoIndex))
                 case .string:
-                    values[type] = .string(infoStringValue(at: infoIndex))
+                    values[key] = .string(infoStringValue(at: infoIndex))
                 case .none:
-                    print("No value for type: \(type)")
+                    print("No value for type: \(key)")
                 }
             }
         }
@@ -127,16 +142,16 @@ final class UnitsyncWrapper {
      Retrieves an info item's value type
      - parameter index: Index of the associated info item.
      */
-    private func infoType(at index: Int) -> String {
-        return String(cString: GetInfoType(CInt(index)))
+    private func infoType(at index: Int) -> InfoType? {
+        return InfoType(rawValue: String(cString: GetInfoType(CInt(index))))
     }
 
     /**
      Retrieves an info item's value type (either "string", "integer", "float", or "bool")
      - parameter index: The index of the key's info item.
      */
-    private func infoKey(at index: Int) -> InfoKey? {
-        return InfoKey(rawValue: String(cString: GetInfoKey(CInt(index))))
+    private func infoKey(at index: Int) -> String {
+        return String(cString: GetInfoKey(CInt(index)))
     }
 
     /**
@@ -166,7 +181,7 @@ final class UnitsyncWrapper {
 
     // MARK: - Types
 
-    enum InfoKey: String {
+    enum InfoType: String {
         case string
         case integer
         case float
@@ -178,6 +193,19 @@ final class UnitsyncWrapper {
         case integer(Int)
         case float(Float)
         case bool(Bool)
+
+        var stringValue: String {
+            switch self {
+            case .string(let value):
+                return String(value)
+            case .integer(let value):
+                return String(value)
+            case .float(let value):
+                return String(value)
+            case .bool(let value):
+                return String(value)
+            }
+        }
     }
 
     // MARK: - Lifecycle
@@ -192,6 +220,7 @@ final class UnitsyncWrapper {
         // resolve the c functions we are going to use
 
         GetSpringVersion = handle.resolve("GetSpringVersion", type(of: GetSpringVersion))!
+        GetSpringVersionPatchset = handle.resolve("GetSpringVersionPatchset", type(of: GetSpringVersionPatchset))!
         IsSpringReleaseVersion = handle.resolve("IsSpringReleaseVersion", type(of: IsSpringReleaseVersion))!
 
         Init = handle.resolve("Init", type(of: Init))!
@@ -284,6 +313,7 @@ final class UnitsyncWrapper {
 
     // Spring version
     private let GetSpringVersion: @convention(c) () -> UnsafePointer<CChar>
+    private let GetSpringVersionPatchset: @convention(c) () -> UnsafePointer<CChar>
     private let IsSpringReleaseVersion: @convention(c)() -> Bool
 
     // Initialization/Un-init

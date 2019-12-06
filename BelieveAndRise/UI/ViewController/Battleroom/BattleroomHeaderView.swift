@@ -29,6 +29,7 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
     @IBOutlet var watchGameButton: NSButton!
 
     @IBOutlet var allySelectorPopupButton: NSPopUpButton!
+    @IBOutlet var syncStatusLabel: NSTextField!
 
     // MARK: - Dependencies
 
@@ -95,6 +96,16 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
             disableWatchGameButton()
         case .hidden:
             watchGameButton.isHidden = true
+        }
+    }
+
+    func displaySyncStatus(_ synced: Bool) {
+        if synced {
+            syncStatusLabel.stringValue = "Synced"
+            syncStatusLabel.textColor = NSColor(named: "userIsAlly")
+        } else {
+            syncStatusLabel.stringValue = "Unsynced"
+            syncStatusLabel.textColor = NSColor(named: "userIsEnemy")
         }
     }
 

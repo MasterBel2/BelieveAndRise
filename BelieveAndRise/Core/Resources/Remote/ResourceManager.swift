@@ -93,13 +93,13 @@ final class ResourceManager {
     }
 
     /// Whether the lobby has located an engine with the specified version.
-    func hasEngine(_ version: String) -> Bool {
-        return localResourceManager.engineVersions.contains(where: { $0.version == version })
+    func hasEngine(version: String) -> Bool {
+        return localResourceManager.engineVersions.contains(where: { $0.syncVersion == version })
     }
 
     /// Whether unitsync can find a game with the matching name. The name string should include the game's version.
     func hasGame(name: String) -> Bool {
-        return false
+        return localResourceManager.games.contains(where: { $0.name == name })
     }
 
     // MARK: - Maps

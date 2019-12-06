@@ -122,13 +122,23 @@
                     </constraints>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="IEx-f1-wbf"/>
                 </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y3k-LU-Gra">
+                    <rect key="frame" x="570" y="129" width="29" height="11"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Ny5-Iw-lpD">
+                        <font key="font" metaFont="systemSemibold" size="9"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="jJN-EA-xGR" secondAttribute="trailing" constant="15" id="2mb-e8-EXf"/>
+                <constraint firstAttribute="trailing" secondItem="Y3k-LU-Gra" secondAttribute="trailing" constant="15" id="8GY-cf-wbl"/>
                 <constraint firstItem="imD-2p-wDK" firstAttribute="leading" secondItem="bx3-Yc-SHj" secondAttribute="leading" constant="15" id="994-06-c1E"/>
                 <constraint firstItem="imD-2p-wDK" firstAttribute="top" secondItem="R9P-RK-rbP" secondAttribute="bottom" constant="4" id="HP6-y2-mZC"/>
                 <constraint firstAttribute="bottom" secondItem="mJc-BC-Iit" secondAttribute="bottom" id="Inf-gz-TBT"/>
                 <constraint firstItem="R9P-RK-rbP" firstAttribute="top" secondItem="bx3-Yc-SHj" secondAttribute="top" constant="15" id="KP5-Rt-WP9"/>
+                <constraint firstItem="Y3k-LU-Gra" firstAttribute="top" secondItem="bx3-Yc-SHj" secondAttribute="top" constant="15" id="Yio-t9-Fhw"/>
                 <constraint firstItem="mJc-BC-Iit" firstAttribute="leading" secondItem="bx3-Yc-SHj" secondAttribute="leading" id="g8T-SC-T1O"/>
                 <constraint firstItem="mJc-BC-Iit" firstAttribute="top" secondItem="jJN-EA-xGR" secondAttribute="bottom" constant="15" id="jaG-Nd-suC"/>
                 <constraint firstItem="hW5-mS-qW4" firstAttribute="top" secondItem="bx3-Yc-SHj" secondAttribute="top" constant="15" id="km0-PH-FdO"/>
@@ -145,9 +155,10 @@
                 <outlet property="hostNameField" destination="M0f-qq-2Of" id="Z7i-IG-RWr"/>
                 <outlet property="mapNameField" destination="imD-2p-wDK" id="cb1-XY-Fa0"/>
                 <outlet property="minimapView" destination="R9P-RK-rbP" id="B7I-wL-dZj"/>
+                <outlet property="syncStatusLabel" destination="Y3k-LU-Gra" id="Tp7-Qz-vvN"/>
                 <outlet property="watchGameButton" destination="Rim-IF-jhv" id="1Xl-FO-vKf"/>
             </connections>
-            <point key="canvasLocation" x="184" y="318.5"/>
+            <point key="canvasLocation" x="199" y="319"/>
         </visualEffectView>
     </objects>
     <resources>

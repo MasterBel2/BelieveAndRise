@@ -33,12 +33,18 @@ final class LocalResourceManager {
         }
     }
 
-    /// Must be called after
+    /// Uses the most recent unitsync version to load all maps from the data dir.
+    ///
+    /// Must be called after `loadEngines`.
     func loadMaps() {
         queue.sync {
             self._loadMaps()
         }
     }
+
+    /// Uses the most recent unitsync version to load all games from the data dir.
+    ///
+    /// Must be called after `loadEngines`.
     func loadGames() {
         queue.async {
             self._loadGames()
@@ -68,13 +74,14 @@ final class LocalResourceManager {
         }
 
         for index in 0..<gameCount {
-//            let gameName = mostRecentUnitsync.mod(at: index)
             let checksum = mostRecentUnitsync.gameChecksum(at: index)
-            print(mostRecentUnitsync.gameInfo(at: index))
-//            games.append(Game(
-//                name: gameName,
-//                checksum: checksum
-//            ))
+            let gameInfo = mostRecentUnitsync.gameInfo(at: index)
+            if let gameName = gameInfo["name"]?.stringValue {
+                games.append(Game(
+                    name: gameName,
+                    checksum: checksum
+                ))
+            }
         }
 
         print("\(Date()): Loaded Games!")
@@ -106,7 +113,7 @@ final class LocalResourceManager {
                 checksum: checksum
             ))
         }
-        print("\(Date()): Done!")
+        print("\(Date()): Loaded maps!")
     }
 
     /// Attempts to auto-detect spring versions in common directories by attempting to initialise unitsync on their contents.
@@ -123,7 +130,13 @@ final class LocalResourceManager {
             if let wrapper = UnitsyncWrapper(config: config) {
                 wrapper.performBlockAndWait {
                     let version = wrapper.springVersion
-                    engineVersions.append(Engine(version: version, location: applicationURL, unitsyncWrapper: wrapper))
+                    engineVersions.append(Engine(
+                            version: version,
+                            isReleaseVersion: wrapper.isSpringVersionAReleaseVersion,
+                            location: applicationURL,
+                            unitsyncWrapper: wrapper
+                        )
+                    )
                 }
             }
         }
@@ -173,6 +186,19 @@ final class LocalResourceManager {
 
 struct Engine {
     let version: String
+    let isReleaseVersion: Bool
+
+    /// Returns a string that may be used to determine if it will sync with another engine version. For a release version, this is the major
+    /// and minor versions of the engine. For other versions, it is the entire version string.
+    var syncVersion: String {
+        if !isReleaseVersion {
+            return version
+        }
+        let versionComponents = version.components(separatedBy: ".") + ["0"]
+
+        return versionComponents[0...1].joined(separator: ".")
+    }
+
     let location: URL
     let unitsyncWrapper: UnitsyncWrapper
 }

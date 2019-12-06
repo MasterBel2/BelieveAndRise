@@ -58,7 +58,10 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
             let middleSplitViewItem = splitViewController.splitViewItems[1]
             if middleSplitViewItem.viewController !== battleroomViewController {
                 splitViewController.removeSplitViewItem(middleSplitViewItem)
-                splitViewController.insertSplitViewItem(NSSplitViewItem(viewController: battleroomViewController), at: 1)
+                splitViewController.insertSplitViewItem(
+                    NSSplitViewItem(viewController: battleroomViewController),
+                    at: 1
+                )
             }
         } else {
             let battleroomViewController = BattleroomViewController()
@@ -66,7 +69,10 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
             battleroomViewController.battleController = battleController
             battleroomViewController.chatViewController.chatController = chatController
             splitViewController.removeSplitViewItem(splitViewController.splitViewItems[1])
-            splitViewController.insertSplitViewItem(NSSplitViewItem(viewController: battleroomViewController), at: 1)
+            splitViewController.insertSplitViewItem(
+                NSSplitViewItem(viewController: battleroomViewController),
+                at: 1
+            )
             self.battleroomViewController = battleroomViewController
         }
     }

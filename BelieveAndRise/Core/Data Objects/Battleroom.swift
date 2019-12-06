@@ -26,6 +26,8 @@ protocol BattleroomDisplay: AnyObject {
     func addedTeam(named teamName: String)
     /// Notifies the display that a team was removed.
     func removedTeam(named teamName: String)
+    /// Notifies the display that an updated sync status should be displayed.
+    func displaySyncStatus(_ syncStatus: Bool)
 }
 
 final class Battleroom: BattleDelegate, ListDelegate {
@@ -57,9 +59,28 @@ final class Battleroom: BattleDelegate, ListDelegate {
     /// A hash code taken from the map, game, and engine. Calculated by Unitsync.
     var hashCode: Int32
 
+    // MARK: - Sync
+
+    var hasEngine: Bool {
+        return resourceManager.hasEngine(version: battle.engineVersion)
+    }
+    var hasGame: Bool {
+        return resourceManager.hasGame(name: battle.gameName)
+    }
+    private(set) var hasMap: Bool = false {
+        didSet {
+            updateSync()
+        }
+    }
+
+    var isSynced: Bool {
+        return hasGame && hasMap && hasEngine
+    }
+
     // MARK: - Dependencies
 
     let resourceManager: ResourceManager
+    private weak var battleController: BattleController!
 
     weak var spectatorListDisplay: ListDisplay? {
         didSet {
@@ -176,11 +197,26 @@ final class Battleroom: BattleDelegate, ListDelegate {
         minimapDisplay?.removeStartRect(for: allyTeam)
     }
 
+    /// Updates the sync status for the user and the server.
+    private func updateSync() {
+        battleController.setBattleStatus(Battleroom.UserStatus(
+            isReady: myBattleStatus.isReady,
+            teamNumber: myBattleStatus.teamNumber,
+            allyNumber: myBattleStatus.allyNumber,
+            isSpectator: myBattleStatus.isSpectator,
+            handicap: myBattleStatus.handicap,
+            syncStatus: isSynced ? .synced : .unsynced,
+            side: myBattleStatus.side
+        ))
+        generalDisplay?.displaySyncStatus(isSynced)
+    }
+
     // MARK: - Map
 
     /// Updates sync status, and loads minimap if the map is found.
     func mapDidUpdate(to map: Battle.Map) {
         if let (mapInfo, checksumMatch, _) = resourceManager.infoForMap(named: map.name, preferredChecksum: map.hash, preferredEngineVersion: battle.engineVersion) {
+            hasMap = true
 
             mapInfoDisplay?.displayMapName(map.name)
 
@@ -206,6 +242,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
                 })
             }
         } else {
+            hasMap = false
             resourceManager.download(.map(name: map.name), completionHandler: { [weak self] successful in
                 guard let self = self else {
                     return
@@ -236,13 +273,15 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
     // MARK: - Lifecycle
 	
-    init(battle: Battle, channel: Channel, hashCode: Int32, resourceManager: ResourceManager, myID: Int) {
+    init(battle: Battle, channel: Channel, hashCode: Int32, resourceManager: ResourceManager, battleController: BattleController, myID: Int) {
 		self.battle = battle
 		self.hashCode = hashCode
 		self.channel = channel
         spectatorList = List<User>(title: "Spectators", sortKey: .rank, parent: battle.userList)
         self.resourceManager = resourceManager
         self.myID = 0
+
+        self.battleController = battleController
 
         battle.delegate = self
         battle.userList.delegate = self

@@ -195,7 +195,7 @@ struct SCJoinBattleCommand: SCCommand {
 		
 		let battleroomChannel = Channel(title: battle.channel, rootList: battle.userList)
 		connection.channelList.addItem(battleroomChannel, with: connection.id(forChannelnamed: battleroomChannel.title))
-        let battleroom = Battleroom(battle: battle, channel: battleroomChannel, hashCode: hashCode, resourceManager: connection.resourceManager, myID: myID)
+        let battleroom = Battleroom(battle: battle, channel: battleroomChannel, hashCode: hashCode, resourceManager: connection.resourceManager, battleController: connection.battleController, myID: myID)
         connection.battleController.battleroom = battleroom
 		connection.windowController.displayBattleroom(battleroom)
 	}
