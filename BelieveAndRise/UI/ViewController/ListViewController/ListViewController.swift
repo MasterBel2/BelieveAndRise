@@ -287,6 +287,9 @@ class ListViewController: NSViewController,
             // Returning 0 results in a crash, so we'll return 0 instead
             return 1
         }
+
+        view.widthAnchor.constraint(equalToConstant: tableView.frame.width).isActive = true
+        view.layoutSubtreeIfNeeded()
         return view.fittingSize.height
     }
 }

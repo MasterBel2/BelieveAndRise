@@ -11,6 +11,7 @@ import Cocoa
 /// Describes a set of functions required for providing an item to a `ListViewController`.
 protocol ItemViewProvider {
     func view(forItemIdentifiedBy id: Int) -> NSView?
+//    func headerView(forSectionDescribedBy list: ListProtocol) -> NSView
 }
 
 /// An `ItemViewProvider` that always returns nil

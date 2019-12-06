@@ -52,11 +52,12 @@
                 <constraint firstItem="Oo3-4d-OIo" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="I6M-iL-VdZ"/>
                 <constraint firstItem="MEJ-NW-iiU" firstAttribute="centerX" secondItem="c22-O7-iKe" secondAttribute="leading" constant="60" id="TwO-7B-hD1"/>
                 <constraint firstItem="MXm-5N-aFJ" firstAttribute="leading" secondItem="09k-hp-Esm" secondAttribute="trailing" id="VD3-xm-fNT"/>
-                <constraint firstItem="MEJ-NW-iiU" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="dcA-bn-Qfl"/>
-                <constraint firstItem="MXm-5N-aFJ" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="frO-gb-a5T"/>
+                <constraint firstItem="MXm-5N-aFJ" firstAttribute="centerY" secondItem="09k-hp-Esm" secondAttribute="centerY" id="YbU-Hc-H8K"/>
+                <constraint firstItem="MXm-5N-aFJ" firstAttribute="bottom" secondItem="MEJ-NW-iiU" secondAttribute="bottom" id="cDo-mZ-X9d"/>
                 <constraint firstItem="Oo3-4d-OIo" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" priority="999" constant="250" id="hge-Qe-gYe"/>
-                <constraint firstItem="09k-hp-Esm" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="hsU-GM-HhK"/>
                 <constraint firstAttribute="leading" secondItem="09k-hp-Esm" secondAttribute="trailing" priority="999" constant="-145" id="hxA-9c-soU"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Oo3-4d-OIo" secondAttribute="trailing" constant="15" id="lWU-q6-RUW"/>
+                <constraint firstItem="Oo3-4d-OIo" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="3" id="nt0-fo-qJF"/>
                 <constraint firstItem="09k-hp-Esm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MEJ-NW-iiU" secondAttribute="trailing" id="qqg-BD-GHR"/>
             </constraints>
             <connections>
