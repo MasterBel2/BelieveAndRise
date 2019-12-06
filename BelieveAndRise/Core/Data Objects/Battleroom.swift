@@ -228,13 +228,11 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
             resourceManager.loadMinimapData(forMapNamed: map.name, mipLevels: Range(0...5)) { [weak self] result in
                 guard let self = self,
-                    let minimapDisplay = self.minimapDisplay else {
+                    let minimapDisplay = self.minimapDisplay,
+                    let (imageData, dimension) = result else {
                     return
                 }
-                guard let (imageData, dimension) = result else {
-                    minimapDisplay.displayMapUnknown()
-                    return
-                }
+
                 minimapDisplay.displayMap(imageData, dimension: dimension, realWidth: dimensions.width, realHeight: dimensions.height)
                 minimapDisplay.removeAllStartRects()
                 self.startRects.forEach({

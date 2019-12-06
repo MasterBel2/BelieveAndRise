@@ -87,25 +87,29 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
     ///
     /// See `WatchGameButtonState` for more information.
     func setWatchGameButtonState(_ state: WatchGameButtonState) {
-        switch state {
-        case .enabled:
-            watchGameButton.isHidden = false
-            enableWatchGameButton()
-        case .disabled:
-            watchGameButton.isHidden = false
-            disableWatchGameButton()
-        case .hidden:
-            watchGameButton.isHidden = true
+        executeOnMain(target: self) {
+            switch state {
+            case .enabled:
+                $0.watchGameButton.isHidden = false
+                $0.enableWatchGameButton()
+            case .disabled:
+                $0.watchGameButton.isHidden = false
+                $0.disableWatchGameButton()
+            case .hidden:
+                $0.watchGameButton.isHidden = true
+            }
         }
     }
 
     func displaySyncStatus(_ synced: Bool) {
-        if synced {
-            syncStatusLabel.stringValue = "Synced"
-            syncStatusLabel.textColor = NSColor(named: "userIsAlly")
-        } else {
-            syncStatusLabel.stringValue = "Unsynced"
-            syncStatusLabel.textColor = NSColor(named: "userIsEnemy")
+        executeOnMain(target: self) {
+            if synced {
+                $0.syncStatusLabel.stringValue = "Synced"
+                $0.syncStatusLabel.textColor = NSColor(named: "userIsAlly")
+            } else {
+                $0.syncStatusLabel.stringValue = "Unsynced"
+                $0.syncStatusLabel.textColor = NSColor(named: "userIsEnemy")
+            }
         }
     }
 

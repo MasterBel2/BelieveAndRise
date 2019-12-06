@@ -163,43 +163,53 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     // MARK: - Battleroom Display
 
     func display(isHostIngame: Bool, isPlayerIngame: Bool) {
-        if !isHostIngame {
-            header.setWatchGameButtonState(.hidden)
-        } else {
-            header.setWatchGameButtonState(isPlayerIngame ? .disabled : .enabled)
+        executeOnMain(target: self) {
+            if !isHostIngame {
+                $0.header.setWatchGameButtonState(.hidden)
+            } else {
+                $0.header.setWatchGameButtonState(isPlayerIngame ? .disabled : .enabled)
+            }
         }
     }
 
     func addedTeam(named teamName: String) {
-        header.addAllyItem(BattleroomHeaderView.AllyItem(title: "Ally \(teamName)", action: { [weak self] in
-            guard let self = self else {
-                return
-            }
-            let myBattleStatus = self.battleroom.myBattleStatus
-            self.battleController.setBattleStatus(Battleroom.UserStatus(
-                isReady: myBattleStatus.isReady,
-                teamNumber: myBattleStatus.teamNumber,
-                allyNumber: Int(teamName) ?? myBattleStatus.allyNumber,
-                isSpectator: false,
-                handicap: myBattleStatus.handicap,
-                syncStatus: myBattleStatus.syncStatus,
-                side: myBattleStatus.side
-            ))
-        }))
+        executeOnMain(target: self) { (viewController: BattleroomViewController) -> Void in
+            viewController.header.addAllyItem(BattleroomHeaderView.AllyItem(title: "Ally \(teamName)", action: { [weak viewController] in
+                guard let viewController = viewController else {
+                    return
+                }
+                let myBattleStatus = viewController.battleroom.myBattleStatus
+                viewController.battleController.setBattleStatus(Battleroom.UserStatus(
+                    isReady: myBattleStatus.isReady,
+                    teamNumber: myBattleStatus.teamNumber,
+                    allyNumber: Int(teamName) ?? myBattleStatus.allyNumber,
+                    isSpectator: false,
+                    handicap: myBattleStatus.handicap,
+                    syncStatus: myBattleStatus.syncStatus,
+                    side: myBattleStatus.side
+                ))
+            }))
+        }
     }
 
     func removedTeam(named teamName: String) {
-        header.removeAllyItem(named: "Ally \(teamName)")
+        executeOnMain(target: header) { header in
+            header.removeAllyItem(named: "Ally \(teamName)")
+        }
     }
 
     func displaySyncStatus(_ syncStatus: Bool) {
-        header.displaySyncStatus(syncStatus)
+        executeOnMain(target: header) { header in
+            header.displaySyncStatus(syncStatus)
+        }
     }
 
     // MARK: - BattleroomMapInfoDisplay
 
     func displayMapName(_ mapName: String) {
-        header.mapNameField.stringValue = mapName
+        executeOnMain(target: header) { header in
+            header.mapNameField.stringValue = mapName
+        }
     }
 
     func addCustomisedMapOption(_ option: String, value: UnitsyncWrapper.InfoValue) {

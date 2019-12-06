@@ -95,6 +95,7 @@
 		6BE441542326A63500951B49 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414C2326A63500951B49 /* Command.swift */; };
 		6BE441552326A63500951B49 /* Clients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414D2326A63500951B49 /* Clients.swift */; };
 		6BEE6526239A8F2A0029528A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 6BEE6525239A8F2A0029528A /* LICENSE */; };
+		6BEE6528239A91940029528A /* RapidClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE6527239A91940029528A /* RapidClient.swift */; };
 		6BF044CA2391F50D008CCE3C /* BattleroomHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */; };
 		6BF48DB8232B9BA7006411BB /* BattlelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF48DB7232B9BA7006411BB /* BattlelistViewController.swift */; };
 		6BF65C972397A9CB00D85DDE /* SpringProcessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */; };
@@ -225,6 +226,7 @@
 		6BE4414C2326A63500951B49 /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		6BE4414D2326A63500951B49 /* Clients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clients.swift; sourceTree = "<group>"; };
 		6BEE6525239A8F2A0029528A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		6BEE6527239A91940029528A /* RapidClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidClient.swift; sourceTree = "<group>"; };
 		6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleroomHeaderView.swift; sourceTree = "<group>"; };
 		6BF48DB7232B9BA7006411BB /* BattlelistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlelistViewController.swift; sourceTree = "<group>"; };
 		6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringProcessController.swift; sourceTree = "<group>"; };
@@ -418,9 +420,9 @@
 		6B5A334823863B9B00A32433 /* Remote */ = {
 			isa = PBXGroup;
 			children = (
-				6BF85C6C237C6A7100A19493 /* ResourceManager.swift */,
-				6BF85C70237C6A8400A19493 /* RemoteResourceFetcher.swift */,
 				6B5A334023863B0200A32433 /* Resource.swift */,
+				6BEE6527239A91940029528A /* RapidClient.swift */,
+				6BF85C70237C6A8400A19493 /* RemoteResourceFetcher.swift */,
 				6B5A334623863B5700A32433 /* SpringArchiveInfo.swift */,
 				6B5A334223863B0F00A32433 /* RapidArchiveInfo.swift */,
 				6B5A333923863A7800A32433 /* ArrayDownloader.swift */,
@@ -587,6 +589,7 @@
 		6BF85C6B237C6A5A00A19493 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6BF85C6C237C6A7100A19493 /* ResourceManager.swift */,
 				6B5A334923863BAC00A32433 /* Local */,
 				6B5A334823863B9B00A32433 /* Remote */,
 			);
@@ -834,6 +837,7 @@
 				6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */,
 				3E93BB9E237B9F50009036E7 /* ListSelectionHandler.swift in Sources */,
 				6B5A334323863B0F00A32433 /* RapidArchiveInfo.swift in Sources */,
+				6BEE6528239A91940029528A /* RapidClient.swift in Sources */,
 				6B08BD7723927AF6001F9C3F /* ExtendedChatMessageView.swift in Sources */,
 				6BE441502326A63500951B49 /* CommandHandler.swift in Sources */,
 				3E33C9D922C203B200C340F9 /* ListViewController.swift in Sources */,
