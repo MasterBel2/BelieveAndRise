@@ -27,7 +27,6 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
     @IBOutlet var mapNameField: NSTextField!
 
     @IBOutlet var watchGameButton: NSButton!
-    @IBOutlet var intentionSelector: NSSegmentedControl!
 
     @IBOutlet var allySelectorPopupButton: NSPopUpButton!
 

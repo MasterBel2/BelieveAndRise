@@ -68,7 +68,7 @@ final class ResourceManager {
     func infoForMap(named mapName: String, preferredChecksum: Int32, preferredEngineVersion: String)
         -> (mapInfo: Map, checksumMatch: Bool, usedPreferredEngineVersion: Bool)? {
         let matches = localResourceManager.maps.filter({ $0.name == mapName })
-        let mapInfo: Map
+        var mapInfo: Map
         let checksumMatch: Bool
         let usedPreferredEngineVersion = false
         if let exactMatch = matches.filter({ $0.checksum == preferredChecksum }).first {
@@ -80,6 +80,11 @@ final class ResourceManager {
         } else {
             return nil
         }
+
+        if mapInfo.dimensions == nil {
+            mapInfo.dimensions = localResourceManager.diemnsions(forMapNamed: mapName)
+        }
+
         return (
             mapInfo: mapInfo,
             checksumMatch: checksumMatch,

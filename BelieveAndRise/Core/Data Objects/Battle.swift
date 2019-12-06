@@ -24,7 +24,9 @@ final class Battle: Sortable {
 	var spectatorCount: Int = 0
     var map: Map {
         didSet {
-            delegate?.mapDidUpdate(to: map)
+            if map != oldValue {
+                delegate?.mapDidUpdate(to: map)
+            }
         }
     }
 
@@ -53,7 +55,7 @@ final class Battle: Sortable {
 	
 	// MARK: - Nested types
 	
-	struct Map {
+    struct Map: Equatable {
 		let name: String
 		let hash: Int32
 	}

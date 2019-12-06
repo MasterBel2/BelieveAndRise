@@ -103,10 +103,7 @@ final class LocalResourceManager {
 //            let height = mostRecentUnitsync.mapHeight(at: index)
             maps.append(Map(
                 name: mapName,
-                checksum: checksum,
-//                description: description,
-                width: 1,//width,
-                height: 1//height
+                checksum: checksum
             ))
         }
         print("\(Date()): Done!")
@@ -146,7 +143,7 @@ final class LocalResourceManager {
         }
         queue.async { [weak self] in
             guard let self = self,
-                let mostRecentUnitsync = self.engineVersions.first?.unitsyncWrapper else {
+                let mostRecentUnitsync = self.mostRecentUnitsync else {
                 completionBlock(nil)
                 return
             }
@@ -158,6 +155,18 @@ final class LocalResourceManager {
             }
 
             completionBlock((data, dimension))
+        }
+    }
+
+    func diemnsions(forMapNamed mapName: String) -> (width: Int, height: Int)? {
+        return queue.sync {
+            guard let mostRecentUnitsync = mostRecentUnitsync,
+                let mapIndex = self.maps.enumerated().first(where: { $0.element.name == mapName })?.offset else {
+                return nil
+            }
+            let width = mostRecentUnitsync.mapWidth(at: mapIndex)
+            let height = mostRecentUnitsync.mapHeight(at: mapIndex)
+            return (width, height)
         }
     }
 }
@@ -176,8 +185,5 @@ struct Game {
 struct Map {
     let name: String
     let checksum: Int32
-//    let description: String
-
-    let width: Int
-    let height: Int
+    var dimensions: (width: Int, height: Int)?
 }

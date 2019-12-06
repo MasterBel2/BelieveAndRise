@@ -120,6 +120,7 @@ class ListViewController: NSViewController,
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.backgroundColor = .controlBackgroundColor
 		tableView.delegate = self
 		tableView.dataSource = self
 		tableView.reloadData()
@@ -262,14 +263,7 @@ class ListViewController: NSViewController,
 	}
 	
 	func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
-		let rowView = NSTableRowView()
-		switch rows[row] {
-		case .item(_):
-			rowView.backgroundColor = .white
-		default:
-			break
-		}
-		return rowView
+		return NSTableRowView()
 	}
 	
 	func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {

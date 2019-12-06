@@ -72,6 +72,7 @@
 		6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */; };
 		6B7C82D722D9489A0031F9C9 /* UserAuthenticationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */; };
 		6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82D822D948A50031F9C9 /* UserAuthenticationController.swift */; };
+		6B7EBD26239A108D0071BE22 /* BattleroomHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7EBD25239A108D0071BE22 /* BattleroomHeaderView.xib */; };
 		6B815EF12313C99A000FD850 /* ServerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B815EF02313C99A000FD850 /* ServerController.swift */; };
 		6B898F152398BE0D002AC64B /* GameTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B898F142398BE0D002AC64B /* GameTypes.swift */; };
 		6BAE46BF2379A7FD0065CD53 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAE46BE2379A7FD0065CD53 /* File.swift */; };
@@ -94,7 +95,6 @@
 		6BE441542326A63500951B49 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414C2326A63500951B49 /* Command.swift */; };
 		6BE441552326A63500951B49 /* Clients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414D2326A63500951B49 /* Clients.swift */; };
 		6BF044CA2391F50D008CCE3C /* BattleroomHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */; };
-		6BF044CC2391F518008CCE3C /* BattleroomHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BF044CB2391F518008CCE3C /* BattleroomHeaderView.xib */; };
 		6BF48DB8232B9BA7006411BB /* BattlelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF48DB7232B9BA7006411BB /* BattlelistViewController.swift */; };
 		6BF65C972397A9CB00D85DDE /* SpringProcessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */; };
 		6BF65C992397AAB300D85DDE /* LaunchScriptWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF65C982397AAB300D85DDE /* LaunchScriptWriter.swift */; };
@@ -201,6 +201,7 @@
 		6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationViewController.swift; sourceTree = "<group>"; };
 		6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserAuthenticationViewController.xib; sourceTree = "<group>"; };
 		6B7C82D822D948A50031F9C9 /* UserAuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationController.swift; sourceTree = "<group>"; };
+		6B7EBD25239A108D0071BE22 /* BattleroomHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattleroomHeaderView.xib; sourceTree = "<group>"; };
 		6B815EF02313C99A000FD850 /* ServerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerController.swift; sourceTree = "<group>"; };
 		6B898F142398BE0D002AC64B /* GameTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTypes.swift; sourceTree = "<group>"; };
 		6BAE46BE2379A7FD0065CD53 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -223,7 +224,6 @@
 		6BE4414C2326A63500951B49 /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		6BE4414D2326A63500951B49 /* Clients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clients.swift; sourceTree = "<group>"; };
 		6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleroomHeaderView.swift; sourceTree = "<group>"; };
-		6BF044CB2391F518008CCE3C /* BattleroomHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattleroomHeaderView.xib; sourceTree = "<group>"; };
 		6BF48DB7232B9BA7006411BB /* BattlelistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlelistViewController.swift; sourceTree = "<group>"; };
 		6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringProcessController.swift; sourceTree = "<group>"; };
 		6BF65C982397AAB300D85DDE /* LaunchScriptWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScriptWriter.swift; sourceTree = "<group>"; };
@@ -440,7 +440,7 @@
 			isa = PBXGroup;
 			children = (
 				6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */,
-				6BF044CB2391F518008CCE3C /* BattleroomHeaderView.xib */,
+				6B7EBD25239A108D0071BE22 /* BattleroomHeaderView.xib */,
 				6B4266002391FA3E00AB46A2 /* BattleroomViewController.swift */,
 				6B4266012391FA3E00AB46A2 /* BattleroomViewController.xib */,
 				6B08BD7623927AF6001F9C3F /* ExtendedChatMessageView.swift */,
@@ -715,11 +715,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E77162D22C180F700B8C6C0 /* TableSectionHeaderView.xib in Resources */,
-				6BF044CC2391F518008CCE3C /* BattleroomHeaderView.xib in Resources */,
 				6B4266032391FA3E00AB46A2 /* BattleroomViewController.xib in Resources */,
 				3E86E059237B08840032BCBF /* StartRectOverlayView.xib in Resources */,
 				6B2C64D2232517A00017A1BC /* ChatBar.xib in Resources */,
 				3E77162322C1762A00B8C6C0 /* SingleColumnTableColumnRowView.xib in Resources */,
+				6B7EBD26239A108D0071BE22 /* BattleroomHeaderView.xib in Resources */,
 				3EF20F7422F825D10005650E /* ListViewController.xib in Resources */,
 				6B4F076A2321151800B52C7E /* MainNSWindowController.xib in Resources */,
 				6BE233B523269ACE0029425E /* ChatViewController.xib in Resources */,

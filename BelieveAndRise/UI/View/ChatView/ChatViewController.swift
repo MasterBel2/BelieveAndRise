@@ -47,7 +47,7 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
 
         // Appearance
 
-        view.backgroundColor = .white
+        view.backgroundColor = .controlBackgroundColor
 
         // View components
 

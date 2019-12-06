@@ -21,7 +21,6 @@ final class ChatBar: NSControl, NibLoadable {
     // MARK: - Lifecycle
 
     override func loadedFromNib() {
-//        backgroundColor = .controlBackgroundColor
         padding = ChatBar.defaultInsets
     }
 

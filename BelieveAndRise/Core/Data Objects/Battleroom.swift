@@ -183,6 +183,9 @@ final class Battleroom: BattleDelegate, ListDelegate {
             if !checksumMatch {
                 debugOnlyPrint("Warning: Map checksums do not match.")
             }
+
+            let dimensions = mapInfo.dimensions ?? (width: 1, height: 1)
+
             resourceManager.loadMinimapData(forMapNamed: map.name, mipLevels: Range(0...5)) { [weak self] result in
                 guard let self = self,
                     let minimapDisplay = self.minimapDisplay else {
@@ -192,14 +195,14 @@ final class Battleroom: BattleDelegate, ListDelegate {
                     minimapDisplay.displayMapUnknown()
                     return
                 }
-                minimapDisplay.displayMap(imageData, dimension: dimension, realWidth: mapInfo.width, realHeight: mapInfo.height)
+                minimapDisplay.displayMap(imageData, dimension: dimension, realWidth: dimensions.width, realHeight: dimensions.height)
                 minimapDisplay.removeAllStartRects()
                 self.startRects.forEach({
                     minimapDisplay.addStartRect($0.value, for: $0.key)
                 })
 
             }
-            minimapDisplay?.displayMap([0], dimension: 1, realWidth: mapInfo.width, realHeight: mapInfo.height)
+//            minimapDisplay?.displayMap([0], dimension: 1, realWidth: dimensions.width, realHeight: dimensions.height)
         } else {
             minimapDisplay?.displayMapUnknown()
             resourceManager.download(.map(name: map.name), completionHandler: { [weak self] successful in

@@ -48,8 +48,6 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = NSColor(named: NSColor.Name("battleroomBackgroundColor"))
-
         // Header
 
         let header = BattleroomHeaderView.loadFromNib()
@@ -80,6 +78,8 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
         // Battleroom display delegates
 
         battleroom.minimapDisplay = header.minimapView
+        // FIXME: Hacky solution to the way map loading & Stuff currently works.
+        battleroom.mapDidUpdate(to: battleroom.battle.map)
         battleroom.generalDisplay = self
 
         chatViewController.logViewController.tableView.enclosingScrollView?.contentInsets = NSEdgeInsets(
