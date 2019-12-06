@@ -94,6 +94,7 @@
 		6BE441532326A63500951B49 /* MOTDCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414B2326A63500951B49 /* MOTDCommand.swift */; };
 		6BE441542326A63500951B49 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414C2326A63500951B49 /* Command.swift */; };
 		6BE441552326A63500951B49 /* Clients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414D2326A63500951B49 /* Clients.swift */; };
+		6BEE6526239A8F2A0029528A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 6BEE6525239A8F2A0029528A /* LICENSE */; };
 		6BF044CA2391F50D008CCE3C /* BattleroomHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */; };
 		6BF48DB8232B9BA7006411BB /* BattlelistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF48DB7232B9BA7006411BB /* BattlelistViewController.swift */; };
 		6BF65C972397A9CB00D85DDE /* SpringProcessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */; };
@@ -223,6 +224,7 @@
 		6BE4414B2326A63500951B49 /* MOTDCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MOTDCommand.swift; sourceTree = "<group>"; };
 		6BE4414C2326A63500951B49 /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		6BE4414D2326A63500951B49 /* Clients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clients.swift; sourceTree = "<group>"; };
+		6BEE6525239A8F2A0029528A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleroomHeaderView.swift; sourceTree = "<group>"; };
 		6BF48DB7232B9BA7006411BB /* BattlelistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlelistViewController.swift; sourceTree = "<group>"; };
 		6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringProcessController.swift; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 		3E46332822C0C2D000AE0F2F = {
 			isa = PBXGroup;
 			children = (
+				6BEE6525239A8F2A0029528A /* LICENSE */,
 				6BF65C9A2397BBAD00D85DDE /* CountryCode.swift */,
 				3EB5912A22C1A71200103CDE /* BelieveAndRise-Bridging-Header.h */,
 				3E46333322C0C2D000AE0F2F /* BelieveAndRise */,
@@ -723,6 +726,7 @@
 				3EF20F7422F825D10005650E /* ListViewController.xib in Resources */,
 				6B4F076A2321151800B52C7E /* MainNSWindowController.xib in Resources */,
 				6BE233B523269ACE0029425E /* ChatViewController.xib in Resources */,
+				6BEE6526239A8F2A0029528A /* LICENSE in Resources */,
 				3E46333722C0C2D200AE0F2F /* Assets.xcassets in Resources */,
 				6B7C82D122D88A600031F9C9 /* ServerSelectionViewController.xib in Resources */,
 				6B08BD7923927B05001F9C3F /* ExtendedChatMessageView.xib in Resources */,
