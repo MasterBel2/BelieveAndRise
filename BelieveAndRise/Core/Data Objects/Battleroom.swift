@@ -200,11 +200,8 @@ final class Battleroom: BattleDelegate, ListDelegate {
                 self.startRects.forEach({
                     minimapDisplay.addStartRect($0.value, for: $0.key)
                 })
-
             }
-//            minimapDisplay?.displayMap([0], dimension: 1, realWidth: dimensions.width, realHeight: dimensions.height)
         } else {
-            minimapDisplay?.displayMapUnknown()
             resourceManager.download(.map(name: map.name), completionHandler: { [weak self] successful in
                 guard let self = self else {
                     return
@@ -216,6 +213,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
                 }
             })
         }
+        minimapDisplay?.displayMapUnknown()
     }
 
     // MARK: - ListDelegate

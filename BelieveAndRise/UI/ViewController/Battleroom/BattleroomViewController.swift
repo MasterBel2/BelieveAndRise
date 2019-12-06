@@ -78,9 +78,11 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
         // Battleroom display delegates
 
         battleroom.minimapDisplay = header.minimapView
+        battleroom.generalDisplay = self
+        
         // FIXME: Hacky solution to the way map loading & Stuff currently works.
         battleroom.mapDidUpdate(to: battleroom.battle.map)
-        battleroom.generalDisplay = self
+        battleroom.displayIngameStatus()
 
         chatViewController.logViewController.tableView.enclosingScrollView?.contentInsets = NSEdgeInsets(
             top: 1 * header.frame.height,
