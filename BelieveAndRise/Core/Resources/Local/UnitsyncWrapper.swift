@@ -20,7 +20,7 @@ final class UnitsyncWrapper {
 
     // MARK: - General
 
-    // Un-initialises and re-initialises unitsync
+    /// Un-initialises and re-initialises unitsync.
     func refresh() {
         UnInit()
         _ = Init(true, 0)
@@ -38,7 +38,7 @@ final class UnitsyncWrapper {
 
     // MARK: - Maps
 
-    /// The number of maps available to unitsync
+    /// The number of maps available to unitsync.
     var mapCount: Int { return Int(GetMapCount()) }
 
     /// Returns the name of the specified map. Maps are generally sorted alphabetially.
@@ -49,7 +49,7 @@ final class UnitsyncWrapper {
     /// Returns a description of the specified map.
     ///
     /// Warning: this is not a free function. Only load this value when necessary, and make sure to cache instead of re-fetching, when
-    /// possible
+    /// possible.
     func mapDescription(at index: Int) -> String {
         return String(cString: GetMapDescription(CInt(index)))
     }
@@ -58,8 +58,7 @@ final class UnitsyncWrapper {
         return String(cString: GetMapFileName(CInt(index)))
     }
 
-    /// Returns a checksum for the specified map file, which can be used to verify its integrity
-    ///
+    /// Returns a checksum for the specified map file, which can be used to verify its integrity.
     func mapChecksum(at index: Int) -> Int32 {
         return GetMapChecksum(CInt(index))
     }
@@ -98,7 +97,7 @@ final class UnitsyncWrapper {
 
     var gameCount: Int {
         return Int(GetPrimaryModCount())
-    } // Mods in unitsync are actually games
+    } // Mods in unitsync are actually games.
 
 
     func gameChecksum(at index: Int) -> Int32 {

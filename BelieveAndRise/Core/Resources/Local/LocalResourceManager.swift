@@ -64,7 +64,7 @@ final class LocalResourceManager {
             return
         }
 
-        // Wipe previous cache
+        // Wipe previous cache.
         games = []
 
         // A mapCount of -1 indicates an error in unitsync, and 0 indicates there are no maps to load.
