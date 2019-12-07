@@ -19,7 +19,7 @@ final class ChatBarController: NSViewController, ChatBarDelegate {
 	weak var delegate: ChatBarControllerDelegate?
 
     /**
-     whether the chat bar is enabled.
+     Whether the chat bar is enabled.
 
      Don't retrieve this value directly; use `isChatBarEnabled`.
      */
@@ -31,6 +31,7 @@ final class ChatBarController: NSViewController, ChatBarDelegate {
         }
     }
 
+    /// A boolean value indicating whether the chatBar reacts to mouse events.
     var isChatBarEnabled: Bool {
         set {
             _isChatBarEnabled = newValue
@@ -42,7 +43,7 @@ final class ChatBarController: NSViewController, ChatBarDelegate {
 
     // MARK: - Interface
 
-    /// The view controller's chat bar. Set in loadView
+    /// The view controller's chat bar. Set in loadView.
     private(set) var chatBar: ChatBar!
 
     // MARK: - Lifecycle
@@ -63,19 +64,3 @@ final class ChatBarController: NSViewController, ChatBarDelegate {
         return true
     }
 }
-
-//protocol AccountAPI {
-//
-//}
-
-//protocol ChannelAPI {
-//    func channels()
-//    func joinChannel(named channelName: String, password: String?)
-//    func leaveChannel(named channelName: String)
-//}
-//
-//protocol BattleAPI {
-//    func joinBattle(identifiedBy id: Int, password: String?)
-//    func leaveBattle()
-//    func sendBattleStatus(_ userStatus: Battleroom.UserStatus, color: UInt32)
-//}

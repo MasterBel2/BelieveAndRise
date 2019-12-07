@@ -16,9 +16,9 @@ final class SingleColumnTableColumnRowView: NSView, NibLoadable {
 	@IBOutlet weak var secondaryLabel: NSTextField!
 	
 	override func awakeFromNib() {
-		primaryLabel.textColor = .black
+        primaryLabel.textColor = .labelColor
 		primaryLabel.stringValue = ""
-		secondaryLabel.textColor = .darkGray
+        secondaryLabel.textColor = .secondaryLabelColor
 		secondaryLabel.stringValue = ""
 	}
 }

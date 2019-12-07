@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="BattleroomPlayerView" customModule="BelieveAndRise" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="502" height="24"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="n1J-Oz-GhK">
+                    <rect key="frame" x="15" y="4" width="16" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="n1J-Oz-GhK" secondAttribute="height" multiplier="1:1" id="c9R-7q-wDG"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Rank 8" id="8mD-Cs-f26"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fLq-id-Ljd">
+                    <rect key="frame" x="78" y="4" width="73" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="MasterBel2" id="8D1-Ow-EMh">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="djr-CQ-Lc6">
+                    <rect key="frame" x="34" y="4" width="48" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="[AFUS]" id="am5-1x-iwh">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="n1J-Oz-GhK" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="15" id="13g-VY-7Kc"/>
+                <constraint firstItem="fLq-id-Ljd" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="4" id="AO8-tm-nW7"/>
+                <constraint firstItem="fLq-id-Ljd" firstAttribute="height" secondItem="n1J-Oz-GhK" secondAttribute="height" id="Cc7-km-cVF"/>
+                <constraint firstItem="fLq-id-Ljd" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="80" id="FUS-kL-cYX"/>
+                <constraint firstItem="n1J-Oz-GhK" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="THg-BK-TlH"/>
+                <constraint firstItem="fLq-id-Ljd" firstAttribute="leading" secondItem="djr-CQ-Lc6" secondAttribute="trailing" id="fBv-Vc-Uib"/>
+                <constraint firstItem="fLq-id-Ljd" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="ob4-tn-QFJ"/>
+                <constraint firstItem="fLq-id-Ljd" firstAttribute="centerY" secondItem="djr-CQ-Lc6" secondAttribute="centerY" id="wRP-aZ-6Xj"/>
+            </constraints>
+            <connections>
+                <outlet property="clanField" destination="djr-CQ-Lc6" id="bLV-0m-9ss"/>
+                <outlet property="rankImageView" destination="n1J-Oz-GhK" id="DKY-nD-EDW"/>
+                <outlet property="usernameField" destination="fLq-id-Ljd" id="D71-g8-HFY"/>
+            </connections>
+            <point key="canvasLocation" x="150" y="107.5"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="Rank 8" width="57" height="54"/>
+    </resources>
+</document>

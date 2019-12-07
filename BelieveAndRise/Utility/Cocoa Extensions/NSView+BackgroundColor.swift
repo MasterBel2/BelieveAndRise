@@ -3,21 +3,25 @@
 //  BelieveAndRise
 //
 //  Created by MasterBel2 on 10/12/16.
-//  Copyright © 2016 MasterBel2. All rights reserved.
+//  Copyright © 2019 MasterBel2. All rights reserved.
 //
 
 import Cocoa
 
-extension NSView {
-    
+class ColoredView: NSView {
     var backgroundColor: NSColor? {
-        get {
-            guard let cgColor = layer?.backgroundColor else { return nil }
-            return NSColor(cgColor: cgColor)
+        didSet {
+            wantsLayer = backgroundColor != nil
+            setNeedsDisplay(bounds)
         }
-        set {
-            wantsLayer = true
-            layer?.backgroundColor = newValue?.cgColor
-        }
+    }
+
+    override var wantsUpdateLayer: Bool {
+        return backgroundColor != nil
+    }
+
+    override func updateLayer() {
+        super.updateLayer()
+        layer?.backgroundColor = backgroundColor?.cgColor
     }
 }

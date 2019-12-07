@@ -8,6 +8,12 @@
 
 import Cocoa
 
+/**
+ 
+
+ The chat view controller is backed by a `ColoredView` to allow drawing of background colors. Use `setViewBackgroundColor` to modify
+ this property.
+ */
 final class ChatViewController: NSViewController, ChatBarControllerDelegate {
 
     // MARK: - User Interface
@@ -47,8 +53,6 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
 
         // Appearance
 
-        view.backgroundColor = .controlBackgroundColor
-
         // View components
 
         addChild(logViewController)
@@ -62,6 +66,13 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
         // Data
 
         setChannel(channel)
+    }
+
+    // MARK: - Modifying view appearance
+
+    /// Sets a background color on the view controller's view.
+    func setViewBackgroundColor(_ color: NSColor?) {
+        (view as! ColoredView).backgroundColor = color
     }
 
     // MARK: - ChatBarControllerDelegate

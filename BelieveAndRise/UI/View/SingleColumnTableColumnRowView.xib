@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -9,11 +10,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="c22-O7-iKe" customClass="SingleColumnTableColumnRowView" customModule="BelieveAndRise" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="57"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="24"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2pT-FE-LQl">
-                    <rect key="frame" x="18" y="20" width="37" height="17"/>
+                    <rect key="frame" x="18" y="4" width="37" height="16"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="AxI-GS-dc9">
                         <font key="font" usesAppearanceFont="YES"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -24,7 +25,7 @@
                     </connections>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aCr-ri-R1t">
-                    <rect key="frame" x="425" y="20" width="37" height="17"/>
+                    <rect key="frame" x="425" y="4" width="37" height="16"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="GxY-1L-D3I">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -36,18 +37,17 @@
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="aCr-ri-R1t" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="1qH-8u-WZw"/>
-                <constraint firstAttribute="bottom" secondItem="2pT-FE-LQl" secondAttribute="bottom" constant="20" id="8xd-Ad-wmW"/>
+                <constraint firstAttribute="bottom" secondItem="2pT-FE-LQl" secondAttribute="bottom" constant="4" id="8xd-Ad-wmW"/>
                 <constraint firstItem="2pT-FE-LQl" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="JZc-RA-ilQ"/>
                 <constraint firstAttribute="trailing" secondItem="aCr-ri-R1t" secondAttribute="trailing" constant="20" id="XOs-aA-EuY"/>
-                <constraint firstAttribute="bottom" secondItem="aCr-ri-R1t" secondAttribute="bottom" constant="20" id="roy-W9-R8P"/>
-                <constraint firstItem="2pT-FE-LQl" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="sHC-jI-sHF"/>
+                <constraint firstItem="aCr-ri-R1t" firstAttribute="centerY" secondItem="2pT-FE-LQl" secondAttribute="centerY" id="mua-za-Pk7"/>
+                <constraint firstItem="2pT-FE-LQl" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="4" id="sHC-jI-sHF"/>
             </constraints>
             <connections>
                 <outlet property="primaryLabel" destination="2pT-FE-LQl" id="I2t-Ke-Fql"/>
                 <outlet property="secondaryLabel" destination="aCr-ri-R1t" id="Gbt-lw-KIA"/>
             </connections>
-            <point key="canvasLocation" x="139" y="306"/>
+            <point key="canvasLocation" x="139" y="300"/>
         </customView>
     </objects>
 </document>

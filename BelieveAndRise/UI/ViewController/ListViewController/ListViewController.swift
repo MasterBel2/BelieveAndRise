@@ -120,7 +120,6 @@ class ListViewController: NSViewController,
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.backgroundColor = .controlBackgroundColor
 		tableView.delegate = self
 		tableView.dataSource = self
 		tableView.reloadData()
@@ -162,30 +161,51 @@ class ListViewController: NSViewController,
 
     // MARK: - ListDisplay
 
-	/// Adds a section to the list.
+	/// Adds a section to the view, if it has not already been added.
     func addSection(_ list: ListProtocol) {
         executeOnMain(target: self) {
+            guard !sections.contains(where: { $0 === list }) else {
+                return
+            }
+
             list.delegate = $0
             $0.sections.append(list)
             if $0.shouldDisplaySectionHeaders {
                 $0.rows.append(.header(list.title))
             }
             $0.rows.append(contentsOf: list.sortedItemsByID.map({ Row.item($0) }))
-            if $0.isViewLoaded {
-                $0.tableView.reloadData()
+            let sectionBegin = $0.offset(forSectionNamed: list.title) - ($0.shouldDisplaySectionHeaders ? 1 : 0)
+            let sectionEnd = sectionBegin + list.itemCount + ($0.shouldDisplaySectionHeaders ? 1 : 0)
+
+            if isViewLoaded {
+                for index in IndexSet(integersIn: sectionBegin..<sectionEnd) {
+                    $0.tableView.insertRows(
+                        at: IndexSet(integer: index),
+                        withAnimation: .effectFade
+                    )
+                }
+
             }
         }
     }
 
+    /// Removes a section from the view.
     func removeSection(_ list: ListProtocol) {
         executeOnMain(target: self) {
+            guard sections.contains(where: { $0 === list }) else {
+                return
+            }
+            list.delegate = nil
             let sectionBegin = $0.offset(forSectionNamed: list.title) - ($0.shouldDisplaySectionHeaders ? 1 : 0)
             let sectionEnd = sectionBegin + list.itemCount + ($0.shouldDisplaySectionHeaders ? 1 : 0)
             $0.sections = $0.sections.filter({ $0 !== list })
-            $0.tableView.removeRows(
-                at: IndexSet(integersIn: sectionBegin..<sectionEnd),
-                withAnimation: .effectFade
-            )
+            (sectionBegin..<sectionEnd).forEach({ _ = rows.remove(at: $0)} )
+            if isViewLoaded {
+                $0.tableView.removeRows(
+                    at: IndexSet(integersIn: sectionBegin..<sectionEnd),
+                    withAnimation: .effectFade
+                )
+            }
         }
     }
 

@@ -8,6 +8,12 @@
 
 import Cocoa
 
+/**
+ A view controller for a standard client battleroom.
+
+ The battleroom is backed by a `ColoredView` to allow drawing of background colors. Use `setViewBackgroundColor` to modify
+ this property.
+ */
 final class BattleroomViewController: NSViewController, BattleroomDisplay, BattleroomMapInfoDisplay, BattleroomHeaderViewDelegate {
 
     // MARK: - Dependencies
@@ -64,6 +70,7 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
         addChild(playerlistViewController)
         stackView.addArrangedSubview(playerlistViewController.view)
         playerlistViewController.view.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        playerlistViewController.itemViewProvider = BattleroomPlayerListItemViewProvider(battleroom: battleroom)
 
         // Chat
 
@@ -158,6 +165,16 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
         header.hostNameField.stringValue = host?.profile.username ?? ""
 
         header.battleDescriptionField.stringValue = battleroom.battle.title
+    }
+
+    // MARK: - View Apperance
+
+    /// Sets a background color on the view controller's view.
+    ///
+    /// If the view has not yet been loaded, this function will trigger its loading. Therefore it should not be loaded until after all
+    /// dependencies have been loaded.
+    func setViewBackgroundColor(_ color: NSColor?) {
+        (view as! ColoredView).backgroundColor = color
     }
 
     // MARK: - Battleroom Display

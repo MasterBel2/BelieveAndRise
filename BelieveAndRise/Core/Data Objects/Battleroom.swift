@@ -45,12 +45,13 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
     private(set) var startRects: [Int : CGRect] = [:]
 
-	/// Updated by CLIENTBATTLESTATUS command
+    /// Indexed by ID.
+	/// Updated by CLIENTBATTLESTATUS command.
 	private(set) var userStatuses: [Int : UserStatus] = [:]
-    /// Updated by CLIENTBATTLESTATUS command
-	var colors: [Int : Int32] = [:]
-	/// Updated by SETSCRIPTTAGS command
-
+    /// Updated by CLIENTBATTLESTATUS command.
+    /// Indexed by ID.
+    var colors: [Int : Int32] = [:]
+	/// Updated by SETSCRIPTTAGS command.
 	var scriptTags: [ScriptTag] = []
 	/// Computed by the host's unitsync using the current map, game, and other dependencies.
 	/// It is used to check that the client has correct non-corrupt downloads of the required content.
@@ -82,11 +83,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
     let resourceManager: ResourceManager
     private weak var battleController: BattleController!
 
-    weak var spectatorListDisplay: ListDisplay? {
-        didSet {
-            spectatorListDisplay?.addSection(spectatorList)
-        }
-    }
+    weak var spectatorListDisplay: ListDisplay?
 
     // MARK: - Displays
 
@@ -132,7 +129,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
                 if newUserStatus.isSpectator {
                     // !isSpectator -> isSpectator
                     removeUser(identifiedBy: userID, fromAllyTeam: previousUserStatus.allyNumber)
-                    spectatorList.addItemFromParent(id: userID)
+                    addUserToSpectators(userID)
                 } else if previousUserStatus.allyNumber != newUserStatus.allyNumber {
                     // !wasSpectator && allyTeam != allyTeam
                     removeUser(identifiedBy: userID, fromAllyTeam: previousUserStatus.allyNumber)
@@ -143,10 +140,13 @@ final class Battleroom: BattleDelegate, ListDelegate {
                     // wasSpectator -> allyteam
                     spectatorList.removeItem(withID: userID)
                     addUser(identifiedBy: userID, toAllyTeam: newUserStatus.allyNumber)
+                    if spectatorList.itemCount == 0 {
+                        spectatorListDisplay?.removeSection(spectatorList)
+                    }
                 }
             }
         } else if newUserStatus.isSpectator {
-            spectatorList.addItemFromParent(id: userID)
+            addUserToSpectators(userID)
         } else {
             addUser(identifiedBy: userID, toAllyTeam: newUserStatus.allyNumber)
         }
@@ -156,6 +156,13 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
         // Update the view
         battle.userList.respondToUpdatesOnItem(identifiedBy: userID)
+    }
+
+    private func addUserToSpectators(_ userID: Int) {
+        if spectatorList.addItemFromParent(id: userID),
+            spectatorList.itemCount == 1 {
+            spectatorListDisplay?.addSection(spectatorList)
+        }
     }
 
     /// Adds a user to an allyteam, creating a new list if one was not already created.
@@ -277,7 +284,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
 		self.channel = channel
         spectatorList = List<User>(title: "Spectators", sortKey: .rank, parent: battle.userList)
         self.resourceManager = resourceManager
-        self.myID = 0
+        self.myID = myID
 
         self.battleController = battleController
 

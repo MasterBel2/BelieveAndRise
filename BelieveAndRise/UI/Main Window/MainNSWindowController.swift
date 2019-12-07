@@ -73,6 +73,7 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
                 NSSplitViewItem(viewController: battleroomViewController),
                 at: 1
             )
+            battleroomViewController.setViewBackgroundColor(.controlBackgroundColor)
             self.battleroomViewController = battleroomViewController
         }
     }
@@ -103,15 +104,23 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
         splitViewController.view.autoresizingMask = [.width, .height]
         splitViewController.view.viewDidMoveToWindow()
 
+        chatViewController.setViewBackgroundColor(.controlBackgroundColor)
+
         self.splitViewController = splitViewController
     }
 
     private func newSplitViewController() -> NSSplitViewController {
         let viewController = NSSplitViewController()
 
-        viewController.addSplitViewItem(NSSplitViewItem(sidebarWithViewController: primaryListViewController))
-        viewController.addSplitViewItem(NSSplitViewItem(viewController: chatViewController))
-        viewController.addSplitViewItem(NSSplitViewItem(contentListWithViewController: supplementaryListViewController))
+        let item1 = NSSplitViewItem(sidebarWithViewController: primaryListViewController)
+        item1.automaticMaximumThickness = 150
+
+        let item2 = NSSplitViewItem(viewController: chatViewController)
+
+        let item3 = NSSplitViewItem(contentListWithViewController: supplementaryListViewController)
+        item3.automaticMaximumThickness = 150
+
+        [item1, item2, item3].forEach(viewController.addSplitViewItem)
 
         return viewController
     }

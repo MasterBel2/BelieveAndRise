@@ -104,6 +104,8 @@ final class List<ListItem: Sortable>: ListProtocol {
         self.parent = parent
 
         queue = DispatchQueue(label: title)
+
+        parent?.sublists.append(self)
     }
 
     // MARK: - Retrieving list data
@@ -138,12 +140,15 @@ final class List<ListItem: Sortable>: ListProtocol {
         }
     }
 
-    /// A helper function ensuring an item is in the parent list before
-    func addItemFromParent(id: Int) {
+    /// A helper function that ensures an item is in the parent list before adding it to this list. Returns true if the operation is successful
+    @discardableResult
+    func addItemFromParent(id: Int) -> Bool {
         queue.sync {
             if let item = self.parent?.items[id] {
                 self._addItem(item, with: id)
+                return true
             }
+            return false
         }
     }
 

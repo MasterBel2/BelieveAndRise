@@ -80,6 +80,44 @@ final class DefaultMessageListItemViewProvider: ItemViewProvider {
     }
 }
 
+final class BattleroomPlayerListItemViewProvider: ItemViewProvider {
+    let battleroom: Battleroom
+    private var playerList: List<User> {
+        return battleroom.battle.userList
+    }
+
+    init(battleroom: Battleroom) {
+        self.battleroom = battleroom
+    }
+
+    func view(forItemIdentifiedBy id: Int) -> NSView? {
+        guard let player = playerList.items[id] else {
+            return nil
+        }
+
+        let view = BattleroomPlayerView.loadFromNib()
+        view.clanField.stringValue = player.profile.clans.first ?? ""
+        view.usernameField.stringValue = player.profile.username
+
+        view.rankImageView.image = NSImage(named: "Rank \(player.status.rank + 1)")
+
+        let myAlly = battleroom.myBattleStatus.allyNumber
+        if let battleStatus = battleroom.userStatuses[id] {
+            if battleStatus.isSpectator {
+                view.usernameField.textColor = .labelColor
+            } else if battleStatus.allyNumber == myAlly {
+                view.usernameField.textColor = NSColor(named: "userIsAlly")
+            } else {
+                view.usernameField.textColor = NSColor(named: "userIsEnemy")
+            }
+            view.alphaValue = battleStatus.isReady && !battleStatus.isSpectator ? 1 : 0.3
+        }
+
+        return view
+
+    }
+}
+
 final class BattleroomMessageListItemViewProvider: ItemViewProvider {
     let list: List<ChatMessage>
     let battleroom: Battleroom
@@ -120,9 +158,6 @@ final class BattleroomMessageListItemViewProvider: ItemViewProvider {
         } else {
             view.usernameField.textColor = NSColor(named: "userIsEnemy")
         }
-
-        // Alpha value makes chat too hard to read. Let's just leave that for the player list.
-//        view.alphaValue = battleStatus.isReady && !battleStatus.isSpectator ? 1 : 0.3
 
         return view
     }

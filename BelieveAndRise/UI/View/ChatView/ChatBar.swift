@@ -12,7 +12,7 @@ protocol ChatBarDelegate: AnyObject {
     func chatBar(_ chatBar: ChatBar, shouldSendMessage message: String) -> Bool
 }
 
-final class ChatBar: NSControl, NibLoadable {
+final class ChatBar: NSView, NibLoadable {
 
     // MARK: - Dependencies
 
@@ -47,7 +47,7 @@ final class ChatBar: NSControl, NibLoadable {
 
     // MARK: - NSControl
 
-    override var isEnabled: Bool {
+    var isEnabled: Bool {
         set {
             textField.isEnabled = newValue
             button.isEnabled = newValue
