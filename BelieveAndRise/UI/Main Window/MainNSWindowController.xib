@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MainNSWindowController" customModule="BelieveAndRise" customModuleProvider="target">
             <connections>
+                <outlet property="toggleSidebarCollapsed" destination="oLJ-tN-l21" id="JIm-1T-cHt"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -22,7 +23,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="829E26BA-8BCA-4739-A055-45D821F4D0C9" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="AeP-SA-1jU">
+            <toolbar key="toolbar" implicitIdentifier="829E26BA-8BCA-4739-A055-45D821F4D0C9" autosavesConfiguration="NO" displayMode="iconOnly" sizeMode="regular" id="AeP-SA-1jU">
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="SdX-6L-jhH"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="0M8-NG-SJ4"/>
@@ -37,8 +38,23 @@
                             </buttonCell>
                         </button>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="CE113AE8-A06C-4A30-9406-5EA40BA94CAF" label="Sidebar" paletteLabel="Sidebar" image="NSTouchBarSidebarTemplate" sizingBehavior="auto" id="gRM-Gc-KIF" userLabel="Sidebar">
+                        <nil key="toolTip"/>
+                        <button key="view" verticalHuggingPriority="750" id="oLJ-tN-l21">
+                            <rect key="frame" x="0.0" y="14" width="53" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSTouchBarSidebarTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gyV-Ii-miV">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="toggleSidebarCollapsed:" target="-2" id="RG3-PD-qhD"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
+                    <toolbarItem reference="gRM-Gc-KIF"/>
                     <toolbarItem reference="0M8-NG-SJ4"/>
                 </defaultToolbarItems>
             </toolbar>
@@ -47,5 +63,17 @@
             </connections>
             <point key="canvasLocation" x="264" y="125"/>
         </window>
+        <button verticalHuggingPriority="750" id="arI-j9-6SB">
+            <rect key="frame" x="0.0" y="0.0" width="82" height="32"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dFq-03-off">
+                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                <font key="font" metaFont="system"/>
+            </buttonCell>
+            <point key="canvasLocation" x="292" y="-186"/>
+        </button>
     </objects>
+    <resources>
+        <image name="NSTouchBarSidebarTemplate" width="22" height="30"/>
+    </resources>
 </document>

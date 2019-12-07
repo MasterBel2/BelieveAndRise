@@ -30,6 +30,12 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
 
     private var splitViewController: NSSplitViewController!
 
+    // MARK: - Toolbar Items
+
+    @IBAction func toggleSidebarCollapsed(_ sender: Any) {
+        splitViewController.splitViewItems[0].animator().isCollapsed = !splitViewController.splitViewItems[0].isCollapsed
+    }
+
     // MARK: - MainWindowController
 
     var primaryListDisplay: ListDisplay {
