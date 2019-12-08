@@ -8,17 +8,25 @@
 
 import Foundation
 
+/// An object which controls information about current and previous download operations.
 final class DownloadController: DownloaderDelegate, DownloadItemViewDelegate {
 
+	/// Downloaders associated with the items in the download list.
+	///
+	/// Since download ID is assigned from 0, increasing every time a downloader is added, the ID of a download is also the index of its downloader.
     var downloaders: [Downloader] = []
+	/// The controller's list of download operations.
     let downloadList = List<DownloadInfo>(title: "Downloads", sortKey: .dateBeganDescending)
     private var nextID = 0
 
+	/// The display for the information about the download operations.
     weak var display: ListDisplay? {
         didSet {
             display?.addSection(downloadList)
         }
     }
+	
+	// MARK: - DownloaderDelegate
 
     func downloaderDidBeginDownload(_ downloader: Downloader) {
         let downloadInfo = DownloadInfo(
@@ -32,26 +40,35 @@ final class DownloadController: DownloaderDelegate, DownloadItemViewDelegate {
     }
 
     func downloader(_ downloader: Downloader, downloadHasProgressedTo progress: Int, outOf total: Int) {
-        guard let index = downloaders.enumerated().first(where: { $0.element === downloader })?.offset else {
+        guard let index = downloaders.enumerated().first(where: { $0.element === downloader })?.offset,
+			let downloadItem = downloadList.items[index] else {
             return
         }
-        downloadList.items[index]?.progress = progress
-        downloadList.items[index]?.target = total
+		
+		if downloadItem.state != .paused {
+			downloadItem.state = .progressing
+		}
+		downloadItem.state = .progressing
+        downloadItem.progress = progress
+        downloadItem.target = total
         downloadList.respondToUpdatesOnItem(identifiedBy: index)
     }
 
     func downloader(_ downloader: Downloader, downloadDidFailWithError error: Error?) {
-        guard let index = downloaders.enumerated().first(where: { $0.element === downloader })?.offset else {
+        guard let index = downloaders.enumerated().first(where: { $0.element === downloader })?.offset,
+		let downloadItem = downloadList.items[index] else {
             return
         }
-        // TODO
+		downloadItem.state = .failed
+        downloadList.respondToUpdatesOnItem(identifiedBy: index)
     }
 
     func downloader(_ downloader: Downloader, successfullyCompletedDownloadTo tempUrls: [URL]) {
-        guard let index = downloaders.enumerated().first(where: { $0.element === downloader })?.offset else {
+        guard let index = downloaders.enumerated().first(where: { $0.element === downloader })?.offset,
+			let downloadItem = downloadList.items[index] else {
             return
         }
-        downloadList.items[index]?.isCompleted = true
+		downloadItem.state = .completed
         downloadList.respondToUpdatesOnItem(identifiedBy: index)
     }
 

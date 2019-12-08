@@ -290,6 +290,17 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
         battle.delegate = self
         battle.userList.delegate = self
+		
+		if !hasEngine {
+			resourceManager.download(.engine(name: battle.engineVersion, platform: platform), completionHandler: { [weak self] _ in
+				self?.updateSync()
+			})
+		}
+		if !hasGame {
+			resourceManager.download(.game(name: battle.gameName), completionHandler: { [weak self] _ in
+				self?.updateSync()
+			})
+		}
 	}
 
     deinit {

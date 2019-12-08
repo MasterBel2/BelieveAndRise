@@ -20,6 +20,7 @@ protocol WindowManager {
 
     func presentServerSelection(toWindowFor windowController: WindowController?, delegate: ServerSelectionViewControllerDelegate?)
 	
+	/// Immediately displays current and past downloads to the user.
 	func presentDownloads(_ controller: DownloadController)
 }
 
@@ -142,7 +143,7 @@ final class MacOSWindowManager: WindowManager {
 		} else {
 			let downloadsViewController = ListViewController()
 			downloadsViewController.shouldDisplaySectionHeaders = false
-			downloadsViewController.itemViewProvider = DownloadItemProvider(
+			downloadsViewController.itemViewProvider = DownloadItemViewProvider(
 				downloadList: downloadController.downloadList,
 				downloadItemViewDelegate: downloadController
 			)

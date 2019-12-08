@@ -35,7 +35,7 @@
 		3E77162B22C17A4600B8C6C0 /* IconLoading+NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E77162A22C17A4500B8C6C0 /* IconLoading+NSImage.swift */; };
 		3E77162D22C180F700B8C6C0 /* TableSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */; };
 		3E7C827D239CC25F004B835D /* DownloadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C8279239CC25F004B835D /* DownloadController.swift */; };
-		3E7C827E239CC25F004B835D /* DownloadItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C827A239CC25F004B835D /* DownloadItemProvider.swift */; };
+		3E7C827E239CC25F004B835D /* DownloadItemViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C827A239CC25F004B835D /* DownloadItemViewProvider.swift */; };
 		3E7C827F239CC25F004B835D /* DownloadInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C827B239CC25F004B835D /* DownloadInfo.swift */; };
 		3E7C8280239CC25F004B835D /* DownloadListSelectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C827C239CC25F004B835D /* DownloadListSelectionHandler.swift */; };
 		3E7C8284239CC312004B835D /* BattleroomPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C8282239CC312004B835D /* BattleroomPlayerView.swift */; };
@@ -174,7 +174,7 @@
 		3E77162A22C17A4500B8C6C0 /* IconLoading+NSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IconLoading+NSImage.swift"; sourceTree = "<group>"; };
 		3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableSectionHeaderView.xib; sourceTree = "<group>"; };
 		3E7C8279239CC25F004B835D /* DownloadController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadController.swift; sourceTree = "<group>"; };
-		3E7C827A239CC25F004B835D /* DownloadItemProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadItemProvider.swift; sourceTree = "<group>"; };
+		3E7C827A239CC25F004B835D /* DownloadItemViewProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadItemViewProvider.swift; sourceTree = "<group>"; };
 		3E7C827B239CC25F004B835D /* DownloadInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadInfo.swift; sourceTree = "<group>"; };
 		3E7C827C239CC25F004B835D /* DownloadListSelectionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadListSelectionHandler.swift; sourceTree = "<group>"; };
 		3E7C8282239CC312004B835D /* BattleroomPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleroomPlayerView.swift; sourceTree = "<group>"; };
@@ -407,7 +407,7 @@
 			children = (
 				3E7C8279239CC25F004B835D /* DownloadController.swift */,
 				3E7C827B239CC25F004B835D /* DownloadInfo.swift */,
-				3E7C827A239CC25F004B835D /* DownloadItemProvider.swift */,
+				3E7C827A239CC25F004B835D /* DownloadItemViewProvider.swift */,
 				3E7C827C239CC25F004B835D /* DownloadListSelectionHandler.swift */,
 			);
 			path = Downloads;
@@ -808,7 +808,7 @@
 				3E1A49D1237AA53200F549FF /* Things.swift in Sources */,
 				3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */,
 				6B5A334523863B2200A32433 /* Int+Data.swift in Sources */,
-				3E7C827E239CC25F004B835D /* DownloadItemProvider.swift in Sources */,
+				3E7C827E239CC25F004B835D /* DownloadItemViewProvider.swift in Sources */,
 				3E46333522C0C2D000AE0F2F /* AppDelegate.swift in Sources */,
 				6B5A333A23863A7800A32433 /* ArrayDownloader.swift in Sources */,
 				3E46336822C0C31700AE0F2F /* NATType.swift in Sources */,

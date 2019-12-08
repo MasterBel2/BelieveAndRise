@@ -1,5 +1,5 @@
 //
-//  DownloadItemProvider.swift
+//  DownloadItemViewProvider.swift
 //  BelieveAndRise
 //
 //  Created by MasterBel2 on 7/12/19.
@@ -8,8 +8,11 @@
 
 import Cocoa
 
-final class DownloadItemProvider: ItemViewProvider {
+/// Provides view for the list view controller displaying the contents of a list of `DownloadInfo`.
+final class DownloadItemViewProvider: ItemViewProvider {
+	/// The list whose content is to be displayed.
     let downloadList: List<DownloadInfo>
+	/// The delegate to pass forward to the views.
     private weak var downloadItemViewDelegate: DownloadItemViewDelegate?
 
     init(downloadList: List<DownloadInfo>, downloadItemViewDelegate: DownloadItemViewDelegate) {
@@ -26,15 +29,7 @@ final class DownloadItemProvider: ItemViewProvider {
         view.downloadNameLabel.stringValue = item.name
         view.progressIndicator.isIndeterminate = item.progress == item.target
 
-        if item.isPaused {
-            view.state = .paused
-        } else if item.isCompleted {
-            view.state = .done
-        } else if item.progress == 0 {
-            view.state = .loading
-        } else {
-            view.state = .inProgress
-        }
+		view.state = item.state
 
         view.id = id
         view.delegate = downloadItemViewDelegate

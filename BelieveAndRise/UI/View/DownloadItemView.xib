@@ -50,9 +50,6 @@
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
-                            <connections>
-                                <action selector="buttonPressed:" target="c22-O7-iKe" id="HFM-R9-RhZ"/>
-                            </connections>
                         </button>
                     </subviews>
                     <edgeInsets key="edgeInsets" left="15" right="15" top="15" bottom="15"/>

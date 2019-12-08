@@ -143,7 +143,7 @@ final class ArrayDownloader: NSObject, Downloader, URLSessionDelegate, URLSessio
 
     private func downloadsFailed(at index: Int, error: Error) {
         if successCondition == .all {
-            try! FileManager.default.removeItem(at: tempDirectory)
+            try? FileManager.default.removeItem(at: tempDirectory)
             self.delegate?.downloader(self, downloadDidFailWithError: error)
         } else {
             attemptFileDownload(at: index + 1)

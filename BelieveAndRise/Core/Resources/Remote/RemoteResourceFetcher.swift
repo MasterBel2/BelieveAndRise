@@ -59,30 +59,8 @@ final class RemoteResourceFetcher: DownloaderDelegate {
             downloaders.append(rapidClient)
         }
     }
-
-    private func searchSpringFiles(for resource: Resource, completionHandler: @escaping ([SpringArchiveInfo]?) -> Void) {
-        guard let url = URL(string: "https://api.springfiles.com/json.php?category=\(resource.category)&torrent=true&springname=\(resource.name.replacingOccurrences(of: " ", with: "%20"))") else {
-            return
-        }
-
-        let downloadTask = URLSession.shared.downloadTask(with: url) { [weak self] (urlOrNil, responseOrNil, errorOrNil) in
-            guard let self = self else {
-                return
-            }
-            guard let url = urlOrNil else {
-                self.completionHandler?(false)
-                return
-            }
-            let data = FileManager.default.contents(atPath: url.path)!
-            let jsonDecoder = JSONDecoder()
-            let results = try? jsonDecoder.decode([SpringArchiveInfo].self, from: data)
-
-            completionHandler(results)
-        }
-        downloadTask.resume()
-    }
-
-    /// Downloads a single, complete resource from the SpringFiles API.
+	
+	/// Downloads a single, complete resource from the SpringFiles API.
     private func retrieveSpringFilesArchivedResource(_ resource: Resource) {
         searchSpringFiles(for: resource, completionHandler: { results in
             guard let target = results?.first else {
@@ -107,6 +85,29 @@ final class RemoteResourceFetcher: DownloaderDelegate {
         })
     }
 
+	/// Searches the SpringFiles API for a resource.
+    private func searchSpringFiles(for resource: Resource, completionHandler: @escaping ([SpringArchiveInfo]?) -> Void) {
+        guard let url = URL(string: "https://api.springfiles.com/json.php?category=\(resource.category)&torrent=true&springname=\(resource.name.replacingOccurrences(of: " ", with: "%20"))") else {
+            return
+        }
+
+        let downloadTask = URLSession.shared.downloadTask(with: url) { [weak self] (urlOrNil, responseOrNil, errorOrNil) in
+            guard let self = self else {
+                return
+            }
+            guard let url = urlOrNil else {
+                self.completionHandler?(false)
+                return
+            }
+            let data = FileManager.default.contents(atPath: url.path)!
+            let jsonDecoder = JSONDecoder()
+            let results = try? jsonDecoder.decode([SpringArchiveInfo].self, from: data)
+
+            completionHandler(results)
+        }
+        downloadTask.resume()
+    }
+
     // MARK: - DownloaderDelegate
 
     func downloaderDidBeginDownload(_ downloader: Downloader) {
@@ -120,10 +121,14 @@ final class RemoteResourceFetcher: DownloaderDelegate {
     func downloader(_ downloader: Downloader, downloadDidFailWithError error: Error?) {
         print("Download failed!")
 		downloader.finalizeDownload(false)
-        completionHandler?(false)
-        downloaders.removeAll(where: { $0 === downloader})
-
-        downloadController.downloader(downloader, downloadDidFailWithError: error)
+		if downloader is RapidClient {
+			#warning("This makes assumptions about the use of RapidClient to only download games. A more robust system should be put in place for determining the resource to be downloaded.")
+			retrieveSpringFilesArchivedResource(.game(name: downloader.downloadName))
+		} else {
+			completionHandler?(false)
+		}
+		downloaders.removeAll(where: { $0 === downloader})
+		downloadController.downloader(downloader, downloadDidFailWithError: error)
     }
 
     func downloader(_ downloader: Downloader, successfullyCompletedDownloadTo tempUrls: [URL]) {
