@@ -109,15 +109,15 @@ final class RemoteResourceFetcher: DownloaderDelegate {
 
     func downloader(_ downloader: Downloader, downloadDidFailWithError error: Error?) {
         print("Download failed!")
+		downloader.finalizeDownload(false)
         completionHandler?(false)
-        downloader.finalizeDownload(false)
         downloaders.removeAll(where: { $0 === downloader})
     }
 
     func downloader(_ downloader: Downloader, successfullyCompletedDownloadTo tempUrls: [URL]) {
         print("Download completed!")
+		downloader.finalizeDownload(true)
         completionHandler?(true)
-        downloader.finalizeDownload(true)
         downloaders.removeAll(where: { $0 === downloader})
     }
 }

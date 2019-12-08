@@ -11,6 +11,8 @@ import Foundation
 /**
  Provides convenience wrappers to the SpringRTS unitsync dynamic library.
 
+ Remember to check unitsync.log in the spring config directory for extra detail on unitsync errors.
+
  - Note: This class is *not thread safe*. Be sure to invoke all functions via `performBlock` for asynchronous processing, or `performBlockAndWait` for synchronous processing. This class uses a private serial queue to dispatch all operations.
  */
 final class UnitsyncWrapper {

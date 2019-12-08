@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Handles retrieving resources stored locally on disk.
 final class LocalResourceManager {
 
     private let queue = DispatchQueue(label: "com.believeandrise.localresources")
