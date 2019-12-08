@@ -220,6 +220,12 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
             header.displaySyncStatus(syncStatus)
         }
     }
+	
+	func displayReadySate(_ isReady: Bool) {
+		executeOnMain(target: header) { header in
+			header.displayReadyState(isReady)
+		}
+	}
 
     // MARK: - BattleroomMapInfoDisplay
 
@@ -242,4 +248,19 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     func startGame() {
         battleController.startGame()
     }
+	
+	func setReadyState(_ ready: Bool) {
+		let myBattleStatus = battleroom.myBattleStatus
+		battleController.setBattleStatus(
+			Battleroom.UserStatus(
+				isReady: ready,
+				teamNumber: myBattleStatus.teamNumber,
+				allyNumber: myBattleStatus.allyNumber,
+				isSpectator: myBattleStatus.isSpectator,
+				handicap: myBattleStatus.handicap,
+				syncStatus: myBattleStatus.syncStatus,
+				side: myBattleStatus.side
+			)
+		)
+	}
 }

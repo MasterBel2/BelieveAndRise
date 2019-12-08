@@ -13,6 +13,7 @@ import Cocoa
  */
 protocol BattleroomHeaderViewDelegate: AnyObject {
     func startGame()
+	func setReadyState(_ ready: Bool)
 }
 
 /// The header view for a battleroom, containing basic controls and information.
@@ -30,7 +31,9 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
 
     @IBOutlet var allySelectorPopupButton: NSPopUpButton!
     @IBOutlet var syncStatusLabel: NSTextField!
-
+	
+	@IBOutlet weak var readyButton: NSButton!
+	
     // MARK: - Dependencies
 
     /// The battleroom header view's delegate.
@@ -80,7 +83,10 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
     @IBAction func newSectionSelected(_ sender: NSPopUpButton) {
         allyItems[sender.indexOfSelectedItem].action()
     }
-
+	@IBAction func setReadyState(_ sender: NSButton) {
+		delegate?.setReadyState(sender.state == .on)
+	}
+	
     // MARK: - Setting control states
 
     /// Sets a state for the watch game button.
@@ -100,6 +106,12 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
             }
         }
     }
+	
+	func displayReadyState(_ isReady: Bool) {
+		executeOnMain(target: self) {
+			$0.readyButton.state = isReady ? .on : .off
+		}
+	}
 
     func displaySyncStatus(_ synced: Bool) {
         executeOnMain(target: self) {

@@ -25,10 +25,20 @@
                     <rect key="frame" x="0.0" y="-2" width="612" height="5"/>
                 </box>
                 <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jJN-EA-xGR">
-                    <rect key="frame" x="370" y="16" width="227" height="21"/>
+                    <rect key="frame" x="306" y="16" width="291" height="21"/>
                     <subviews>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="alq-nu-gOW">
+                            <rect key="frame" x="-2" y="2" width="60" height="18"/>
+                            <buttonCell key="cell" type="check" title="Ready" bezelStyle="regularSquare" imagePosition="left" inset="2" id="x4f-0y-j2d">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="setReadyState:" target="bx3-Yc-SHj" id="n4N-Jp-RcN"/>
+                            </connections>
+                        </button>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Teh-Az-MZ0">
-                            <rect key="frame" x="-2" y="-3" width="98" height="25"/>
+                            <rect key="frame" x="62" y="-3" width="98" height="25"/>
                             <popUpButtonCell key="cell" type="push" title="Ally 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="s0e-LW-elk" id="SOt-ZI-rfy">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -45,7 +55,7 @@
                             </connections>
                         </popUpButton>
                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rim-IF-jhv">
-                            <rect key="frame" x="95" y="-7" width="138" height="32"/>
+                            <rect key="frame" x="159" y="-7" width="138" height="32"/>
                             <buttonCell key="cell" type="push" title="Watch Game" bezelStyle="rounded" image="NSFollowLinkFreestandingTemplate" imagePosition="right" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aZE-kq-nSz">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -55,11 +65,18 @@
                             </connections>
                         </button>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="alq-nu-gOW" firstAttribute="centerY" secondItem="jJN-EA-xGR" secondAttribute="centerY" id="8dt-ey-8y3"/>
+                        <constraint firstItem="Rim-IF-jhv" firstAttribute="centerY" secondItem="jJN-EA-xGR" secondAttribute="centerY" id="YS9-si-spk"/>
+                        <constraint firstItem="Teh-Az-MZ0" firstAttribute="centerY" secondItem="jJN-EA-xGR" secondAttribute="centerY" id="tAj-OX-IwO"/>
+                    </constraints>
                     <visibilityPriorities>
+                        <integer value="1000"/>
                         <integer value="1000"/>
                         <integer value="1000"/>
                     </visibilityPriorities>
                     <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>
                         <real value="3.4028234663852886e+38"/>
                     </customSpacing>
@@ -155,6 +172,7 @@
                 <outlet property="hostNameField" destination="M0f-qq-2Of" id="Z7i-IG-RWr"/>
                 <outlet property="mapNameField" destination="imD-2p-wDK" id="cb1-XY-Fa0"/>
                 <outlet property="minimapView" destination="R9P-RK-rbP" id="B7I-wL-dZj"/>
+                <outlet property="readyButton" destination="alq-nu-gOW" id="x9L-1Q-Fao"/>
                 <outlet property="syncStatusLabel" destination="Y3k-LU-Gra" id="Tp7-Qz-vvN"/>
                 <outlet property="watchGameButton" destination="Rim-IF-jhv" id="1Xl-FO-vKf"/>
             </connections>

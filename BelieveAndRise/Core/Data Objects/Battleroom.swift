@@ -27,7 +27,9 @@ protocol BattleroomDisplay: AnyObject {
     /// Notifies the display that a team was removed.
     func removedTeam(named teamName: String)
     /// Notifies the display that an updated sync status should be displayed.
-    func displaySyncStatus(_ syncStatus: Bool)
+    func displaySyncStatus(_ isSynced: Bool)
+	/// Notifies the display that an updated ready state should be displayed.
+	func displayReadySate(_ isReady: Bool)
 }
 
 final class Battleroom: BattleDelegate, ListDelegate {
@@ -153,6 +155,10 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
         // Update the data
         userStatuses[userID] = newUserStatus
+		
+		if userID == myID {
+			generalDisplay?.displayReadySate(newUserStatus.isReady)
+		}
 
         // Update the view
         battle.userList.respondToUpdatesOnItem(identifiedBy: userID)
