@@ -1,9 +1,9 @@
 //
 //  UnitsyncWrapper.swift
-//  OSXSpringLobby
+//  BelieveAndRise
 //
 //  Created by Belmakor on 10/12/16.
-//  Copyright © 2016 MasterBel2. All rights reserved.
+//  Copyright © 2019 MasterBel2. All rights reserved.
 //
 
 import Foundation

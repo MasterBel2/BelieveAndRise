@@ -11,9 +11,16 @@ import Foundation
 final class ResourceManager {
 
     private let localResourceManager = LocalResourceManager()
-    private let remoteResourceFetcher = RemoteResourceFetcher()
+    private let remoteResourceFetcher: RemoteResourceFetcher
 
     private let queue = DispatchQueue(label: "com.believeandrise.resourcemanager")
+
+	init(downloadController: DownloadController, windowManager: WindowManager) {
+        remoteResourceFetcher = RemoteResourceFetcher(
+			downloadController: downloadController,
+			windowManager: windowManager
+		)
+    }
 
     // MARK: - Controlling resources
 

@@ -19,6 +19,8 @@ protocol WindowManager {
 	func mainWindowController() -> MainWindowController
 
     func presentServerSelection(toWindowFor windowController: WindowController?, delegate: ServerSelectionViewControllerDelegate?)
+	
+	func presentDownloads(_ controller: DownloadController)
 }
 
 enum WindowType: Hashable {
@@ -37,6 +39,10 @@ final class MacOSWindowManager: WindowManager {
             .sheet : CGSize(width: 290, height: 150)
         ]
     }
+	
+	// MARK: - Windows
+	
+	private var downloadsWindow: NSWindow?
 
     // MARK: - Customisation
 
@@ -128,6 +134,29 @@ final class MacOSWindowManager: WindowManager {
 	
 	func makeKeyAndOrderFront(_ window: Window) {
 		(window as! NSWindow).makeKeyAndOrderFront(self)
+	}
+	
+	func presentDownloads(_ downloadController: DownloadController) {
+		if let downloadsWindow = downloadsWindow {
+			downloadsWindow.orderFront(self)
+		} else {
+			let downloadsViewController = ListViewController()
+			downloadsViewController.shouldDisplaySectionHeaders = false
+			downloadsViewController.itemViewProvider = DownloadItemProvider(
+				downloadList: downloadController.downloadList,
+				downloadItemViewDelegate: downloadController
+			)
+			
+			downloadController.display = downloadsViewController
+			
+			let downloadsWindow = NSPanel(contentViewController: downloadsViewController)
+			downloadsWindow.title = "Downloads"
+			downloadsWindow.isFloatingPanel = true
+			downloadsWindow.setFrameAutosaveName("com.believeAndRise.downloads")
+			downloadsWindow.titlebarAppearsTransparent = true
+			downloadsWindow.makeKeyAndOrderFront(self)
+			self.downloadsWindow = downloadsWindow
+		}
 	}
 }
 

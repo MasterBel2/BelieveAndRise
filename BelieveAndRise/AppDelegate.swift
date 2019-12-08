@@ -21,16 +21,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 	var parser: TASServerDelegate!
 
 	var connectionController: ConnectionController!
-    var resourceManager = ResourceManager()
+    var resourceManager: ResourceManager!
+    var downloadController = DownloadController()
     var mainWindowController: NSWindowController?
     let windowManager: WindowManager = MacOSWindowManager()
 
-    // MARK: - NSApplicationDelegate
+    var downloadsWindow: NSWindow?
+
+	@IBAction func showDownloads(_ sender: NSMenuItem) {
+		windowManager.presentDownloads(downloadController)
+	}
+	
+	// MARK: - NSApplicationDelegate
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
+        let resourceManager = ResourceManager(
+			downloadController: downloadController,
+			windowManager: windowManager
+		)
         resourceManager.loadLocalResources()
+
         let connectionController = ConnectionController(windowManager: windowManager, resourceManager: resourceManager)
         connectionController.createNewConnection()
+
         self.connectionController = connectionController
+        self.resourceManager = resourceManager
 	}
 }

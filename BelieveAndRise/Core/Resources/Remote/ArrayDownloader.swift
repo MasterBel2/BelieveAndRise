@@ -41,6 +41,14 @@ final class ArrayDownloader: NSObject, Downloader, URLSessionDelegate, URLSessio
     private var downloadTask: URLSessionDownloadTask?
     private var session: URLSession?
 
+    var downloadName: String {
+        return resources[indexOfCurrentDownload].fileName
+    }
+
+    var targetDirectory: URL {
+        return rootDirectory.appendingPathComponent(downloadName)
+    }
+
     private var indexOfCurrentDownload: Int = 0
 
     // MARK: - Constructors
@@ -67,6 +75,7 @@ final class ArrayDownloader: NSObject, Downloader, URLSessionDelegate, URLSessio
     // MARK: - Downloading
 
     func attemptFileDownloads() {
+        delegate?.downloaderDidBeginDownload(self)
         guard resources.count > 0 else {
             delegate?.downloader(self, successfullyCompletedDownloadTo: [])
             return
@@ -77,7 +86,7 @@ final class ArrayDownloader: NSObject, Downloader, URLSessionDelegate, URLSessio
     private func attemptFileDownload(at index: Int) {
         // Notify the delegate that we're beginning. If we're only trying to download one file, then by starting a second time,
         // we've gone back to the start.
-        if index == 0 || successCondition == .one {
+        if index != 0 && successCondition == .one {
             delegate?.downloaderDidBeginDownload(self)
         }
         indexOfCurrentDownload = index

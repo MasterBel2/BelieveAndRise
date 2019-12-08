@@ -8,6 +8,8 @@
 
 import Foundation
 protocol Downloader: AnyObject {
+    var downloadName: String { get }
+    var targetDirectory: URL { get }
     /// Cleans up all temporary directories, and if successful, moves the downloaded files to their intended destination.
     func finalizeDownload(_ successful: Bool)
 }
@@ -66,7 +68,7 @@ final class RapidClient: Downloader, DownloaderDelegate {
         do {
             try downloadPackages(name)
         } catch {
-            print("Failed to download packages: \(error)")
+            delegate?.downloader(self, downloadDidFailWithError: error)
         }
     }
 
@@ -146,6 +148,11 @@ final class RapidClient: Downloader, DownloaderDelegate {
     }
 
     // MARK: - Downloader
+
+    var downloadName: String = ""
+    var targetDirectory: URL {
+        return RapidClient.poolDirectory
+    }
 
     func finalizeDownload(_ successful: Bool) {
         if successful {

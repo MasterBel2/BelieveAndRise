@@ -34,6 +34,14 @@
 		3E77162922C17A4000B8C6C0 /* IconLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E77162822C17A4000B8C6C0 /* IconLoading.swift */; };
 		3E77162B22C17A4600B8C6C0 /* IconLoading+NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E77162A22C17A4500B8C6C0 /* IconLoading+NSImage.swift */; };
 		3E77162D22C180F700B8C6C0 /* TableSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */; };
+		3E7C827D239CC25F004B835D /* DownloadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C8279239CC25F004B835D /* DownloadController.swift */; };
+		3E7C827E239CC25F004B835D /* DownloadItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C827A239CC25F004B835D /* DownloadItemProvider.swift */; };
+		3E7C827F239CC25F004B835D /* DownloadInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C827B239CC25F004B835D /* DownloadInfo.swift */; };
+		3E7C8280239CC25F004B835D /* DownloadListSelectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C827C239CC25F004B835D /* DownloadListSelectionHandler.swift */; };
+		3E7C8284239CC312004B835D /* BattleroomPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C8282239CC312004B835D /* BattleroomPlayerView.swift */; };
+		3E7C8285239CC312004B835D /* BattleroomPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7C8283239CC312004B835D /* BattleroomPlayerView.xib */; };
+		3E7C8288239CC33D004B835D /* DownloadItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C8286239CC33D004B835D /* DownloadItemView.swift */; };
+		3E7C8289239CC33D004B835D /* DownloadItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7C8287239CC33D004B835D /* DownloadItemView.xib */; };
 		3E7F3D332319DBA60012A743 /* Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F3D322319DBA60012A743 /* Sortable.swift */; };
 		3E86E057237B087B0032BCBF /* StartRectOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E86E056237B087B0032BCBF /* StartRectOverlayView.swift */; };
 		3E86E059237B08840032BCBF /* StartRectOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E86E058237B08840032BCBF /* StartRectOverlayView.xib */; };
@@ -67,8 +75,6 @@
 		6B5A334323863B0F00A32433 /* RapidArchiveInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334223863B0F00A32433 /* RapidArchiveInfo.swift */; };
 		6B5A334523863B2200A32433 /* Int+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334423863B2200A32433 /* Int+Data.swift */; };
 		6B5A334723863B5700A32433 /* SpringArchiveInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334623863B5700A32433 /* SpringArchiveInfo.swift */; };
-		6B671B2B239B7F5900A5E50F /* BattleroomPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B671B2A239B7F5900A5E50F /* BattleroomPlayerView.swift */; };
-		6B671B2D239B7F8800A5E50F /* BattleroomPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B671B2C239B7F8800A5E50F /* BattleroomPlayerView.xib */; };
 		6B7C82D022D88A600031F9C9 /* ServerSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82CE22D88A600031F9C9 /* ServerSelectionViewController.swift */; };
 		6B7C82D122D88A600031F9C9 /* ServerSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7C82CF22D88A600031F9C9 /* ServerSelectionViewController.xib */; };
 		6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */; };
@@ -167,6 +173,14 @@
 		3E77162822C17A4000B8C6C0 /* IconLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconLoading.swift; sourceTree = "<group>"; };
 		3E77162A22C17A4500B8C6C0 /* IconLoading+NSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IconLoading+NSImage.swift"; sourceTree = "<group>"; };
 		3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableSectionHeaderView.xib; sourceTree = "<group>"; };
+		3E7C8279239CC25F004B835D /* DownloadController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadController.swift; sourceTree = "<group>"; };
+		3E7C827A239CC25F004B835D /* DownloadItemProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadItemProvider.swift; sourceTree = "<group>"; };
+		3E7C827B239CC25F004B835D /* DownloadInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadInfo.swift; sourceTree = "<group>"; };
+		3E7C827C239CC25F004B835D /* DownloadListSelectionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadListSelectionHandler.swift; sourceTree = "<group>"; };
+		3E7C8282239CC312004B835D /* BattleroomPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleroomPlayerView.swift; sourceTree = "<group>"; };
+		3E7C8283239CC312004B835D /* BattleroomPlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleroomPlayerView.xib; sourceTree = "<group>"; };
+		3E7C8286239CC33D004B835D /* DownloadItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadItemView.swift; sourceTree = "<group>"; };
+		3E7C8287239CC33D004B835D /* DownloadItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloadItemView.xib; sourceTree = "<group>"; };
 		3E7F3D322319DBA60012A743 /* Sortable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sortable.swift; sourceTree = "<group>"; };
 		3E86E056237B087B0032BCBF /* StartRectOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRectOverlayView.swift; sourceTree = "<group>"; };
 		3E86E058237B08840032BCBF /* StartRectOverlayView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartRectOverlayView.xib; sourceTree = "<group>"; };
@@ -200,8 +214,6 @@
 		6B5A334223863B0F00A32433 /* RapidArchiveInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidArchiveInfo.swift; sourceTree = "<group>"; };
 		6B5A334423863B2200A32433 /* Int+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Data.swift"; sourceTree = "<group>"; };
 		6B5A334623863B5700A32433 /* SpringArchiveInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringArchiveInfo.swift; sourceTree = "<group>"; };
-		6B671B2A239B7F5900A5E50F /* BattleroomPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleroomPlayerView.swift; sourceTree = "<group>"; };
-		6B671B2C239B7F8800A5E50F /* BattleroomPlayerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattleroomPlayerView.xib; sourceTree = "<group>"; };
 		6B7C82CE22D88A600031F9C9 /* ServerSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelectionViewController.swift; sourceTree = "<group>"; };
 		6B7C82CF22D88A600031F9C9 /* ServerSelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerSelectionViewController.xib; sourceTree = "<group>"; };
 		6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationViewController.swift; sourceTree = "<group>"; };
@@ -291,7 +303,6 @@
 			isa = PBXGroup;
 			children = (
 				6BEE6525239A8F2A0029528A /* LICENSE */,
-				6BF65C9A2397BBAD00D85DDE /* CountryCode.swift */,
 				3EB5912A22C1A71200103CDE /* BelieveAndRise-Bridging-Header.h */,
 				3E46333322C0C2D000AE0F2F /* BelieveAndRise */,
 				3E46334422C0C2D200AE0F2F /* BelieveAndRiseTests */,
@@ -318,6 +329,7 @@
 				6B898F162398BE1C002AC64B /* Engine Interface */,
 				6BAE46C22379A8300065CD53 /* Utility */,
 				6BAE46C02379A80E0065CD53 /* Core */,
+				3E7C8281239CC267004B835D /* Downloads */,
 				6BAE46C32379A8480065CD53 /* UI */,
 				6BDDDCDB23798F8200292BAE /* Legacy Implementations (for reference) */,
 				3E46333622C0C2D200AE0F2F /* Assets.xcassets */,
@@ -375,17 +387,30 @@
 		3E46336C22C0C7DD00AE0F2F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3E7C8286239CC33D004B835D /* DownloadItemView.swift */,
+				3E7C8287239CC33D004B835D /* DownloadItemView.xib */,
+				3E7C8282239CC312004B835D /* BattleroomPlayerView.swift */,
+				3E7C8283239CC312004B835D /* BattleroomPlayerView.xib */,
 				6B30FB4E237D73D600A893C8 /* MinimapView.swift */,
 				6B395F5B2325C52C00D35686 /* ChatView */,
 				3E77161E22C175A800B8C6C0 /* TableSectionHeaderView.swift */,
-				6B671B2A239B7F5900A5E50F /* BattleroomPlayerView.swift */,
-				6B671B2C239B7F8800A5E50F /* BattleroomPlayerView.xib */,
 				3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */,
 				3E77162022C175E500B8C6C0 /* SingleColumnTableColumnRowView.swift */,
 				3E77162222C1762A00B8C6C0 /* SingleColumnTableColumnRowView.xib */,
 				3E77162422C1775A00B8C6C0 /* NibLoadable.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		3E7C8281239CC267004B835D /* Downloads */ = {
+			isa = PBXGroup;
+			children = (
+				3E7C8279239CC25F004B835D /* DownloadController.swift */,
+				3E7C827B239CC25F004B835D /* DownloadInfo.swift */,
+				3E7C827A239CC25F004B835D /* DownloadItemProvider.swift */,
+				3E7C827C239CC25F004B835D /* DownloadListSelectionHandler.swift */,
+			);
+			path = Downloads;
 			sourceTree = "<group>";
 		};
 		3EB5912322C1A21800103CDE /* Server */ = {
@@ -527,6 +552,7 @@
 		6BAE46C22379A8300065CD53 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				6BF65C9A2397BBAD00D85DDE /* CountryCode.swift */,
 				6B5A333E23863AE500A32433 /* Platform.swift */,
 				6BF85C62237C648900A19493 /* Array+MoveItem.swift */,
 				3EB5912D22C1A74B00103CDE /* String+MD5.swift */,
@@ -733,10 +759,11 @@
 				3E77162322C1762A00B8C6C0 /* SingleColumnTableColumnRowView.xib in Resources */,
 				6B7EBD26239A108D0071BE22 /* BattleroomHeaderView.xib in Resources */,
 				3EF20F7422F825D10005650E /* ListViewController.xib in Resources */,
+				3E7C8289239CC33D004B835D /* DownloadItemView.xib in Resources */,
 				6B4F076A2321151800B52C7E /* MainNSWindowController.xib in Resources */,
 				6BE233B523269ACE0029425E /* ChatViewController.xib in Resources */,
 				6BEE6526239A8F2A0029528A /* LICENSE in Resources */,
-				6B671B2D239B7F8800A5E50F /* BattleroomPlayerView.xib in Resources */,
+				3E7C8285239CC312004B835D /* BattleroomPlayerView.xib in Resources */,
 				3E46333722C0C2D200AE0F2F /* Assets.xcassets in Resources */,
 				6B7C82D122D88A600031F9C9 /* ServerSelectionViewController.xib in Resources */,
 				6B08BD7923927B05001F9C3F /* ExtendedChatMessageView.xib in Resources */,
@@ -769,6 +796,7 @@
 				3EB5912922C1A6E200103CDE /* Socket.swift in Sources */,
 				6B898F152398BE0D002AC64B /* GameTypes.swift in Sources */,
 				6B30FB4B237D72F700A893C8 /* NSImage+RGB565.swift in Sources */,
+				3E7C8280239CC25F004B835D /* DownloadListSelectionHandler.swift in Sources */,
 				3E98F86D237ACC6A00DD2999 /* Client Bridging.swift in Sources */,
 				6B30FB4D237D72FF00A893C8 /* UInt16+RGB.swift in Sources */,
 				3EB5912E22C1A74B00103CDE /* String+MD5.swift in Sources */,
@@ -780,12 +808,12 @@
 				3E1A49D1237AA53200F549FF /* Things.swift in Sources */,
 				3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */,
 				6B5A334523863B2200A32433 /* Int+Data.swift in Sources */,
+				3E7C827E239CC25F004B835D /* DownloadItemProvider.swift in Sources */,
 				3E46333522C0C2D000AE0F2F /* AppDelegate.swift in Sources */,
 				6B5A333A23863A7800A32433 /* ArrayDownloader.swift in Sources */,
 				3E46336822C0C31700AE0F2F /* NATType.swift in Sources */,
 				6BE233B423269ACE0029425E /* ChatViewController.swift in Sources */,
 				6BE441522326A63500951B49 /* SCBattleOpenedCommand.swift in Sources */,
-				6B671B2B239B7F5900A5E50F /* BattleroomPlayerView.swift in Sources */,
 				3E46336A22C0C32D00AE0F2F /* Battleroom.swift in Sources */,
 				6BF85C67237C691800A19493 /* ServerError.swift in Sources */,
 				3E7F3D332319DBA60012A743 /* Sortable.swift in Sources */,
@@ -799,6 +827,7 @@
 				3E04709D22CD71C3005241E6 /* ListViewControllerDelegate.swift in Sources */,
 				6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */,
 				3E77162522C1775A00B8C6C0 /* NibLoadable.swift in Sources */,
+				3E7C827F239CC25F004B835D /* DownloadInfo.swift in Sources */,
 				6B5A334123863B0200A32433 /* Resource.swift in Sources */,
 				6B5A334723863B5700A32433 /* SpringArchiveInfo.swift in Sources */,
 				6BE233B1232668E60029425E /* NSView+BackgroundColor.swift in Sources */,
@@ -818,6 +847,7 @@
 				6BF85C65237C68EB00A19493 /* ChatMessage.swift in Sources */,
 				6BBF44A2238B64E10076B656 /* ChatController.swift in Sources */,
 				3E46336322C0C2EF00AE0F2F /* ServerModel.swift in Sources */,
+				3E7C8284239CC312004B835D /* BattleroomPlayerView.swift in Sources */,
 				6BE441552326A63500951B49 /* Clients.swift in Sources */,
 				6BE4414F2326A63500951B49 /* AccountCommands.swift in Sources */,
 				6BC4473E2379C1F9006842DD /* SCUserCommands.swift in Sources */,
@@ -838,6 +868,7 @@
 				3E46336122C0C2EB00AE0F2F /* User.swift in Sources */,
 				6BF65C972397A9CB00D85DDE /* SpringProcessController.swift in Sources */,
 				3E86E057237B087B0032BCBF /* StartRectOverlayView.swift in Sources */,
+				3E7C827D239CC25F004B835D /* DownloadController.swift in Sources */,
 				6BF85C6D237C6A7100A19493 /* ResourceManager.swift in Sources */,
 				6BC447402379E324006842DD /* Formatter.swift in Sources */,
 				6BE233B723269ECA0029425E /* ChatBarController.swift in Sources */,
@@ -849,6 +880,7 @@
 				6B08BD7723927AF6001F9C3F /* ExtendedChatMessageView.swift in Sources */,
 				6BE441502326A63500951B49 /* CommandHandler.swift in Sources */,
 				3E33C9D922C203B200C340F9 /* ListViewController.swift in Sources */,
+				3E7C8288239CC33D004B835D /* DownloadItemView.swift in Sources */,
 				6B7C82D022D88A600031F9C9 /* ServerSelectionViewController.swift in Sources */,
 				6BE441532326A63500951B49 /* MOTDCommand.swift in Sources */,
 				3E77161F22C175A800B8C6C0 /* TableSectionHeaderView.swift in Sources */,
@@ -1019,8 +1051,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BelieveAndRise/BelieveAndRise.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DWD4B84Z3L;
 				INFOPLIST_FILE = BelieveAndRise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1040,8 +1074,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BelieveAndRise/BelieveAndRise.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DWD4B84Z3L;
 				INFOPLIST_FILE = BelieveAndRise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

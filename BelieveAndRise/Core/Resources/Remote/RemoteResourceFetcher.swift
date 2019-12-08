@@ -27,6 +27,16 @@ var springDataDirectory: URL {
 
 final class RemoteResourceFetcher: DownloaderDelegate {
 
+    // MARK: - Dependencies
+
+    private let downloadController: DownloadController
+	private let windowManager: WindowManager
+
+	init(downloadController: DownloadController, windowManager: WindowManager) {
+        self.downloadController = downloadController
+		self.windowManager = windowManager
+    }
+
     // MARK: - Properties
 
     private var downloaders: [Downloader] = []
@@ -37,6 +47,7 @@ final class RemoteResourceFetcher: DownloaderDelegate {
     /// Attempts to retrieve a resource from either Rapid or the SpringFiles API. The completion handler calls true for successful
     /// download, and false for a faliure.
     func retrieve(_ resource: Resource, completionHandler: @escaping (Bool) -> Void) {
+		windowManager.presentDownloads(downloadController)
         self.completionHandler = completionHandler
         switch resource {
         case .engine, .map:
@@ -46,7 +57,6 @@ final class RemoteResourceFetcher: DownloaderDelegate {
             rapidClient.delegate = self
             rapidClient.download(name)
             downloaders.append(rapidClient)
-//            retrieveSpringFilesArchivedResource(name, category: "game")
         }
     }
 
@@ -100,11 +110,11 @@ final class RemoteResourceFetcher: DownloaderDelegate {
     // MARK: - DownloaderDelegate
 
     func downloaderDidBeginDownload(_ downloader: Downloader) {
-        print("Beginning download…")
+        downloadController.downloaderDidBeginDownload(downloader)
     }
 
     func downloader(_ downloader: Downloader, downloadHasProgressedTo progress: Int, outOf total: Int) {
-        print("\(progress)/\(total) (\((progress * 100 / total))%)")
+        downloadController.downloader(downloader, downloadHasProgressedTo: progress, outOf: total)
     }
 
     func downloader(_ downloader: Downloader, downloadDidFailWithError error: Error?) {
@@ -112,6 +122,8 @@ final class RemoteResourceFetcher: DownloaderDelegate {
 		downloader.finalizeDownload(false)
         completionHandler?(false)
         downloaders.removeAll(where: { $0 === downloader})
+
+        downloadController.downloader(downloader, downloadDidFailWithError: error)
     }
 
     func downloader(_ downloader: Downloader, successfullyCompletedDownloadTo tempUrls: [URL]) {
@@ -119,5 +131,7 @@ final class RemoteResourceFetcher: DownloaderDelegate {
 		downloader.finalizeDownload(true)
         completionHandler?(true)
         downloaders.removeAll(where: { $0 === downloader})
+
+        downloadController.downloader(downloader, successfullyCompletedDownloadTo: tempUrls)
     }
 }
