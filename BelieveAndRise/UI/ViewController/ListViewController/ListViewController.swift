@@ -247,10 +247,16 @@ class ListViewController: NSViewController,
             if  shouldDisplaySectionHeaders {
                 if list.itemCount == 1 {
                     rows.insert(header(for: list), at: sectionOffset - 1)
-                    viewController.tableView.insertRows(at: IndexSet(integer: sectionOffset - 1), withAnimation: .effectFade)
-                }
-                if shouldDisplayRowCountInHeader {
-                    viewController.rows[sectionOffset - 1] = .header("\(list.itemCount) " + list.title)
+                    viewController.tableView.insertRows(
+                        at: IndexSet(integer: sectionOffset - 1),
+                        withAnimation: .effectFade
+                    )
+                } else if shouldDisplayRowCountInHeader {
+                    viewController.rows[sectionOffset - 1] = header(for: list)
+                    viewController.tableView.reloadData(
+                        forRowIndexes: IndexSet(integer: sectionOffset - 1),
+                        columnIndexes: IndexSet(integer: 0)
+                    )
                 }
             }
 
