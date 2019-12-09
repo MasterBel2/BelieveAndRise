@@ -338,7 +338,13 @@ final class Battleroom: BattleDelegate, ListDelegate {
 	struct UserStatus {
 		let isReady: Bool
 		let teamNumber: Int
-		let allyNumber: Int
+        /// The alliance the user is a part of.
+        ///
+        /// There are 16 possible alliances, numbered 1 through 16. Server stores these values as 0 through 15.
+        var allyNumber: Int {
+            return _allyNumber + 1
+        }
+        private let _allyNumber: Int
 		let isSpectator: Bool
 		let handicap: Int
 		let syncStatus: SyncStatus
@@ -365,7 +371,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
         init(isReady: Bool, teamNumber: Int, allyNumber: Int, isSpectator: Bool, handicap: Int = 0, syncStatus: SyncStatus, side: Int) {
             self.isReady = isReady
             self.teamNumber = teamNumber
-            self.allyNumber = allyNumber
+            self._allyNumber = allyNumber
             self.isSpectator = isSpectator
             self.handicap = handicap
             self.syncStatus = syncStatus
@@ -375,7 +381,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
 		init?(statusValue: Int) {
 			isReady = (statusValue & 0b10) == 0b10
 			teamNumber = (statusValue & 0b111100) >> 2
-			allyNumber = (statusValue & 0b1111000000) >> 6
+			_allyNumber = (statusValue & 0b1111000000) >> 6
 			isSpectator = (statusValue & 0b10000000000) != 0b10000000000
 			handicap = (statusValue & 0b111111100000000000) >> 11
 			
@@ -399,7 +405,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
 				battleStatus += 2 // 2^1
 			}
 			battleStatus += Int32(teamNumber*4) // 2^2
-			battleStatus += Int32(allyNumber*64) // 2^6
+			battleStatus += Int32(_allyNumber*64) // 2^6
 			if !isSpectator {
 				battleStatus += 1024// 2^10
 			}
