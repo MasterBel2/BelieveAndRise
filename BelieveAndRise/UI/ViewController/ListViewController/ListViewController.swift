@@ -271,7 +271,13 @@ class ListViewController: NSViewController,
             viewController.rows.remove(at: sectionOffset + index)
             viewController.tableView.removeRows(at: IndexSet(integer: sectionOffset + index), withAnimation: .effectFade)
 
-            viewController.rows[sectionOffset - 1] = header(for: list)
+            if list.itemCount > 0 {
+                viewController.rows[sectionOffset - 1] = header(for: list)
+            } else {
+                // Don't subtract one from the section offset as it has already been adjusted -1 for the lack of a header
+                viewController.rows.remove(at: sectionOffset)
+                viewController.tableView.removeRows(at: IndexSet(integer: sectionOffset), withAnimation: .effectFade)
+            }
         }
     }
 

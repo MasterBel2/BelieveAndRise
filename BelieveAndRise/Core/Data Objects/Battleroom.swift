@@ -137,23 +137,24 @@ final class Battleroom: BattleDelegate, ListDelegate {
     func setUserStatus(_ newUserStatus: UserStatus, forUserIdentifiedBy userID: Int) {
         // Ally/spectator
         let previousUserStatus = userStatuses[userID]
-        switch (previousUserStatus?.isSpectator, newUserStatus.isSpectator) {
-        // Do nothing if we're still a spectator, or the same team.
-        case (true, true),
-             (false, false) where previousUserStatus?.allyNumber == newUserStatus.allyNumber:
-            break
-        // In which we change from spectator to not.
-        case (true, false) :
-            spectatorList.removeItem(withID: userID)
-        // In which we change away from an ally, to either spectating or another ally.
-        case (false, _):
-            allyTeamLists[newUserStatus.allyNumber].removeItem(withID: userID)
-        // In which we have changed to something that isn't a spectator – I.e. we join a new ally.
-        case (_, false):
-            allyTeamLists[newUserStatus.allyNumber].addItemFromParent(id: userID)
-        // In which we are becoming a spectator.
-        case (_, true):
-            spectatorList.addItemFromParent(id: userID)
+        let value = (previous: previousUserStatus?.isSpectator, new: newUserStatus.isSpectator)
+        // Only ally/spectator if the user's status has changed.
+        if !(value == (previous: true, new: true) ||
+            (value == (previous: false, new: false) && previousUserStatus?.allyNumber == newUserStatus.allyNumber)) {
+            if value.previous == true {
+                // The user is no longer a spectator.
+                spectatorList.removeItem(withID: userID)
+            } else if let previousAllyNumber = previousUserStatus?.allyNumber {
+                // The user is no longer a player on an allyteam.
+                allyTeamLists[previousAllyNumber].removeItem(withID: userID)
+            }
+            if value.new {
+                // The user is becoming a spectator.
+                spectatorList.addItemFromParent(id: userID)
+            } else {
+                // The user has changed to an ally team – I.e. joined a new ally.
+                allyTeamLists[newUserStatus.allyNumber].addItemFromParent(id: userID)
+            }
         }
 
         // Update the data
