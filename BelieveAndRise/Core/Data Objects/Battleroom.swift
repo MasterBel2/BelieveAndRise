@@ -41,7 +41,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
     /// The battleroom's associated channel.
     let channel: Channel
 
-    private(set) var allyTeamLists: [Int : List<User>] = [:]
+    let allyTeamLists: [List<User>]
     let spectatorList: List<User>
     var bots: [Bot] = []
 
@@ -85,11 +85,21 @@ final class Battleroom: BattleDelegate, ListDelegate {
     let resourceManager: ResourceManager
     private weak var battleController: BattleController!
 
-    weak var spectatorListDisplay: ListDisplay?
-
     // MARK: - Displays
 
-    weak var allyTeamListDisplay: ListDisplay?
+    weak var allyTeamListDisplay: ListDisplay? {
+        didSet {
+            if let allyTeamListDisplay = allyTeamListDisplay {
+                allyTeamLists.forEach(allyTeamListDisplay.addSection(_:))
+            }
+        }
+    }
+
+    weak var spectatorListDisplay: ListDisplay? {
+        didSet {
+            spectatorListDisplay?.addSection(spectatorList)
+        }
+    }
 
     weak var minimapDisplay: MinimapDisplay?
     weak var mapInfoDisplay: BattleroomMapInfoDisplay?
@@ -126,31 +136,24 @@ final class Battleroom: BattleDelegate, ListDelegate {
     /// Sets the status for a user, as specified by their ID. 
     func setUserStatus(_ newUserStatus: UserStatus, forUserIdentifiedBy userID: Int) {
         // Ally/spectator
-        if let previousUserStatus = userStatuses[userID] {
-            if !previousUserStatus.isSpectator {
-                if newUserStatus.isSpectator {
-                    // !isSpectator -> isSpectator
-                    removeUser(identifiedBy: userID, fromAllyTeam: previousUserStatus.allyNumber)
-                    addUserToSpectators(userID)
-                } else if previousUserStatus.allyNumber != newUserStatus.allyNumber {
-                    // !wasSpectator && allyTeam != allyTeam
-                    removeUser(identifiedBy: userID, fromAllyTeam: previousUserStatus.allyNumber)
-                    addUser(identifiedBy: userID, toAllyTeam: newUserStatus.allyNumber)
-                }
-            } else {
-                if !newUserStatus.isSpectator {
-                    // wasSpectator -> allyteam
-                    spectatorList.removeItem(withID: userID)
-                    addUser(identifiedBy: userID, toAllyTeam: newUserStatus.allyNumber)
-                    if spectatorList.itemCount == 0 {
-                        spectatorListDisplay?.removeSection(spectatorList)
-                    }
-                }
-            }
-        } else if newUserStatus.isSpectator {
-            addUserToSpectators(userID)
-        } else {
-            addUser(identifiedBy: userID, toAllyTeam: newUserStatus.allyNumber)
+        let previousUserStatus = userStatuses[userID]
+        switch (previousUserStatus?.isSpectator, newUserStatus.isSpectator) {
+        // Do nothing if we're still a spectator, or the same team.
+        case (true, true),
+             (false, false) where previousUserStatus?.allyNumber == newUserStatus.allyNumber:
+            break
+        // In which we change from spectator to not.
+        case (true, false) :
+            spectatorList.removeItem(withID: userID)
+        // In which we change away from an ally, to either spectating or another ally.
+        case (false, _):
+            allyTeamLists[newUserStatus.allyNumber].removeItem(withID: userID)
+        // In which we have changed to something that isn't a spectator – I.e. we join a new ally.
+        case (_, false):
+            allyTeamLists[newUserStatus.allyNumber].addItemFromParent(id: userID)
+        // In which we are becoming a spectator.
+        case (_, true):
+            spectatorList.addItemFromParent(id: userID)
         }
 
         // Update the data
@@ -162,40 +165,6 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
         // Update the view
         battle.userList.respondToUpdatesOnItem(identifiedBy: userID)
-    }
-
-    private func addUserToSpectators(_ userID: Int) {
-        if spectatorList.addItemFromParent(id: userID),
-            spectatorList.itemCount == 1 {
-            spectatorListDisplay?.addSection(spectatorList)
-        }
-    }
-
-    /// Adds a user to an allyteam, creating a new list if one was not already created.
-    private func addUser(identifiedBy id: Int, toAllyTeam allyTeam: Int) {
-        if let allyTeamList = allyTeamLists[allyTeam] {
-            allyTeamList.addItemFromParent(id: id)
-        } else {
-            let allyTeamList = List<User>(title: "AllyTeam \(allyTeam)", sortKey: .rank, parent: battle.userList)
-            allyTeamList.addItemFromParent(id: id)
-            allyTeamListDisplay?.addSection(allyTeamList)
-            allyTeamLists[allyTeam] = allyTeamList
-
-            generalDisplay?.addedTeam(named: String(allyTeam))
-        }
-    }
-
-    /// Removes the specified user from the specified allyteam, removing the allyteam from the list if there are no longer any players in
-    /// the allyteam
-    private func removeUser(identifiedBy id: Int, fromAllyTeam allyTeam: Int) {
-        guard let allyTeamList = allyTeamLists[allyTeam] else {
-            return
-        }
-        allyTeamList.removeItem(withID: id)
-        if allyTeamList.itemCount == 0 {
-            allyTeamLists.removeValue(forKey: allyTeam)
-            allyTeamListDisplay?.removeSection(allyTeamList)
-        }
     }
 
     /// Adds a start rect.
@@ -294,6 +263,8 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
         self.battleController = battleController
 
+        allyTeamLists = (0...15).map({ List(title: "Team \(String($0))", sortKey: .rank, parent: battle.userList) })
+
         battle.delegate = self
         battle.userList.delegate = self
 		
@@ -312,9 +283,9 @@ final class Battleroom: BattleDelegate, ListDelegate {
     deinit {
         spectatorListDisplay?.removeSection(spectatorList)
         if let minimapDisplay = minimapDisplay {
-            allyTeamLists.map({ $0.key }).forEach(minimapDisplay.removeStartRect(for:))
+            (0..<16).forEach(minimapDisplay.removeStartRect(for:))
         }
-        allyTeamLists.map({ $0.value }).forEach({ list in
+        allyTeamLists.forEach({ list in
             allyTeamListDisplay?.removeSection(list)
         })
     }
@@ -340,11 +311,8 @@ final class Battleroom: BattleDelegate, ListDelegate {
 		let teamNumber: Int
         /// The alliance the user is a part of.
         ///
-        /// There are 16 possible alliances, numbered 1 through 16. Server stores these values as 0 through 15.
-        var allyNumber: Int {
-            return _allyNumber + 1
-        }
-        private let _allyNumber: Int
+        /// There are 16 possible alliances, numbered 0 through 15.
+        let allyNumber: Int
 		let isSpectator: Bool
 		let handicap: Int
 		let syncStatus: SyncStatus
@@ -371,7 +339,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
         init(isReady: Bool, teamNumber: Int, allyNumber: Int, isSpectator: Bool, handicap: Int = 0, syncStatus: SyncStatus, side: Int) {
             self.isReady = isReady
             self.teamNumber = teamNumber
-            self._allyNumber = allyNumber
+            self.allyNumber = allyNumber
             self.isSpectator = isSpectator
             self.handicap = handicap
             self.syncStatus = syncStatus
@@ -381,7 +349,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
 		init?(statusValue: Int) {
 			isReady = (statusValue & 0b10) == 0b10
 			teamNumber = (statusValue & 0b111100) >> 2
-			_allyNumber = (statusValue & 0b1111000000) >> 6
+			allyNumber = (statusValue & 0b1111000000) >> 6
 			isSpectator = (statusValue & 0b10000000000) != 0b10000000000
 			handicap = (statusValue & 0b111111100000000000) >> 11
 			
@@ -405,7 +373,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
 				battleStatus += 2 // 2^1
 			}
 			battleStatus += Int32(teamNumber*4) // 2^2
-			battleStatus += Int32(_allyNumber*64) // 2^6
+			battleStatus += Int32(allyNumber*64) // 2^6
 			if !isSpectator {
 				battleStatus += 1024// 2^10
 			}

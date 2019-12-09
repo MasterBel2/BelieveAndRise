@@ -113,8 +113,8 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
 
     /// Configures the ally team selector in the header view with intitial values.
     private func configureAllyTeamControl() {
-        for (key, _) in battleroom.allyTeamLists {
-            addedTeam(named: String(key))
+        for (allyNumber, _) in battleroom.allyTeamLists.enumerated().filter({ $0.element.itemCount > 0 }) {
+            addedTeam(named: String(allyNumber))
         }
         header.addAllyItem(BattleroomHeaderView.AllyItem(
             title: "New Team",
