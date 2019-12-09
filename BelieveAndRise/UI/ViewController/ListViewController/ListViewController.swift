@@ -170,15 +170,14 @@ class ListViewController: NSViewController,
 
             list.delegate = $0
             $0.sections.append(list)
-            if $0.shouldDisplaySectionHeaders {
+            if $0.shouldDisplaySectionHeaders && list.itemCount > 0 {
                 $0.rows.append(.header(list.title))
             }
             $0.rows.append(contentsOf: list.sortedItemsByID.map({ Row.item($0) }))
-            let sectionBegin = $0.offset(forSectionNamed: list.title) - ($0.shouldDisplaySectionHeaders ? 1 : 0)
-            let sectionEnd = sectionBegin + list.itemCount + ($0.shouldDisplaySectionHeaders ? 1 : 0)
 
             if isViewLoaded {
-                for index in IndexSet(integersIn: sectionBegin..<sectionEnd) {
+                let rangeOfItems = indexRange(forSection: list)
+                for index in IndexSet(integersIn: rangeOfItems) {
                     $0.tableView.insertRows(
                         at: IndexSet(integer: index),
                         withAnimation: .effectFade
@@ -196,24 +195,37 @@ class ListViewController: NSViewController,
                 return
             }
             list.delegate = nil
-            let sectionBegin = $0.offset(forSectionNamed: list.title) - ($0.shouldDisplaySectionHeaders ? 1 : 0)
-            let sectionEnd = sectionBegin + list.itemCount + ($0.shouldDisplaySectionHeaders ? 1 : 0)
+            let rangeOfItems = self.indexRange(forSection: list)
+            // We need to know the section's order in the array to calculate the indexes.
             $0.sections = $0.sections.filter({ $0 !== list })
-            (sectionBegin..<sectionEnd).forEach({ _ = rows.remove(at: $0)} )
+            rangeOfItems.forEach({ _ = rows.remove(at: $0)} )
+
             if isViewLoaded {
                 $0.tableView.removeRows(
-                    at: IndexSet(integersIn: sectionBegin..<sectionEnd),
+                    at: IndexSet(integersIn: rangeOfItems),
                     withAnimation: .effectFade
                 )
             }
         }
     }
 
+    /// Returns the range of indexes corresponding to the list's items in the array of rows.
+    private func indexRange(forSection section: ListProtocol) -> Range<Int> {
+        guard section.itemCount > 0 else {
+            // If there are no items, we don't display the header.
+            return 0..<0
+        }
+        let offsetDueToHeader = (shouldDisplaySectionHeaders && section.itemCount > 0 ? 1 : 0)
+        let startIndex = offset(forSectionNamed: section.title) - offsetDueToHeader
+        let endIndex = startIndex + section.itemCount + offsetDueToHeader
+        return startIndex..<endIndex
+    }
+
     /// Calculates the offset for the first item in the section, such that the first item is at offset `offset`, the second at `offset + 1`, and the section header (if it should be displayed) at `offset - 1`.
     private func offset(forSectionNamed sectionName: String) -> Int {
         var count = 0
         for section in sections {
-            if shouldDisplaySectionHeaders {
+            if shouldDisplaySectionHeaders && section.itemCount > 0 {
                 count += 1
             }
             if section.title == sectionName {
@@ -230,12 +242,20 @@ class ListViewController: NSViewController,
     func list(_ list: ListProtocol, didAddItemWithID id: Int, at index: Int) {
         executeOnMain(target: self) { viewController in
             let sectionOffset = viewController.offset(forSectionNamed: list.title)
+            // When adding the first item, we also need to add the header. Because the item is
+            // already in the list, we check for == 1 (the first item) rather than == 0
+            if  shouldDisplaySectionHeaders {
+                if list.itemCount == 1 {
+                    rows.insert(header(for: list), at: sectionOffset - 1)
+                    viewController.tableView.insertRows(at: IndexSet(integer: sectionOffset - 1), withAnimation: .effectFade)
+                }
+                if shouldDisplayRowCountInHeader {
+                    viewController.rows[sectionOffset - 1] = .header("\(list.itemCount) " + list.title)
+                }
+            }
+
             viewController.rows.insert(.item(id), at: sectionOffset + index)
             viewController.tableView.insertRows(at: IndexSet(integer: sectionOffset + index), withAnimation: .effectFade)
-
-            if shouldDisplaySectionHeaders, shouldDisplayRowCountInHeader {
-                viewController.rows[sectionOffset - 1] = .header("\(list.itemCount) " + list.title)
-            }
         }
     }
 
