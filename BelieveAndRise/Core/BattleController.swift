@@ -101,7 +101,8 @@ final class BattleController {
     /// Launches spring as a client connecting to the specified host. The player's battlestatus is appropriately set to "unready", and their
     /// status is updated to reflect their ingame state.
     func startGame() {
-        guard let battleroom = battleroom else {
+        guard let battleroom = battleroom,
+            let myAccount = battleroom.battle.userList.items[battleroom.myID] else {
             return
         }
         setBattleStatus(Battleroom.UserStatus(
@@ -116,7 +117,7 @@ final class BattleController {
         springProcessController.launchSpringAsClient(
             andConnectTo: battleroom.battle.ip,
             at: battleroom.battle.port,
-            with: "BelieveAndRise",
+            with: myAccount.profile.fullUsername,
             and: scriptPassword,
             completionHandler: { [weak self] in
                 guard let self = self,

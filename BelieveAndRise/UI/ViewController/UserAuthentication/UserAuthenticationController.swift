@@ -43,7 +43,6 @@ final class CredentialsManager {
 
     /// Retrieves from the keychin the credentials associated with the server address.
     func credentials(forServerWithAddress serverAddress: String) throws -> Credentials {
-        return Credentials(username: "BelieveAndRise", password: "BelieveAndRise")
         let query: [String: Any] = [
             kSecClass as String: kSecClassInternetPassword,
             kSecAttrServer as String: serverAddress,
