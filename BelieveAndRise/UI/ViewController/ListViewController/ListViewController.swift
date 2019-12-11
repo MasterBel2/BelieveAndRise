@@ -197,7 +197,7 @@ class ListViewController: NSViewController,
             let rangeOfItems = self.indexRange(forSection: list)
             // We need to know the section's order in the array to calculate the indexes.
             $0.sections = $0.sections.filter({ $0 !== list })
-            rangeOfItems.forEach({ _ = rows.remove(at: $0)} )
+            rows.removeSubrange(rangeOfItems)
 
             if isViewLoaded {
                 $0.tableView.removeRows(

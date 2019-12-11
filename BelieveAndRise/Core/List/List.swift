@@ -135,24 +135,6 @@ final class List<ListItem: Sortable>: ListProtocol {
     /// Inserts the item into the list, with the ID as its key, locating it according to the
     /// selected sorting method.
     func addItem(_ item: ListItem, with id: Int) {
-        queue.sync {
-            self._addItem(item, with: id)
-        }
-    }
-
-    /// A helper function that ensures an item is in the parent list before adding it to this list. Returns true if the operation is successful
-    @discardableResult
-    func addItemFromParent(id: Int) -> Bool {
-        queue.sync {
-            if let item = self.parent?.items[id] {
-                self._addItem(item, with: id)
-                return true
-            }
-            return false
-        }
-    }
-
-    private func _addItem(_ item: ListItem, with id: Int) {
         for index in 0..<itemCount {
             let idAtIndex = sortedItemsByID[index]
             guard let itemAtIndex = items[idAtIndex] else {
@@ -165,11 +147,18 @@ final class List<ListItem: Sortable>: ListProtocol {
                     let idToUpdate = sortedItemsByID[indexToUpdate]
                     itemIndicies[idToUpdate] = indexToUpdate + 1
                 }
-				placeItem(item, with: id, at: index)
+                placeItem(item, with: id, at: index)
                 return
             }
         }
-		placeItem(item, with: id, at: itemCount)
+        placeItem(item, with: id, at: itemCount)
+    }
+
+    /// A helper function that ensures an item is in the parent list before adding it to this list. Returns true if the operation is successful
+    func addItemFromParent(id: Int) {
+        if let item = self.parent?.items[id] {
+            self.addItem(item, with: id)
+        }
     }
 
     /// Places an item in the list and sets its indexes etc. Does not update the items that it displaces.
@@ -182,64 +171,60 @@ final class List<ListItem: Sortable>: ListProtocol {
 
     /// Updates the list's sort order and notifies the delegate that the item has been updated.
     func respondToUpdatesOnItem(identifiedBy id: Int) {
-        queue.sync {
-            guard let index = self.itemIndicies[id],
-                let updatedItem = item(at: index) else {
+        guard let index = itemIndicies[id],
+            let updatedItem = item(at: index) else {
                 return
+        }
+
+        // ID : Position
+        var indexesToUpdate: [Int] = []
+        var newIndex = index
+
+        for (relation, offset) in [(ValueRelation.lesser, 1), (ValueRelation.greater, -1)] {
+            while let otherItem = item(at: newIndex + offset),
+                updatedItem.relationTo(otherItem, forSortKey: sortKey) == relation {
+                    // the new value for newIndex is the position we're going to move into, so
+                    // that's the item that will be displaced.
+                    newIndex += offset
+                    // Remember the index needs to be updated later. We won't update the dictionary yet since
+                    // we're not actually moving things in sortedItemsByID yet.
+                    indexesToUpdate.append(newIndex)
             }
 
-            // ID : Position
-            var indexesToUpdate: [Int] = []
-            var newIndex = index
-
-            for (relation, offset) in [(ValueRelation.lesser, 1), (ValueRelation.greater, -1)] {
-                while let otherItem = item(at: newIndex + offset),
-                    updatedItem.relationTo(otherItem, forSortKey: sortKey) == relation {
-                        // the new value for newIndex is the position we're going to move into, so
-                        // that's the item that will be displaced.
-                        newIndex += offset
-                        // Remember the index needs to be updated later. We won't update the dictionary yet since
-                        // we're not actually moving things in sortedItemsByID yet.
-                        indexesToUpdate.append(newIndex)
-                }
-
-                if newIndex != index {
-                    // Update indexes associated with IDs before updating IDs associated with indexes, because it depends on the array
-                    // -1 * offset, since they move the opposite direction to the updated item
-                    indexesToUpdate.forEach({
-                        itemIndicies[sortedItemsByID[$0]] = $0 - offset
-                    })
-                    // Update the index associated with the updated ID
-                    itemIndicies[id] = newIndex
-                    sortedItemsByID.moveItem(from: index, to: newIndex)
-                    delegate?.list(self, didMoveItemFrom: index, to: newIndex)
-                    break
-                }
+            if newIndex != index {
+                // Update indexes associated with IDs before updating IDs associated with indexes, because it depends on the array
+                // -1 * offset, since they move the opposite direction to the updated item
+                indexesToUpdate.forEach({
+                    itemIndicies[self.sortedItemsByID[$0]] = $0 - offset
+                })
+                // Update the index associated with the updated ID
+                itemIndicies[id] = newIndex
+                sortedItemsByID.moveItem(from: index, to: newIndex)
+                delegate?.list(self, didMoveItemFrom: index, to: newIndex)
+                break
             }
-            delegate?.list(self, itemWasUpdatedAt: newIndex)
-            for sublist in sublists {
-                sublist.respondToUpdatesOnItem(identifiedBy: id)
-            }
+        }
+        delegate?.list(self, itemWasUpdatedAt: newIndex)
+        for sublist in sublists {
+            sublist.respondToUpdatesOnItem(identifiedBy: id)
         }
     }
 
     /// Removes the item with the given ID from the list.
     func removeItem(withID id: Int) {
-        queue.sync {
-            guard let index = self.itemIndicies[id] else {
-                return
-            }
-            self.itemIndicies.removeValue(forKey: id)
-            for indexToUpdate in (index + 1)..<itemCount {
-                let idToUpdate = sortedItemsByID[indexToUpdate]
-                itemIndicies[idToUpdate] = indexToUpdate - 1
-            }
-            self.items.removeValue(forKey: id)
-            self.sortedItemsByID.remove(at: index)
-            self.sublists.forEach { $0.removeItem(withID: id) }
-
-            self.delegate?.list(self, didRemoveItemAt: index)
+        guard let index = itemIndicies[id] else {
+            return
         }
+        itemIndicies.removeValue(forKey: id)
+        for indexToUpdate in (index + 1)..<itemCount {
+            let idToUpdate = sortedItemsByID[indexToUpdate]
+            itemIndicies[idToUpdate] = indexToUpdate - 1
+        }
+        items.removeValue(forKey: id)
+        sortedItemsByID.remove(at: index)
+        sublists.forEach { $0.removeItem(withID: id) }
+
+        delegate?.list(self, didRemoveItemAt: index)
     }
 
     // MARK: - List integrity
