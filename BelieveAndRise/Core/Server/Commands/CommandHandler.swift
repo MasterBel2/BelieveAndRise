@@ -131,7 +131,7 @@ final class CommandHandler: TASServerDelegate {
 
 				// Battle commands
                 "BATTLEOPENED" : SCBattleOpenedCommand.self,
-				"BATTLECLOSESD" : SCBattleClosedCommand.self,
+				"BATTLECLOSED" : SCBattleClosedCommand.self,
 				"JOINEDBATTLE" : SCJoinedBattleCommand.self,
 				"LEFTBATTLE" : SCLeftBattleCommand.self,
 				"JOINBATTLE" : SCJoinBattleCommand.self,

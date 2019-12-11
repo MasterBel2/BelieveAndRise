@@ -687,13 +687,18 @@ struct SCBattleClosedCommand: SCCommand {
 	
 	init?(description: String) {
 		guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 1, sentenceCount: 0),
-			let battleID = Int(words[1]) else {
+			let battleID = Int(words[0]) else {
 			return nil
 		}
 		self.battleID = battleID
 	}
 	
 	func execute(on connection: Connection) {
+        if let battle = connection.battleController.battleroom?.battle,
+            battle === connection.battleList.items[battleID] {
+            connection.battleController.battleroom = nil
+            connection.windowController.destroyBattleroom()
+        }
 		connection.battleList.removeItem(withID: battleID)
 	}
 	
@@ -876,6 +881,8 @@ struct SCKickFromBattleCommand: SCCommand {
 	}
 	
 	func execute(on connection: Connection) {
+        connection.battleController.battleroom = nil
+        connection.windowController.destroyBattleroom()
 		#warning("todo")
 	}
 	

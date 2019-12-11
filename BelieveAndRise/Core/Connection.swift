@@ -14,6 +14,9 @@ import Cocoa
 
  A connection handles the top-level data and windows associated with a client-server connection, as well as handling the outputting of
  commands back to the server.
+
+ Updates received from the server are processed by instances of the SCServerCommand protocol. The Connection object simply manages
+ the interactions between its various components as needed.
  */
 final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelegate {
 
@@ -29,8 +32,8 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
     /// Processes incoming commands and updates the model and UI appropriately.
     let commandHandler = CommandHandler()
     /// Processes chat-related information directed back towards the server
-    private(set) var chatController: ChatController!
-	private(set) var battleController: BattleController!
+    let chatController: ChatController
+	let battleController: BattleController
     /// Controls the main window associated with the server conenction.
     private(set) var windowController: MainWindowController!
     /// The server.
@@ -52,6 +55,9 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
         self.windowManager = windowManager
         self.resourceManager = resourceManager
 
+        battleController = BattleController(battleList: battleList)
+        chatController = ChatController(windowManager: windowManager)
+
         // Configure the command handler
         commandHandler.connection = self
         commandHandler.setProtocol(.unknown)
@@ -62,7 +68,7 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
         }
     }
 
-    // MARK: - Controlling the server connection
+    // MARK: - Interacting with the server connection
 
     func start() {
         server.connect()
@@ -80,13 +86,8 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
 		let server = TASServer(address: address)
 		server.delegate = commandHandler
 		
-		chatController = ChatController(server: server, windowManager: windowManager)
-		battleController = BattleController(battleList: battleList, server: server)
-		
-		windowController.primaryListDisplay.selectionHandler = DefaultBattleListSelectionHandler(battlelist: battleList, battleController: battleController)
-
-		windowController.setChatController(chatController)
-        windowController.setBattleController(battleController)
+        chatController.server = server
+        battleController.server = server
 		
 		self.server = server
 	}
@@ -104,10 +105,10 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
     }
 
     private func configureWindow(for windowController: MainWindowController) {
-        windowController.primaryListDisplay.addSection(battleList)
-        windowController.primaryListDisplay.itemViewProvider = BattlelistItemViewProvider(list: battleList)
-        windowController.supplementaryListDisplay.addSection(userList)
-        windowController.supplementaryListDisplay.itemViewProvider = DefaultPlayerListItemViewProvider(list: userList)
+        windowController.setBattleController(battleController)
+        windowController.setChatController(chatController)
+        windowController.displayBattlelist(battleList)
+        windowController.displayServerUserlist(userList)
     }
 
     // MARK: - Presenting information
@@ -123,7 +124,8 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
     func receivedError(_ error: ServerError) {
         switch error {
 		default:
-			fatalError()
+            print(error)
+            fatalError()
 			#warning("FIXME")
         }
     }

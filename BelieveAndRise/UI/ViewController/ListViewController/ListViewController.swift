@@ -183,7 +183,6 @@ class ListViewController: NSViewController,
                         withAnimation: .effectFade
                     )
                 }
-
             }
         }
     }

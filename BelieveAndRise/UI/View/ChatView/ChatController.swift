@@ -10,7 +10,7 @@ import Foundation
 
 final class ChatController {
 
-    let server: TASServer
+    weak var server: TASServer?
     let windowManager: WindowManager
 
     var channels: [ChannelSummary] = []
@@ -22,15 +22,14 @@ final class ChatController {
         let isPrivate: Bool
     }
 
-    init(server: TASServer, windowManager: WindowManager) {
-        self.server = server
+    init(windowManager: WindowManager) {
         self.windowManager = windowManager
     }
 
     func ring(_ id: Int) {}
 
     func sendMessage(_ message: String, toChannelNamed channelName: String) {
-        server.send(CSSayCommand(channelName: channelName, message: message))
+        server?.send(CSSayCommand(channelName: channelName, message: message))
     }
 
     func sendPrivateMessage(_ message: String, toUserIdentifiedBy id: Int) {
@@ -57,6 +56,6 @@ final class ChatController {
         if channels.first(where: { $0.title == channelName })?.isPrivate == true {
             // Present a prompt
         }
-        server.send(CSJoinCommand(channelName: channelName, key: nil))
+        server?.send(CSJoinCommand(channelName: channelName, key: nil))
     }
 }

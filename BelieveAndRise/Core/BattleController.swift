@@ -19,7 +19,7 @@ final class BattleController {
     /// Provides controll of a spring process, for joining battles specified by the host.
     let springProcessController = SpringProcessController()
     /// The server this controller provides an interface for.
-	let server: TASServer
+	weak var server: TASServer?
 
     // MARK: - Properties
 
@@ -28,9 +28,8 @@ final class BattleController {
 
     // MARK: - Lifecycle
 
-	init(battleList: List<Battle>, server: TASServer) {
+	init(battleList: List<Battle>) {
 		self.battleList = battleList
-		self.server = server
 	}
 
     // MARK: - Interacting with battles
@@ -39,6 +38,9 @@ final class BattleController {
     ///
     /// This function does not check whether the specified battle is the battle already joined.
 	func joinBattle(_ battleID: Int) {
+        guard battleList.items[battleID] !== battleroom?.battle else {
+            return
+        }
 
         if battleroom != nil {
             // Leave the battle so we can join a new one. (We can't be in two at once.)
@@ -52,13 +54,13 @@ final class BattleController {
 		if battle.hasPassword {
 			// TODO: Prompt for password
 		}
-		server.send(CSJoinBattleCommand(battleID: battleID, password: nil, scriptPassword: scriptPassword))
+		server?.send(CSJoinBattleCommand(battleID: battleID, password: nil, scriptPassword: scriptPassword))
 	}
 
     /// Removes the player from the battle; first locally, then by
 	func leaveBattle() {
         battleroom = nil
-		server.send(CSLeaveBattleCommand())
+		server?.send(CSLeaveBattleCommand())
 	}
 
     // MARK: - Updating status
@@ -73,7 +75,7 @@ final class BattleController {
         if battleroom.battle.userList.items.keys.contains(battleroom.myID) {
             battleroom.setUserStatus(battleStatus, forUserIdentifiedBy: battleroom.myID)
         }
-        server.send(CSMyBattleStatusCommand(
+        server?.send(CSMyBattleStatusCommand(
             battleStatus: battleStatus,
             color: battleroom.myColor
         ))
@@ -90,7 +92,7 @@ final class BattleController {
             return
         }
         battleroom.colors[battleroom.myID] = color
-        server.send(CSMyBattleStatusCommand(
+        server?.send(CSMyBattleStatusCommand(
             battleStatus: battleroom.myBattleStatus,
             color: color
         ))

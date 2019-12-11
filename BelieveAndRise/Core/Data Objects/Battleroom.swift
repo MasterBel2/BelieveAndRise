@@ -281,16 +281,6 @@ final class Battleroom: BattleDelegate, ListDelegate {
 		}
 	}
 
-    deinit {
-        spectatorListDisplay?.removeSection(spectatorList)
-        if let minimapDisplay = minimapDisplay {
-            (0..<16).forEach(minimapDisplay.removeStartRect(for:))
-        }
-        allyTeamLists.forEach({ list in
-            allyTeamListDisplay?.removeSection(list)
-        })
-    }
-
     // MARK: - Nested Types
 	
 	final class Bot {

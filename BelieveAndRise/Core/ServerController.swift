@@ -33,11 +33,11 @@ protocol ListDisplay: AnyObject {
 }
 
 protocol MainWindowController: WindowController {
-    var primaryListDisplay: ListDisplay { get }
-    var secondaryListDisplay: ListDisplay { get }
-    var supplementaryListDisplay: ListDisplay { get }
-
+    func displayBattlelist(_ battleList: List<Battle>)
+    func displayServerUserlist(_ userList: List<User>)
     func displayBattleroom(_ battleroom: Battleroom)
+
+    func destroyBattleroom()
 	
 	func setChatController(_ chatController: ChatController)
     func setBattleController(_ battleController: BattleController)

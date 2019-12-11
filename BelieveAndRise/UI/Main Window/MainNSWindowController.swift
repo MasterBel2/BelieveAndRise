@@ -19,14 +19,11 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
     // MARK: - Data
 
     /// The primary list acts as a navigation
-    private(set) var primaryListViewController = ListViewController()
-    private var chatViewController = ChatViewController()
-    private var secondaryListViewController: ListViewController {
-        return chatViewController.logViewController
-    }
-    private(set) var supplementaryListViewController = ListViewController()
+    let battlelistViewController = ListViewController()
+    let chatViewController = ChatViewController()
+    let userListViewController = ListViewController()
 
-    private(set) var battleroomViewController: NSViewController?
+    private(set) var battleroomViewController: BattleroomViewController?
 
     private var splitViewController: NSSplitViewController!
 
@@ -38,16 +35,28 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
 
     // MARK: - MainWindowController
 
-    var primaryListDisplay: ListDisplay {
-        return primaryListViewController
+    func displayBattlelist(_ battleList: List<Battle>) {
+        guard let battleController = battleController else {
+            debugOnlyPrint("No battle controller set!")
+            return
+        }
+        battlelistViewController.sections.forEach(battlelistViewController.removeSection(_:))
+        battlelistViewController.addSection(battleList)
+        battlelistViewController.itemViewProvider = BattlelistItemViewProvider(list: battleList)
+        battlelistViewController.selectionHandler = DefaultBattleListSelectionHandler(
+            battlelist: battleList,
+            battleController: battleController
+        )
     }
 
-    var secondaryListDisplay: ListDisplay {
-        return secondaryListViewController
+    func displayServerUserlist(_ userList: List<User>) {
+        userListViewController.sections.forEach(userListViewController.removeSection(_:))
+        userListViewController.addSection(userList)
+        userListViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: userList)
     }
 
-    var supplementaryListDisplay: ListDisplay {
-        return supplementaryListViewController
+    func displayChannel(_ channel: Channel) {
+        chatViewController.setChannel(channel)
     }
 
     /**
@@ -59,7 +68,7 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
 
         // Update data
 
-        if let battleroomViewController = self.battleroomViewController as? BattleroomViewController {
+        if let battleroomViewController = self.battleroomViewController {
             battleroomViewController.battleroom = battleroom
             let middleSplitViewItem = splitViewController.splitViewItems[1]
             if middleSplitViewItem.viewController !== battleroomViewController {
@@ -82,6 +91,18 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
             battleroomViewController.setViewBackgroundColor(.controlBackgroundColor)
             self.battleroomViewController = battleroomViewController
         }
+
+        leaveBattleButton.isHidden = false
+    }
+
+    func destroyBattleroom() {
+        if let battleroomViewController = battleroomViewController,
+            let battleroomSplitViewItem = splitViewController.splitViewItem(for: battleroomViewController) {
+            self.battleroomViewController = nil
+            splitViewController.removeSplitViewItem(battleroomSplitViewItem)
+            splitViewController.insertSplitViewItem(NSSplitViewItem(viewController: chatViewController), at: 1)
+        }
+        leaveBattleButton.isHidden = true
     }
 	
 	func setChatController(_ chatController: ChatController) {
@@ -113,21 +134,34 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
         chatViewController.setViewBackgroundColor(.controlBackgroundColor)
 
         self.splitViewController = splitViewController
+
+        leaveBattleButton.isHidden = true
+        battlelistViewController.footer = leaveBattleButton
     }
+
+    let leaveBattleButton = NSButton(title: "Leave Battle", target: self, action: #selector(leaveBattle))
 
     private func newSplitViewController() -> NSSplitViewController {
         let viewController = NSSplitViewController()
 
-        let item1 = NSSplitViewItem(sidebarWithViewController: primaryListViewController)
+        let item1 = NSSplitViewItem(sidebarWithViewController: battlelistViewController)
         item1.automaticMaximumThickness = 150
 
         let item2 = NSSplitViewItem(viewController: chatViewController)
 
-        let item3 = NSSplitViewItem(contentListWithViewController: supplementaryListViewController)
+        let item3 = NSSplitViewItem(contentListWithViewController: userListViewController)
         item3.automaticMaximumThickness = 150
 
         [item1, item2, item3].forEach(viewController.addSplitViewItem)
 
         return viewController
+    }
+
+    // MARK: - Actions
+
+    @objc private func leaveBattle() {
+        battleController?.leaveBattle()
+        destroyBattleroom()
+        leaveBattleButton.isHidden = true
     }
 }
