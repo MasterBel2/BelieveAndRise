@@ -120,7 +120,7 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
             title: "New Team",
             action: { [weak self] in
                 guard let self = self,
-                    let newAllyNumber = (0..<16).filter({ self.battleroom.allyTeamLists[$0] != nil }).first
+                    let newAllyNumber = (0..<16).first(where: { self.battleroom.allyNamesForAllyNumbers[$0] == nil })
                     else {
                         #warning("Fails silently when all 16 teams are full. Should ensure the option is removed instead.")
                     return
@@ -191,27 +191,50 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
 
     func addedTeam(named teamName: String) {
         executeOnMain(target: self) { (viewController: BattleroomViewController) -> Void in
-            viewController.header.addAllyItem(BattleroomHeaderView.AllyItem(title: "Ally \(teamName)", action: { [weak viewController] in
-                guard let viewController = viewController else {
+            for index in 0..<(header.allyItems.count - 2) {
+                // Ensure that 2 is positioned before 10.
+                if Int(teamName) != nil,
+                    allyItemTitle(forAllyNamed: teamName).count < header.allyItems[index].title.count {
+                    viewController.insertAllyOption(named: teamName, at: index)
                     return
                 }
-                let myBattleStatus = viewController.battleroom.myBattleStatus
-                viewController.battleController.setBattleStatus(Battleroom.UserStatus(
-                    isReady: myBattleStatus.isReady,
-                    teamNumber: myBattleStatus.teamNumber,
-                    allyNumber: Int(teamName) ?? myBattleStatus.allyNumber,
-                    isSpectator: false,
-                    handicap: myBattleStatus.handicap,
-                    syncStatus: myBattleStatus.syncStatus,
-                    side: myBattleStatus.side
-                ))
-            }))
+                if header.allyItems[index].title > allyItemTitle(forAllyNamed: teamName) {
+                    // Ensure that 10 is positioned after 2.
+                    if Int(teamName) != nil,
+                        allyItemTitle(forAllyNamed: teamName).count > header.allyItems[index].title.count {
+                        break
+                    }
+                    viewController.insertAllyOption(named: teamName, at: index)
+                    return
+                }
+            }
+            insertAllyOption(named: teamName, at: header.allyItems.count - 2)
         }
+    }
+    
+    private func insertAllyOption(named teamName: String, at index: Int) {
+        let allyItem = BattleroomHeaderView.AllyItem(title: allyItemTitle(forAllyNamed: teamName), action: { [weak self] in
+            guard let self = self else {
+                return
+            }
+            let myBattleStatus = self.battleroom.myBattleStatus
+            let newAllyNumber = self.battleroom.allyNamesForAllyNumbers.first(where: { $0.value == teamName })?.key
+            self.battleController.setBattleStatus(Battleroom.UserStatus(
+                isReady: myBattleStatus.isReady,
+                teamNumber: myBattleStatus.teamNumber,
+                allyNumber: newAllyNumber ?? myBattleStatus.allyNumber,
+                isSpectator: false,
+                handicap: myBattleStatus.handicap,
+                syncStatus: myBattleStatus.syncStatus,
+                side: myBattleStatus.side
+            ))
+        })
+        header.insertAllyItem(allyItem, at: index)
     }
 
     func removedTeam(named teamName: String) {
         executeOnMain(target: header) { header in
-            header.removeAllyItem(named: "Ally \(teamName)")
+            header.removeAllyItem(named: allyItemTitle(forAllyNamed: teamName))
         }
     }
 
@@ -263,4 +286,10 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
 			)
 		)
 	}
+
+    // MARK: - Private helpers
+
+    private func allyItemTitle(forAllyNamed allyName: String) -> String {
+        return "Ally \(allyName)"
+    }
 }

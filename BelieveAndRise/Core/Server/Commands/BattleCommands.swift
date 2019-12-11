@@ -673,6 +673,11 @@ struct SCLeftBattleCommand: SCCommand {
 	}
 }
 
+/**
+ Sent to all users to notify that a battle has been closed.
+
+ When a battle host sends a `CSLeaveBattleCommand`, the server will respond with a `SCBattleClosedCommand`.
+ */
 struct SCBattleClosedCommand: SCCommand {
 	
 	let battleID: Int
@@ -976,6 +981,7 @@ struct SCEnableUnitsCommand: SCCommand {
 		return "ENABLEUNITS \(units.joined(separator: " "))"
 	}
 }
+
 /**
 Sent to notify a client that another user requested that a "ring" sound be played to them.
 */
@@ -1003,4 +1009,3 @@ struct SCRingCommand: SCCommand {
 		return "RING \(username)"
 	}
 }
-

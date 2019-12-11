@@ -62,6 +62,8 @@ final class Battleroom: BattleDelegate, ListDelegate {
     /// A hash code taken from the map, game, and engine. Calculated by Unitsync.
     var hashCode: Int32
 
+    var allyNamesForAllyNumbers: [Int : String] = [:]
+
     // MARK: - Sync
 
     var hasEngine: Bool {
@@ -133,7 +135,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
         generalDisplay?.display(isHostIngame: isHostIngame, isPlayerIngame: isPlayerIngame)
     }
 
-    /// Sets the status for a user, as specified by their ID. 
+    /// Sets the status for a user, as specified by their ID.
     func setUserStatus(_ newUserStatus: UserStatus, forUserIdentifiedBy userID: Int) {
         // Ally/spectator
         let previousUserStatus = userStatuses[userID]
@@ -146,14 +148,26 @@ final class Battleroom: BattleDelegate, ListDelegate {
                 spectatorList.removeItem(withID: userID)
             } else if let previousAllyNumber = previousUserStatus?.allyNumber {
                 // The user is no longer a player on an allyteam.
-                allyTeamLists[previousAllyNumber].removeItem(withID: userID)
+                let allyTeamList = allyTeamLists[previousAllyNumber]
+                allyTeamList.removeItem(withID: userID)
+                if allyTeamList.itemCount == 0,
+                    let allyName = allyNamesForAllyNumbers[previousAllyNumber] {
+                    generalDisplay?.removedTeam(named: allyName)
+                    allyNamesForAllyNumbers.removeValue(forKey: previousAllyNumber)
+                }
             }
             if value.new {
                 // The user is becoming a spectator.
                 spectatorList.addItemFromParent(id: userID)
             } else {
                 // The user has changed to an ally team – I.e. joined a new ally.
-                allyTeamLists[newUserStatus.allyNumber].addItemFromParent(id: userID)
+                let allyTeamList = allyTeamLists[newUserStatus.allyNumber]
+                allyTeamList.addItemFromParent(id: userID)
+                if allyTeamList.itemCount == 1 {
+                    let allyName = String(newUserStatus.allyNumber + 1)
+                    allyNamesForAllyNumbers[newUserStatus.allyNumber] = allyName
+                    generalDisplay?.addedTeam(named: allyName)
+                }
             }
         }
 
@@ -264,7 +278,8 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
         self.battleController = battleController
 
-        allyTeamLists = (0...15).map({ List(title: "Team \(String($0))", sortKey: .rank, parent: battle.userList) })
+        // + 1 – Users will count from 1, not from 0
+        allyTeamLists = (0...15).map({ List(title: "Ally \(String($0 + 1))", sortKey: .rank, parent: battle.userList) })
 
         battle.delegate = self
         battle.userList.delegate = self
