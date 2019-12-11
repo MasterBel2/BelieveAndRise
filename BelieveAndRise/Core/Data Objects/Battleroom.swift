@@ -113,7 +113,15 @@ final class Battleroom: BattleDelegate, ListDelegate {
     let myID: Int
 
     var myBattleStatus: Battleroom.UserStatus {
-        return userStatuses[myID] ?? UserStatus.default
+        return userStatuses[myID] ?? UserStatus(
+            isReady: false,
+            teamNumber: 0,
+            allyNumber: 0,
+            isSpectator: false,
+            handicap: 0,
+            syncStatus: isSynced ? .synced : .unsynced,
+            side: 0
+        )
     }
 
     var myColor: Int32 {

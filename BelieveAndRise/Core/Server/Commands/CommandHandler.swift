@@ -138,7 +138,7 @@ final class CommandHandler: TASServerDelegate {
 				"JOINBATTLEFAILED" : SCJoinBattleFailedCommand.self,
 				"FORCEQUITBATTLE" : SCForceQuitBattleCommand.self,
 				"CLIENTBATTLESTATUS" : SCClientBattleStatusCommand.self,
-				"REQUESTBATTLESTATUS" : SCRequestBattleStatusCommand.self,
+//				"REQUESTBATTLESTATUS" : SCRequestBattleStatusCommand.self,
 				"UPDATEBATTLEINFO" : SCUpdateBattleInfoCommand.self,
 				"ADDBOT" : SCAddBotCommand.self,
 				"REMOVEBOT" : SCRemoveBotCommand.self,
