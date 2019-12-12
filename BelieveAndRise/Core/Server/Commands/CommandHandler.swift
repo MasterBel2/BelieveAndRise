@@ -138,6 +138,9 @@ final class CommandHandler: TASServerDelegate {
 				"JOINBATTLEFAILED" : SCJoinBattleFailedCommand.self,
 				"FORCEQUITBATTLE" : SCForceQuitBattleCommand.self,
 				"CLIENTBATTLESTATUS" : SCClientBattleStatusCommand.self,
+                // Commented out, since we do not respond to this command.
+                // Since we know when we've joined a battle, we don't need to
+                // send our status.
 //				"REQUESTBATTLESTATUS" : SCRequestBattleStatusCommand.self,
 				"UPDATEBATTLEINFO" : SCUpdateBattleInfoCommand.self,
 				"ADDBOT" : SCAddBotCommand.self,
