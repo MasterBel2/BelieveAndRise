@@ -9,7 +9,6 @@
 import Foundation
 
 struct TableHeaderData {
-	let image: IconLoading
 	let title: String
 	let option: Option
 	

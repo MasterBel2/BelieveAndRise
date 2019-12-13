@@ -83,7 +83,11 @@ final class BattleController {
 
     /// Sets a user status for the user.
     func setStatus(_ status: User.Status) {
-//        server.send()
+        guard let myID = battleroom?.myID,
+            let myStatus = battleroom?.battle.userList.items[myID]?.status else {
+                return
+        }
+//        server?.send(CSMyStatus)
     }
 
     /// Updates the user's color – first locally (for immediate user feedback), then notifies the server that the client's color has changed.

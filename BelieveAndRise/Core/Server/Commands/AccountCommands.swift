@@ -45,7 +45,6 @@ struct SCLoginAcceptedCommand: SCCommand {
 
     func execute(on connection: Connection) {
         connection.userAuthenticationController?.loginDidSucceed(for: username)
-        connection.windowController._window?.dismissPrompts()
     }
 }
 

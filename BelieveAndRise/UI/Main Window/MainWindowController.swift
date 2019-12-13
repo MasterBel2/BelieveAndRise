@@ -1,5 +1,5 @@
 //
-//  MainNSWindowController.swift
+//  MainWindowController.swift
 //  BelieveAndRise
 //
 //  Created by MasterBel2 on 5/9/19.
@@ -8,7 +8,7 @@
 
 import Cocoa
 
-final class MainNSWindowController: NSWindowController, MainWindowController {
+final class MainWindowController: NSWindowController {
 
     // MARK: - Dependencies
 
@@ -117,7 +117,7 @@ final class MainNSWindowController: NSWindowController, MainWindowController {
     // MARK: - Presentation
 
     override var windowNibName: NSNib.Name? {
-        return "MainNSWindowController"
+        return "MainWindowController"
     }
 
     override func windowDidLoad() {

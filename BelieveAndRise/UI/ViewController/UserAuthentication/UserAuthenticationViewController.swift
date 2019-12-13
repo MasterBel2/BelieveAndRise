@@ -14,12 +14,12 @@ enum TextFieldKey {
     case email
 }
 
-protocol UserAuthenticationViewControllerDelegate: AnyObject {
+protocol UserAuthenticationControllerDisplayDelegate: AnyObject {
     func submitLogin(for userAuthenticationViewController: UserAuthenticationViewController)
 }
 
 /// A controller for the user authentication process.
-final class UserAuthenticationViewController: NSViewController {
+final class UserAuthenticationViewController: NSViewController, UserAuthenticationDisplay {
 
     // MARK: - Outlets
 
@@ -46,25 +46,25 @@ final class UserAuthenticationViewController: NSViewController {
     // MARK: - Dependencies
 
     /// The user authentication view controller's delegate.
-    weak var delegate: UserAuthenticationViewControllerDelegate?
+    weak var delegate: UserAuthenticationControllerDisplayDelegate?
 
     // MARK: - Configuration
 
     /// Configures the view to present data already in the request
-    func configureFor(_ input: IncompleteAuthenticateUserRequest) {
+    func displayAuthenticateUserRequest(_ request: IncompleteAuthenticateUserRequest) {
         let configureViews = { [weak self] in
             guard let self = self else {
                 return
             }
             let textField = NSTextField()
             textField.placeholderString = "Username"
-            textField.stringValue = input.username ?? ""
+            textField.stringValue = request.username ?? ""
             self.contentStackView.addArrangedSubview(textField)
             self.fields.append((key: .username, field: textField))
 
             let textField2 = NSSecureTextField()
             textField2.placeholderString = "Password"
-            textField2.stringValue = input.password ?? ""
+            textField2.stringValue = request.password ?? ""
             self.fields.append((key: .password, field: textField2))
 
             self.contentStackView.addArrangedSubview(textField2)
@@ -77,6 +77,10 @@ final class UserAuthenticationViewController: NSViewController {
         // Cannot access view's properties until after the view has loaded; if the view hasn't loaded yet,
         // we'll wait until viewDidLoad to configure the views.
         isViewLoaded ? configureViews() : (self.configureViewsAfterViewLoaded = configureViews)
+    }
+
+    func dismiss() {
+        dismiss(self)
     }
 
     // MARK: - Actions

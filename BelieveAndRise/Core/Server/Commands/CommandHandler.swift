@@ -39,7 +39,7 @@ final class CommandHandler: TASServerDelegate {
             return
         }
 
-//        debugOnlyPrint(serverCommand)
+        debugOnlyPrint(serverCommand)
 
         let components = serverCommand.components(separatedBy: " ")
         let description = components.dropFirst().joined(separator: " ")

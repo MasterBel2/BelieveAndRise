@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Cocoa
 
 /**
  An object that at an abstract level represents a connection between a user and the server.
@@ -18,12 +17,12 @@ import Cocoa
  Updates received from the server are processed by instances of the SCServerCommand protocol. The Connection object simply manages
  the interactions between its various components as needed.
  */
-final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelegate {
+final class Connection: ServerSelectionViewControllerDelegate {
 
     // MARK: - Dependencies
 
     /// Provides platform-specific windows.
-    private let windowManager: WindowManager
+    let windowManager: WindowManager
     ///
     let resourceManager: ResourceManager
 
@@ -34,8 +33,6 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
     /// Processes chat-related information directed back towards the server
     let chatController: ChatController
 	let battleController: BattleController
-    /// Controls the main window associated with the server conenction.
-    private(set) var windowController: MainWindowController!
     /// The server.
     private(set) var server: TASServer!
     private(set) var userAuthenticationController: UserAuthenticationController?
@@ -94,30 +91,27 @@ final class Connection: LobbyClientDelegate, ServerSelectionViewControllerDelega
 
     // MARK: - Window
 
+    /// 
     func createAndShowWindow() {
-		let windowController = windowManager.mainWindowController()
-        configureWindow(for: windowController)
+        windowManager.presentInitialWindow()
+        configureInterface()
         if server == nil {
-            windowManager.presentServerSelection(toWindowFor: windowController, delegate: self)
+            windowManager.presentServerSelection(delegate: self)
         }
-        windowController.showWindow(self)
-        self.windowController = windowController
     }
 
-    private func configureWindow(for windowController: MainWindowController) {
-        windowController.setBattleController(battleController)
-        windowController.setChatController(chatController)
-        windowController.displayBattlelist(battleList)
-        windowController.displayServerUserlist(userList)
+    private func configureInterface() {
+        windowManager.setBattleController(battleController)
+        windowManager.setChatController(chatController)
+        windowManager.displayBattlelist(battleList)
+        windowManager.displayServerUserlist(userList)
     }
 
     // MARK: - Presenting information
 
     func presentLogin() {
-        let userAuthenticationController = UserAuthenticationController(server: server)
-        let viewController = userAuthenticationController.viewController
-        windowController._window?.dismissPrompts()
-        (windowController._window as! NSWindow).beginSheet(NSWindow(contentViewController: viewController), completionHandler: nil)
+        let userAuthenticationController = UserAuthenticationController(server: server, windowManager: windowManager)
+        windowManager.presentLogin(controller: userAuthenticationController)
         self.userAuthenticationController = userAuthenticationController
     }
 

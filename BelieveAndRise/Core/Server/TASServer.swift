@@ -66,7 +66,7 @@ final class TASServer: NSObject, SocketDelegate {
 
     /// Sends an encoded command over the socket and delays the keepalive to avoid sending superfluous messages to the server.
 	func send(_ command: CSCommand) {
-//        debugOnlyPrint(command)
+        debugOnlyPrint(command)
 		NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(TASServer.sendPing), object: nil)
 		socket.send(message: command.description + "\n")
 		perform(#selector(TASServer.sendPing), with: nil, afterDelay: keepaliveDelay)

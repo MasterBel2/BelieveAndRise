@@ -197,7 +197,7 @@ struct SCJoinBattleCommand: SCCommand {
 		connection.channelList.addItem(battleroomChannel, with: connection.id(forChannelnamed: battleroomChannel.title))
         let battleroom = Battleroom(battle: battle, channel: battleroomChannel, hashCode: hashCode, resourceManager: connection.resourceManager, battleController: connection.battleController, myID: myID)
         connection.battleController.battleroom = battleroom
-		connection.windowController.displayBattleroom(battleroom)
+        connection.windowManager.displayBattleroom(battleroom)
 	}
 }
 
@@ -702,7 +702,7 @@ struct SCBattleClosedCommand: SCCommand {
         if let battle = connection.battleController.battleroom?.battle,
             battle === connection.battleList.items[battleID] {
             connection.battleController.battleroom = nil
-            connection.windowController.destroyBattleroom()
+            connection.windowManager.destroyBattleroom()
         }
 		connection.battleList.removeItem(withID: battleID)
 	}
@@ -887,7 +887,7 @@ struct SCKickFromBattleCommand: SCCommand {
 	
 	func execute(on connection: Connection) {
         connection.battleController.battleroom = nil
-        connection.windowController.destroyBattleroom()
+        connection.windowManager.destroyBattleroom()
 		#warning("todo")
 	}
 	
