@@ -40,6 +40,9 @@ final class MacOSWindowManager: WindowManager {
     private var mainWindowController = MainWindowController()
 	private var downloadsWindow: NSWindow?
 
+    /// The controller for storing and retrieving interface-related defaults.
+    private let defaultsController = InterfaceDefaultsController()
+
     // MARK: - Sheets
 
     private var sheets: [SheetType : NSWindow] = [:]
@@ -55,6 +58,7 @@ final class MacOSWindowManager: WindowManager {
     /// check for (or remove) any windows that have already been presented.
     func presentInitialWindow() {
         let mainWindowController = MainWindowController()
+        mainWindowController.defaultsController = defaultsController
         mainWindowController.window?.makeKeyAndOrderFront(self)
         self.mainWindowController = mainWindowController
     }

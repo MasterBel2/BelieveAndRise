@@ -16,6 +16,9 @@ final class MainWindowController: NSWindowController {
     private weak var chatController: ChatController?
     private weak var battleController: BattleController?
 
+    /// The controller for storing and retrieving interface-related defaults.
+    var defaultsController: InterfaceDefaultsController!
+
     // MARK: - Data
 
     /// The primary list acts as a navigation
@@ -123,6 +126,23 @@ final class MainWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
 
+        // Load user's preferred sidebar widths.
+
+        battlelistViewController.view.setFrameSize(
+            CGSize(
+                width: defaultsController.defaultBattlelistSidebarWidth,
+                height: battlelistViewController.view.frame.height
+            )
+        )
+        userListViewController.view.setFrameSize(
+            CGSize(
+                width: defaultsController.defaultPlayerListSidebarWidth,
+                height: userListViewController.view.frame.height
+            )
+        )
+
+        // Create content split view.
+
         let splitViewController = newSplitViewController()
 
         window?.contentViewController?.addChild(splitViewController)
@@ -131,9 +151,11 @@ final class MainWindowController: NSWindowController {
         splitViewController.view.autoresizingMask = [.width, .height]
         splitViewController.view.viewDidMoveToWindow()
 
-        chatViewController.setViewBackgroundColor(.controlBackgroundColor)
-
         self.splitViewController = splitViewController
+
+        // Customise appearance.
+
+        chatViewController.setViewBackgroundColor(.controlBackgroundColor)
 
         leaveBattleButton.isHidden = true
         battlelistViewController.footer = leaveBattleButton
@@ -141,24 +163,38 @@ final class MainWindowController: NSWindowController {
 
     let leaveBattleButton = NSButton(title: "Leave Battle", target: self, action: #selector(leaveBattle))
 
+    /// Creates a new split view controller to control the content.
+    ///
+    /// By default, items for the battlelist, chat, and userlist are added to the split view controller.
+    /// A resize delegate is set to track the user's preferred sidebar widths.
     private func newSplitViewController() -> NSSplitViewController {
-        let viewController = NSSplitViewController()
+        let viewController = ResizeTrackingSplitViewController()
+        viewController.resizeDelegate = MainSplitViewControllerResizeDelegate(
+            battlelistViewController: battlelistViewController,
+            playerlistViewController: userListViewController,
+            interfaceDefaultsController: defaultsController
+        )
+
+        // Add view controllers to the split view.
 
         let item1 = NSSplitViewItem(sidebarWithViewController: battlelistViewController)
-        item1.automaticMaximumThickness = 150
 
         let item2 = NSSplitViewItem(viewController: chatViewController)
 
         let item3 = NSSplitViewItem(contentListWithViewController: userListViewController)
-        item3.automaticMaximumThickness = 150
 
         [item1, item2, item3].forEach(viewController.addSplitViewItem)
+
+        // Return the split view controller.
 
         return viewController
     }
 
     // MARK: - Actions
 
+    /// An action to be triggered when a user wishes to leave a battleroom.
+    ///
+    /// After the notification that the user wishes to leave the battle is sent to the 
     @objc private func leaveBattle() {
         battleController?.leaveBattle()
         destroyBattleroom()

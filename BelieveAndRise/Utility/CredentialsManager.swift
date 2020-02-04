@@ -25,7 +25,9 @@ final class CredentialsManager {
 
     /// Retrieves from the keychin the credentials associated with the server address.
     func credentials(forServerWithAddress serverAddress: String) throws -> Credentials {
-        let query: [String: Any] = [
+
+        // Create a keychain query for the first username & password match for the server.
+        let keychainQuery: [String: Any] = [
             kSecClass as String: kSecClassInternetPassword,
             kSecAttrServer as String: serverAddress,
             kSecMatchLimit as String: kSecMatchLimitOne,
@@ -33,11 +35,15 @@ final class CredentialsManager {
             kSecReturnData as String: true
         ]
 
+        // Retrieve the query result.
         var item: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &item)
+        let status = SecItemCopyMatching(keychainQuery as CFDictionary, &item)
+
+        // Check for errors.
         guard status != errSecItemNotFound else { throw KeychainError.noPassword }
         guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
 
+        // (Check password data & Account name is valid.)
         guard let existingItem = item as? [String : Any],
             let passwordData = existingItem[kSecValueData as String] as? Data,
             let password = String(data: passwordData, encoding: String.Encoding.utf8),
