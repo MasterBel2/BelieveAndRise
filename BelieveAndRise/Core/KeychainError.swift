@@ -13,7 +13,7 @@ enum KeychainError: Error {
     /// Indicates no password was stored for the website.
     case noPassword
     /// Indicates the data stored for the password could not be decoded.
-    case unexpectedPasswordData
+    case unexpectedData
     /// Indicates an unspecified error.
     case unhandledError(status: OSStatus)
 }

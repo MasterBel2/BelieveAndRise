@@ -25,6 +25,8 @@ final class Connection: ServerSelectionViewControllerDelegate {
     let windowManager: WindowManager
     ///
     let resourceManager: ResourceManager
+    /// The user's preferences controller.
+    let preferencesController: PreferencesController
 
     // MARK: - Components
 
@@ -48,9 +50,10 @@ final class Connection: ServerSelectionViewControllerDelegate {
     // MARK: - Lifecycle
 
 
-    init(windowManager: WindowManager, resourceManager: ResourceManager, address: ServerAddress? = nil) {
+    init(windowManager: WindowManager, resourceManager: ResourceManager, preferencesController: PreferencesController, address: ServerAddress? = nil) {
         self.windowManager = windowManager
         self.resourceManager = resourceManager
+        self.preferencesController = preferencesController
 
         battleController = BattleController(battleList: battleList)
         chatController = ChatController(windowManager: windowManager)
@@ -109,12 +112,14 @@ final class Connection: ServerSelectionViewControllerDelegate {
 
     // MARK: - Presenting information
 
+    /// Presents a login control to the user.
     func presentLogin() {
-        let userAuthenticationController = UserAuthenticationController(server: server, windowManager: windowManager)
+        let userAuthenticationController = UserAuthenticationController(server: server, windowManager: windowManager, preferencesController: preferencesController)
         windowManager.presentLogin(controller: userAuthenticationController)
         self.userAuthenticationController = userAuthenticationController
     }
 
+    /// Handles an error from the server.
     func receivedError(_ error: ServerError) {
         switch error {
 		default:
@@ -126,8 +131,8 @@ final class Connection: ServerSelectionViewControllerDelegate {
 
     // MARK: - ServerSelectionViewControllerDelegate
 
-    ///
     func serverSelectionViewController(_ serverSelectionViewController: ServerSelectionViewController, didSelectServerAt serverAddress: ServerAddress) {
+        // Connect to the selected server.
         initialiseServer(serverAddress)
 		
 		start()
@@ -135,13 +140,16 @@ final class Connection: ServerSelectionViewControllerDelegate {
 
     // MARK: - Helpers
 
+    /// Returns ID of a player, if they are online.
     func id(forPlayerNamed username: String) -> Int? {
         return userList.items.first { (_, user) in
             return user.profile.fullUsername == username
         }?.key
     }
-	
+
+    /// The unique integer ID of channels, keyed by their name.
 	private var channelIDs: [String : Int] = [:]
+    /// Retrieves the unique integer ID for a channel.
 	func id(forChannelnamed channelName: String) -> Int {
 		if let id = channelIDs[channelName] {
 			return id
@@ -156,8 +164,13 @@ final class Connection: ServerSelectionViewControllerDelegate {
 
     /// Contains information about a lobby server.
     struct ServerMetaData {
+        /// The IP address of th server.
         let ip: String
+        /// The server port.
         let port: Int
+        /// The server's "Message of the Day".
+        ///
+        /// The MotD is receieved dynamically after the user logs in.
         var motd: String
     }
 }

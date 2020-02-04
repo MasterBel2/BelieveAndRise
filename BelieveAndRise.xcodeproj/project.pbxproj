@@ -71,7 +71,7 @@
 		6B5A334323863B0F00A32433 /* RapidArchiveInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334223863B0F00A32433 /* RapidArchiveInfo.swift */; };
 		6B5A334523863B2200A32433 /* Int+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334423863B2200A32433 /* Int+Data.swift */; };
 		6B5A334723863B5700A32433 /* SpringArchiveInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334623863B5700A32433 /* SpringArchiveInfo.swift */; };
-		6B5C2A9623A726AC00132337 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C2A9523A726AC00132337 /* Preferences.swift */; };
+		6B5C2A9623A726AC00132337 /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C2A9523A726AC00132337 /* PreferencesController.swift */; };
 		6B7304A123E7B5FA0027E757 /* ResizeTrackingSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A023E7B5FA0027E757 /* ResizeTrackingSplitViewController.swift */; };
 		6B7304A423E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A323E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift */; };
 		6B7304A623E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A523E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift */; };
@@ -212,7 +212,7 @@
 		6B5A334223863B0F00A32433 /* RapidArchiveInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidArchiveInfo.swift; sourceTree = "<group>"; };
 		6B5A334423863B2200A32433 /* Int+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Data.swift"; sourceTree = "<group>"; };
 		6B5A334623863B5700A32433 /* SpringArchiveInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringArchiveInfo.swift; sourceTree = "<group>"; };
-		6B5C2A9523A726AC00132337 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		6B5C2A9523A726AC00132337 /* PreferencesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesController.swift; sourceTree = "<group>"; };
 		6B7304A023E7B5FA0027E757 /* ResizeTrackingSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizeTrackingSplitViewController.swift; sourceTree = "<group>"; };
 		6B7304A323E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewControllerResizeDelegate.swift; sourceTree = "<group>"; };
 		6B7304A523E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewControllerResizeDelegate.swift; sourceTree = "<group>"; };
@@ -330,7 +330,7 @@
 			isa = PBXGroup;
 			children = (
 				3E46333422C0C2D000AE0F2F /* AppDelegate.swift */,
-				6B5C2A9523A726AC00132337 /* Preferences.swift */,
+				6B5C2A9523A726AC00132337 /* PreferencesController.swift */,
 				6B898F162398BE1C002AC64B /* Engine Interface */,
 				6BAE46C22379A8300065CD53 /* Utility */,
 				6BAE46C02379A80E0065CD53 /* Core */,
@@ -802,7 +802,7 @@
 				3EB5912922C1A6E200103CDE /* Socket.swift in Sources */,
 				6B898F152398BE0D002AC64B /* GameTypes.swift in Sources */,
 				6B30FB4B237D72F700A893C8 /* NSImage+RGB565.swift in Sources */,
-				6B5C2A9623A726AC00132337 /* Preferences.swift in Sources */,
+				6B5C2A9623A726AC00132337 /* PreferencesController.swift in Sources */,
 				3E7C8280239CC25F004B835D /* DownloadListSelectionHandler.swift in Sources */,
 				3E98F86D237ACC6A00DD2999 /* Client Bridging.swift in Sources */,
 				6B30FB4D237D72FF00A893C8 /* UInt16+RGB.swift in Sources */,

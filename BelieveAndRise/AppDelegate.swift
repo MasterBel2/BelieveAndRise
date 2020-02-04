@@ -41,7 +41,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 		)
         resourceManager.loadLocalResources()
 
-        let connectionController = ConnectionController(windowManager: windowManager, resourceManager: resourceManager)
+        let connectionController = ConnectionController(windowManager: windowManager, resourceManager: resourceManager, preferencesController: PreferencesController())
         connectionController.createNewConnection()
 
         self.connectionController = connectionController

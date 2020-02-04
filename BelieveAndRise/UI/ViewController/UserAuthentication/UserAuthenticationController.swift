@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// A set of methods for displaying information about the user authentication process.
 protocol UserAuthenticationDisplay: AnyObject {
     func displayAuthenticateUserRequest(_ request: IncompleteAuthenticateUserRequest)
 }
@@ -17,14 +18,28 @@ final class UserAuthenticationController: UserAuthenticationControllerDisplayDel
 
     // MARK: - Data
 
+    /// The username returned by the server after a successful login.
     var username: String?
+    /// The password used in the most recent login attempt.
+    var password: String?
 
     // MARK: - Dependencies
 
+    /// The controller's interface with the keychain.
     let credentialsManager: CredentialsManager
+    /// The controller's interface with user defaults.
+    let preferencesController: PreferencesController
+    /// The controller's interface with the UI.
     let windowManager: WindowManager
+    /// The server for the authentication attempt is being made.
     let server: TASServer
 
+    /// A string that uniquely identifies the server
+    private var serverDescription: String {
+        return "\(server.socket.address):\(server.socket.port)"
+    }
+
+    /// The user authentication controller's outlet for UI events.
     weak var display: UserAuthenticationDisplay? {
         didSet {
             prepareDisplay()
@@ -33,32 +48,55 @@ final class UserAuthenticationController: UserAuthenticationControllerDisplayDel
 
     // MARK: - Lifecycle
 
-    init(server: TASServer, windowManager: WindowManager) {
+    init(server: TASServer, windowManager: WindowManager, preferencesController: PreferencesController) {
         self.server = server
         self.windowManager = windowManager
+        self.preferencesController = preferencesController
         credentialsManager = CredentialsManager.shared
     }
 
     // MARK: - Presentation
 
+    /// Instructs the display to present a request with automatically pre-filled username and password, retrieved from the keychain.
     func prepareDisplay() {
         let request: IncompleteAuthenticateUserRequest
 
-        do {
-            let credentials = try credentialsManager.credentials(forServerWithAddress: server.socket.address)
-            request = IncompleteAuthenticateUserRequest(username: credentials.username, password: credentials.password, email: nil)
-        } catch {
-            print(error)
+        if let lastUsername = preferencesController.lastUsername(for: serverDescription) {
+            do {
+                let credentials = try credentialsManager.credentials(forServerWithAddress: serverDescription, username: lastUsername)
+                request = IncompleteAuthenticateUserRequest(username: credentials.username, password: credentials.password, email: nil)
+            } catch {
+                print(error)
+                request = IncompleteAuthenticateUserRequest.empty
+            }
+        } else {
             request = IncompleteAuthenticateUserRequest.empty
         }
 
         display?.displayAuthenticateUserRequest(request)
     }
 
-    // MARK: - 
-
+    /// Completes the login process after a successful login.
     func loginDidSucceed(for username: String) {
+        // Record username for auto-fill on next login
+        preferencesController.setLastUsername(username, for: serverDescription)
+
+        // Store logged-in username for access by other objects.
         self.username = username
+
+        // Add password to keychain
+        if let password = password {
+            do {
+                #warning("fails if credentials are already written; implement a check, possibly just for whether the credentials were read")
+                try credentialsManager.writeCredentials(
+                    Credentials(username: username, password: password), forServerWithAddress: serverDescription
+                )
+            } catch {
+                #warning("Error invisible to user")
+                print(error)
+            }
+        }
+
         windowManager.dismissLogin()
     }
 
@@ -71,17 +109,7 @@ final class UserAuthenticationController: UserAuthenticationControllerDisplayDel
         }
         let username = usernameField.field.stringValue
         let password = passwordField.field.stringValue
-
-        do {
-			#warning("fails if credentials are already written; implement a check, possibly just for whether the credentials were read")
-            try credentialsManager.writeCredentials(
-                Credentials(username: username, password: password),
-                forServerWithAddress: server.socket.address
-            )
-        } catch {
-            #warning("Error invisible to user")
-            print(error)
-        }
+        self.password = password
 
         server.send(
             CSLoginCommand(

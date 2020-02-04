@@ -23,36 +23,63 @@ final class CredentialsManager {
 
     // MARK: - Accessing credentials
 
-    /// Retrieves from the keychin the credentials associated with the server address.
-    func credentials(forServerWithAddress serverAddress: String) throws -> Credentials {
+    /// Retrieves all usernames associated with the server from the keychain.
+    func usernames(forServerWithAddress serverAddress: String) throws -> [String] {
 
         // Create a keychain query for the first username & password match for the server.
         let keychainQuery: [String: Any] = [
             kSecClass as String: kSecClassInternetPassword,
             kSecAttrServer as String: serverAddress,
-            kSecMatchLimit as String: kSecMatchLimitOne,
-            kSecReturnAttributes as String: true,
-            kSecReturnData as String: true
+            kSecMatchLimit as String: kSecMatchLimitAll,
+            kSecReturnAttributes as String: true
         ]
 
         // Retrieve the query result.
-        var item: CFTypeRef?
-        let status = SecItemCopyMatching(keychainQuery as CFDictionary, &item)
+        var queryResponse: CFTypeRef?
+        let status = SecItemCopyMatching(keychainQuery as CFDictionary, &queryResponse)
 
         // Check for errors.
         guard status != errSecItemNotFound else { throw KeychainError.noPassword }
         guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
 
-        // (Check password data & Account name is valid.)
-        guard let existingItem = item as? [String : Any],
-            let passwordData = existingItem[kSecValueData as String] as? Data,
-            let password = String(data: passwordData, encoding: String.Encoding.utf8),
-            let accountName = existingItem[kSecAttrAccount as String] as? String
-            else {
-                throw KeychainError.unexpectedPasswordData
+        guard let result = queryResponse as? [[String : Any]] else {
+            throw KeychainError.unexpectedData
+        }
+        return result.compactMap({ $0[kSecAttrAccount as String] as? String })
+    }
+
+    /// Retrieves from the keychain the credentials associated with a given username and server address.
+    func credentials(forServerWithAddress serverAddress: String, username: String) throws -> Credentials {
+
+        // Create a keychain query for the first username & password match for the server.
+        let keychainQuery: [String: Any] = [
+            kSecClass as String: kSecClassInternetPassword,
+            kSecAttrServer as String: serverAddress,
+            kSecAttrAccount as String: username,
+            kSecMatchLimit as String: kSecMatchLimitOne,
+            kSecReturnData as String: true
+        ]
+
+        // Retrieve the query result.
+        var queryResponse: CFTypeRef?
+        let status = SecItemCopyMatching(keychainQuery as CFDictionary, &queryResponse)
+
+        // Check for errors.
+        guard status != errSecItemNotFound else {
+            print(username)
+            throw KeychainError.noPassword
+        }
+        guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
+
+        guard let result = queryResponse as? Data else {
+            throw KeychainError.unexpectedData
         }
 
-        return Credentials(username: accountName, password: password)
+        guard let password = String(data: result, encoding: String.Encoding.utf8) else {
+            throw KeychainError.unexpectedData
+        }
+
+        return Credentials(username: username, password: password)
     }
 
     // MARK: - Writing credentials
