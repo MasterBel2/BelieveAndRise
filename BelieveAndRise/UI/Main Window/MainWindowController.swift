@@ -99,16 +99,16 @@ final class MainWindowController: NSWindowController {
     }
 
     func destroyBattleroom() {
-        if let battleroomViewController = battleroomViewController,
-            let battleroomSplitViewItem = splitViewController.splitViewItem(for: battleroomViewController) {
-            self.battleroomViewController = nil
-            splitViewController.removeSplitViewItem(battleroomSplitViewItem)
-            splitViewController.insertSplitViewItem(NSSplitViewItem(viewController: chatViewController), at: 1)
+        guard let battleroomViewController = battleroomViewController,
+            let battleroomSplitViewItem = splitViewController.splitViewItem(for: battleroomViewController) else {
+                return
         }
-        leaveBattleButton.isHidden = true
+        self.battleroomViewController = nil
+        splitViewController.removeSplitViewItem(battleroomSplitViewItem)
+        splitViewController.insertSplitViewItem(NSSplitViewItem(viewController: chatViewController), at: 1)
     }
-	
-	func setChatController(_ chatController: ChatController) {
+
+    func setChatController(_ chatController: ChatController) {
 		chatViewController.chatController = chatController
         self.chatController = chatController
 	}
@@ -194,10 +194,12 @@ final class MainWindowController: NSWindowController {
 
     /// An action to be triggered when a user wishes to leave a battleroom.
     ///
-    /// After the notification that the user wishes to leave the battle is sent to the 
+    /// After the battleroom is destroyed, the notification that the user wishes to leave the battle is sent to the server.
     @objc private func leaveBattle() {
-        battleController?.leaveBattle()
         destroyBattleroom()
+        battleController?.leaveBattle()
         leaveBattleButton.isHidden = true
+        // Deselect the battle so the player may re-select it.
+        battlelistViewController.tableView.deselectAll(nil)
     }
 }

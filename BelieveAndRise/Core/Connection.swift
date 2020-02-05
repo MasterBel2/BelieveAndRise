@@ -55,7 +55,7 @@ final class Connection: ServerSelectionViewControllerDelegate {
         self.resourceManager = resourceManager
         self.preferencesController = preferencesController
 
-        battleController = BattleController(battleList: battleList)
+        battleController = BattleController(battleList: battleList, windowManager: windowManager)
         chatController = ChatController(windowManager: windowManager)
 
         // Configure the command handler

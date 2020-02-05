@@ -18,6 +18,7 @@ final class BattleController {
 	var battleroom: Battleroom?
     /// Provides controll of a spring process, for joining battles specified by the host.
     let springProcessController = SpringProcessController()
+    private let windowManager: WindowManager
     /// The server this controller provides an interface for.
 	weak var server: TASServer?
 
@@ -28,8 +29,9 @@ final class BattleController {
 
     // MARK: - Lifecycle
 
-	init(battleList: List<Battle>) {
+    init(battleList: List<Battle>, windowManager: WindowManager) {
 		self.battleList = battleList
+        self.windowManager = windowManager
 	}
 
     // MARK: - Interacting with battles
@@ -57,9 +59,11 @@ final class BattleController {
 		server?.send(CSJoinBattleCommand(battleID: battleID, password: nil, scriptPassword: scriptPassword))
 	}
 
-    /// Removes the player from the battle; first locally, then by
+    /// Removes the player from the battle; first locally, then with a message to the server.
 	func leaveBattle() {
         battleroom = nil
+        windowManager.destroyBattleroom()
+
 		server?.send(CSLeaveBattleCommand())
 	}
 
