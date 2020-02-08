@@ -22,7 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 	var connectionController: ConnectionController!
     var resourceManager: ResourceManager!
-    var downloadController = DownloadController()
+    var downloadController: DownloadController!
     var mainWindowController: NSWindowController?
     let windowManager: WindowManager = MacOSWindowManager()
 
@@ -35,6 +35,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 	// MARK: - NSApplicationDelegate
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
+        let system = MacOS()
+        downloadController = DownloadController(system: system)
+
         let resourceManager = ResourceManager(
 			downloadController: downloadController,
 			windowManager: windowManager

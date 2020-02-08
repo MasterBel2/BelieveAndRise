@@ -74,6 +74,22 @@ final class ArrayDownloader: NSObject, Downloader, URLSessionDelegate, URLSessio
 
     // MARK: - Downloading
 
+    private(set) var paused = false
+
+    func pauseDownload() {
+        paused = true
+        downloadTask?.suspend()
+    }
+
+    func resumeDownload() {
+        paused = false
+        if let downloadTask = downloadTask {
+            downloadTask.resume()
+        } else {
+            attemptFileDownload(at: indexOfCurrentDownload)
+        }
+    }
+
     func attemptFileDownloads() {
         delegate?.downloaderDidBeginDownload(self)
         guard resources.count > 0 else {
@@ -154,11 +170,14 @@ final class ArrayDownloader: NSObject, Downloader, URLSessionDelegate, URLSessio
         downloadedResources[fileName] = location
 
         if successCondition == .one || !(indexOfCurrentDownload < resources.endIndex - 1) {
-            // If this is our last file, or the only file we needed to download, we're done!
+            // If this was our last file, or the only file we needed to download, we're done!
             delegate?.downloader(self, successfullyCompletedDownloadTo: downloadedResources.map({ $0.value }))
+            downloadTask = nil
         } else {
             delegate?.downloader(self, downloadHasProgressedTo: indexOfCurrentDownload, outOf: resources.count)
-            attemptFileDownload(at: indexOfCurrentDownload + 1)
+            if !paused {
+                attemptFileDownload(at: indexOfCurrentDownload + 1)
+            }
         }
     }
 

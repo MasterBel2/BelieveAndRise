@@ -64,6 +64,7 @@
 		6B4266032391FA3E00AB46A2 /* BattleroomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B4266012391FA3E00AB46A2 /* BattleroomViewController.xib */; };
 		6B4F07692321151800B52C7E /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F07672321151800B52C7E /* MainWindowController.swift */; };
 		6B4F076A2321151800B52C7E /* MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B4F07682321151800B52C7E /* MainWindowController.xib */; };
+		6B50660F23EF5C72006FEC49 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50660E23EF5C72006FEC49 /* Downloader.swift */; };
 		6B5A333A23863A7800A32433 /* ArrayDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A333923863A7800A32433 /* ArrayDownloader.swift */; };
 		6B5A333D23863AD000A32433 /* DataCompression in Frameworks */ = {isa = PBXBuildFile; productRef = 6B5A333C23863AD000A32433 /* DataCompression */; };
 		6B5A333F23863AE500A32433 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A333E23863AE500A32433 /* Platform.swift */; };
@@ -85,6 +86,7 @@
 		6B815EF12313C99A000FD850 /* ListDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B815EF02313C99A000FD850 /* ListDisplay.swift */; };
 		6B898F152398BE0D002AC64B /* GameTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B898F142398BE0D002AC64B /* GameTypes.swift */; };
 		6BAE46BF2379A7FD0065CD53 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAE46BE2379A7FD0065CD53 /* File.swift */; };
+		6BB77D7123EA46C500087CBF /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB77D7023EA46C500087CBF /* System.swift */; };
 		6BBF44A2238B64E10076B656 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF44A1238B64E10076B656 /* ChatController.swift */; };
 		6BBF44A4238B6AD80076B656 /* ChatLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF44A3238B6AD80076B656 /* ChatLogViewController.swift */; };
 		6BC4473E2379C1F9006842DD /* SCUserCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC4473D2379C1F9006842DD /* SCUserCommands.swift */; };
@@ -206,6 +208,7 @@
 		6B4266012391FA3E00AB46A2 /* BattleroomViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattleroomViewController.xib; sourceTree = "<group>"; };
 		6B4F07672321151800B52C7E /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		6B4F07682321151800B52C7E /* MainWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindowController.xib; sourceTree = "<group>"; };
+		6B50660E23EF5C72006FEC49 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		6B5A333923863A7800A32433 /* ArrayDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayDownloader.swift; sourceTree = "<group>"; };
 		6B5A333E23863AE500A32433 /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		6B5A334023863B0200A32433 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
@@ -226,6 +229,7 @@
 		6B815EF02313C99A000FD850 /* ListDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDisplay.swift; sourceTree = "<group>"; };
 		6B898F142398BE0D002AC64B /* GameTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTypes.swift; sourceTree = "<group>"; };
 		6BAE46BE2379A7FD0065CD53 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		6BB77D7023EA46C500087CBF /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		6BBF44A1238B64E10076B656 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		6BBF44A3238B6AD80076B656 /* ChatLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewController.swift; sourceTree = "<group>"; };
 		6BC4473D2379C1F9006842DD /* SCUserCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCUserCommands.swift; sourceTree = "<group>"; };
@@ -306,6 +310,7 @@
 		3E46332822C0C2D000AE0F2F = {
 			isa = PBXGroup;
 			children = (
+				6BB77D7023EA46C500087CBF /* System.swift */,
 				6BEE6525239A8F2A0029528A /* LICENSE */,
 				3EB5912A22C1A71200103CDE /* BelieveAndRise-Bridging-Header.h */,
 				3E46333322C0C2D000AE0F2F /* BelieveAndRise */,
@@ -408,6 +413,7 @@
 		3E7C8281239CC267004B835D /* Downloads */ = {
 			isa = PBXGroup;
 			children = (
+				6B50660E23EF5C72006FEC49 /* Downloader.swift */,
 				3E7C8279239CC25F004B835D /* DownloadController.swift */,
 				3E7C827B239CC25F004B835D /* DownloadInfo.swift */,
 				3E7C827A239CC25F004B835D /* DownloadItemViewProvider.swift */,
@@ -809,12 +815,14 @@
 				3EB5912E22C1A74B00103CDE /* String+MD5.swift in Sources */,
 				6B7304A123E7B5FA0027E757 /* ResizeTrackingSplitViewController.swift in Sources */,
 				6BE441452326A5E100951B49 /* CommandParsing.swift in Sources */,
+				6B50660F23EF5C72006FEC49 /* Downloader.swift in Sources */,
 				3E2E50A822FB77CF00831EF8 /* WindowManager.swift in Sources */,
 				6BF85C77237C6DA100A19493 /* UnitsyncWrapper.swift in Sources */,
 				6BF65C9B2397BBAD00D85DDE /* CountryCode.swift in Sources */,
 				6BF85C63237C648900A19493 /* Array+MoveItem.swift in Sources */,
 				3E1A49D1237AA53200F549FF /* Things.swift in Sources */,
 				3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */,
+				6BB77D7123EA46C500087CBF /* System.swift in Sources */,
 				6B5A334523863B2200A32433 /* Int+Data.swift in Sources */,
 				3E7C827E239CC25F004B835D /* DownloadItemViewProvider.swift in Sources */,
 				3E46333522C0C2D000AE0F2F /* AppDelegate.swift in Sources */,

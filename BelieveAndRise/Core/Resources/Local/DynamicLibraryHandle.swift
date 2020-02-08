@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DynamicLibraryHandle {
+final class DynamicLibraryHandle {
 
     private let handle: UnsafeMutableRawPointer
 

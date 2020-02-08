@@ -25,7 +25,13 @@ final class DownloadController: DownloaderDelegate, DownloadItemViewDelegate {
             display?.addSection(downloadList)
         }
     }
-	
+
+    private let system: System
+
+    init(system: System) {
+        self.system = system
+    }
+
 	// MARK: - DownloaderDelegate
 
     func downloaderDidBeginDownload(_ downloader: Downloader) {
@@ -75,14 +81,20 @@ final class DownloadController: DownloaderDelegate, DownloadItemViewDelegate {
     // MARK: - DownloadItemViewDelegate
 
     func showDownload(_ id: Int) {
-//        TODO
+        let targetDirectory = downloaders[id].targetDirectory
+        print(targetDirectory)
+        system.showFile(targetDirectory.lastPathComponent, at: targetDirectory.deletingLastPathComponent())
     }
 
     func pauseDownload(_ id: Int) {
-        // TODO
+        downloaders[id].pauseDownload()
+        downloadList.items[id]?.state = .paused
+        downloadList.respondToUpdatesOnItem(identifiedBy: id)
     }
 
     func resumeDownload(_ id: Int) {
-        // TODO
+        downloaders[id].resumeDownload()
+        downloadList.items[id]?.state = .progressing
+        downloadList.respondToUpdatesOnItem(identifiedBy: id)
     }
 }

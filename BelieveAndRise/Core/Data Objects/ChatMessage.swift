@@ -9,7 +9,7 @@
 import Foundation
 
 /// A chat message received from another client in a channel or private message.
-class ChatMessage: Sortable {
+final class ChatMessage: Sortable {
 
     init(time: Date, senderID: Int, senderName: String, content: String, isIRCStyle: Bool) {
         self.time = time

@@ -21,7 +21,7 @@ final class DownloadItemViewProvider: ItemViewProvider {
     }
 
     func view(forItemIdentifiedBy id: Int) -> NSView? {
-        guard let item = downloadList.items [id] else {
+        guard let item = downloadList.items[id] else {
             return nil
         }
 

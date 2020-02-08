@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol SocketDelegate: class {
+protocol SocketDelegate: AnyObject {
 	func socket(_ socket: Socket, didReceive message: String)
 }
 

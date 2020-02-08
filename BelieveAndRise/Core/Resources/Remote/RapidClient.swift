@@ -7,12 +7,6 @@
 //
 
 import Foundation
-protocol Downloader: AnyObject {
-    var downloadName: String { get }
-    var targetDirectory: URL { get }
-    /// Cleans up all temporary directories, and if successful, moves the downloaded files to their intended destination.
-    func finalizeDownload(_ successful: Bool)
-}
 
 /**
  A downloader that retrieves resources from Rapid.
@@ -75,6 +69,20 @@ final class RapidClient: Downloader, DownloaderDelegate {
 
     // MARK: - Downloading a resource
 
+    private(set) var paused = false
+
+    func pauseDownload() {
+        paused = true
+        poolDownloader?.pauseDownload()
+        packageDownloader?.pauseDownload()
+    }
+
+    func resumeDownload() {
+        paused = false
+        packageDownloader?.resumeDownload()
+        poolDownloader?.resumeDownload()
+    }
+
     // Hold a reference so the completion of async downloading can be handled
     private var packageDownloader: ArrayDownloader?
     private var poolDownloader: ArrayDownloader?
@@ -109,10 +117,14 @@ final class RapidClient: Downloader, DownloaderDelegate {
 
         packageDownloader.delegate = self
         packageDownloader.attemptFileDownloads()
+        if paused {
+            packageDownloader.pauseDownload()
+        }
 
         self.packageDownloader = packageDownloader
     }
 
+    /// Parses a package and retrieves the resources it specifies.
     private func downloadResourceData(_ packageURL: URL) {
         guard let data = FileManager.default.contents(atPath: packageURL.path) else {
             print("Failed to retrieve data from downloaded file")
@@ -138,6 +150,9 @@ final class RapidClient: Downloader, DownloaderDelegate {
         )
         poolDownloader.delegate = self
         poolDownloader.attemptFileDownloads()
+        if paused {
+            poolDownloader.pauseDownload()
+        }
 
         self.poolDownloader = poolDownloader
     }

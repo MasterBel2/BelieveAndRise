@@ -26,6 +26,13 @@ final class DownloadItemView: NSView, NibLoadable {
 	/// The unique ID associated with the download.
     var id: Int!
 
+    // MARK: - Lifecycle
+
+    override func loadedFromNib() {
+        button.sendAction(on: .leftMouseDown)
+        button.target = self
+    }
+
     // MARK: - Interface
 
     @IBOutlet var downloadNameLabel: NSTextField!

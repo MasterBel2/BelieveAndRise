@@ -120,10 +120,13 @@ class ListViewController: NSViewController,
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		
 		tableView.delegate = self
 		tableView.dataSource = self
+		
+		tableView.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
+		
 		tableView.reloadData()
-        tableView.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
     }
 
     // MARK: - Accessories

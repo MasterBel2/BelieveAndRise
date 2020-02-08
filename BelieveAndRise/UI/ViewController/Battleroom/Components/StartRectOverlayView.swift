@@ -8,6 +8,6 @@
 
 import Cocoa
 
-class StartRectOverlayView: ColoredView, NibLoadable {
+final class StartRectOverlayView: ColoredView, NibLoadable {
 	@IBOutlet weak var allyTeamNumberLabel: NSTextField!	
 }

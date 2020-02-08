@@ -168,7 +168,7 @@ final class MacOSWindowManager: WindowManager {
 			downloadsWindow.makeKeyAndOrderFront(self)
 			self.downloadsWindow = downloadsWindow
 		}
-	}
+    }
 
     // MARK: - Nested types
 

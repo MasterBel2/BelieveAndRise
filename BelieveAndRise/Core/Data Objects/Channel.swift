@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Channel: Sortable {
+final class Channel: Sortable {
 
     let title: String
     let userlist: List<User>

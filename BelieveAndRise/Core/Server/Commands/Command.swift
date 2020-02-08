@@ -30,7 +30,7 @@ protocol LobbyServer {
     var channels: Array<ServerChannel> { get }
 }
 
-class ServerAccount: Codable {
+final class ServerAccount: Codable {
     /// The account's unique ID
     let id: Int
     /// The current username of the account.
@@ -46,7 +46,7 @@ class ServerAccount: Codable {
 
 }
 
-class ServerClient {
+final class ServerClient {
     let account: ServerAccount
 
     // MARK: - Status
@@ -86,7 +86,7 @@ enum CompatabilityFlag: String {
     case joinBattleRequestAcceptDeny = "b"
 }
 
-class ServerBattle {
+final class ServerBattle {
     let host: ServerClient
     var players: [ServerClient]
     var spectators: [ServerClient] = []
@@ -149,7 +149,7 @@ class ServerBattle {
     }
 }
 
-class ServerChannel {
+final class ServerChannel {
     let history = ServerChannelHistory()
     let name: String
 
