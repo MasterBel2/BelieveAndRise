@@ -18,7 +18,7 @@ final class BattleController {
 	var battleroom: Battleroom?
     /// Provides controll of a spring process, for joining battles specified by the host.
     let springProcessController = SpringProcessController()
-    private let windowManager: WindowManager
+    private let windowManager: ConnectionWindowManager
     /// The server this controller provides an interface for.
 	weak var server: TASServer?
 
@@ -29,7 +29,7 @@ final class BattleController {
 
     // MARK: - Lifecycle
 
-    init(battleList: List<Battle>, windowManager: WindowManager) {
+    init(battleList: List<Battle>, windowManager: ConnectionWindowManager) {
 		self.battleList = battleList
         self.windowManager = windowManager
 	}

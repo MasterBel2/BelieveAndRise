@@ -39,15 +39,15 @@ final class ConnectionController {
 
     /// Initiates a connection to the given address.
     func connect(to address: ServerAddress) {
-        let connection = Connection(windowManager: windowManager, resourceManager: resourceManager, preferencesController: preferencesController, address: address)
+        let connection = Connection(windowManager: windowManager.newConnectionWindowManager(), resourceManager: resourceManager, preferencesController: preferencesController, address: address)
         connection.start()
         connection.createAndShowWindow()
         self.connections.append(connection)
     }
 
-    /// Creates a new connection without a predefined server
+    /// Creates a new connection without a predefined server.
     func createNewConnection() {
-        let connection = Connection(windowManager: windowManager, resourceManager: resourceManager, preferencesController: preferencesController)
+        let connection = Connection(windowManager: windowManager.newConnectionWindowManager(), resourceManager: resourceManager, preferencesController: preferencesController)
         connection.createAndShowWindow()
         self.connections.append(connection)
     }

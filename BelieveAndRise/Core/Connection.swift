@@ -22,7 +22,7 @@ final class Connection: ServerSelectionViewControllerDelegate {
     // MARK: - Dependencies
 
     /// Provides platform-specific windows.
-    let windowManager: WindowManager
+    let windowManager: ConnectionWindowManager
     ///
     let resourceManager: ResourceManager
     /// The user's preferences controller.
@@ -50,7 +50,7 @@ final class Connection: ServerSelectionViewControllerDelegate {
     // MARK: - Lifecycle
 
 
-    init(windowManager: WindowManager, resourceManager: ResourceManager, preferencesController: PreferencesController, address: ServerAddress? = nil) {
+    init(windowManager: ConnectionWindowManager, resourceManager: ResourceManager, preferencesController: PreferencesController, address: ServerAddress? = nil) {
         self.windowManager = windowManager
         self.resourceManager = resourceManager
         self.preferencesController = preferencesController

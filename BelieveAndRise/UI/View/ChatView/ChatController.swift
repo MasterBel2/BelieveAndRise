@@ -8,10 +8,13 @@
 
 import Foundation
 
+/// Controls the model associated with channel and private messaging, and associated functionality.
 final class ChatController {
 
+    /// The server the controller is associated with.
     weak var server: TASServer?
-    let windowManager: WindowManager
+    /// Provides an API for the user interface associated with this 
+    let windowManager: ConnectionWindowManager
 
     var channels: [ChannelSummary] = []
 
@@ -22,7 +25,7 @@ final class ChatController {
         let isPrivate: Bool
     }
 
-    init(windowManager: WindowManager) {
+    init(windowManager: ConnectionWindowManager) {
         self.windowManager = windowManager
     }
 

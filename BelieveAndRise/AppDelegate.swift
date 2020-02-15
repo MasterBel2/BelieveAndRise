@@ -28,10 +28,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     var downloadsWindow: NSWindow?
 
+    // MARK: - Menu Items
+
+    @IBOutlet weak var recentConnectionsMenuItem: NSMenu!
+
+    /// Displays downloads to the user.
 	@IBAction func showDownloads(_ sender: NSMenuItem) {
 		windowManager.presentDownloads(downloadController)
 	}
-	
+
+    /// Opens a new connection.
+    @IBAction func newServerConnection(_ sender: Any) {
+        connectionController.createNewConnection()
+    }
+
 	// MARK: - NSApplicationDelegate
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
