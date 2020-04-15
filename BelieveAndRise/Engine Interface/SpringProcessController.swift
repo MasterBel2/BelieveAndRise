@@ -32,7 +32,7 @@ final class SpringProcessController {
 
         let process = Process()
         process.launchPath = bundle.executablePath
-        process.arguments = [scriptTxtManager.filePath]
+        process.arguments = [LaunchScriptWriter.filePath]
         process.terminationHandler = { _ in
             debugPrint("Spring engine exited")
             self.springProcess = nil

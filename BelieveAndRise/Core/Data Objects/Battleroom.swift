@@ -8,6 +8,19 @@
 
 import Foundation
 
+typealias Color = UInt32
+
+extension Color {
+    /// Returns the red, green, and blue components of a 0xAARRGGBB color.
+    var rgbValues: (red: Float, green: Float, blue: Float) {
+        let red = Float(self & 0x00FF0000 >> 8) / 0xFF
+        let green = Float(self & 0x0000FF00 >> 4) / 0xFF
+        let blue = Float(self & 0x000000FF) / 0xFF
+
+        return (red: red, green: green, blue: blue)
+    }
+}
+
 protocol BattleroomMapInfoDisplay: AnyObject {
     func displayMapName(_ mapName: String)
     func addCustomisedMapOption(_ option: String, value: UnitsyncWrapper.InfoValue)
@@ -72,6 +85,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
     var hasGame: Bool {
         return resourceManager.hasGame(name: battle.gameName)
     }
+    /// Updates sync status on change
     private(set) var hasMap: Bool = false {
         didSet {
             updateSync()

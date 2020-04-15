@@ -88,6 +88,14 @@
 		6B898F152398BE0D002AC64B /* GameTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B898F142398BE0D002AC64B /* GameTypes.swift */; };
 		6BAE46BF2379A7FD0065CD53 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAE46BE2379A7FD0065CD53 /* File.swift */; };
 		6BB77D7123EA46C500087CBF /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB77D7023EA46C500087CBF /* System.swift */; };
+		6BBC3483244736F7006A85B0 /* Game Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC3482244736F7006A85B0 /* Game Data.swift */; };
+		6BBC348524473701006A85B0 /* Ally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348424473701006A85B0 /* Ally.swift */; };
+		6BBC348724473710006A85B0 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348624473710006A85B0 /* Team.swift */; };
+		6BBC348924473719006A85B0 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348824473719006A85B0 /* AI.swift */; };
+		6BBC348B2447372E006A85B0 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348A2447372E006A85B0 /* Player.swift */; };
+		6BBC348D2447373A006A85B0 /* StartConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348C2447373A006A85B0 /* StartConfig.swift */; };
+		6BBC348F24473747006A85B0 /* StartBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348E24473747006A85B0 /* StartBox.swift */; };
+		6BBC349124473750006A85B0 /* HostConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC349024473750006A85B0 /* HostConfig.swift */; };
 		6BBF44A2238B64E10076B656 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF44A1238B64E10076B656 /* ChatController.swift */; };
 		6BBF44A4238B6AD80076B656 /* ChatLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF44A3238B6AD80076B656 /* ChatLogViewController.swift */; };
 		6BC4473E2379C1F9006842DD /* SCUserCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC4473D2379C1F9006842DD /* SCUserCommands.swift */; };
@@ -108,6 +116,7 @@
 		6BE441532326A63500951B49 /* MOTDCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414B2326A63500951B49 /* MOTDCommand.swift */; };
 		6BE441542326A63500951B49 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414C2326A63500951B49 /* Command.swift */; };
 		6BE441552326A63500951B49 /* Clients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414D2326A63500951B49 /* Clients.swift */; };
+		6BEB5B872446297400D73A48 /* Running Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB5B862446297400D73A48 /* Running Spring.swift */; };
 		6BEE6526239A8F2A0029528A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 6BEE6525239A8F2A0029528A /* LICENSE */; };
 		6BEE6528239A91940029528A /* RapidClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE6527239A91940029528A /* RapidClient.swift */; };
 		6BF044CA2391F50D008CCE3C /* BattleroomHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */; };
@@ -232,6 +241,14 @@
 		6B898F142398BE0D002AC64B /* GameTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTypes.swift; sourceTree = "<group>"; };
 		6BAE46BE2379A7FD0065CD53 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		6BB77D7023EA46C500087CBF /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
+		6BBC3482244736F7006A85B0 /* Game Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Game Data.swift"; sourceTree = "<group>"; };
+		6BBC348424473701006A85B0 /* Ally.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ally.swift; sourceTree = "<group>"; };
+		6BBC348624473710006A85B0 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		6BBC348824473719006A85B0 /* AI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
+		6BBC348A2447372E006A85B0 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		6BBC348C2447373A006A85B0 /* StartConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartConfig.swift; sourceTree = "<group>"; };
+		6BBC348E24473747006A85B0 /* StartBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartBox.swift; sourceTree = "<group>"; };
+		6BBC349024473750006A85B0 /* HostConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostConfig.swift; sourceTree = "<group>"; };
 		6BBF44A1238B64E10076B656 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		6BBF44A3238B6AD80076B656 /* ChatLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewController.swift; sourceTree = "<group>"; };
 		6BC4473D2379C1F9006842DD /* SCUserCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCUserCommands.swift; sourceTree = "<group>"; };
@@ -252,6 +269,7 @@
 		6BE4414B2326A63500951B49 /* MOTDCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MOTDCommand.swift; sourceTree = "<group>"; };
 		6BE4414C2326A63500951B49 /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		6BE4414D2326A63500951B49 /* Clients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clients.swift; sourceTree = "<group>"; };
+		6BEB5B862446297400D73A48 /* Running Spring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Running Spring.swift"; sourceTree = "<group>"; };
 		6BEE6525239A8F2A0029528A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		6BEE6527239A91940029528A /* RapidClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidClient.swift; sourceTree = "<group>"; };
 		6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleroomHeaderView.swift; sourceTree = "<group>"; };
@@ -519,6 +537,8 @@
 		6B898F162398BE1C002AC64B /* Engine Interface */ = {
 			isa = PBXGroup;
 			children = (
+				6BBC3481244736ED006A85B0 /* Game Data */,
+				6BEB5B862446297400D73A48 /* Running Spring.swift */,
 				6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */,
 				6B898F142398BE0D002AC64B /* GameTypes.swift */,
 				6BF65C982397AAB300D85DDE /* LaunchScriptWriter.swift */,
@@ -599,6 +619,21 @@
 				3E2E50A722FB77CF00831EF8 /* WindowManager.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		6BBC3481244736ED006A85B0 /* Game Data */ = {
+			isa = PBXGroup;
+			children = (
+				6BBC3482244736F7006A85B0 /* Game Data.swift */,
+				6BBC348424473701006A85B0 /* Ally.swift */,
+				6BBC348624473710006A85B0 /* Team.swift */,
+				6BBC348824473719006A85B0 /* AI.swift */,
+				6BBC348A2447372E006A85B0 /* Player.swift */,
+				6BBC348C2447373A006A85B0 /* StartConfig.swift */,
+				6BBC348E24473747006A85B0 /* StartBox.swift */,
+				6BBC349024473750006A85B0 /* HostConfig.swift */,
+			);
+			path = "Game Data";
 			sourceTree = "<group>";
 		};
 		6BDDDCDC23798FB900292BAE /* List */ = {
@@ -808,6 +843,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BBC348924473719006A85B0 /* AI.swift in Sources */,
 				3EB5912922C1A6E200103CDE /* Socket.swift in Sources */,
 				6B898F152398BE0D002AC64B /* GameTypes.swift in Sources */,
 				6B30FB4B237D72F700A893C8 /* NSImage+RGB565.swift in Sources */,
@@ -830,10 +866,12 @@
 				3E7C827E239CC25F004B835D /* DownloadItemViewProvider.swift in Sources */,
 				3E46333522C0C2D000AE0F2F /* AppDelegate.swift in Sources */,
 				6B5A333A23863A7800A32433 /* ArrayDownloader.swift in Sources */,
+				6BEB5B872446297400D73A48 /* Running Spring.swift in Sources */,
 				3E46336822C0C31700AE0F2F /* NATType.swift in Sources */,
 				6BE233B423269ACE0029425E /* ChatViewController.swift in Sources */,
 				6BE441522326A63500951B49 /* SCBattleOpenedCommand.swift in Sources */,
 				3E46336A22C0C32D00AE0F2F /* Battleroom.swift in Sources */,
+				6BBC348D2447373A006A85B0 /* StartConfig.swift in Sources */,
 				6BF85C67237C691800A19493 /* ServerError.swift in Sources */,
 				3E7F3D332319DBA60012A743 /* Sortable.swift in Sources */,
 				6B30FB4F237D73D600A893C8 /* MinimapView.swift in Sources */,
@@ -851,6 +889,7 @@
 				6B5A334123863B0200A32433 /* Resource.swift in Sources */,
 				6B5A334723863B5700A32433 /* SpringArchiveInfo.swift in Sources */,
 				6BE233B1232668E60029425E /* NSView+BackgroundColor.swift in Sources */,
+				6BBC3483244736F7006A85B0 /* Game Data.swift in Sources */,
 				3E2D1C2A22DD47CC008596E1 /* List.swift in Sources */,
 				6BF044CA2391F50D008CCE3C /* BattleroomHeaderView.swift in Sources */,
 				3EB5912522C1A24700103CDE /* TASServer.swift in Sources */,
@@ -860,6 +899,7 @@
 				6B4266022391FA3E00AB46A2 /* BattleroomViewController.swift in Sources */,
 				6BF65C992397AAB300D85DDE /* LaunchScriptWriter.swift in Sources */,
 				3E1A49CF237A970600F549FF /* BattleCommands.swift in Sources */,
+				6BBC349124473750006A85B0 /* HostConfig.swift in Sources */,
 				3E46335F22C0C2E000AE0F2F /* Battle.swift in Sources */,
 				6B815EF12313C99A000FD850 /* ListDisplay.swift in Sources */,
 				3E77162722C179E500B8C6C0 /* TableHeaderData.swift in Sources */,
@@ -884,15 +924,18 @@
 				6B2C64D0232517930017A1BC /* ChatBar.swift in Sources */,
 				6B5A333F23863AE500A32433 /* Platform.swift in Sources */,
 				3E46336122C0C2EB00AE0F2F /* User.swift in Sources */,
+				6BBC348F24473747006A85B0 /* StartBox.swift in Sources */,
 				6BF65C972397A9CB00D85DDE /* SpringProcessController.swift in Sources */,
 				3E86E057237B087B0032BCBF /* StartRectOverlayView.swift in Sources */,
 				3E7C827D239CC25F004B835D /* DownloadController.swift in Sources */,
+				6BBC348524473701006A85B0 /* Ally.swift in Sources */,
 				6BF85C6D237C6A7100A19493 /* ResourceManager.swift in Sources */,
 				6BC447402379E324006842DD /* Formatter.swift in Sources */,
 				6BE233B723269ECA0029425E /* ChatBarController.swift in Sources */,
 				6BF85C75237C6DA000A19493 /* DynamicLibraryHandle.swift in Sources */,
 				6BCB3FBA23A3DE5D00142E28 /* CredentialsManager.swift in Sources */,
 				6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */,
+				6BBC348724473710006A85B0 /* Team.swift in Sources */,
 				3E93BB9E237B9F50009036E7 /* ListSelectionHandler.swift in Sources */,
 				6B5A334323863B0F00A32433 /* RapidArchiveInfo.swift in Sources */,
 				6B7304A623E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift in Sources */,
@@ -903,6 +946,7 @@
 				3E7C8288239CC33D004B835D /* DownloadItemView.swift in Sources */,
 				6B7C82D022D88A600031F9C9 /* ServerSelectionViewController.swift in Sources */,
 				6BE441532326A63500951B49 /* MOTDCommand.swift in Sources */,
+				6BBC348B2447372E006A85B0 /* Player.swift in Sources */,
 				3E77161F22C175A800B8C6C0 /* TableSectionHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

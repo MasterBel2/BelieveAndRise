@@ -92,7 +92,7 @@ final class ServerSelectionViewController: NSViewController, NSComboBoxDataSourc
     }
 }
 
-/// Specifies the connection details for a lobby server.
+/// Specifies the location of a server..
 struct ServerAddress {
     /// The domain/IP of a server
     let location: String
