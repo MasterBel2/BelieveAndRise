@@ -468,7 +468,8 @@ struct SCAddStartRectCommand: SCCommand {
         guard let battleroom = connection.battleController.battleroom else {
             return
         }
-        let rect = CGRect(x: left, y: top, width: right - left, height: bottom - top)
+        // y = 0 correlates to bottom = 200.
+        let rect = CGRect(x: left, y: 200 - bottom, width: right - left, height: bottom - top)
         battleroom.addStartRect(rect, for: allyNo)
 	}
 	

@@ -31,7 +31,7 @@ final class MinimapView: NSImageView, MinimapDisplay {
 
     // MARK: - Properties
 
-    /// Must be set after the mapRect
+    /// Must be set after the mapRect.
     private var map: Map? {
         didSet {
             guard let map = map else {
@@ -75,10 +75,13 @@ final class MinimapView: NSImageView, MinimapDisplay {
         }
 
         let mapRect = self.mapRect(for: map)
+        // Rescale start rect to the map rect.
         let x = rect.minX / 200 * mapRect.width
         let y = rect.minY / 200 * mapRect.height
         let width = rect.width / 200 * mapRect.width
         let height = rect.height / 200 * mapRect.height
+
+        // Position the start rect relative to the map rect.
         let newRect = CGRect(x: x + mapRect.minX, y: y + mapRect.minY, width: width, height: height)
 
         let view = StartRectOverlayView.loadFromNib()
