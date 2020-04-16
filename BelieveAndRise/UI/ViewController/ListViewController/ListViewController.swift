@@ -270,11 +270,17 @@ class ListViewController: NSViewController,
     func list(_ list: ListProtocol, didRemoveItemAt index: Int) {
         executeOnMain(target: self) { viewController in
             let sectionOffset = viewController.offset(forSectionNamed: list.title)
+            // Remove the row from data + view
             viewController.rows.remove(at: sectionOffset + index)
             viewController.tableView.removeRows(at: IndexSet(integer: sectionOffset + index), withAnimation: .effectFade)
 
-            if list.itemCount > 0 {
+            // Update header
+            if list.itemCount > 0 && shouldDisplayRowCountInHeader {
                 viewController.rows[sectionOffset - 1] = header(for: list)
+                viewController.tableView.reloadData(
+                    forRowIndexes: IndexSet(integer: sectionOffset - 1),
+                    columnIndexes: IndexSet(integer: 0)
+                )
             } else {
                 // Don't subtract one from the section offset as it has already been adjusted -1 for the lack of a header
                 viewController.rows.remove(at: sectionOffset)
