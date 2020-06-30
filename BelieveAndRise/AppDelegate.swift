@@ -52,6 +52,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 	// MARK: - NSApplicationDelegate
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
+
+        Logger.log("Logger is online", tag: .General)
+
         let system = MacOS()
         downloadController = DownloadController(system: system)
 
