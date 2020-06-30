@@ -228,8 +228,27 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
         // Update the data
         userStatuses[userID] = newUserStatus
-		
-		if userID == myID {
+
+        if previousUserStatus?.allyNumber != newUserStatus.allyNumber {
+            if userID == myID {
+                allyTeamLists.forEach({ allyTeamList in
+                    allyTeamList.sortedItemsByID.forEach({
+                        allyTeamList.respondToUpdatesOnItem(identifiedBy: $0)
+                    })
+                })
+                allyTeamLists.reduce([], { $0 + $1.sortedItemsByID }).forEach({ id in
+                    channel.messageList.items.filter({ (key, value) in value.senderID == id })
+                        .forEach({
+                            channel.messageList.respondToUpdatesOnItem(identifiedBy: $0.key)
+                        })
+                })
+            } else {
+                channel.messageList.items.filter({ (key, value) in value.senderID == userID })
+                    .forEach({ channel.messageList.respondToUpdatesOnItem(identifiedBy: $0.key) })
+            }
+        }
+
+        if userID == myID {
 			generalDisplay?.displayReadySate(newUserStatus.isReady)
 		}
 
