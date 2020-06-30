@@ -13,7 +13,7 @@ protocol ListSelectionHandler {
 	func secondarySelect(itemIdentifiedBy id: Int)
 }
 
-final class DefaultBattleListSelectionHandler: ListSelectionHandler {
+struct DefaultBattleListSelectionHandler: ListSelectionHandler {
 	
 	let battleController: BattleController
 	let battlelist: List<Battle>

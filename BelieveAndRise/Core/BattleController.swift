@@ -77,7 +77,7 @@ final class BattleController {
         // If we haven't "joined the battle", don't send updates to the battleroom, because it expects
         // that we've already joined the battle.
         if battleroom.battle.userList.items.keys.contains(battleroom.myID) {
-            battleroom.setUserStatus(battleStatus, forUserIdentifiedBy: battleroom.myID)
+            battleroom.updateUserStatus(battleStatus, forUserIdentifiedBy: battleroom.myID)
         }
         server?.send(CSMyBattleStatusCommand(
             battleStatus: battleStatus,

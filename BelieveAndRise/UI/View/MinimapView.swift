@@ -31,6 +31,8 @@ final class MinimapView: NSImageView, MinimapDisplay {
 
     // MARK: - Properties
 
+    /// The map to be displayed.
+	///
     /// Must be set after the mapRect.
     private var map: Map? {
         didSet {
@@ -43,7 +45,7 @@ final class MinimapView: NSImageView, MinimapDisplay {
         }
     }
 
-    /// Calculates a rect ot
+    /// Calculates a CGRect describing the maximum size and its corresponding inset such that the map will be displayed within the bounds of and centred relative to the minimap view.
     private func mapRect(for map: Map) -> CGRect {
         let widthFactor = bounds.width / map.width
         let heightFactor = bounds.height / map.height

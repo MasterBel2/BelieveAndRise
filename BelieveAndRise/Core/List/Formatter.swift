@@ -15,14 +15,14 @@ protocol ItemViewProvider {
 }
 
 /// An `ItemViewProvider` that always returns nil
-final class DefaultItemViewProvider: ItemViewProvider {
+struct DefaultItemViewProvider: ItemViewProvider {
     func view(forItemIdentifiedBy id: Int) -> NSView? {
         return nil
     }
 }
 
 /// An `ItemViewProvider` that provides a default view for a battlelist item.
-final class BattlelistItemViewProvider: ItemViewProvider {
+struct BattlelistItemViewProvider: ItemViewProvider {
     let list: List<Battle>
 
     init(list: List<Battle>) {
@@ -41,7 +41,7 @@ final class BattlelistItemViewProvider: ItemViewProvider {
 }
 
 /// An `ItemViewProvider` that provides a default view for a userlist item.
-final class DefaultPlayerListItemViewProvider: ItemViewProvider {
+struct DefaultPlayerListItemViewProvider: ItemViewProvider {
     let list: List<User>
 
     init(list: List<User>) {
@@ -59,7 +59,7 @@ final class DefaultPlayerListItemViewProvider: ItemViewProvider {
     }
 }
 
-final class DefaultMessageListItemViewProvider: ItemViewProvider {
+struct DefaultMessageListItemViewProvider: ItemViewProvider {
     let messageList: List<ChatMessage>
     let userlist: List<User>
 
@@ -80,7 +80,7 @@ final class DefaultMessageListItemViewProvider: ItemViewProvider {
     }
 }
 
-final class BattleroomPlayerListItemViewProvider: ItemViewProvider {
+struct BattleroomPlayerListItemViewProvider: ItemViewProvider {
     let battleroom: Battleroom
     private var playerList: List<User> {
         return battleroom.battle.userList
@@ -118,7 +118,7 @@ final class BattleroomPlayerListItemViewProvider: ItemViewProvider {
     }
 }
 
-final class BattleroomMessageListItemViewProvider: ItemViewProvider {
+struct BattleroomMessageListItemViewProvider: ItemViewProvider {
     let list: List<ChatMessage>
     let battleroom: Battleroom
 

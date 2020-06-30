@@ -178,7 +178,7 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     ///
     /// This function is intended to be exposed to other UI classes only and so is not thread safe. Call only from the main thread.
     func setViewBackgroundColor(_ color: NSColor?) {
-        (view as! ColoredView).backgroundColor = color
+        (view as? ColoredView)?.backgroundColor = color
     }
 
     // MARK: - Battleroom Display

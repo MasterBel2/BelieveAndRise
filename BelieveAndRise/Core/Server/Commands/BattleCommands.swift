@@ -260,7 +260,7 @@ struct SCClientBattleStatusCommand: SCCommand {
 			let userID = connection.id(forPlayerNamed: username) else {
 			return
 		}
-        battleroom.setUserStatus(battleStatus, forUserIdentifiedBy: userID)
+        battleroom.updateUserStatus(battleStatus, forUserIdentifiedBy: userID)
 		battleroom.colors[userID] = teamColor
 	}
 	
@@ -637,6 +637,9 @@ struct SCJoinedBattleCommand: SCCommand {
 	}
 }
 
+/**
+ Sent by the server to all users when a client left a battle (or got disconnected from the server). 
+ */
 struct SCLeftBattleCommand: SCCommand {
 	
 	let battleID: Int

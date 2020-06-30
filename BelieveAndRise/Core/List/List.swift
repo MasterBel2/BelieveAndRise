@@ -13,23 +13,11 @@ protocol ListDelegate: AnyObject {
     func list(_ list: ListProtocol, didAddItemWithID id: Int, at index: Int)
     /// Notifies the delegate that the list removed an item at the given index.
     func list(_ list: ListProtocol, didRemoveItemAt index: Int)
-    /// Notifies the delegate that the list moved an item between the given indices.
+    /// Informs the delegate that an item was updated and its view should be reloaded.
     func list(_ list: ListProtocol, itemWasUpdatedAt index: Int)
     /// Notifies the delegate that the list moved an item between the given indices.
     func list(_ list: ListProtocol, didMoveItemFrom index1: Int, to index2: Int)
 }
-
-protocol ListDataSource: AnyObject {
-
-}
-
-// This is a concept class name, commented out so it doesn't show up in autocomplete.
-// The concept is that all lists that are a subset of the primary list should have the same sorting,
-// therefore they all should be sorted in the one place – the head. Of course, this functionality
-// doesn't need a separate class to be implemented. if let parent = parent { … }. It's just a
-// prompt.
-
-//final class ListHead<ListItem: Sortable>: List<ListItem> {}
 
 protocol ListProtocol: AnyObject {
     var title: String { get }
@@ -92,8 +80,6 @@ final class List<ListItem: Sortable>: ListProtocol {
 
     /// The List object's delegate.
 	var delegate: ListDelegate?
-    /// The List object's data source.
-	weak var dataSource: ListDataSource?
 
     // MARK: - Lifecycle
 

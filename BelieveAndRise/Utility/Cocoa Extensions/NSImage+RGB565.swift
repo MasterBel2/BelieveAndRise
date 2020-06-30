@@ -30,11 +30,10 @@ extension NSImage {
 		var pixels = rgb565Pixels.map { $0.rgbaValue }
 		let pixelBuffer = UnsafeMutablePointer<UInt32>(&pixels)
 		let bytes = UnsafeRawPointer(pixelBuffer).assumingMemoryBound(to: UInt8.self)
-		
+
 		destination.assign(from: bytes, count: pixels.count * 4)
 		
 		self.init(size: NSSize(width: width, height: height))
 		addRepresentation(bitmap)
 	}
-	
 }

@@ -21,6 +21,8 @@ extension Color {
     }
 }
 
+// MARK: - Protocols
+
 protocol BattleroomMapInfoDisplay: AnyObject {
     func displayMapName(_ mapName: String)
     func addCustomisedMapOption(_ option: String, value: UnitsyncWrapper.InfoValue)
@@ -151,14 +153,44 @@ final class Battleroom: BattleDelegate, ListDelegate {
         return battle.userList.items[battle.founderID]?.status.isIngame ?? false
     }
 
+    // MARK: - Lifecycle
+
+    init(battle: Battle, channel: Channel, hashCode: Int32, resourceManager: ResourceManager, battleController: BattleController, myID: Int) {
+        self.battle = battle
+        self.hashCode = hashCode
+        self.channel = channel
+        spectatorList = List<User>(title: "Spectators", sortKey: .rank, parent: battle.userList)
+        self.resourceManager = resourceManager
+        self.myID = myID
+
+        self.battleController = battleController
+
+        // + 1 – Users will count from 1, not from 0
+        allyTeamLists = (0...15).map({ List(title: "Ally \(String($0 + 1))", sortKey: .rank, parent: battle.userList) })
+
+        battle.delegate = self
+        battle.userList.delegate = self
+
+        if !hasEngine {
+            resourceManager.download(.engine(name: battle.engineVersion, platform: platform), completionHandler: { [weak self] _ in
+                self?.updateSync()
+            })
+        }
+        if !hasGame {
+            resourceManager.download(.game(name: battle.gameName), completionHandler: { [weak self] _ in
+                self?.updateSync()
+            })
+        }
+    }
+
     // MARK: - Updates
 
     func displayIngameStatus() {
         generalDisplay?.display(isHostIngame: isHostIngame, isPlayerIngame: isPlayerIngame)
     }
 
-    /// Sets the status for a user, as specified by their ID.
-    func setUserStatus(_ newUserStatus: UserStatus, forUserIdentifiedBy userID: Int) {
+    /// Updates the status for a user, as specified by their ID.
+    func updateUserStatus(_ newUserStatus: UserStatus, forUserIdentifiedBy userID: Int) {
         // Ally/spectator
         let previousUserStatus = userStatuses[userID]
         Logger.log("Updating user status for \(userID): \(previousUserStatus?.description ?? "nil") -> \(newUserStatus.description)", tag: .BattleStatusUpdate)
@@ -288,36 +320,6 @@ final class Battleroom: BattleDelegate, ListDelegate {
             displayIngameStatus()
         }
     }
-
-    // MARK: - Lifecycle
-	
-    init(battle: Battle, channel: Channel, hashCode: Int32, resourceManager: ResourceManager, battleController: BattleController, myID: Int) {
-		self.battle = battle
-		self.hashCode = hashCode
-		self.channel = channel
-        spectatorList = List<User>(title: "Spectators", sortKey: .rank, parent: battle.userList)
-        self.resourceManager = resourceManager
-        self.myID = myID
-
-        self.battleController = battleController
-
-        // + 1 – Users will count from 1, not from 0
-        allyTeamLists = (0...15).map({ List(title: "Ally \(String($0 + 1))", sortKey: .rank, parent: battle.userList) })
-
-        battle.delegate = self
-        battle.userList.delegate = self
-		
-		if !hasEngine {
-			resourceManager.download(.engine(name: battle.engineVersion, platform: platform), completionHandler: { [weak self] _ in
-				self?.updateSync()
-			})
-		}
-		if !hasGame {
-			resourceManager.download(.game(name: battle.gameName), completionHandler: { [weak self] _ in
-				self?.updateSync()
-			})
-		}
-	}
 
     // MARK: - Nested Types
 	

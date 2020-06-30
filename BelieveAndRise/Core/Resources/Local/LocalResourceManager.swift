@@ -26,6 +26,7 @@ final class LocalResourceManager {
 
     // MARK: - Lifecycle
 
+    /// Syncrhonously refreshes all unitsync instances
     func refresh() {
         queue.sync {
             for engineVersion in engineVersions {
@@ -34,7 +35,7 @@ final class LocalResourceManager {
         }
     }
 
-    /// Uses the most recent unitsync version to load all maps from the data dir.
+    /// Uses the most recent unitsync version to asynchronously load all maps from the data dir.
     ///
     /// Must be called after `loadEngines`.
     func loadMaps() {
@@ -43,7 +44,7 @@ final class LocalResourceManager {
         }
     }
 
-    /// Uses the most recent unitsync version to load all games from the data dir.
+    /// Uses the most recent unitsync version to asynchronously load all games from the data dir.
     ///
     /// Must be called after `loadEngines`.
     func loadGames() {
@@ -51,7 +52,7 @@ final class LocalResourceManager {
             self._loadGames()
         }
     }
-    /// Searches for downloaded engines, and identifies their unitsync libraries.
+    /// Asynchronously searches for downloaded engines, and identifies their unitsync libraries.
     ///
     /// This function must be called before `loadGames()` or `loadMaps()` for either of them to be successful.
     func loadEngines() {
@@ -175,7 +176,7 @@ final class LocalResourceManager {
     func diemnsions(forMapNamed mapName: String) -> (width: Int, height: Int)? {
         return queue.sync {
             guard let mostRecentUnitsync = mostRecentUnitsync,
-                let mapIndex = self.maps.enumerated().first(where: { $0.element.name == mapName })?.offset else {
+                let mapIndex = maps.enumerated().first(where: { $0.element.name == mapName })?.offset else {
                 return nil
             }
             let width = mostRecentUnitsync.mapWidth(at: mapIndex)

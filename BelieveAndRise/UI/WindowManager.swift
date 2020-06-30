@@ -56,4 +56,6 @@ final class MacOSWindowManager: WindowManager {
             self.downloadsWindow = downloadsWindow
         }
     }
+
+
 }
