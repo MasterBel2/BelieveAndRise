@@ -22,7 +22,7 @@ final class TextViewController: NSViewController {
         executeOnMain(target: self) {
             $0.text.append(line)
             if $0.isViewLoaded {
-                $0.textView.string = text
+                $0.textView.string = $0.text
             }
         }
     }

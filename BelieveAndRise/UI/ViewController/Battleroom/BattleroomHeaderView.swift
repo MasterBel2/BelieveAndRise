@@ -56,22 +56,30 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
     /// The displayed ally items.
     private(set) var allyItems: [AllyItem] = []
 
+    // MARK: - Manipulating data
+
     /// Adds an option to the displayed list of items.
     func addAllyItem(_ allyItem: AllyItem) {
-        allyItems.append(allyItem)
-        allySelectorPopupButton.addItem(withTitle: allyItem.title)
+        executeOnMain { [weak self] in
+            self?.allyItems.append(allyItem)
+            self?.allySelectorPopupButton.addItem(withTitle: allyItem.title)
+        }
     }
 
     /// Inserts an option into the displayed list of items.
     func insertAllyItem(_ allyItem: AllyItem, at index: Int) {
-        allyItems.insert(allyItem, at: index)
-        allySelectorPopupButton.insertItem(withTitle: allyItem.title, at: index)
+        executeOnMain { [weak self] in
+            self?.allyItems.insert(allyItem, at: index)
+            self?.allySelectorPopupButton.insertItem(withTitle: allyItem.title, at: index)
+        }
     }
 
     /// Removes the option corresponding to the ally item name from the displayed list of items.
     func removeAllyItem(named itemName: String) {
-        allyItems.removeAll(where: {$0.title == itemName})
-        allySelectorPopupButton.removeItem(withTitle: itemName)
+        executeOnMain { [weak self] in
+            self?.allyItems.removeAll(where: {$0.title == itemName})
+            self?.allySelectorPopupButton.removeItem(withTitle: itemName)
+        }
     }
 
     // MARK: - Receiving control actions
@@ -93,35 +101,41 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
     ///
     /// See `WatchGameButtonState` for more information.
     func setWatchGameButtonState(_ state: WatchGameButtonState) {
-        executeOnMain(target: self) {
-            switch state {
-            case .enabled:
-                $0.watchGameButton.isHidden = false
-                $0.enableWatchGameButton()
-            case .disabled:
-                $0.watchGameButton.isHidden = false
-                $0.disableWatchGameButton()
-            case .hidden:
-                $0.watchGameButton.isHidden = true
-            }
+        executeOnMain { [weak self] in
+            self?._setWatchGameButtonState(state)
+        }
+    }
+    private func _setWatchGameButtonState(_ state: WatchGameButtonState) {
+        switch state {
+        case .enabled:
+            watchGameButton.isHidden = false
+            enableWatchGameButton()
+        case .disabled:
+            watchGameButton.isHidden = false
+            disableWatchGameButton()
+        case .hidden:
+            watchGameButton.isHidden = true
         }
     }
 	
 	func displayReadyState(_ isReady: Bool) {
-		executeOnMain(target: self) {
-			$0.readyButton.state = isReady ? .on : .off
+		executeOnMain { [weak self] in
+			self?.readyButton.state = isReady ? .on : .off
 		}
 	}
 
     func displaySyncStatus(_ synced: Bool) {
-        executeOnMain(target: self) {
-            if synced {
-                $0.syncStatusLabel.stringValue = "Synced"
-                $0.syncStatusLabel.textColor = NSColor(named: "userIsAlly")
-            } else {
-                $0.syncStatusLabel.stringValue = "Unsynced"
-                $0.syncStatusLabel.textColor = NSColor(named: "userIsEnemy")
-            }
+        executeOnMain { [weak self] in
+            self?._displaySyncStatus(synced)
+        }
+    }
+    private func _displaySyncStatus(_ synced: Bool) {
+        if synced {
+            syncStatusLabel.stringValue = "Synced"
+            syncStatusLabel.textColor = NSColor(named: "userIsAlly")
+        } else {
+            syncStatusLabel.stringValue = "Unsynced"
+            syncStatusLabel.textColor = NSColor(named: "userIsEnemy")
         }
     }
 

@@ -39,70 +39,80 @@ final class MainWindowController: NSWindowController {
     // MARK: - MainWindowController
 
     func displayBattlelist(_ battleList: List<Battle>) {
-        executeOnMain {
-            guard let battleController = battleController else {
-                debugOnlyPrint("No battle controller set!")
-                return
-            }
-            battlelistViewController.sections.forEach(battlelistViewController.removeSection(_:))
-            battlelistViewController.addSection(battleList)
-            battlelistViewController.itemViewProvider = BattlelistItemViewProvider(list: battleList)
-            battlelistViewController.selectionHandler = DefaultBattleListSelectionHandler(
-                battlelist: battleList,
-                battleController: battleController
-            )
+        executeOnMain { [weak self] in
+            self?._displayBattleList(battleList)
         }
+    }
+
+    private func _displayBattleList(_ battleList: List<Battle>) {
+        guard let battleController = battleController else {
+            debugOnlyPrint("No battle controller set!")
+            return
+        }
+        battlelistViewController.sections.forEach(battlelistViewController.removeSection(_:))
+        battlelistViewController.addSection(battleList)
+        battlelistViewController.itemViewProvider = BattlelistItemViewProvider(list: battleList)
+        battlelistViewController.selectionHandler = DefaultBattleListSelectionHandler(
+            battlelist: battleList,
+            battleController: battleController
+        )
     }
 
     func displayServerUserlist(_ userList: List<User>) {
-        executeOnMain {
-            userListViewController.sections.forEach(userListViewController.removeSection(_:))
-            userListViewController.addSection(userList)
-            userListViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: userList)
+        executeOnMain { [weak self] in
+            self?._displayServerUserList(userList)
         }
     }
 
+    private func _displayServerUserList(_ userList: List<User>) {
+        userListViewController.sections.forEach(userListViewController.removeSection(_:))
+        userListViewController.addSection(userList)
+        userListViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: userList)
+    }
+
     func displayChannel(_ channel: Channel) {
-        executeOnMain {
-            chatViewController.setChannel(channel)
+        executeOnMain { [weak self] in
+            guard let self = self else { return }
+            self.chatViewController.setChannel(channel)
         }
     }
 
     /**
-     Displays a battleroom and configures it with the information that should be already populated
+     Displays a battleroom and configures it with the information that should be already populated.
      */
     func displayBattleroom(_ battleroom: Battleroom) {
-        executeOnMain {
-            if let battleroomViewController = self.battleroomViewController {
-                battleroomViewController.battleroom = battleroom
-                let middleSplitViewItem = splitViewController.splitViewItems[1]
-                if middleSplitViewItem.viewController !== battleroomViewController {
-                    splitViewController.removeSplitViewItem(middleSplitViewItem)
-                    splitViewController.insertSplitViewItem(
-                        NSSplitViewItem(viewController: battleroomViewController),
-                        at: 1
-                    )
-                }
-            } else {
-                let battleroomViewController = BattleroomViewController()
-                battleroomViewController.battleroom = battleroom
-                battleroomViewController.battleController = battleController
-                battleroomViewController.chatViewController.chatController = chatController
-                splitViewController.removeSplitViewItem(splitViewController.splitViewItems[1])
-                splitViewController.insertSplitViewItem(
-                    NSSplitViewItem(viewController: battleroomViewController),
-                    at: 1
-                )
-                battleroomViewController.setViewBackgroundColor(.controlBackgroundColor)
-                self.battleroomViewController = battleroomViewController
-            }
-
-            leaveBattleButton.isHidden = false
+        executeOnMain { [weak self] in
+            self?._displayBattleroom(battleroom)
         }
     }
 
+    private func _displayBattleroom(_ battleroom: Battleroom) {
+        let battleroomViewController = self.battleroomViewController ?? BattleroomViewController()
+        battleroomViewController.setBattleroom(battleroom)
+        let middleSplitViewItem = splitViewController.splitViewItems[1]
+        if middleSplitViewItem.viewController !== battleroomViewController {
+            splitViewController.removeSplitViewItem(middleSplitViewItem)
+            splitViewController.insertSplitViewItem(
+                NSSplitViewItem(viewController: battleroomViewController),
+                at: 1
+            )
+        }
+
+
+        self.battleroomViewController = battleroomViewController
+        self.battleroomViewController?.chatViewController.chatController = chatController
+        self.battleroomViewController?.battleController = battleController
+
+        leaveBattleButton.isHidden = false
+    }
+
     func destroyBattleroomViewController() {
-        executeOnMain {
+        executeOnMain { [weak self] in
+            self?._destroyBattleroomViewController()
+        }
+    }
+
+   private func _destroyBattleroomViewController() {
             guard let battleroomViewController = battleroomViewController,
                 let battleroomSplitViewItem = splitViewController.splitViewItem(for: battleroomViewController) else {
                     return
@@ -110,19 +120,18 @@ final class MainWindowController: NSWindowController {
             self.battleroomViewController = nil
             splitViewController.removeSplitViewItem(battleroomSplitViewItem)
             splitViewController.insertSplitViewItem(NSSplitViewItem(viewController: chatViewController), at: 1)
-        }
     }
 
     func setChatController(_ chatController: ChatController) {
-        executeOnMain {
-            chatViewController.chatController = chatController
-            self.chatController = chatController
+        executeOnMain { [weak self] in
+            self?.chatViewController.chatController = chatController
+            self?.chatController = chatController
         }
     }
 
     func setBattleController(_ battleController: BattleController) {
-        executeOnMain {
-            self.battleController = battleController
+        executeOnMain { [weak self] in
+            self?.battleController = battleController
         }
     }
 

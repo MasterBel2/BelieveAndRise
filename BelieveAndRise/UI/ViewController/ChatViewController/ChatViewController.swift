@@ -31,20 +31,23 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
     // MARK: - Configuration
 
     func setChannel(_ channel: Channel?) {
-        executeOnMain {
+        executeOnMain { [weak self] in
+            guard let self = self else {
+                return
+            }
             self.channel = channel
 
             guard let channel = channel else {
-                chatBarController.isChatBarEnabled = false
+                self.chatBarController.isChatBarEnabled = false
                 return
             }
 
-            chatBarController.isChatBarEnabled = true
-            logViewController.itemViewProvider = DefaultMessageListItemViewProvider(messageList: channel.messageList, userlist: channel.userlist)
-            logViewController.sections.forEach(logViewController.removeSection(_:))
-            logViewController.addSection(channel.messageList)
-            logViewController.shouldDisplaySectionHeaders = false
-            title = channel.title
+            self.chatBarController.isChatBarEnabled = true
+            self.logViewController.itemViewProvider = DefaultMessageListItemViewProvider(messageList: channel.messageList, userlist: channel.userlist)
+            self.logViewController.sections.forEach(self.logViewController.removeSection(_:))
+            self.logViewController.addSection(channel.messageList)
+            self.logViewController.shouldDisplaySectionHeaders = false
+            self.title = channel.title
         }
     }
 

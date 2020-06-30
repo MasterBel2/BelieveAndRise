@@ -8,24 +8,34 @@
 
 import Foundation
 
-/// Synchronously executes on the main thread.
-func executeOnMain<T: AnyObject, Result>(target: T, block: (T) -> Result) -> Result {
+/// Asynchronously executes on the main thread, unless already on the main thread.
+func executeOnMain<T: AnyObject>(target: Optional<T>, _ block: @escaping (T) -> Void) {
+    if let target = target {
+        executeOnMain(target: target, block)
+    }
+}
+
+/// Asynchronously executes on the main thread, unless already on the main thread.
+func executeOnMain<T: AnyObject>(target: T, _ block: @escaping (T) -> Void) {
     if Thread.isMainThread {
-        return block(target)
+        block(target)
     } else {
-        return DispatchQueue.main.sync {
-            return block(target)
+        DispatchQueue.main.async { [weak target] in
+            if let target = target {
+                block(target)
+            }
         }
     }
 }
 
-/// Synchronously executes on the main thread.
-func executeOnMain<Result>(block: () -> Result) -> Result {
+
+/// Asynchronously executes on the main thread, unless already on the main thread.
+func executeOnMain(_ block: @escaping () -> Void) {
     if Thread.isMainThread {
-        return block()
+        block()
     } else {
-        return DispatchQueue.main.sync {
-            return block()
+        DispatchQueue.main.async {
+            block()
         }
     }
 }

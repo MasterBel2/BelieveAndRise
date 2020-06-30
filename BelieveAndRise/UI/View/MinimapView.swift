@@ -62,70 +62,78 @@ final class MinimapView: NSImageView, MinimapDisplay {
     // MARK: - MinimapDisplay
 
     func addStartRect(_ rect: CGRect, for allyTeam: Int) {
-        executeOnMain {
-            guard let map = map else {
-                return
-            }
-
-            if startRects[allyTeam] != nil {
-                removeStartRect(for: allyTeam)
-            }
-
-            let mapRect = self.mapRect(for: map)
-            // Rescale start rect to the map rect.
-            let x = rect.minX / 200 * mapRect.width
-            let y = rect.minY / 200 * mapRect.height
-            let width = rect.width / 200 * mapRect.width
-            let height = rect.height / 200 * mapRect.height
-
-            // Position the start rect relative to the map rect.
-            let newRect = CGRect(x: x + mapRect.minX, y: y + mapRect.minY, width: width, height: height)
-
-            let view = StartRectOverlayView.loadFromNib()
-            view.frame = newRect
-            view.allyTeamNumberLabel.stringValue = String(allyTeam)
-            view.backgroundColor = NSColor(deviceRed: 1, green: 1, blue: 1, alpha: 0.3)
-            startRects[allyTeam] = view
-            addSubview(view)
+        executeOnMain { [weak self] in
+            self?._addStartRect(rect, for: allyTeam)
         }
     }
 
+    private func _addStartRect(_ rect: CGRect, for allyTeam: Int) {
+        guard let map = map else {
+            return
+        }
+
+        if startRects[allyTeam] != nil {
+            removeStartRect(for: allyTeam)
+        }
+
+        let mapRect = self.mapRect(for: map)
+        // Rescale start rect to the map rect.
+        let x = rect.minX / 200 * mapRect.width
+        let y = rect.minY / 200 * mapRect.height
+        let width = rect.width / 200 * mapRect.width
+        let height = rect.height / 200 * mapRect.height
+
+        // Position the start rect relative to the map rect.
+        let newRect = CGRect(x: x + mapRect.minX, y: y + mapRect.minY, width: width, height: height)
+
+        let view = StartRectOverlayView.loadFromNib()
+        view.frame = newRect
+        view.allyTeamNumberLabel.stringValue = String(allyTeam)
+        view.backgroundColor = NSColor(deviceRed: 1, green: 1, blue: 1, alpha: 0.3)
+        startRects[allyTeam] = view
+        addSubview(view)
+    }
+
     func removeStartRect(for allyTeam: Int) {
-        executeOnMain {
-            if let view = startRects[allyTeam] {
+        executeOnMain(target: self) { _self in
+            if let view = _self.startRects[allyTeam] {
                 view.removeFromSuperview()
-                startRects[allyTeam] = nil
+                _self.startRects[allyTeam] = nil
             }
         }
     }
 
     func removeAllStartRects() {
-        executeOnMain {
-            for (key, value) in startRects {
+        executeOnMain(target: self) { _self in
+            for (key, value) in _self.startRects {
                 value.removeFromSuperview()
-                startRects[key] = nil
+                _self.startRects[key] = nil
             }
         }
     }
 
     func displayMapUnknown() {
-        executeOnMain {
-            map = nil
-            image = #imageLiteral(resourceName: "Caution")
+        executeOnMain(target: self) { _self in
+            _self.map = nil
+            _self.image = #imageLiteral(resourceName: "Caution")
         }
     }
 
     /// Converts image data into an image and displays a new map with the given aspect ratio. If image generation fails, the view
     /// assumes a "map unknown" state
     func displayMap(_ imageData: [UInt16], dimension: Int, realWidth: Int, realHeight: Int) {
-        executeOnMain {
-            guard let image = NSImage(rgb565Pixels: imageData, width: dimension, height: dimension) else {
-                displayMapUnknown()
-                return
-            }
-            let map = Map(image: image, width: CGFloat(realWidth), height: CGFloat(realHeight))
-            self.map = map
+        executeOnMain { [weak self] in
+            self?._displayMap(imageData, dimension: dimension, realWidth: realWidth, realHeight: realHeight)
         }
+        
+    }
+    private func _displayMap(_ imageData: [UInt16], dimension: Int, realWidth: Int, realHeight: Int) {
+        guard let image = NSImage(rgb565Pixels: imageData, width: dimension, height: dimension) else {
+            displayMapUnknown()
+            return
+        }
+        let map = Map(image: image, width: CGFloat(realWidth), height: CGFloat(realHeight))
+        self.map = map
     }
 
     // MARK: - Associated types

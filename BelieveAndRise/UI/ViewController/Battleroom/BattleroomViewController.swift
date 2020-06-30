@@ -23,16 +23,20 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     // MARK: - Data
 
     #warning("Should support displaying an empty battleroom when currently not in a battle.")
-    weak var battleroom: Battleroom! {
+    private weak var battleroom: Battleroom! {
         didSet {
-            executeOnMain {
-                playerlistViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: battleroom.battle.userList)
-                
-                battleroom.allyTeamListDisplay = playerlistViewController
-                battleroom.spectatorListDisplay = playerlistViewController
-                
-                chatViewController.setChannel(battleroom.channel)
-            }
+            playerlistViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: battleroom.battle.userList)
+
+            battleroom.allyTeamListDisplay = playerlistViewController
+            battleroom.spectatorListDisplay = playerlistViewController
+
+            chatViewController.setChannel(battleroom.channel)
+        }
+    }
+
+    func setBattleroom(_ battleroom: Battleroom?) {
+        executeOnMain { [weak self] in
+            self?.battleroom = battleroom
         }
     }
 
@@ -55,6 +59,8 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setViewBackgroundColor(.controlBackgroundColor)
 
         // Header
 
@@ -184,7 +190,7 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     // MARK: - Battleroom Display
 
     func display(isHostIngame: Bool, isPlayerIngame: Bool) {
-        executeOnMain {
+        executeOnMain(target: header) { header in
             if !isHostIngame {
                 header.setWatchGameButtonState(.hidden)
             } else {
@@ -194,53 +200,55 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     }
 
     func addedTeam(named teamName: String) {
-        executeOnMain {
-            for index in 0..<(header.allyItems.count - 2) {
-                // Ensure that 2 is positioned before 10.
-                if Int(teamName) != nil,
-                    allyItemTitle(forAllyNamed: teamName).count < header.allyItems[index].title.count {
-                    insertAllyOption(named: teamName, at: index)
-                    return
-                }
-                if header.allyItems[index].title > allyItemTitle(forAllyNamed: teamName) {
-                    // Ensure that 10 is positioned after 2.
-                    if Int(teamName) != nil,
-                        allyItemTitle(forAllyNamed: teamName).count > header.allyItems[index].title.count {
-                        break
-                    }
-                    insertAllyOption(named: teamName, at: index)
-                    return
-                }
-            }
-            insertAllyOption(named: teamName, at: header.allyItems.count - 2)
-        }
-    }
-    
-    private func insertAllyOption(named teamName: String, at index: Int) {
-        executeOnMain {
-            let allyItem = BattleroomHeaderView.AllyItem(title: allyItemTitle(forAllyNamed: teamName), action: { [weak self] in
-                guard let self = self else {
-                    return
-                }
-                let myBattleStatus = self.battleroom.myBattleStatus
-                let newAllyNumber = self.battleroom.allyNamesForAllyNumbers.first(where: { $0.value == teamName })?.key
-                self.battleController.setBattleStatus(Battleroom.UserStatus(
-                    isReady: myBattleStatus.isReady,
-                    teamNumber: myBattleStatus.teamNumber,
-                    allyNumber: newAllyNumber ?? myBattleStatus.allyNumber,
-                    isSpectator: false,
-                    handicap: myBattleStatus.handicap,
-                    syncStatus: myBattleStatus.syncStatus,
-                    side: myBattleStatus.side
-                ))
-            })
-            header.insertAllyItem(allyItem, at: index)
+        executeOnMain { [weak self] in
+            self?._addedTeam(named: teamName)
         }
     }
 
+    private func _addedTeam(named teamName: String) {
+        for index in 0..<(header.allyItems.count - 2) {
+            // Ensure that 2 is positioned before 10.
+            if Int(teamName) != nil,
+                allyItemTitle(forAllyNamed: teamName).count < header.allyItems[index].title.count {
+                insertAllyOption(named: teamName, at: index)
+                return
+            }
+            if header.allyItems[index].title > allyItemTitle(forAllyNamed: teamName) {
+                // Ensure that 10 is positioned after 2.
+                if Int(teamName) != nil,
+                    allyItemTitle(forAllyNamed: teamName).count > header.allyItems[index].title.count {
+                    break
+                }
+                insertAllyOption(named: teamName, at: index)
+                return
+            }
+        }
+        insertAllyOption(named: teamName, at: header.allyItems.count - 2)
+    }
+    
+    private func insertAllyOption(named teamName: String, at index: Int) {
+        let allyItem = BattleroomHeaderView.AllyItem(title: allyItemTitle(forAllyNamed: teamName), action: { [weak self] in
+            guard let self = self else {
+                return
+            }
+            let myBattleStatus = self.battleroom.myBattleStatus
+            let newAllyNumber = self.battleroom.allyNamesForAllyNumbers.first(where: { $0.value == teamName })?.key
+            self.battleController.setBattleStatus(Battleroom.UserStatus(
+                isReady: myBattleStatus.isReady,
+                teamNumber: myBattleStatus.teamNumber,
+                allyNumber: newAllyNumber ?? myBattleStatus.allyNumber,
+                isSpectator: false,
+                handicap: myBattleStatus.handicap,
+                syncStatus: myBattleStatus.syncStatus,
+                side: myBattleStatus.side
+            ))
+        })
+        header.insertAllyItem(allyItem, at: index)
+    }
+
     func removedTeam(named teamName: String) {
-        executeOnMain(target: header) { header in
-            header.removeAllyItem(named: allyItemTitle(forAllyNamed: teamName))
+        executeOnMain(target: self) { _self in
+            _self.header.removeAllyItem(named: _self.allyItemTitle(forAllyNamed: teamName))
         }
     }
 
