@@ -153,13 +153,7 @@ final class MainWindowController: NSWindowController {
         // Create content split view.
 
         let splitViewController = newSplitViewController()
-
-        window?.contentViewController?.addChild(splitViewController)
-        window?.contentView?.addSubview(splitViewController.view)
-        splitViewController.view.frame = window?.contentView?.frame ?? .zero
-        splitViewController.view.autoresizingMask = [.width, .height]
-        splitViewController.view.viewDidMoveToWindow()
-
+        window?.contentViewController = splitViewController
         self.splitViewController = splitViewController
 
         // Customise appearance.
