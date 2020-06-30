@@ -23,14 +23,16 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     // MARK: - Data
 
     #warning("Should support displaying an empty battleroom when currently not in a battle.")
-    var battleroom: Battleroom! {
+    weak var battleroom: Battleroom! {
         didSet {
-            playerlistViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: battleroom.battle.userList)
-
-            battleroom.allyTeamListDisplay = playerlistViewController
-            battleroom.spectatorListDisplay = playerlistViewController
-
-            chatViewController.setChannel(battleroom.channel)
+            executeOnMain {
+                playerlistViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: battleroom.battle.userList)
+                
+                battleroom.allyTeamListDisplay = playerlistViewController
+                battleroom.spectatorListDisplay = playerlistViewController
+                
+                chatViewController.setChannel(battleroom.channel)
+            }
         }
     }
 
@@ -173,6 +175,8 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     ///
     /// If the view has not yet been loaded, this function will trigger its loading. Therefore it should not be loaded until after all
     /// dependencies have been loaded.
+    ///
+    /// This function is intended to be exposed to other UI classes only and so is not thread safe. Call only from the main thread.
     func setViewBackgroundColor(_ color: NSColor?) {
         (view as! ColoredView).backgroundColor = color
     }
@@ -180,22 +184,22 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     // MARK: - Battleroom Display
 
     func display(isHostIngame: Bool, isPlayerIngame: Bool) {
-        executeOnMain(target: self) {
+        executeOnMain {
             if !isHostIngame {
-                $0.header.setWatchGameButtonState(.hidden)
+                header.setWatchGameButtonState(.hidden)
             } else {
-                $0.header.setWatchGameButtonState(isPlayerIngame ? .disabled : .enabled)
+                header.setWatchGameButtonState(isPlayerIngame ? .disabled : .enabled)
             }
         }
     }
 
     func addedTeam(named teamName: String) {
-        executeOnMain(target: self) { (viewController: BattleroomViewController) -> Void in
+        executeOnMain {
             for index in 0..<(header.allyItems.count - 2) {
                 // Ensure that 2 is positioned before 10.
                 if Int(teamName) != nil,
                     allyItemTitle(forAllyNamed: teamName).count < header.allyItems[index].title.count {
-                    viewController.insertAllyOption(named: teamName, at: index)
+                    insertAllyOption(named: teamName, at: index)
                     return
                 }
                 if header.allyItems[index].title > allyItemTitle(forAllyNamed: teamName) {
@@ -204,7 +208,7 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
                         allyItemTitle(forAllyNamed: teamName).count > header.allyItems[index].title.count {
                         break
                     }
-                    viewController.insertAllyOption(named: teamName, at: index)
+                    insertAllyOption(named: teamName, at: index)
                     return
                 }
             }
@@ -213,23 +217,25 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     }
     
     private func insertAllyOption(named teamName: String, at index: Int) {
-        let allyItem = BattleroomHeaderView.AllyItem(title: allyItemTitle(forAllyNamed: teamName), action: { [weak self] in
-            guard let self = self else {
-                return
-            }
-            let myBattleStatus = self.battleroom.myBattleStatus
-            let newAllyNumber = self.battleroom.allyNamesForAllyNumbers.first(where: { $0.value == teamName })?.key
-            self.battleController.setBattleStatus(Battleroom.UserStatus(
-                isReady: myBattleStatus.isReady,
-                teamNumber: myBattleStatus.teamNumber,
-                allyNumber: newAllyNumber ?? myBattleStatus.allyNumber,
-                isSpectator: false,
-                handicap: myBattleStatus.handicap,
-                syncStatus: myBattleStatus.syncStatus,
-                side: myBattleStatus.side
-            ))
-        })
-        header.insertAllyItem(allyItem, at: index)
+        executeOnMain {
+            let allyItem = BattleroomHeaderView.AllyItem(title: allyItemTitle(forAllyNamed: teamName), action: { [weak self] in
+                guard let self = self else {
+                    return
+                }
+                let myBattleStatus = self.battleroom.myBattleStatus
+                let newAllyNumber = self.battleroom.allyNamesForAllyNumbers.first(where: { $0.value == teamName })?.key
+                self.battleController.setBattleStatus(Battleroom.UserStatus(
+                    isReady: myBattleStatus.isReady,
+                    teamNumber: myBattleStatus.teamNumber,
+                    allyNumber: newAllyNumber ?? myBattleStatus.allyNumber,
+                    isSpectator: false,
+                    handicap: myBattleStatus.handicap,
+                    syncStatus: myBattleStatus.syncStatus,
+                    side: myBattleStatus.side
+                ))
+            })
+            header.insertAllyItem(allyItem, at: index)
+        }
     }
 
     func removedTeam(named teamName: String) {

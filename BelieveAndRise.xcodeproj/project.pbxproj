@@ -50,6 +50,8 @@
 		3EB5912922C1A6E200103CDE /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5912822C1A6E200103CDE /* Socket.swift */; };
 		3EB5912E22C1A74B00103CDE /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5912D22C1A74B00103CDE /* String+MD5.swift */; };
 		3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5912F22C1A75600103CDE /* Data+Base64.swift */; };
+		3EE7B36924AB1ADE00EE1F98 /* IncompleteUserAuthenticationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE7B36824AB1ADE00EE1F98 /* IncompleteUserAuthenticationRequest.swift */; };
+		3EE7B36B24AB1B2D00EE1F98 /* debugOnlyPrint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE7B36A24AB1B2D00EE1F98 /* debugOnlyPrint.swift */; };
 		3EF20F7422F825D10005650E /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EF20F7322F825D10005650E /* ListViewController.xib */; };
 		6B08BD7723927AF6001F9C3F /* ExtendedChatMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B08BD7623927AF6001F9C3F /* ExtendedChatMessageView.swift */; };
 		6B08BD7923927B05001F9C3F /* ExtendedChatMessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B08BD7823927B05001F9C3F /* ExtendedChatMessageView.xib */; };
@@ -86,7 +88,7 @@
 		6B7EBD26239A108D0071BE22 /* BattleroomHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7EBD25239A108D0071BE22 /* BattleroomHeaderView.xib */; };
 		6B815EF12313C99A000FD850 /* ListDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B815EF02313C99A000FD850 /* ListDisplay.swift */; };
 		6B898F152398BE0D002AC64B /* GameTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B898F142398BE0D002AC64B /* GameTypes.swift */; };
-		6BAE46BF2379A7FD0065CD53 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAE46BE2379A7FD0065CD53 /* File.swift */; };
+		6BAE46BF2379A7FD0065CD53 /* executeOnMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAE46BE2379A7FD0065CD53 /* executeOnMain.swift */; };
 		6BB77D7123EA46C500087CBF /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB77D7023EA46C500087CBF /* System.swift */; };
 		6BBC3483244736F7006A85B0 /* Game Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC3482244736F7006A85B0 /* Game Data.swift */; };
 		6BBC348524473701006A85B0 /* Ally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348424473701006A85B0 /* Ally.swift */; };
@@ -204,6 +206,8 @@
 		3EB5912A22C1A71200103CDE /* BelieveAndRise-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BelieveAndRise-Bridging-Header.h"; sourceTree = "<group>"; };
 		3EB5912D22C1A74B00103CDE /* String+MD5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
 		3EB5912F22C1A75600103CDE /* Data+Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Base64.swift"; sourceTree = "<group>"; };
+		3EE7B36824AB1ADE00EE1F98 /* IncompleteUserAuthenticationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncompleteUserAuthenticationRequest.swift; sourceTree = "<group>"; };
+		3EE7B36A24AB1B2D00EE1F98 /* debugOnlyPrint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = debugOnlyPrint.swift; sourceTree = "<group>"; };
 		3EF20F7322F825D10005650E /* ListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListViewController.xib; sourceTree = "<group>"; };
 		6B08BD7623927AF6001F9C3F /* ExtendedChatMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedChatMessageView.swift; sourceTree = "<group>"; };
 		6B08BD7823927B05001F9C3F /* ExtendedChatMessageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExtendedChatMessageView.xib; sourceTree = "<group>"; };
@@ -240,6 +244,7 @@
 		6B815EF02313C99A000FD850 /* ListDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDisplay.swift; sourceTree = "<group>"; };
 		6B898F142398BE0D002AC64B /* GameTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTypes.swift; sourceTree = "<group>"; };
 		6BAE46BE2379A7FD0065CD53 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		6BAE46BE2379A7FD0065CD53 /* executeOnMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = executeOnMain.swift; sourceTree = "<group>"; };
 		6BB77D7023EA46C500087CBF /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		6BBC3482244736F7006A85B0 /* Game Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Game Data.swift"; sourceTree = "<group>"; };
 		6BBC348424473701006A85B0 /* Ally.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ally.swift; sourceTree = "<group>"; };
@@ -599,7 +604,8 @@
 				6B5A333E23863AE500A32433 /* Platform.swift */,
 				6BF85C62237C648900A19493 /* Array+MoveItem.swift */,
 				3EB5912D22C1A74B00103CDE /* String+MD5.swift */,
-				6BAE46BE2379A7FD0065CD53 /* File.swift */,
+				6BAE46BE2379A7FD0065CD53 /* executeOnMain.swift */,
+				3EE7B36A24AB1B2D00EE1F98 /* debugOnlyPrint.swift */,
 				6B30FB50237D743500A893C8 /* Cocoa Extensions */,
 				3EB5912F22C1A75600103CDE /* Data+Base64.swift */,
 				6B30FB4C237D72FF00A893C8 /* UInt16+RGB.swift */,
@@ -865,6 +871,7 @@
 				6B5A334523863B2200A32433 /* Int+Data.swift in Sources */,
 				3E7C827E239CC25F004B835D /* DownloadItemViewProvider.swift in Sources */,
 				3E46333522C0C2D000AE0F2F /* AppDelegate.swift in Sources */,
+				3EE7B36924AB1ADE00EE1F98 /* IncompleteUserAuthenticationRequest.swift in Sources */,
 				6B5A333A23863A7800A32433 /* ArrayDownloader.swift in Sources */,
 				6BEB5B872446297400D73A48 /* Running Spring.swift in Sources */,
 				3E46336822C0C31700AE0F2F /* NATType.swift in Sources */,
@@ -894,7 +901,7 @@
 				6BF044CA2391F50D008CCE3C /* BattleroomHeaderView.swift in Sources */,
 				3EB5912522C1A24700103CDE /* TASServer.swift in Sources */,
 				6B7304A823E7DB5E0027E757 /* InterfaceDefaultsController.swift in Sources */,
-				6BAE46BF2379A7FD0065CD53 /* File.swift in Sources */,
+				6BAE46BF2379A7FD0065CD53 /* executeOnMain.swift in Sources */,
 				3E04709F22CD71D3005241E6 /* ListViewControllerDataSource.swift in Sources */,
 				6B4266022391FA3E00AB46A2 /* BattleroomViewController.swift in Sources */,
 				6BF65C992397AAB300D85DDE /* LaunchScriptWriter.swift in Sources */,
@@ -937,6 +944,7 @@
 				6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */,
 				6BBC348724473710006A85B0 /* Team.swift in Sources */,
 				3E93BB9E237B9F50009036E7 /* ListSelectionHandler.swift in Sources */,
+				3EE7B36B24AB1B2D00EE1F98 /* debugOnlyPrint.swift in Sources */,
 				6B5A334323863B0F00A32433 /* RapidArchiveInfo.swift in Sources */,
 				6B7304A623E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift in Sources */,
 				6BEE6528239A91940029528A /* RapidClient.swift in Sources */,

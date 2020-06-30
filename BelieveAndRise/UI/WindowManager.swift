@@ -17,7 +17,7 @@ protocol WindowManager {
     func newConnectionWindowManager() -> ConnectionWindowManager
 }
 
-#warning("Window manager accesses the UI and should be made thread-safe by use of executeOnMain() on its non-private functions.")
+#warning("Window manager accesses the UI and should be made thread-safe by use of executeOnMain on its non-private functions.")
 /// The MacOS implementation of `WindowManager`.
 final class MacOSWindowManager: WindowManager {
     /// The window displaying information about current and past downloads.

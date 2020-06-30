@@ -31,7 +31,7 @@ protocol ConnectionWindowManager {
     func setBattleController(_ battleController: BattleController)
 }
 
-#warning("ConnectionWindowManager accesses the UI and should be made thread-safe by use of executeOnMain() on its non-private functions.")
+#warning("ConnectionWindowManager accesses the UI and should be made thread-safe by use of `executeOnMain` on its non-private functions.")
 /// A MacOS-specific implementation of `ConnectionWindowManager`.
 final class MacOSConnectionWindowManager: ConnectionWindowManager {
 
@@ -111,7 +111,7 @@ final class MacOSConnectionWindowManager: ConnectionWindowManager {
     }
 
     func destroyBattleroom() {
-        mainWindowController.destroyBattleroom()
+        mainWindowController.destroyBattleroomViewController()
     }
 
     func setChatController(_ chatController: ChatController) {

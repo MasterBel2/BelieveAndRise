@@ -27,59 +27,65 @@ class ListViewController: NSViewController,
 		/// Represents a list section header.
 		case header(String)
 		/// Represents a list item. Stores the item's ID.
-		case item(Int)
+        case item(Int)
+    }
+	
+	// MARK: - Configuration
+	
+	/// Determines whether the content rows should be selectable.
+	var displaysSelectableContent: Bool = true
+	
+	/// Whether cells should be displayed for the section headers. Automatically updates the table view on a value update.
+	///
+	/// This is property is only exposed to UI and assumed to be accessed from the main thread.
+	var shouldDisplaySectionHeaders: Bool = true {
+		willSet {
+			if !shouldDisplaySectionHeaders && newValue {
+				sections.reversed().forEach({
+					let index = offset(forSectionNamed: $0.title)
+					rows.insert(.header($0.title), at: index)
+					if isViewLoaded {
+						tableView.insertRows(at: IndexSet(integer: 0), withAnimation: .effectFade)
+					}
+				})
+			} else if shouldDisplaySectionHeaders && !newValue {
+				sections.forEach({
+					let index = offset(forSectionNamed: $0.title) - 1
+					rows.remove(at: index)
+					if isViewLoaded {
+						tableView.removeRows(at: IndexSet(integer: 0), withAnimation: .effectFade)
+					}
+				})
+			}
+		}
 	}
-
-    // MARK: - Configuration
-
-    /// Determines whether the content rows should be selectable.
-    var displaysSelectableContent: Bool = true
-
-    /// Whether cells should be displayed for the section headers. Automatically updates the table view on a value update.
-    var shouldDisplaySectionHeaders: Bool = true {
-        willSet {
-            if !shouldDisplaySectionHeaders && newValue {
-                sections.reversed().forEach({
-                    let index = offset(forSectionNamed: $0.title)
-                    rows.insert(.header($0.title), at: index)
-                    if isViewLoaded {
-                        tableView.insertRows(at: IndexSet(integer: 0), withAnimation: .effectFade)
-                    }
-                })
-            } else if shouldDisplaySectionHeaders && !newValue {
-                sections.forEach({
-                    let index = offset(forSectionNamed: $0.title) - 1
-                    rows.remove(at: index)
-                    if isViewLoaded {
-                        tableView.removeRows(at: IndexSet(integer: 0), withAnimation: .effectFade)
-                    }
-                })
-            }
-        }
-    }
-
-    /// Whether header cells are displayed with the the number of rows in the section prefixed to the section title. Has no effect when
-    /// `shouldDisplaySectionHeaders == false`.
-    var shouldDisplayRowCountInHeader: Bool = true {
-        didSet {
-            if isViewLoaded && shouldDisplaySectionHeaders {
-                var offset = 0
-                for section in sections {
-                    tableView.reloadData(forRowIndexes: IndexSet(integer: offset), columnIndexes: IndexSet(integer: 0))
-                    offset += section.itemCount + 1
-                }
-            }
-        }
-    }
-
-    /// Provides views for rows corresponding to items.
+	
+	/// Whether header cells are displayed with the the number of rows in the section prefixed to the section title. Has no effect when
+	/// `shouldDisplaySectionHeaders == false`.
+	///
+	/// This is property is only exposed to UI and assumed to be accessed from the main thread.
+	var shouldDisplayRowCountInHeader: Bool = true {
+		didSet {
+			if isViewLoaded && shouldDisplaySectionHeaders {
+				var offset = 0
+				for section in sections {
+					tableView.reloadData(forRowIndexes: IndexSet(integer: offset), columnIndexes: IndexSet(integer: 0))
+					offset += section.itemCount + 1
+				}
+			}
+		}
+	}
+	
+	/// Provides views for rows corresponding to items.
 	///
 	/// Views are automatically reloaded when the view provider changes.
-    var itemViewProvider: ItemViewProvider = DefaultItemViewProvider() {
-        didSet {
-            if isViewLoaded {
-                tableView.reloadData()
-            }
+	///
+	/// This property is only exposed to the UI and should not be called from outside the main thread.
+	var itemViewProvider: ItemViewProvider = DefaultItemViewProvider() {
+		didSet {
+			if isViewLoaded {
+				tableView.reloadData()
+			}
         }
     }
 
@@ -129,27 +135,29 @@ class ListViewController: NSViewController,
 		tableView.reloadData()
     }
 
-    // MARK: - Accessories
-
-    private(set) var hasFooter = false
+	// MARK: - Accessories
 	
-    /// Returns the list's footer, or nil if one has not been set.
-    var footer: NSView? {
-        get {
-            return hasFooter ? stackView.arrangedSubviews.last : nil
-        }
-        set {
-            if hasFooter {
-                if footer == newValue { return }
-                stackView.removeView(stackView.arrangedSubviews.last!)
-            }
-            // We don't have to worry if the footer is nil, because the previous footer has
-            if let newFooter = newValue {
-                stackView.addArrangedSubview(newFooter)
-                hasFooter = true
-            } else {
-                hasFooter = false
-            }
+	private(set) var hasFooter = false
+	
+	/// Returns the list's footer, or nil if one has not been set.
+	///
+	/// This property is not thread-safe. Access only from the main thread.
+	var footer: NSView? {
+		get {
+			return hasFooter ? stackView.arrangedSubviews.last : nil
+		}
+		set {
+			if hasFooter {
+				if footer == newValue { return }
+				stackView.removeView(stackView.arrangedSubviews.last!)
+			}
+			// We don't have to worry if the footer is nil, because the previous footer has
+			if let newFooter = newValue {
+				stackView.addArrangedSubview(newFooter)
+				hasFooter = true
+			} else {
+				hasFooter = false
+			}
         }
     }
 
@@ -165,23 +173,25 @@ class ListViewController: NSViewController,
     // MARK: - ListDisplay
 
 	/// Adds a section to the view, if it has not already been added.
+	///
+	/// This method will always execute synchronously on the main thread.
     func addSection(_ list: ListProtocol) {
-        executeOnMain(target: self) {
+        executeOnMain {
             guard !sections.contains(where: { $0 === list }) else {
                 return
             }
 
-            list.delegate = $0
-            $0.sections.append(list)
-            if $0.shouldDisplaySectionHeaders && list.itemCount > 0 {
-                $0.rows.append(.header(list.title))
+            list.delegate = self
+            sections.append(list)
+            if shouldDisplaySectionHeaders && list.itemCount > 0 {
+                rows.append(.header(list.title))
             }
-            $0.rows.append(contentsOf: list.sortedItemsByID.map({ Row.item($0) }))
+            rows.append(contentsOf: list.sortedItemsByID.map({ Row.item($0) }))
 
             if isViewLoaded {
                 let rangeOfItems = indexRange(forSection: list)
                 for index in IndexSet(integersIn: rangeOfItems) {
-                    $0.tableView.insertRows(
+                    tableView.insertRows(
                         at: IndexSet(integer: index),
                         withAnimation: .effectFade
                     )
@@ -191,25 +201,29 @@ class ListViewController: NSViewController,
     }
 
     /// Removes a section from the view.
+	///
+	/// This method will always execute synchronously on the main thread.
     func removeSection(_ list: ListProtocol) {
-        executeOnMain(target: self) {
+        executeOnMain {
             guard sections.contains(where: { $0 === list }) else {
                 return
             }
             list.delegate = nil
-            let rangeOfItems = self.indexRange(forSection: list)
+            let rangeOfItems = indexRange(forSection: list)
             // We need to know the section's order in the array to calculate the indexes.
-            $0.sections = $0.sections.filter({ $0 !== list })
+            sections = sections.filter({ $0 !== list })
             rows.removeSubrange(rangeOfItems)
 
             if isViewLoaded {
-                $0.tableView.removeRows(
+                tableView.removeRows(
                     at: IndexSet(integersIn: rangeOfItems),
                     withAnimation: .effectFade
                 )
             }
         }
     }
+	
+	// MARK: - Private Helpers
 
     /// Returns the range of indexes corresponding to the list's items in the array of rows.
     private func indexRange(forSection section: ListProtocol) -> Range<Int> {
@@ -241,6 +255,9 @@ class ListViewController: NSViewController,
 
     // MARK: - ListDelegate
 
+	/// Notifies the delegate that the list added an item with the given ID at the given index.
+	///
+	/// This method will always execute synchronously on the main thread.
     func list(_ list: ListProtocol, didAddItemWithID id: Int, at index: Int) {
         executeOnMain(target: self) { viewController in
             let sectionOffset = viewController.offset(forSectionNamed: list.title)
@@ -266,7 +283,9 @@ class ListViewController: NSViewController,
             viewController.tableView.insertRows(at: IndexSet(integer: sectionOffset + index), withAnimation: .effectFade)
         }
     }
-
+	/// Notifies the delegate that the list removed an item at the given index.
+	///
+	/// This method will always execute synchronously on the main thread.
     func list(_ list: ListProtocol, didRemoveItemAt index: Int) {
         executeOnMain(target: self) { viewController in
             let sectionOffset = viewController.offset(forSectionNamed: list.title)
@@ -289,6 +308,9 @@ class ListViewController: NSViewController,
         }
     }
 
+	/// Informs the delegate that an item was updated and its view should be reloaded.
+	///
+	/// This method will always execute synchronously on the main thread.
     func list(_ list: ListProtocol, itemWasUpdatedAt index: Int) {
         executeOnMain(target: self) { viewController in
             viewController.tableView.reloadData(
@@ -298,6 +320,9 @@ class ListViewController: NSViewController,
         }
     }
 
+	/// Notifies the delegate that the list moved an item between the given indices.
+	///
+	/// This method will always execute synchronously on the main thread.
     func list(_ list: ListProtocol, didMoveItemFrom index1: Int, to index2: Int) {
         executeOnMain(target: self) { viewController in
             let sectionOffset = viewController.offset(forSectionNamed: list.title)
@@ -335,6 +360,11 @@ class ListViewController: NSViewController,
 			return displaysSelectableContent && true
 		}
 	}
+
+    func tableViewColumnDidResize(_ notification: Notification) {
+        let allIndexes = IndexSet(integersIn: 0..<rows.count)
+        tableView.noteHeightOfRows(withIndexesChanged: allIndexes)
+    }
 	
 	// MARK: - NSTableViewDataSource
 	

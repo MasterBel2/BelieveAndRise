@@ -60,80 +60,69 @@ final class MinimapView: NSImageView, MinimapDisplay {
     // MARK: - MinimapDisplay
 
     func addStartRect(_ rect: CGRect, for allyTeam: Int) {
-        executeOnMain(target: self) {
-            $0._addStartRect(rect, for: allyTeam)
+        executeOnMain {
+            guard let map = map else {
+                return
+            }
+
+            if startRects[allyTeam] != nil {
+                removeStartRect(for: allyTeam)
+            }
+
+            let mapRect = self.mapRect(for: map)
+            // Rescale start rect to the map rect.
+            let x = rect.minX / 200 * mapRect.width
+            let y = rect.minY / 200 * mapRect.height
+            let width = rect.width / 200 * mapRect.width
+            let height = rect.height / 200 * mapRect.height
+
+            // Position the start rect relative to the map rect.
+            let newRect = CGRect(x: x + mapRect.minX, y: y + mapRect.minY, width: width, height: height)
+
+            let view = StartRectOverlayView.loadFromNib()
+            view.frame = newRect
+            view.allyTeamNumberLabel.stringValue = String(allyTeam)
+            view.backgroundColor = NSColor(deviceRed: 1, green: 1, blue: 1, alpha: 0.3)
+            startRects[allyTeam] = view
+            addSubview(view)
         }
-    }
-
-    private func _addStartRect(_ rect: CGRect, for allyTeam: Int) {
-        guard let map = map else {
-            return
-        }
-
-        if startRects[allyTeam] != nil {
-            _removeStartRect(for: allyTeam)
-        }
-
-        let mapRect = self.mapRect(for: map)
-        // Rescale start rect to the map rect.
-        let x = rect.minX / 200 * mapRect.width
-        let y = rect.minY / 200 * mapRect.height
-        let width = rect.width / 200 * mapRect.width
-        let height = rect.height / 200 * mapRect.height
-
-        // Position the start rect relative to the map rect.
-        let newRect = CGRect(x: x + mapRect.minX, y: y + mapRect.minY, width: width, height: height)
-
-        let view = StartRectOverlayView.loadFromNib()
-        view.frame = newRect
-        view.allyTeamNumberLabel.stringValue = String(allyTeam)
-        view.backgroundColor = NSColor(deviceRed: 1, green: 1, blue: 1, alpha: 0.3)
-        startRects[allyTeam] = view
-        addSubview(view)
     }
 
     func removeStartRect(for allyTeam: Int) {
-        executeOnMain(target: self) {
-            $0._removeStartRect(for: allyTeam)
-        }
-    }
-
-    private func _removeStartRect(for allyTeam: Int) {
-        if let view = startRects[allyTeam] {
-            view.removeFromSuperview()
-            startRects[allyTeam] = nil
+        executeOnMain {
+            if let view = startRects[allyTeam] {
+                view.removeFromSuperview()
+                startRects[allyTeam] = nil
+            }
         }
     }
 
     func removeAllStartRects() {
-        executeOnMain(target: self) {
-            $0._removeAllStartRects()
-        }
-    }
-
-    private func _removeAllStartRects() {
-        for (key, value) in startRects {
-            value.removeFromSuperview()
-            startRects[key] = nil
+        executeOnMain {
+            for (key, value) in startRects {
+                value.removeFromSuperview()
+                startRects[key] = nil
+            }
         }
     }
 
     func displayMapUnknown() {
-        executeOnMain(target: self) {
-            $0.map = nil
+        executeOnMain {
+            map = nil
+            image = #imageLiteral(resourceName: "Caution")
         }
     }
 
     /// Converts image data into an image and displays a new map with the given aspect ratio. If image generation fails, the view
     /// assumes a "map unknown" state
     func displayMap(_ imageData: [UInt16], dimension: Int, realWidth: Int, realHeight: Int) {
-        executeOnMain(target: self) {
+        executeOnMain {
             guard let image = NSImage(rgb565Pixels: imageData, width: dimension, height: dimension) else {
-                $0.displayMapUnknown()
+                displayMapUnknown()
                 return
             }
             let map = Map(image: image, width: CGFloat(realWidth), height: CGFloat(realHeight))
-            $0.map = map
+            self.map = map
         }
     }
 
