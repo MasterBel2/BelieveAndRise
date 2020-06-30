@@ -99,7 +99,7 @@ struct BattleroomPlayerListItemViewProvider: ItemViewProvider {
         view.clanField.stringValue = player.profile.clans.first ?? ""
         view.usernameField.stringValue = player.profile.username
 
-        view.rankImageView.image = NSImage(named: "Rank \(player.status.rank + 1)")
+        view.rankImageView.displayRank(player.status.rank)
 
         let myAlly = battleroom.myBattleStatus.allyNumber
         if let battleStatus = battleroom.userStatuses[id] {

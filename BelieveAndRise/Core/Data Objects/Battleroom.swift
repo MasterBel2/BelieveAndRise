@@ -375,6 +375,10 @@ final class Battleroom: BattleDelegate, ListDelegate {
 			case unsynced = 2
 		}
 
+        var description: String {
+            return "|Sync: \(syncStatus), R: \(isReady), S: \(isSpectator), A# \(allyNumber), T# \(teamNumber), H: \(handicap), Fac: \(side)|"
+        }
+
         static var `default`: UserStatus {
             return UserStatus(
                 isReady: false,
