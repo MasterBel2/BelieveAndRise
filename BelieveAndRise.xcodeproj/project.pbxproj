@@ -289,8 +289,8 @@
 		6BCC43B02497BCA100C7AA53 /* RankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankView.swift; sourceTree = "<group>"; };
 		6BDB8EB7249CB24500259633 /* ServerAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAddress.swift; sourceTree = "<group>"; };
 		6BE233B0232668E60029425E /* NSView+BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSView+BackgroundColor.swift"; sourceTree = "<group>"; };
-		6BE233B223269ACE0029425E /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = BelieveAndRise/UI/View/ChatView/ChatViewController.swift; sourceTree = SOURCE_ROOT; };
-		6BE233B323269ACE0029425E /* ChatViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ChatViewController.xib; path = BelieveAndRise/UI/View/ChatView/ChatViewController.xib; sourceTree = SOURCE_ROOT; };
+		6BE233B223269ACE0029425E /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = BelieveAndRise/UI/ViewController/ChatViewController/ChatViewController.swift; sourceTree = SOURCE_ROOT; };
+		6BE233B323269ACE0029425E /* ChatViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ChatViewController.xib; path = BelieveAndRise/UI/ViewController/ChatViewController/ChatViewController.xib; sourceTree = SOURCE_ROOT; };
 		6BE233B623269ECA0029425E /* ChatBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBarController.swift; sourceTree = "<group>"; };
 		6BE441442326A5E100951B49 /* CommandParsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandParsing.swift; sourceTree = "<group>"; };
 		6BE441462326A63400951B49 /* ChannelCommands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelCommands.swift; sourceTree = "<group>"; };
@@ -439,6 +439,7 @@
 		3E46336B22C0C7CC00AE0F2F /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				6B395F5B2325C52C00D35686 /* ChatViewController */,
 				6B179C3D249B161800D3DC56 /* DialogSheet */,
 				6B7304A223E7B61F0027E757 /* SplitViewController */,
 				6B8C499E22DD240D00C59FFF /* UserAuthentication */,
@@ -460,7 +461,6 @@
 				3E7C8282239CC312004B835D /* BattleroomPlayerView.swift */,
 				3E7C8283239CC312004B835D /* BattleroomPlayerView.xib */,
 				6B30FB4E237D73D600A893C8 /* MinimapView.swift */,
-				6B395F5B2325C52C00D35686 /* ChatView */,
 				6BCC43B02497BCA100C7AA53 /* RankView.swift */,
 				3E77161E22C175A800B8C6C0 /* TableSectionHeaderView.swift */,
 				3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */,
@@ -515,7 +515,7 @@
 			path = "Cocoa Extensions";
 			sourceTree = "<group>";
 		};
-		6B395F5B2325C52C00D35686 /* ChatView */ = {
+		6B395F5B2325C52C00D35686 /* ChatViewController */ = {
 			isa = PBXGroup;
 			children = (
 				6BE233B623269ECA0029425E /* ChatBarController.swift */,
@@ -526,7 +526,7 @@
 				6BBF44A1238B64E10076B656 /* ChatController.swift */,
 				6BE233B323269ACE0029425E /* ChatViewController.xib */,
 			);
-			path = ChatView;
+			path = ChatViewController;
 			sourceTree = "<group>";
 		};
 		6B5A334823863B9B00A32433 /* Remote */ = {

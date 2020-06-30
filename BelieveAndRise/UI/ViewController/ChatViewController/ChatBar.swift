@@ -57,6 +57,7 @@ final class ChatBar: NSView, NibLoadable {
         }
     }
 
+
     // MARK: - Actions
 
     @IBAction func sendMessage(_ sender: Any) {
