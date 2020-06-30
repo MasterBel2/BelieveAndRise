@@ -267,10 +267,11 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
     /// Updates sync status, and loads minimap if the map is found.
     func mapDidUpdate(to map: Battle.Map) {
+
+        mapInfoDisplay?.displayMapName(map.name)
+
         if let (mapInfo, checksumMatch, _) = resourceManager.infoForMap(named: map.name, preferredChecksum: map.hash, preferredEngineVersion: battle.engineVersion) {
             hasMap = true
-
-            mapInfoDisplay?.displayMapName(map.name)
 
             if !checksumMatch {
                 debugOnlyPrint("Warning: Map checksums do not match.")
