@@ -18,8 +18,8 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
 
     // MARK: - Dependencies
 
-    var battleController: BattleController!
-
+    weak var battleController: BattleController!
+    
     // MARK: - Data
 
     #warning("Should support displaying an empty battleroom when currently not in a battle.")

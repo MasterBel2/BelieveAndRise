@@ -79,7 +79,7 @@ final class List<ListItem: Sortable>: ListProtocol {
     // MARK: - Dependencies
 
     /// The List object's delegate.
-	var delegate: ListDelegate?
+	weak var delegate: ListDelegate?
 
     // MARK: - Lifecycle
 
