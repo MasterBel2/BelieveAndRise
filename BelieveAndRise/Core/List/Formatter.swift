@@ -110,7 +110,7 @@ struct BattleroomPlayerListItemViewProvider: ItemViewProvider {
             } else {
                 view.usernameField.textColor = NSColor(named: "userIsEnemy")
             }
-            view.alphaValue = battleStatus.isReady && !battleStatus.isSpectator ? 1 : 0.3
+            view.alphaValue = battleStatus.isReady && !battleStatus.isSpectator ? 1 : 0.5
         }
 
         return view
