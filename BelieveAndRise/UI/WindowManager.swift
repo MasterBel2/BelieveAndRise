@@ -14,7 +14,7 @@ protocol WindowManager {
 	func presentDownloads(_ controller: DownloadController)
 
     /// Creates a new manager for connection-specific windows.
-    func newConnectionWindowManager() -> ConnectionWindowManager
+    func newConnectionWindowManager(connectionController: ConnectionController) -> ConnectionWindowManager
 }
 
 #warning("Window manager accesses the UI and should be made thread-safe by use of executeOnMain on its non-private functions.")
@@ -28,8 +28,10 @@ final class MacOSWindowManager: WindowManager {
 
     // MARK: - WindowManager
 
-    func newConnectionWindowManager() -> ConnectionWindowManager {
-        return MacOSConnectionWindowManager(defaultsController: defaultsController)
+    func newConnectionWindowManager(connectionController: ConnectionController) -> ConnectionWindowManager {
+        let manager = MacOSConnectionWindowManager(defaultsController: defaultsController)
+        manager.connectionController = connectionController
+        return manager
     }
 
     func presentDownloads(_ downloadController: DownloadController) {

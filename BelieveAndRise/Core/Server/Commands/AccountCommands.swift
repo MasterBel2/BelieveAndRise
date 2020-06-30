@@ -9,6 +9,22 @@
 import Foundation
 
 /**
+ Requests metadata about the currently logged in account. The server will respond with server messages describing the account.
+ */
+struct CSGetUserInfoCommand: CSCommand {
+    init() {}
+    init?(description: String) {}
+
+    var description: String {
+        return "GETUSERINFO"
+    }
+
+    func execute(on server: LobbyServer) {
+        // TODO
+    }
+}
+
+/**
  Sent as a response to the LOGIN command, if it succeeded. Next, the server will send much info
  about clients and battles:
 
@@ -20,17 +36,17 @@ import Foundation
  */
 struct SCLoginAcceptedCommand: SCCommand {
 
-    // MARK: - Properties
+    // MARK: Properties
 
     let username: String
 
-    // MARK: - Manual Construction
+    // MARK: Manual Construction
 
     init(username: String) {
         self.username = username
     }
 
-    // MARK:  SCCommand
+    // MARK: SCCommand
 
     init?(description: String) {
         guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 1, sentenceCount: 0) else {
@@ -55,13 +71,13 @@ struct SCLoginDeniedCommand: SCCommand {
 	
 	let reason: String
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init(reason: String) {
 		self.reason = reason
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 		guard let (_ , sentences) = try? wordsAndSentences(for: description, wordCount: 0, sentenceCount: 1) else {
@@ -87,13 +103,13 @@ struct SCRegistrationDeniedCommand: SCCommand {
 	
 	let reason: String
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init(reason: String) {
 		self.reason = reason
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 		guard let (_, sentences) = try? wordsAndSentences(for: description, wordCount: 0, sentenceCount: 1) else {
@@ -121,11 +137,11 @@ Upon reciept of this command, a lobby client would normally be expected to reply
 */
 struct SCRegistrationAcceptedCommand: SCCommand {
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init() {}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {}
 	
@@ -141,12 +157,12 @@ struct SCRegistrationAcceptedCommand: SCCommand {
 
 struct SCLoginInfoEndCommand: SCCommand {
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init() {
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 	}
@@ -164,13 +180,13 @@ struct SCAgreementCommand: SCCommand {
 	
 	let agreement: String
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init(agreement: String) {
 		self.agreement = agreement
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 		guard let (_, sentences) = try? wordsAndSentences(for: description, wordCount: 0, sentenceCount: 1) else {
@@ -191,12 +207,12 @@ struct SCAgreementCommand: SCCommand {
 
 struct SCAgreementEndCommand: SCCommand {
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init() {
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 	}
@@ -213,12 +229,12 @@ struct SCAgreementEndCommand: SCCommand {
 
 struct SCChangeEmailRequestAcceptedCommand: SCCommand {
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init() {
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 	}
@@ -237,13 +253,13 @@ struct SCChangeEmailRequestDeniedCommand: SCCommand {
 	
 	let errorMessage: String
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init(errorMessage: String) {
 		self.errorMessage = errorMessage
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 		guard let (_, sentences) = try? wordsAndSentences(for: description, wordCount: 0, sentenceCount: 1) else {
@@ -264,12 +280,12 @@ struct SCChangeEmailRequestDeniedCommand: SCCommand {
 
 struct SCChangeEmailAcceptedCommand: SCCommand {
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init() {
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 	}
@@ -288,13 +304,13 @@ struct SCChangeEmailDeniedCommand: SCCommand {
 	
 	let errorMessage: String
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init(errorMessage: String) {
 		self.errorMessage = errorMessage
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 		guard let (_, sentences) = try? wordsAndSentences(for: description, wordCount: 0, sentenceCount: 1) else {
@@ -315,12 +331,12 @@ struct SCChangeEmailDeniedCommand: SCCommand {
 
 struct SCResendVerificationAcceptedCommand: SCCommand {
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init() {
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 		#warning("Should display some kind of success here")
@@ -339,13 +355,13 @@ struct SCResendVerificationDeniedCommand: SCCommand {
 	
 	let errorMessage: String
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init(errorMessage: String) {
 		self.errorMessage = errorMessage
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 		guard let (_, sentences) = try? wordsAndSentences(for: description, wordCount: 0, sentenceCount: 1) else {
@@ -366,12 +382,12 @@ struct SCResendVerificationDeniedCommand: SCCommand {
 struct SCResetPasswordRequestAcceptedCommand: SCCommand {
 
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init() {
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 	}
@@ -389,13 +405,13 @@ struct SCResetPasswordRequestDeniedCommand: SCCommand {
 	
 	let errorMessage: String
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init(errorMessage: String) {
 		self.errorMessage = errorMessage
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 		guard let (_, sentences) = try? wordsAndSentences(for: description, wordCount: 0, sentenceCount: 1) else {
@@ -419,11 +435,11 @@ struct SCResetPasswordRequestDeniedCommand: SCCommand {
 */
 struct SCResetPasswordAcceptedCommand: SCCommand {
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init() {}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {}
 	
@@ -441,13 +457,13 @@ struct SCResetPasswordDeniedCommand: SCCommand {
 	
 	let errorMessage: String
 	
-	// MARK: - Manual Construction
+	// MARK: Manual Construction
 	
 	init(errorMessage: String) {
 		self.errorMessage = errorMessage
 	}
 	
-	// MARK: - SCCommand
+	// MARK: SCCommand
 	
 	init?(description: String) {
 		guard let (_, sentences) = try? wordsAndSentences(for: description, wordCount: 0, sentenceCount: 1) else {

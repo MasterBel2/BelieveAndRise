@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="DialogSheet" customModule="BelieveAndRise" customModuleProvider="target">
+            <connections>
+                <outlet property="cancelButton" destination="SsG-U2-ls9" id="78y-Xb-QUD"/>
+                <outlet property="doneButton" destination="y9M-WN-qhY" id="S4y-QW-jpU"/>
+                <outlet property="spinner" destination="EHl-d1-c7C" id="fwW-3G-sex"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="328" height="272"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y9M-WN-qhY">
+                    <rect key="frame" x="242" y="13" width="72" height="32"/>
+                    <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KYY-7H-aML">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                    </buttonCell>
+                    <connections>
+                        <action selector="submitOperation:" target="-2" id="dEy-3T-IsZ"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SsG-U2-ls9">
+                    <rect key="frame" x="14" y="13" width="82" height="32"/>
+                    <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nfJ-pY-hmh">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                    </buttonCell>
+                    <connections>
+                        <action selector="cancelOperations:" target="-2" id="HAm-9a-1J6"/>
+                    </connections>
+                </button>
+                <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="EHl-d1-c7C">
+                    <rect key="frame" x="156" y="128" width="16" height="16"/>
+                </progressIndicator>
+            </subviews>
+            <constraints>
+                <constraint firstItem="EHl-d1-c7C" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="2da-Pl-lAO"/>
+                <constraint firstAttribute="bottom" secondItem="SsG-U2-ls9" secondAttribute="bottom" constant="20" id="SFp-K4-S0U"/>
+                <constraint firstItem="SsG-U2-ls9" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="U3y-uj-hCm"/>
+                <constraint firstAttribute="trailing" secondItem="y9M-WN-qhY" secondAttribute="trailing" constant="20" id="Xob-uQ-TFa"/>
+                <constraint firstItem="EHl-d1-c7C" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="dNw-30-0d6"/>
+                <constraint firstAttribute="bottom" secondItem="y9M-WN-qhY" secondAttribute="bottom" constant="20" id="fUI-Gu-T4Y"/>
+            </constraints>
+            <point key="canvasLocation" x="63" y="154"/>
+        </customView>
+    </objects>
+</document>

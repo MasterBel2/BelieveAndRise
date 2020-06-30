@@ -17,7 +17,7 @@ import Foundation
  Updates received from the server are processed by instances of the SCServerCommand protocol. The Connection object simply manages
  the interactions between its various components as needed.
  */
-final class Connection: ServerSelectionViewControllerDelegate {
+final class Connection: ServerSelectionDelegate {
 
     // MARK: - Dependencies
 
@@ -35,6 +35,7 @@ final class Connection: ServerSelectionViewControllerDelegate {
     /// Processes chat-related information directed back towards the server
     let chatController: ChatController
 	let battleController: BattleController
+    let accountInfoController = AccountInfoController()
     /// The server.
     private(set) var server: TASServer!
     private(set) var userAuthenticationController: UserAuthenticationController?
@@ -42,6 +43,15 @@ final class Connection: ServerSelectionViewControllerDelegate {
     // MARK: - Data
 
     private var serverMetaData: ServerMetaData?
+
+    /// Returns the User object associated with the account the client has connected to the server with.
+    var connectedAccount: User? {
+        guard let username = userAuthenticationController?.username,
+        let userID = id(forPlayerNamed: username) else {
+            return nil
+        }
+        return userList.items[userID]
+    }
 
     let channelList = List<Channel>(title: "All Channels", sortKey: .title)
     let userList = List<User>(title: "All Users", sortKey: .rank)
@@ -61,6 +71,8 @@ final class Connection: ServerSelectionViewControllerDelegate {
         // Configure the command handler
         commandHandler.connection = self
         commandHandler.setProtocol(.unknown)
+
+        accountInfoController.connection = self
 
         // Initialise server
         if let address = address {
@@ -97,17 +109,10 @@ final class Connection: ServerSelectionViewControllerDelegate {
     /// 
     func createAndShowWindow() {
         windowManager.presentInitialWindow()
-        configureInterface()
+        windowManager.configure(for: self)
         if server == nil {
             windowManager.presentServerSelection(delegate: self)
         }
-    }
-
-    private func configureInterface() {
-        windowManager.setBattleController(battleController)
-        windowManager.setChatController(chatController)
-        windowManager.displayBattlelist(battleList)
-        windowManager.displayServerUserlist(userList)
     }
 
     // MARK: - Presenting information
@@ -129,13 +134,36 @@ final class Connection: ServerSelectionViewControllerDelegate {
         }
     }
 
-    // MARK: - ServerSelectionViewControllerDelegate
+    func didReceiveMessageFromServer(_ message: String) {
+        if message.hasPrefix("Registration date:") {
+            let dateString = message.components(separatedBy: " ")[2..<5].joined(separator: " ")
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM DD, YYYY"
+            guard let date = dateFormatter.date(from: dateString) else { return }
+            accountInfoController.setRegistrationDate(date)
+        } else if message.hasPrefix("Email address:") {
+            let components = message.components(separatedBy: " ")
+            if components.count == 3,
+                components[2] != "",
+                components[2] != "None" {
+                accountInfoController.setEmail(components[2])
+            } else {
+                accountInfoController.setEmail("No email provided")
+            }
+        } else if message.hasPrefix("Ingame time:") {
+            let ingameTimeString = message.components(separatedBy: " ")[2]
+            guard let ingameTime = Int(ingameTimeString) else { return }
+            accountInfoController.setIngameHours(ingameTime)
+        }
+    }
 
-    func serverSelectionViewController(_ serverSelectionViewController: ServerSelectionViewController, didSelectServerAt serverAddress: ServerAddress) {
+    // MARK: - ServerSelectionDelegate
+
+    func serverSelectionInterface(didSelectServerAt serverAddress: ServerAddress) {
         // Connect to the selected server.
         initialiseServer(serverAddress)
-		
-		start()
+
+        start()
     }
 
     // MARK: - Helpers

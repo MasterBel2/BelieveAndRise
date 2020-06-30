@@ -19,7 +19,7 @@ protocol UserAuthenticationControllerDisplayDelegate: AnyObject {
 }
 
 /// A controller for the user authentication process.
-final class UserAuthenticationViewController: NSViewController, UserAuthenticationDisplay {
+final class UserAuthenticationViewController: DialogSheet, UserAuthenticationDisplay {
 
     // MARK: - Outlets
 
@@ -38,9 +38,20 @@ final class UserAuthenticationViewController: NSViewController, UserAuthenticati
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        doneButton.title = "Login"
+
         // Allows configuration to be postponed until after view has loaded.
         configureViewsAfterViewLoaded?()
         configureViewsAfterViewLoaded = nil
+
+        operation = { [weak self] _ -> Bool in
+            guard let self = self else {
+                return false
+            }
+            self.delegate?.submitLogin(for: self)
+            return true
+        }
     }
 
     // MARK: - Dependencies
@@ -72,21 +83,13 @@ final class UserAuthenticationViewController: NSViewController, UserAuthenticati
             textField.nextKeyView = textField2
             // User will want to start entering information at the first ivew
             textField.becomeFirstResponder()
+
+            self.controlsToDisable.append(textField)
+            self.controlsToDisable.append(textField2)
         }
 
         // Cannot access view's properties until after the view has loaded; if the view hasn't loaded yet,
         // we'll wait until viewDidLoad to configure the views.
         isViewLoaded ? configureViews() : (self.configureViewsAfterViewLoaded = configureViews)
-    }
-
-    func dismiss() {
-        dismiss(self)
-    }
-
-    // MARK: - Actions
-
-    /// Submit a login attempt.
-    @IBAction func login(_ sender: Any) {
-        delegate?.submitLogin(for: self)
     }
 }

@@ -52,9 +52,15 @@
 		3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5912F22C1A75600103CDE /* Data+Base64.swift */; };
 		3EE7B36924AB1ADE00EE1F98 /* IncompleteUserAuthenticationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE7B36824AB1ADE00EE1F98 /* IncompleteUserAuthenticationRequest.swift */; };
 		3EE7B36B24AB1B2D00EE1F98 /* debugOnlyPrint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE7B36A24AB1B2D00EE1F98 /* debugOnlyPrint.swift */; };
+		3EE7B36D24AB331F00EE1F98 /* AccountInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE7B36C24AB331F00EE1F98 /* AccountInfoController.swift */; };
 		3EF20F7422F825D10005650E /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EF20F7322F825D10005650E /* ListViewController.xib */; };
 		6B08BD7723927AF6001F9C3F /* ExtendedChatMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B08BD7623927AF6001F9C3F /* ExtendedChatMessageView.swift */; };
 		6B08BD7923927B05001F9C3F /* ExtendedChatMessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B08BD7823927B05001F9C3F /* ExtendedChatMessageView.xib */; };
+		6B179C3C2499E5ED00D3DC56 /* DialogSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B179C3A2499E5ED00D3DC56 /* DialogSheet.xib */; };
+		6B179C3E249B175400D3DC56 /* DialogSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B179C392499E5ED00D3DC56 /* DialogSheet.swift */; };
+		6B179C40249B17D200D3DC56 /* ServerSelectionDialogSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B179C3F249B17D200D3DC56 /* ServerSelectionDialogSheet.xib */; };
+		6B179C42249B17F600D3DC56 /* ServerSelectionDialogSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B179C41249B17F600D3DC56 /* ServerSelectionDialogSheet.swift */; };
+		6B27C51E249B9BA700E400E9 /* AccountMetadataCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B27C51D249B9BA700E400E9 /* AccountMetadataCommands.swift */; };
 		6B2C64D0232517930017A1BC /* ChatBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2C64CF232517930017A1BC /* ChatBar.swift */; };
 		6B2C64D2232517A00017A1BC /* ChatBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B2C64D1232517A00017A1BC /* ChatBar.xib */; };
 		6B30FB4B237D72F700A893C8 /* NSImage+RGB565.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B30FB4A237D72F700A893C8 /* NSImage+RGB565.swift */; };
@@ -80,14 +86,16 @@
 		6B7304A423E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A323E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift */; };
 		6B7304A623E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A523E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift */; };
 		6B7304A823E7DB5E0027E757 /* InterfaceDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A723E7DB5E0027E757 /* InterfaceDefaultsController.swift */; };
-		6B7C82D022D88A600031F9C9 /* ServerSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82CE22D88A600031F9C9 /* ServerSelectionViewController.swift */; };
-		6B7C82D122D88A600031F9C9 /* ServerSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7C82CF22D88A600031F9C9 /* ServerSelectionViewController.xib */; };
 		6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */; };
 		6B7C82D722D9489A0031F9C9 /* UserAuthenticationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */; };
 		6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82D822D948A50031F9C9 /* UserAuthenticationController.swift */; };
 		6B7EBD26239A108D0071BE22 /* BattleroomHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7EBD25239A108D0071BE22 /* BattleroomHeaderView.xib */; };
 		6B815EF12313C99A000FD850 /* ListDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B815EF02313C99A000FD850 /* ListDisplay.swift */; };
 		6B898F152398BE0D002AC64B /* GameTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B898F142398BE0D002AC64B /* GameTypes.swift */; };
+		6B880614249BBF1E00BAF05B /* DualTextInputDialogSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B880612249BBF1E00BAF05B /* DualTextInputDialogSheet.swift */; };
+		6B880615249BBF1E00BAF05B /* DualTextInputDialogSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B880613249BBF1E00BAF05B /* DualTextInputDialogSheet.xib */; };
+		6B880619249BCC3700BAF05B /* SingleTextInputDialogSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B880617249BCC3700BAF05B /* SingleTextInputDialogSheet.swift */; };
+		6B88061A249BCC3700BAF05B /* SingleTextInputDialogSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B880618249BCC3700BAF05B /* SingleTextInputDialogSheet.xib */; };
 		6BAE46BF2379A7FD0065CD53 /* executeOnMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAE46BE2379A7FD0065CD53 /* executeOnMain.swift */; };
 		6BB77D7123EA46C500087CBF /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB77D7023EA46C500087CBF /* System.swift */; };
 		6BBC3483244736F7006A85B0 /* Game Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC3482244736F7006A85B0 /* Game Data.swift */; };
@@ -105,6 +113,10 @@
 		6BCB3FBA23A3DE5D00142E28 /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCB3FB923A3DE5D00142E28 /* CredentialsManager.swift */; };
 		6BCB3FBC23A3FA0E00142E28 /* KeychainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCB3FBB23A3FA0E00142E28 /* KeychainError.swift */; };
 		6BCB3FBE23A3FB4B00142E28 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCB3FBD23A3FB4B00142E28 /* Credentials.swift */; };
+		6BCC43AE2497BB8C00C7AA53 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCC43AC2497BB8C00C7AA53 /* AccountViewController.swift */; };
+		6BCC43AF2497BB8C00C7AA53 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BCC43AD2497BB8C00C7AA53 /* AccountViewController.xib */; };
+		6BCC43B12497BCA100C7AA53 /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCC43B02497BCA100C7AA53 /* RankView.swift */; };
+		6BDB8EB8249CB24500259633 /* ServerAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDB8EB7249CB24500259633 /* ServerAddress.swift */; };
 		6BE233B1232668E60029425E /* NSView+BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE233B0232668E60029425E /* NSView+BackgroundColor.swift */; };
 		6BE233B423269ACE0029425E /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE233B223269ACE0029425E /* ChatViewController.swift */; };
 		6BE233B523269ACE0029425E /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BE233B323269ACE0029425E /* ChatViewController.xib */; };
@@ -115,7 +127,7 @@
 		6BE441502326A63500951B49 /* CommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE441482326A63400951B49 /* CommandHandler.swift */; };
 		6BE441512326A63500951B49 /* TASServerCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE441492326A63500951B49 /* TASServerCommand.swift */; };
 		6BE441522326A63500951B49 /* SCBattleOpenedCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414A2326A63500951B49 /* SCBattleOpenedCommand.swift */; };
-		6BE441532326A63500951B49 /* MOTDCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414B2326A63500951B49 /* MOTDCommand.swift */; };
+		6BE441532326A63500951B49 /* GeneralServerCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414B2326A63500951B49 /* GeneralServerCommands.swift */; };
 		6BE441542326A63500951B49 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414C2326A63500951B49 /* Command.swift */; };
 		6BE441552326A63500951B49 /* Clients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414D2326A63500951B49 /* Clients.swift */; };
 		6BEB5B872446297400D73A48 /* Running Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB5B862446297400D73A48 /* Running Spring.swift */; };
@@ -208,9 +220,15 @@
 		3EB5912F22C1A75600103CDE /* Data+Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Base64.swift"; sourceTree = "<group>"; };
 		3EE7B36824AB1ADE00EE1F98 /* IncompleteUserAuthenticationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncompleteUserAuthenticationRequest.swift; sourceTree = "<group>"; };
 		3EE7B36A24AB1B2D00EE1F98 /* debugOnlyPrint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = debugOnlyPrint.swift; sourceTree = "<group>"; };
+		3EE7B36C24AB331F00EE1F98 /* AccountInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoController.swift; sourceTree = "<group>"; };
 		3EF20F7322F825D10005650E /* ListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListViewController.xib; sourceTree = "<group>"; };
 		6B08BD7623927AF6001F9C3F /* ExtendedChatMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedChatMessageView.swift; sourceTree = "<group>"; };
 		6B08BD7823927B05001F9C3F /* ExtendedChatMessageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExtendedChatMessageView.xib; sourceTree = "<group>"; };
+		6B179C392499E5ED00D3DC56 /* DialogSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogSheet.swift; sourceTree = "<group>"; };
+		6B179C3A2499E5ED00D3DC56 /* DialogSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DialogSheet.xib; sourceTree = "<group>"; };
+		6B179C3F249B17D200D3DC56 /* ServerSelectionDialogSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerSelectionDialogSheet.xib; sourceTree = "<group>"; };
+		6B179C41249B17F600D3DC56 /* ServerSelectionDialogSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelectionDialogSheet.swift; sourceTree = "<group>"; };
+		6B27C51D249B9BA700E400E9 /* AccountMetadataCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMetadataCommands.swift; sourceTree = "<group>"; };
 		6B2C64CF232517930017A1BC /* ChatBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBar.swift; sourceTree = "<group>"; };
 		6B2C64D1232517A00017A1BC /* ChatBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatBar.xib; sourceTree = "<group>"; };
 		6B30FB4A237D72F700A893C8 /* NSImage+RGB565.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage+RGB565.swift"; sourceTree = "<group>"; };
@@ -235,8 +253,6 @@
 		6B7304A323E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewControllerResizeDelegate.swift; sourceTree = "<group>"; };
 		6B7304A523E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewControllerResizeDelegate.swift; sourceTree = "<group>"; };
 		6B7304A723E7DB5E0027E757 /* InterfaceDefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceDefaultsController.swift; sourceTree = "<group>"; };
-		6B7C82CE22D88A600031F9C9 /* ServerSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelectionViewController.swift; sourceTree = "<group>"; };
-		6B7C82CF22D88A600031F9C9 /* ServerSelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerSelectionViewController.xib; sourceTree = "<group>"; };
 		6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationViewController.swift; sourceTree = "<group>"; };
 		6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserAuthenticationViewController.xib; sourceTree = "<group>"; };
 		6B7C82D822D948A50031F9C9 /* UserAuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationController.swift; sourceTree = "<group>"; };
@@ -244,6 +260,10 @@
 		6B815EF02313C99A000FD850 /* ListDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDisplay.swift; sourceTree = "<group>"; };
 		6B898F142398BE0D002AC64B /* GameTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTypes.swift; sourceTree = "<group>"; };
 		6BAE46BE2379A7FD0065CD53 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		6B880612249BBF1E00BAF05B /* DualTextInputDialogSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DualTextInputDialogSheet.swift; sourceTree = "<group>"; };
+		6B880613249BBF1E00BAF05B /* DualTextInputDialogSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DualTextInputDialogSheet.xib; sourceTree = "<group>"; };
+		6B880617249BCC3700BAF05B /* SingleTextInputDialogSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTextInputDialogSheet.swift; sourceTree = "<group>"; };
+		6B880618249BCC3700BAF05B /* SingleTextInputDialogSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SingleTextInputDialogSheet.xib; sourceTree = "<group>"; };
 		6BAE46BE2379A7FD0065CD53 /* executeOnMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = executeOnMain.swift; sourceTree = "<group>"; };
 		6BB77D7023EA46C500087CBF /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		6BBC3482244736F7006A85B0 /* Game Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Game Data.swift"; sourceTree = "<group>"; };
@@ -261,6 +281,10 @@
 		6BCB3FB923A3DE5D00142E28 /* CredentialsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CredentialsManager.swift; path = BelieveAndRise/Utility/CredentialsManager.swift; sourceTree = SOURCE_ROOT; };
 		6BCB3FBB23A3FA0E00142E28 /* KeychainError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainError.swift; sourceTree = "<group>"; };
 		6BCB3FBD23A3FB4B00142E28 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
+		6BCC43AC2497BB8C00C7AA53 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		6BCC43AD2497BB8C00C7AA53 /* AccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
+		6BCC43B02497BCA100C7AA53 /* RankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankView.swift; sourceTree = "<group>"; };
+		6BDB8EB7249CB24500259633 /* ServerAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAddress.swift; sourceTree = "<group>"; };
 		6BE233B0232668E60029425E /* NSView+BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSView+BackgroundColor.swift"; sourceTree = "<group>"; };
 		6BE233B223269ACE0029425E /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = BelieveAndRise/UI/View/ChatView/ChatViewController.swift; sourceTree = SOURCE_ROOT; };
 		6BE233B323269ACE0029425E /* ChatViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ChatViewController.xib; path = BelieveAndRise/UI/View/ChatView/ChatViewController.xib; sourceTree = SOURCE_ROOT; };
@@ -271,7 +295,7 @@
 		6BE441482326A63400951B49 /* CommandHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandHandler.swift; sourceTree = "<group>"; };
 		6BE441492326A63500951B49 /* TASServerCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TASServerCommand.swift; sourceTree = "<group>"; };
 		6BE4414A2326A63500951B49 /* SCBattleOpenedCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCBattleOpenedCommand.swift; sourceTree = "<group>"; };
-		6BE4414B2326A63500951B49 /* MOTDCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MOTDCommand.swift; sourceTree = "<group>"; };
+		6BE4414B2326A63500951B49 /* GeneralServerCommands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralServerCommands.swift; sourceTree = "<group>"; };
 		6BE4414C2326A63500951B49 /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		6BE4414D2326A63500951B49 /* Clients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clients.swift; sourceTree = "<group>"; };
 		6BEB5B862446297400D73A48 /* Running Spring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Running Spring.swift"; sourceTree = "<group>"; };
@@ -365,6 +389,7 @@
 				6BAE46C22379A8300065CD53 /* Utility */,
 				6BAE46C02379A80E0065CD53 /* Core */,
 				3E7C8281239CC267004B835D /* Downloads */,
+				6BDB8EB7249CB24500259633 /* ServerAddress.swift */,
 				6BAE46C32379A8480065CD53 /* UI */,
 				3E46333622C0C2D200AE0F2F /* Assets.xcassets */,
 				3E46333822C0C2D200AE0F2F /* MainMenu.xib */,
@@ -408,11 +433,15 @@
 		3E46336B22C0C7CC00AE0F2F /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				6B179C3D249B161800D3DC56 /* DialogSheet */,
 				6B7304A223E7B61F0027E757 /* SplitViewController */,
 				6B8C499E22DD240D00C59FFF /* UserAuthentication */,
-				6B8C499D22DD240000C59FFF /* ServerSelectionViewController */,
+				6B8C499D22DD240000C59FFF /* ServerSelectionDialogSheet */,
 				3E04709B22CD71B5005241E6 /* ListViewController */,
 				6B7BE5F2238E5D530039697A /* Battleroom */,
+				6BCC43AC2497BB8C00C7AA53 /* AccountViewController.swift */,
+				6BCC43AD2497BB8C00C7AA53 /* AccountViewController.xib */,
+				6B27C51D249B9BA700E400E9 /* AccountMetadataCommands.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -426,6 +455,7 @@
 				3E7C8283239CC312004B835D /* BattleroomPlayerView.xib */,
 				6B30FB4E237D73D600A893C8 /* MinimapView.swift */,
 				6B395F5B2325C52C00D35686 /* ChatView */,
+				6BCC43B02497BCA100C7AA53 /* RankView.swift */,
 				3E77161E22C175A800B8C6C0 /* TableSectionHeaderView.swift */,
 				3E77162C22C180F700B8C6C0 /* TableSectionHeaderView.xib */,
 				3E77162022C175E500B8C6C0 /* SingleColumnTableColumnRowView.swift */,
@@ -457,6 +487,17 @@
 				3EB5912822C1A6E200103CDE /* Socket.swift */,
 			);
 			path = Server;
+			sourceTree = "<group>";
+		};
+		6B179C3D249B161800D3DC56 /* DialogSheet */ = {
+			isa = PBXGroup;
+			children = (
+				6B179C392499E5ED00D3DC56 /* DialogSheet.swift */,
+				6B179C3A2499E5ED00D3DC56 /* DialogSheet.xib */,
+				6B880616249BCC1000BAF05B /* SingleTextInputDialogSheet */,
+				6B880611249BBEED00BAF05B /* DualTextInputDialogViewController */,
+			);
+			path = DialogSheet;
 			sourceTree = "<group>";
 		};
 		6B30FB50237D743500A893C8 /* Cocoa Extensions */ = {
@@ -539,6 +580,24 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		6B880611249BBEED00BAF05B /* DualTextInputDialogViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6B880612249BBF1E00BAF05B /* DualTextInputDialogSheet.swift */,
+				6B880613249BBF1E00BAF05B /* DualTextInputDialogSheet.xib */,
+			);
+			path = DualTextInputDialogViewController;
+			sourceTree = "<group>";
+		};
+		6B880616249BCC1000BAF05B /* SingleTextInputDialogSheet */ = {
+			isa = PBXGroup;
+			children = (
+				6B880617249BCC3700BAF05B /* SingleTextInputDialogSheet.swift */,
+				6B880618249BCC3700BAF05B /* SingleTextInputDialogSheet.xib */,
+			);
+			path = SingleTextInputDialogSheet;
+			sourceTree = "<group>";
+		};
 		6B898F162398BE1C002AC64B /* Engine Interface */ = {
 			isa = PBXGroup;
 			children = (
@@ -551,18 +610,19 @@
 			path = "Engine Interface";
 			sourceTree = "<group>";
 		};
-		6B8C499D22DD240000C59FFF /* ServerSelectionViewController */ = {
+		6B8C499D22DD240000C59FFF /* ServerSelectionDialogSheet */ = {
 			isa = PBXGroup;
 			children = (
-				6B7C82CE22D88A600031F9C9 /* ServerSelectionViewController.swift */,
-				6B7C82CF22D88A600031F9C9 /* ServerSelectionViewController.xib */,
+				6B179C41249B17F600D3DC56 /* ServerSelectionDialogSheet.swift */,
+				6B179C3F249B17D200D3DC56 /* ServerSelectionDialogSheet.xib */,
 			);
-			path = ServerSelectionViewController;
+			path = ServerSelectionDialogSheet;
 			sourceTree = "<group>";
 		};
 		6B8C499E22DD240D00C59FFF /* UserAuthentication */ = {
 			isa = PBXGroup;
 			children = (
+				3EE7B36824AB1ADE00EE1F98 /* IncompleteUserAuthenticationRequest.swift */,
 				6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */,
 				6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */,
 				6B7C82D822D948A50031F9C9 /* UserAuthenticationController.swift */,
@@ -573,6 +633,7 @@
 		6BAE46C02379A80E0065CD53 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				3EE7B36C24AB331F00EE1F98 /* AccountInfoController.swift */,
 				6BCB3FBD23A3FB4B00142E28 /* Credentials.swift */,
 				6BCB3FBB23A3FA0E00142E28 /* KeychainError.swift */,
 				6BCB3FB923A3DE5D00142E28 /* CredentialsManager.swift */,
@@ -666,7 +727,7 @@
 				3E1A49CE237A970600F549FF /* BattleCommands.swift */,
 				6BC4473D2379C1F9006842DD /* SCUserCommands.swift */,
 				6BE441472326A63400951B49 /* AccountCommands.swift */,
-				6BE4414B2326A63500951B49 /* MOTDCommand.swift */,
+				6BE4414B2326A63500951B49 /* GeneralServerCommands.swift */,
 				6BE441492326A63500951B49 /* TASServerCommand.swift */,
 				3E1A49D0237AA53200F549FF /* Things.swift */,
 				3E98F86A237AC98D00DD2999 /* Private Messages.swift */,
@@ -815,15 +876,19 @@
 				3E77162322C1762A00B8C6C0 /* SingleColumnTableColumnRowView.xib in Resources */,
 				6B7EBD26239A108D0071BE22 /* BattleroomHeaderView.xib in Resources */,
 				3EF20F7422F825D10005650E /* ListViewController.xib in Resources */,
+				6B880615249BBF1E00BAF05B /* DualTextInputDialogSheet.xib in Resources */,
+				6B88061A249BCC3700BAF05B /* SingleTextInputDialogSheet.xib in Resources */,
 				3E7C8289239CC33D004B835D /* DownloadItemView.xib in Resources */,
 				6B4F076A2321151800B52C7E /* MainWindowController.xib in Resources */,
 				6BE233B523269ACE0029425E /* ChatViewController.xib in Resources */,
 				6BEE6526239A8F2A0029528A /* LICENSE in Resources */,
 				3E7C8285239CC312004B835D /* BattleroomPlayerView.xib in Resources */,
 				3E46333722C0C2D200AE0F2F /* Assets.xcassets in Resources */,
-				6B7C82D122D88A600031F9C9 /* ServerSelectionViewController.xib in Resources */,
+				6B179C3C2499E5ED00D3DC56 /* DialogSheet.xib in Resources */,
 				6B08BD7923927B05001F9C3F /* ExtendedChatMessageView.xib in Resources */,
 				3E46333A22C0C2D200AE0F2F /* MainMenu.xib in Resources */,
+				6BCC43AF2497BB8C00C7AA53 /* AccountViewController.xib in Resources */,
+				6B179C40249B17D200D3DC56 /* ServerSelectionDialogSheet.xib in Resources */,
 				6B7C82D722D9489A0031F9C9 /* UserAuthenticationViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -849,6 +914,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B179C3E249B175400D3DC56 /* DialogSheet.swift in Sources */,
 				6BBC348924473719006A85B0 /* AI.swift in Sources */,
 				3EB5912922C1A6E200103CDE /* Socket.swift in Sources */,
 				6B898F152398BE0D002AC64B /* GameTypes.swift in Sources */,
@@ -865,6 +931,7 @@
 				6BF85C77237C6DA100A19493 /* UnitsyncWrapper.swift in Sources */,
 				6BF65C9B2397BBAD00D85DDE /* CountryCode.swift in Sources */,
 				6BF85C63237C648900A19493 /* Array+MoveItem.swift in Sources */,
+				6B880619249BCC3700BAF05B /* SingleTextInputDialogSheet.swift in Sources */,
 				3E1A49D1237AA53200F549FF /* Things.swift in Sources */,
 				3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */,
 				6BB77D7123EA46C500087CBF /* System.swift in Sources */,
@@ -908,12 +975,16 @@
 				3E1A49CF237A970600F549FF /* BattleCommands.swift in Sources */,
 				6BBC349124473750006A85B0 /* HostConfig.swift in Sources */,
 				3E46335F22C0C2E000AE0F2F /* Battle.swift in Sources */,
+				6B179C42249B17F600D3DC56 /* ServerSelectionDialogSheet.swift in Sources */,
 				6B815EF12313C99A000FD850 /* ListDisplay.swift in Sources */,
 				3E77162722C179E500B8C6C0 /* TableHeaderData.swift in Sources */,
+				6B27C51E249B9BA700E400E9 /* AccountMetadataCommands.swift in Sources */,
+				6BCC43AE2497BB8C00C7AA53 /* AccountViewController.swift in Sources */,
 				6B3D83A22324C43100CE04BB /* ConnectionController.swift in Sources */,
 				3E77162122C175E500B8C6C0 /* SingleColumnTableColumnRowView.swift in Sources */,
 				6BF85C65237C68EB00A19493 /* ChatMessage.swift in Sources */,
 				6BBF44A2238B64E10076B656 /* ChatController.swift in Sources */,
+				6BDB8EB8249CB24500259633 /* ServerAddress.swift in Sources */,
 				6B50661123EF6DAE006FEC49 /* ConnectionWindowManager.swift in Sources */,
 				3E7C8284239CC312004B835D /* BattleroomPlayerView.swift in Sources */,
 				6BE441552326A63500951B49 /* Clients.swift in Sources */,
@@ -935,6 +1006,7 @@
 				6BF65C972397A9CB00D85DDE /* SpringProcessController.swift in Sources */,
 				3E86E057237B087B0032BCBF /* StartRectOverlayView.swift in Sources */,
 				3E7C827D239CC25F004B835D /* DownloadController.swift in Sources */,
+				6B880614249BBF1E00BAF05B /* DualTextInputDialogSheet.swift in Sources */,
 				6BBC348524473701006A85B0 /* Ally.swift in Sources */,
 				6BF85C6D237C6A7100A19493 /* ResourceManager.swift in Sources */,
 				6BC447402379E324006842DD /* Formatter.swift in Sources */,
@@ -944,16 +1016,17 @@
 				6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */,
 				6BBC348724473710006A85B0 /* Team.swift in Sources */,
 				3E93BB9E237B9F50009036E7 /* ListSelectionHandler.swift in Sources */,
+				3EE7B36D24AB331F00EE1F98 /* AccountInfoController.swift in Sources */,
 				3EE7B36B24AB1B2D00EE1F98 /* debugOnlyPrint.swift in Sources */,
 				6B5A334323863B0F00A32433 /* RapidArchiveInfo.swift in Sources */,
 				6B7304A623E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift in Sources */,
 				6BEE6528239A91940029528A /* RapidClient.swift in Sources */,
 				6B08BD7723927AF6001F9C3F /* ExtendedChatMessageView.swift in Sources */,
+				6BCC43B12497BCA100C7AA53 /* RankView.swift in Sources */,
 				6BE441502326A63500951B49 /* CommandHandler.swift in Sources */,
 				3E33C9D922C203B200C340F9 /* ListViewController.swift in Sources */,
 				3E7C8288239CC33D004B835D /* DownloadItemView.swift in Sources */,
-				6B7C82D022D88A600031F9C9 /* ServerSelectionViewController.swift in Sources */,
-				6BE441532326A63500951B49 /* MOTDCommand.swift in Sources */,
+				6BE441532326A63500951B49 /* GeneralServerCommands.swift in Sources */,
 				6BBC348B2447372E006A85B0 /* Player.swift in Sources */,
 				3E77161F22C175A800B8C6C0 /* TableSectionHeaderView.swift in Sources */,
 			);

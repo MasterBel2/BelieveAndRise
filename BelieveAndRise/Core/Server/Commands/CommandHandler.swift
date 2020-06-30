@@ -17,17 +17,15 @@ final class CommandHandler: TASServerDelegate {
 
     // MARK: - Dependencies
 
+	/// The connection the handler handles commands for.
     weak var connection: Connection?
-
-    // MARK: - Interaction
-
-    var userAuthenticationController: UserAuthenticationController?
-
-    private weak var battelistViewController: ListViewController?
 
     // MARK: - Something
 
+	/// A dictionary specifying data structures relating to the server commands that the command handler will handle.
 	private var incomingCommands: [String : SCCommand.Type] = [:]
+	/// Blocks to be executed when a command with a specific ID is received.
+    private var specificCommandHandlers: [Int : (SCCommand) -> ()] = [:]
 
     // MARK: - TASServerDelegate
 
@@ -41,25 +39,44 @@ final class CommandHandler: TASServerDelegate {
 
         debugOnlyPrint(serverCommand)
 
-        let components = serverCommand.components(separatedBy: " ")
+        var components = serverCommand.components(separatedBy: " ")
+        let messageID: Int?
+        if components[0].first == "#" {
+            guard let id = Int(components.removeFirst().dropFirst()) else {
+                print("[CommandHandler] Unrecognised ID string \"\(components[0])\"")
+                return
+            }
+            messageID = id
+        } else {
+            messageID = nil
+        }
+        // Remove the first element and
         let description = components.dropFirst().joined(separator: " ")
         guard let _command = components.first?.uppercased(),
             let recognisedCommand = incomingCommands[_command],
             let command = recognisedCommand.init(description: description) else {
                 return
         }
+        if let messageID = messageID {
+            specificCommandHandlers[messageID]?(command)
+            specificCommandHandlers.removeValue(forKey: messageID)
+        }
         command.execute(on: connection)
     }
 
-    // MARK: - TASServerDelegate
+	/// Stores the handler and executes it on the command tagged with the given ID.
+    func prepareToDelegateResponseToMessage(identifiedBy id: Int, to handler: ((SCCommand) -> ())?) {
+        specificCommandHandlers[id] = handler
+    }
 
-    ///
+    /// Identifies a protocol that the command handler can handle.
     enum ServerProtocol {
 		case unknown
         case tasServer(version: String)
         case zeroKServer
     }
 
+	/// Sets a protocol that has been identified such that following commands may be processed.
     func setProtocol(_ serverProtocol: ServerProtocol) {
         switch serverProtocol {
 		case .unknown:

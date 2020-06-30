@@ -1,5 +1,5 @@
 //
-//  MOTD.swift
+//  GeneralServerCommands.swift
 //  BelieveAndRise
 //
 //  Created by MasterBel2 on 13/7/19.
@@ -29,8 +29,15 @@ struct MOTDCommand: SCCommand {
     }
 }
 
+/**
+A general purpose message sent by the server. The lobby client program should display this message to the user in a non-invasive way, but clearly visible to the user (for example, as a SAYEX-style message from the server, printed into all the users chat panels).
+
+# Example
+`SERVERMSG Server is going down in 5 minutes for a restart, due to a new update.`
+*/
 struct SCServerMessageCommand: SCCommand {
 	
+	/// The server's message.
 	let message: String
 	
 	// MARK: - Manual Construction
@@ -49,7 +56,7 @@ struct SCServerMessageCommand: SCCommand {
 	}
 	
 	func execute(on connection: Connection) {
-		#warning("")
+        connection.didReceiveMessageFromServer(message)
 	}
 	
 	var description: String {

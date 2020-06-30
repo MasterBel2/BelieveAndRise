@@ -41,6 +41,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func newServerConnection(_ sender: Any) {
         connectionController.createNewConnection()
     }
+    @IBAction func printResponders(_ sender: Any) {
+        var responder = NSApplication.shared.keyWindow?.firstResponder
+        while let actualResponder = responder {
+            print(actualResponder)
+            responder = actualResponder.nextResponder
+        }
+    }
 
 	// MARK: - NSApplicationDelegate
 

@@ -10,7 +10,10 @@ import Foundation
 
 /// A set of methods the TASServer's delegate may implement.
 protocol TASServerDelegate: AnyObject {
+	/// Informs the delegate that the server has sent a command.
     func server(_ server: TASServer, didReceive serverCommand: String)
+	/// Stores the handler and executes it on the command tagged with the given ID.
+    func prepareToDelegateResponseToMessage(identifiedBy id: Int, to handler: ((SCCommand) -> ())?)
 }
 
 /// Handles the socket connection to a TASServer.
@@ -64,12 +67,17 @@ final class TASServer: NSObject, SocketDelegate {
 		
 	}
 
+	/// The ID of the next message to be sent to the server, corresponding to the number of messages previously sent.
+    private var count = 0
     /// Sends an encoded command over the socket and delays the keepalive to avoid sending superfluous messages to the server.
-	func send(_ command: CSCommand) {
-        debugOnlyPrint(command)
+    ///
+    /// Command handlers should not contain any strong references to objects in the case a command is never responded to.
+    func send(_ command: CSCommand, specificHandler: ((SCCommand) -> ())? = nil) {
 		NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(TASServer.sendPing), object: nil)
-		socket.send(message: command.description + "\n")
+        delegate?.prepareToDelegateResponseToMessage(identifiedBy: count, to: specificHandler)
+		socket.send(message: "#\(count) \(command.description)\n")
 		perform(#selector(TASServer.sendPing), with: nil, afterDelay: keepaliveDelay)
+        count += 1
 	}
 	
 	// MARK: - SocketDelegate

@@ -39,7 +39,12 @@ final class ConnectionController {
 
     /// Initiates a connection to the given address.
     func connect(to address: ServerAddress) {
-        let connection = Connection(windowManager: windowManager.newConnectionWindowManager(), resourceManager: resourceManager, preferencesController: preferencesController, address: address)
+        let connection = Connection(
+            windowManager: windowManager.newConnectionWindowManager(connectionController: self),
+            resourceManager: resourceManager,
+            preferencesController: preferencesController,
+            address: address
+        )
         connection.start()
         connection.createAndShowWindow()
         self.connections.append(connection)
@@ -47,8 +52,17 @@ final class ConnectionController {
 
     /// Creates a new connection without a predefined server.
     func createNewConnection() {
-        let connection = Connection(windowManager: windowManager.newConnectionWindowManager(), resourceManager: resourceManager, preferencesController: preferencesController)
+        let connection = Connection(
+            windowManager: windowManager.newConnectionWindowManager(connectionController: self),
+            resourceManager: resourceManager,
+            preferencesController: preferencesController
+        )
         connection.createAndShowWindow()
         self.connections.append(connection)
+    }
+
+	/// Forgets the reference to a connection.
+    func destroyConnection(_ connection: Connection) {
+		connections.filter({ $0 !== connection })
     }
 }

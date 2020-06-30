@@ -10,10 +10,14 @@ import Cocoa
 
 /// A set of functions providing a platform-agnostic interface for platform-specific windows associated with a single connection.
 protocol ConnectionWindowManager {
+    func configure(for connection: Connection)
+
     func presentInitialWindow()
+    /// Displays an window with information about the logged in user's account
+    func presentAccountWindow(_ controller: AccountInfoController)
 
     /// Presents the server selection interface, with a delegate.
-    func presentServerSelection(delegate: ServerSelectionViewControllerDelegate)
+    func presentServerSelection(delegate: ServerSelectionDelegate)
     /// Dismisses the server selection interface.
     func dismissServerSelection()
     /// Present a login interface.
@@ -33,14 +37,18 @@ protocol ConnectionWindowManager {
 
 #warning("ConnectionWindowManager accesses the UI and should be made thread-safe by use of `executeOnMain` on its non-private functions.")
 /// A MacOS-specific implementation of `ConnectionWindowManager`.
-final class MacOSConnectionWindowManager: ConnectionWindowManager {
+final class MacOSConnectionWindowManager: NSResponder, ConnectionWindowManager {
 
     // MARK: - Windows
 
     private var mainWindowController = MainWindowController()
+    /// The window displaying information about the currently logged in account.
+    private var accountWindow: NSWindow?
 
     // MARK: - Dependencies
 
+    weak var connection: Connection?
+    weak var connectionController: ConnectionController?
     private let defaultsController: InterfaceDefaultsController
 
     // MARK: - Sheets
@@ -50,10 +58,24 @@ final class MacOSConnectionWindowManager: ConnectionWindowManager {
         .serverSelection : CGSize(width: 290, height: 150)
     ]
 
+    @IBAction func accountWindow(_ sender: Any) {
+        guard let connection = connection else {
+            return
+        }
+        presentAccountWindow(connection.accountInfoController)
+    }
+
     // MARK: - Lifecycle
 
     init(defaultsController: InterfaceDefaultsController) {
         self.defaultsController = defaultsController
+        super.init()
+        nextResponder = mainWindowController.nextResponder
+        mainWindowController.nextResponder = self
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
     }
 
     // MARK: - WindowManager
@@ -63,37 +85,55 @@ final class MacOSConnectionWindowManager: ConnectionWindowManager {
     /// This method assumes that it is being called because no window exists already. It will not
     /// check for (or remove) any windows that have already been presented.
     func presentInitialWindow() {
-        let mainWindowController = MainWindowController()
         mainWindowController.defaultsController = defaultsController
         mainWindowController.window?.makeKeyAndOrderFront(self)
-        self.mainWindowController = mainWindowController
+    }
+
+    func configure(for connection: Connection) {
+        self.connection = connection
+        setBattleController(connection.battleController)
+        setChatController(connection.chatController)
+        displayBattlelist(connection.battleList)
+        displayServerUserlist(connection.userList)
     }
 
     // MARK: - Sheets
 
+    var serverSelectionViewController: NSViewController?
     /// Presents a server selection sheet. If there is no main window, a new window is created for
     /// the sheet to be presented to.
-    func presentServerSelection(delegate: ServerSelectionViewControllerDelegate) {
-        let serverSelectionViewController = ServerSelectionViewController()
+    func presentServerSelection(delegate: ServerSelectionDelegate) {
+        let serverSelectionViewController = ServerSelectionDialogSheet()
         serverSelectionViewController.delegate = delegate
-        presentSheet(with: serverSelectionViewController, ofType: .serverSelection)
+        serverSelectionViewController.didCancelOperation = { [weak self] in
+            guard let self = self,
+                let connection = self.connection else {
+                return
+            }
+            self.mainWindowController.close()
+            self.connectionController?.destroyConnection(connection)
+        }
+        mainWindowController.window?.contentViewController?.presentAsSheet(serverSelectionViewController)
+        self.serverSelectionViewController = serverSelectionViewController
     }
 
     /// Dismisses the sheet associated with the server selection controller.
     func dismissServerSelection() {
-        dismissSheet(.serverSelection)
+        serverSelectionViewController?.dismiss(self)
     }
 
+    var loginViewController: NSViewController?
     /// Configures the login sheet with the controller and presents it to the users.
     func presentLogin(controller: UserAuthenticationController) {
         dismissServerSelection()
         let viewController = userAuthenticationViewController(controller: controller)
-        presentSheet(with: viewController, ofType: .login)
+        mainWindowController.window?.contentViewController?.presentAsSheet(viewController)
+        self.loginViewController = viewController
     }
 
     /// Dismisses the sheet associated with the user authentication controller.
     func dismissLogin() {
-        dismissSheet(.login)
+        loginViewController?.dismiss(self)
     }
 
     // MARK: - Content
@@ -147,10 +187,33 @@ final class MacOSConnectionWindowManager: ConnectionWindowManager {
     private var _userAuthenticationViewController: UserAuthenticationViewController?
     private func userAuthenticationViewController(controller: UserAuthenticationController) -> NSViewController {
         let userAuthenticationViewController = UserAuthenticationViewController()
+        userAuthenticationViewController.didCancelOperation = { [weak self] in
+            guard let self = self,
+                let connection = self.connection else {
+                return
+            }
+            self.presentServerSelection(delegate: connection)
+        }
         userAuthenticationViewController.delegate = controller
         controller.display = userAuthenticationViewController
         _userAuthenticationViewController = userAuthenticationViewController
         return userAuthenticationViewController
+    }
+
+    func presentAccountWindow(_ controller: AccountInfoController) {
+        if let accountWindow = accountWindow {
+            accountWindow.orderFront(self)
+        }
+        let accountViewController = AccountViewController()
+        accountViewController.delegate = controller
+        accountViewController.accountInfoController = controller
+        let accountWindow = NSPanel(contentViewController: accountViewController)
+        accountWindow.title = "Account – \(controller.user?.profile.fullUsername ?? "Unknown user")"
+        accountWindow.isFloatingPanel = true
+        accountWindow.setFrameAutosaveName("com.believeAndRise.accountInfo")
+        accountWindow.titlebarAppearsTransparent = true
+        accountWindow.makeKeyAndOrderFront(self)
+        self.accountWindow = accountWindow
     }
 
     // MARK: - Nested types

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ServerSelectionDialogSheet" customModule="BelieveAndRise" customModuleProvider="target">
+            <connections>
+                <outlet property="cancelButton" destination="N0i-QP-dkd" id="vm6-Gs-Lch"/>
+                <outlet property="comboSelectionBox" destination="6FY-T5-Hq9" id="Ac2-oP-rdf"/>
+                <outlet property="doneButton" destination="JRm-ro-i3F" id="3Ob-fx-613"/>
+                <outlet property="spinner" destination="yUn-8D-AdI" id="6Qb-vJ-K5J"/>
+                <outlet property="view" destination="TWe-IH-jrw" id="t06-Cq-XR2"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="TWe-IH-jrw">
+            <rect key="frame" x="0.0" y="0.0" width="250" height="141"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JRm-ro-i3F">
+                    <rect key="frame" x="164" y="13" width="72" height="32"/>
+                    <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9SU-LQ-C9B">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                    </buttonCell>
+                    <connections>
+                        <action selector="submitOperation:" target="-2" id="PGl-oo-ZAG"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N0i-QP-dkd">
+                    <rect key="frame" x="14" y="13" width="82" height="32"/>
+                    <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sQR-Dm-fz6">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                    </buttonCell>
+                    <connections>
+                        <action selector="cancelOperations:" target="-2" id="7YV-WP-jxa"/>
+                    </connections>
+                </button>
+                <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6FY-T5-Hq9">
+                    <rect key="frame" x="50" y="57" width="153" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="ZBd-Ne-BGK"/>
+                    </constraints>
+                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="Official Server" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="yX3-JG-9jZ">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <objectValues>
+                            <string>Item 1</string>
+                            <string>Item 2</string>
+                            <string>Item 3</string>
+                        </objectValues>
+                    </comboBoxCell>
+                </comboBox>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jx5-A9-NnZ">
+                    <rect key="frame" x="48" y="88" width="85" height="14"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Server Address" id="Bja-eK-Rgt">
+                        <font key="font" metaFont="message" size="11"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="yUn-8D-AdI">
+                    <rect key="frame" x="117" y="63" width="16" height="16"/>
+                </progressIndicator>
+            </subviews>
+            <constraints>
+                <constraint firstItem="yUn-8D-AdI" firstAttribute="centerY" secondItem="TWe-IH-jrw" secondAttribute="centerY" id="00e-TZ-N9g"/>
+                <constraint firstAttribute="bottom" secondItem="N0i-QP-dkd" secondAttribute="bottom" constant="20" id="Bmh-0h-hmZ"/>
+                <constraint firstItem="yUn-8D-AdI" firstAttribute="centerX" secondItem="TWe-IH-jrw" secondAttribute="centerX" id="GHN-Le-eTF"/>
+                <constraint firstItem="6FY-T5-Hq9" firstAttribute="centerY" secondItem="TWe-IH-jrw" secondAttribute="centerY" id="N7G-i8-Nwd"/>
+                <constraint firstAttribute="trailing" secondItem="JRm-ro-i3F" secondAttribute="trailing" constant="20" id="Nwl-7C-0HN"/>
+                <constraint firstAttribute="bottom" secondItem="JRm-ro-i3F" secondAttribute="bottom" constant="20" id="Q0O-Mi-nRl"/>
+                <constraint firstItem="6FY-T5-Hq9" firstAttribute="leading" secondItem="Jx5-A9-NnZ" secondAttribute="leading" id="UCF-Dq-Qdd"/>
+                <constraint firstItem="N0i-QP-dkd" firstAttribute="leading" secondItem="TWe-IH-jrw" secondAttribute="leading" constant="20" id="ZBG-67-IkH"/>
+                <constraint firstItem="6FY-T5-Hq9" firstAttribute="centerX" secondItem="TWe-IH-jrw" secondAttribute="centerX" id="dun-uq-XfA"/>
+                <constraint firstItem="JRm-ro-i3F" firstAttribute="top" secondItem="6FY-T5-Hq9" secondAttribute="bottom" constant="20" id="f89-ek-J2T"/>
+                <constraint firstAttribute="trailing" secondItem="6FY-T5-Hq9" secondAttribute="trailing" constant="50" id="g9j-fX-cvd"/>
+                <constraint firstItem="6FY-T5-Hq9" firstAttribute="top" secondItem="Jx5-A9-NnZ" secondAttribute="bottom" constant="8" id="nzL-HN-dug"/>
+            </constraints>
+            <point key="canvasLocation" x="69" y="153.5"/>
+        </customView>
+    </objects>
+</document>
