@@ -273,6 +273,7 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     }
 	
 	func setReadyState(_ ready: Bool) {
+        Logger.log("Requesting Ready status -> \(ready)", tag: .BattleStatusUpdate)
 		let myBattleStatus = battleroom.myBattleStatus
 		battleController.setBattleStatus(
 			Battleroom.UserStatus(

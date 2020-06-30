@@ -123,7 +123,7 @@ final class Connection: ServerSelectionViewControllerDelegate {
     func receivedError(_ error: ServerError) {
         switch error {
 		default:
-            print(error)
+            Logger.log("\(error)", tag: .ServerError)
             fatalError()
 			#warning("FIXME")
         }

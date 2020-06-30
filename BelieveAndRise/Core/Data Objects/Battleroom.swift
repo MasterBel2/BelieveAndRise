@@ -161,6 +161,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
     func setUserStatus(_ newUserStatus: UserStatus, forUserIdentifiedBy userID: Int) {
         // Ally/spectator
         let previousUserStatus = userStatuses[userID]
+        Logger.log("Updating user status for \(userID): \(previousUserStatus?.description ?? "nil") -> \(newUserStatus.description)", tag: .BattleStatusUpdate)
         let value = (previous: previousUserStatus?.isSpectator, new: newUserStatus.isSpectator)
         // Only ally/spectator if the user's status has changed.
         if !(value == (previous: true, new: true) ||

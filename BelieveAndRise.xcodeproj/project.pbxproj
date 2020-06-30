@@ -1115,15 +1115,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BelieveAndRise/BelieveAndRise.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DWD4B84Z3L;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BelieveAndRise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = "Alpha 1.0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.masterbel2.BelieveAndRise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BelieveAndRise-Bridging-Header.h";
@@ -1138,15 +1139,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BelieveAndRise/BelieveAndRise.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DWD4B84Z3L;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BelieveAndRise/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = "Alpha 1.0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.masterbel2.BelieveAndRise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BelieveAndRise-Bridging-Header.h";
