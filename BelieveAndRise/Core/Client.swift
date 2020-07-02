@@ -165,6 +165,13 @@ final class Client: ServerSelectionDelegate {
 
     // MARK: - Helpers
 
+    var myID: Int? {
+        if let myUsername = userAuthenticationController?.username {
+            return id(forPlayerNamed: myUsername)
+        }
+        return nil
+    }
+
     /// Returns ID of a player, if they are online.
     func id(forPlayerNamed username: String) -> Int? {
         return userList.items.first { (_, user) in

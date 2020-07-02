@@ -35,8 +35,8 @@
 		3E7C827E239CC25F004B835D /* DownloadItemViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C827A239CC25F004B835D /* DownloadItemViewProvider.swift */; };
 		3E7C827F239CC25F004B835D /* DownloadInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C827B239CC25F004B835D /* DownloadInfo.swift */; };
 		3E7C8280239CC25F004B835D /* DownloadListSelectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C827C239CC25F004B835D /* DownloadListSelectionHandler.swift */; };
-		3E7C8284239CC312004B835D /* BattleroomPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C8282239CC312004B835D /* BattleroomPlayerView.swift */; };
-		3E7C8285239CC312004B835D /* BattleroomPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7C8283239CC312004B835D /* BattleroomPlayerView.xib */; };
+		3E7C8284239CC312004B835D /* RankIngameAndUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C8282239CC312004B835D /* RankIngameAndUsernameView.swift */; };
+		3E7C8285239CC312004B835D /* RankIngameAndUsernameView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7C8283239CC312004B835D /* RankIngameAndUsernameView.xib */; };
 		3E7C8288239CC33D004B835D /* DownloadItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7C8286239CC33D004B835D /* DownloadItemView.swift */; };
 		3E7C8289239CC33D004B835D /* DownloadItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E7C8287239CC33D004B835D /* DownloadItemView.xib */; };
 		3E7F3D332319DBA60012A743 /* Sortable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7F3D322319DBA60012A743 /* Sortable.swift */; };
@@ -110,7 +110,7 @@
 		6BBC349124473750006A85B0 /* HostConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC349024473750006A85B0 /* HostConfig.swift */; };
 		6BBF44A2238B64E10076B656 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF44A1238B64E10076B656 /* ChatController.swift */; };
 		6BBF44A4238B6AD80076B656 /* ChatLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF44A3238B6AD80076B656 /* ChatLogViewController.swift */; };
-		6BC4473E2379C1F9006842DD /* SCUserCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC4473D2379C1F9006842DD /* SCUserCommands.swift */; };
+		6BC4473E2379C1F9006842DD /* UserCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC4473D2379C1F9006842DD /* UserCommands.swift */; };
 		6BC447402379E324006842DD /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC4473F2379E324006842DD /* Formatter.swift */; };
 		6BCB3FBA23A3DE5D00142E28 /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCB3FB923A3DE5D00142E28 /* CredentialsManager.swift */; };
 		6BCB3FBC23A3FA0E00142E28 /* KeychainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCB3FBB23A3FA0E00142E28 /* KeychainError.swift */; };
@@ -204,8 +204,8 @@
 		3E7C827A239CC25F004B835D /* DownloadItemViewProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadItemViewProvider.swift; sourceTree = "<group>"; };
 		3E7C827B239CC25F004B835D /* DownloadInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadInfo.swift; sourceTree = "<group>"; };
 		3E7C827C239CC25F004B835D /* DownloadListSelectionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadListSelectionHandler.swift; sourceTree = "<group>"; };
-		3E7C8282239CC312004B835D /* BattleroomPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleroomPlayerView.swift; sourceTree = "<group>"; };
-		3E7C8283239CC312004B835D /* BattleroomPlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleroomPlayerView.xib; sourceTree = "<group>"; };
+		3E7C8282239CC312004B835D /* RankIngameAndUsernameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankIngameAndUsernameView.swift; sourceTree = "<group>"; };
+		3E7C8283239CC312004B835D /* RankIngameAndUsernameView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RankIngameAndUsernameView.xib; sourceTree = "<group>"; };
 		3E7C8286239CC33D004B835D /* DownloadItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadItemView.swift; sourceTree = "<group>"; };
 		3E7C8287239CC33D004B835D /* DownloadItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DownloadItemView.xib; sourceTree = "<group>"; };
 		3E7F3D322319DBA60012A743 /* Sortable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sortable.swift; sourceTree = "<group>"; };
@@ -279,7 +279,7 @@
 		6BBC349024473750006A85B0 /* HostConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostConfig.swift; sourceTree = "<group>"; };
 		6BBF44A1238B64E10076B656 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		6BBF44A3238B6AD80076B656 /* ChatLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewController.swift; sourceTree = "<group>"; };
-		6BC4473D2379C1F9006842DD /* SCUserCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCUserCommands.swift; sourceTree = "<group>"; };
+		6BC4473D2379C1F9006842DD /* UserCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCommands.swift; sourceTree = "<group>"; };
 		6BC4473F2379E324006842DD /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Formatter.swift; path = BelieveAndRise/Core/List/Formatter.swift; sourceTree = SOURCE_ROOT; };
 		6BCB3FB923A3DE5D00142E28 /* CredentialsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CredentialsManager.swift; path = BelieveAndRise/Utility/CredentialsManager.swift; sourceTree = SOURCE_ROOT; };
 		6BCB3FBB23A3FA0E00142E28 /* KeychainError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainError.swift; sourceTree = "<group>"; };
@@ -458,8 +458,8 @@
 			children = (
 				3E7C8286239CC33D004B835D /* DownloadItemView.swift */,
 				3E7C8287239CC33D004B835D /* DownloadItemView.xib */,
-				3E7C8282239CC312004B835D /* BattleroomPlayerView.swift */,
-				3E7C8283239CC312004B835D /* BattleroomPlayerView.xib */,
+				3E7C8282239CC312004B835D /* RankIngameAndUsernameView.swift */,
+				3E7C8283239CC312004B835D /* RankIngameAndUsernameView.xib */,
 				6B30FB4E237D73D600A893C8 /* MinimapView.swift */,
 				6BCC43B02497BCA100C7AA53 /* RankView.swift */,
 				3E77161E22C175A800B8C6C0 /* TableSectionHeaderView.swift */,
@@ -730,7 +730,7 @@
 				6BE441482326A63400951B49 /* CommandHandler.swift */,
 				6BE441462326A63400951B49 /* ChannelCommands.swift */,
 				3E1A49CE237A970600F549FF /* BattleCommands.swift */,
-				6BC4473D2379C1F9006842DD /* SCUserCommands.swift */,
+				6BC4473D2379C1F9006842DD /* UserCommands.swift */,
 				6BE441472326A63400951B49 /* AccountCommands.swift */,
 				6BE4414B2326A63500951B49 /* GeneralServerCommands.swift */,
 				6BE441492326A63500951B49 /* TASServerCommand.swift */,
@@ -888,7 +888,7 @@
 				6BE233B523269ACE0029425E /* ChatViewController.xib in Resources */,
 				6BEE6526239A8F2A0029528A /* LICENSE in Resources */,
 				6BAF4ABB24A86F7F0078A64E /* TextViewController.xib in Resources */,
-				3E7C8285239CC312004B835D /* BattleroomPlayerView.xib in Resources */,
+				3E7C8285239CC312004B835D /* RankIngameAndUsernameView.xib in Resources */,
 				3E46333722C0C2D200AE0F2F /* Assets.xcassets in Resources */,
 				6B179C3C2499E5ED00D3DC56 /* DialogSheet.xib in Resources */,
 				6B08BD7923927B05001F9C3F /* ExtendedChatMessageView.xib in Resources */,
@@ -993,10 +993,10 @@
 				6BBF44A2238B64E10076B656 /* ChatController.swift in Sources */,
 				6BDB8EB8249CB24500259633 /* ServerAddress.swift in Sources */,
 				6B50661123EF6DAE006FEC49 /* ClientWindowManager.swift in Sources */,
-				3E7C8284239CC312004B835D /* BattleroomPlayerView.swift in Sources */,
+				3E7C8284239CC312004B835D /* RankIngameAndUsernameView.swift in Sources */,
 				6BE441552326A63500951B49 /* Clients.swift in Sources */,
 				6BE4414F2326A63500951B49 /* AccountCommands.swift in Sources */,
-				6BC4473E2379C1F9006842DD /* SCUserCommands.swift in Sources */,
+				6BC4473E2379C1F9006842DD /* UserCommands.swift in Sources */,
 				6BCB3FBE23A3FB4B00142E28 /* Credentials.swift in Sources */,
 				6BF85C76237C6DA100A19493 /* UnitsyncConfig.swift in Sources */,
 				6BE441542326A63500951B49 /* Command.swift in Sources */,

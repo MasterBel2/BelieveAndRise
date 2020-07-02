@@ -87,11 +87,7 @@ final class BattleController {
 
     /// Sets a user status for the user.
     func setStatus(_ status: User.Status) {
-        guard let myID = battleroom?.myID,
-            let myStatus = battleroom?.battle.userList.items[myID]?.status else {
-                return
-        }
-//        server?.send(CSMyStatus)
+        server?.send(CSMyStatusCommand(status: status))
     }
 
     /// Updates the user's color – first locally (for immediate user feedback), then notifies the server that the client's color has changed.
@@ -108,22 +104,13 @@ final class BattleController {
 
     // MARK: - Controlling the game
 
-    /// Launches spring as a client connecting to the specified host. The player's battlestatus is appropriately set to "unready", and their
-    /// status is updated to reflect their ingame state.
+    /// Launches spring as a client connecting to the specified host. The player's battlestatus is appropriately set to "unready", and their status is updated to reflect their ingame state.
     func startGame() {
         guard let battleroom = battleroom,
             let myAccount = battleroom.battle.userList.items[battleroom.myID] else {
             return
         }
-        setBattleStatus(Battleroom.UserStatus(
-            isReady: false,
-            teamNumber: battleroom.myBattleStatus.teamNumber,
-            allyNumber: battleroom.myBattleStatus.allyNumber,
-            isSpectator: battleroom.myBattleStatus.isSpectator,
-            handicap: battleroom.myBattleStatus.handicap,
-            syncStatus: battleroom.myBattleStatus.syncStatus,
-            side: battleroom.myBattleStatus.side
-        ))
+        setBattleStatus(battleroom.myBattleStatus.changing(isReady: false))
         springProcessController.launchSpringAsClient(
             andConnectTo: battleroom.battle.ip,
             at: battleroom.battle.port,
@@ -134,14 +121,10 @@ final class BattleController {
                     let battleroom = self.battleroom else {
                         return
                 }
-//                setStatus(User.Status(
-//                    isAway: <#T##Bool#>,
-//                    isIngame: <#T##Bool#>,
-//                    rank: <#T##Int#>,
-//                    isModerator: <#T##Bool#>,
-//                    isAutomatedAccount: <#T##Bool#>
-//                ))
+                self.setStatus(myAccount.status.changing(isIngame: false))
             }
         )
+
+        setStatus(myAccount.status.changing(isIngame: true))
     }
 }

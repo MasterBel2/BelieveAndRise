@@ -368,6 +368,25 @@ final class Battleroom: BattleDelegate, ListDelegate {
 		let handicap: Int
 		let syncStatus: SyncStatus
 		let side: Int
+
+        func changing(
+            isReady: Bool? = nil,
+            teamNumber: Int? = nil,
+            allyNumber: Int? = nil,
+            isSpectator: Bool? = nil,
+            syncStatus: SyncStatus? = nil,
+            side: Int? = nil
+        ) -> UserStatus {
+            return UserStatus(
+                isReady: isReady ?? self.isReady,
+                teamNumber: teamNumber ?? self.teamNumber,
+                allyNumber: allyNumber ?? self.allyNumber,
+                isSpectator: isSpectator ?? self.isSpectator,
+                handicap: handicap,
+                syncStatus: syncStatus ?? self.syncStatus,
+                side: side ?? self.side
+            )
+        }
 		
 		enum SyncStatus: Int {
 			case unknown = 0

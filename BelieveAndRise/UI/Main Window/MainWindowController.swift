@@ -67,7 +67,7 @@ final class MainWindowController: NSWindowController {
     private func _displayServerUserList(_ userList: List<User>) {
         userListViewController.sections.forEach(userListViewController.removeSection(_:))
         userListViewController.addSection(userList)
-        userListViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: userList)
+        userListViewController.itemViewProvider = PlayerRankIngameUsernameItemViewProvider(playerList: userList)
     }
 
     func displayChannel(_ channel: Channel) {

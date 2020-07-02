@@ -82,11 +82,24 @@ final class User: Sortable {
 		///
 		/// An automated account is usually referred to as a "Bot" in the context of the SpringRTS lobby server.
 		/// This property is also referred to as a "botflag".
-		var isAutomatedAccount: Bool
+		let isAutomatedAccount: Bool
 		#warning("""
         Whether a user account is automated should be sent as part of the log-on profile,
         not as part of the continually-updating status.
         """)
+
+        func changing(
+            isAway: Bool? = nil,
+            isIngame: Bool? = nil
+        ) -> Status {
+            return Status(
+                isAway: isAway ?? self.isAway,
+                isIngame: isIngame ?? self.isIngame,
+                rank: rank,
+                isModerator: isModerator,
+                isAutomatedAccount: isAutomatedAccount
+            )
+        }
 
         static var `default`: Status {
             return Status(rawValue: 0)

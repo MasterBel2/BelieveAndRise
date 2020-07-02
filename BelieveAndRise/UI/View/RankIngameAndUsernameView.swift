@@ -9,9 +9,10 @@
 import Cocoa
 
 /// Displays information about a player in a format designed for the battleroom's player list.
-final class BattleroomPlayerView: NSView, NibLoadable {
+final class RankIngameAndUsernameView: NSView, NibLoadable {
 
-	/// Displays the user's rank.
+    @IBOutlet var ingameStatusView: NSImageView!
+    /// Displays the user's rank.
     @IBOutlet var rankImageView: RankView!
 	/// Displays the user's clan.
     @IBOutlet var clanField: NSTextField!

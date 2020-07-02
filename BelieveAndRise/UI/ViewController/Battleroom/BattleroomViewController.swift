@@ -25,8 +25,6 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     #warning("Should support displaying an empty battleroom when currently not in a battle.")
     private weak var battleroom: Battleroom! {
         didSet {
-            playerlistViewController.itemViewProvider = DefaultPlayerListItemViewProvider(list: battleroom.battle.userList)
-
             battleroom.allyTeamListDisplay = playerlistViewController
             battleroom.spectatorListDisplay = playerlistViewController
 

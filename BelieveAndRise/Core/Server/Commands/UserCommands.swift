@@ -7,6 +7,36 @@
 //
 
 import Foundation
+/**
+ Sent by a client to inform the server about his changed status.
+
+ # Note
+
+ To tell out if a battle is "in-game", a client must check the in-game status of the host.
+ */
+struct CSMyStatusCommand: CSCommand {
+
+    let status: User.Status
+
+    init(status: User.Status) {
+        self.status = status
+    }
+
+    init?(description: String) {
+        guard let statusInt = Int(description) else {
+                return nil
+        }
+        self.status = User.Status(rawValue: statusInt)
+    }
+
+    func execute(on server: LobbyServer) {
+        // TODO
+    }
+
+    var description: String {
+        return "MYSTATUS \(status.rawValue)"
+    }
+}
 
 /**
  Tells the client that a new user joined a server. The client should add this user to his clients list, which he must maintain while he is
@@ -136,6 +166,8 @@ struct SCClientStatusCommand: SCCommand {
         }
 
 		user.status = status
+
+        client.userList.respondToUpdatesOnItem(identifiedBy: userID)
 	}
 	
 	var description: String {

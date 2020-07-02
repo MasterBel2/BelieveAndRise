@@ -59,6 +59,31 @@ struct DefaultPlayerListItemViewProvider: ItemViewProvider {
     }
 }
 
+struct PlayerRankIngameUsernameItemViewProvider: ItemViewProvider {
+    let ingameImage = #imageLiteral(resourceName: "In Battle Icon")
+
+    let playerList: List<User>
+
+    func view(forItemIdentifiedBy id: Int) -> NSView? {
+        guard let player = playerList.items[id] else {
+            return nil
+        }
+
+        let view = RankIngameAndUsernameView.loadFromNib()
+        view.clanField.stringValue = player.profile.clans.first ?? ""
+        view.usernameField.stringValue = player.profile.username
+
+        view.rankImageView.displayRank(player.status.rank)
+        view.ingameStatusView.image = player.status.isIngame ? ingameImage : nil
+
+
+        view.alphaValue = player.status.isAway ? 0.5 : 1
+
+        return view
+
+    }
+}
+
 struct DefaultMessageListItemViewProvider: ItemViewProvider {
     let messageList: List<ChatMessage>
     let userlist: List<User>
@@ -82,6 +107,7 @@ struct DefaultMessageListItemViewProvider: ItemViewProvider {
 
 struct BattleroomPlayerListItemViewProvider: ItemViewProvider {
     let battleroom: Battleroom
+    let ingameImage = #imageLiteral(resourceName: "In Battle Icon")
     private var playerList: List<User> {
         return battleroom.battle.userList
     }
@@ -95,11 +121,12 @@ struct BattleroomPlayerListItemViewProvider: ItemViewProvider {
             return nil
         }
 
-        let view = BattleroomPlayerView.loadFromNib()
+        let view = RankIngameAndUsernameView.loadFromNib()
         view.clanField.stringValue = player.profile.clans.first ?? ""
         view.usernameField.stringValue = player.profile.username
 
         view.rankImageView.displayRank(player.status.rank)
+        view.ingameStatusView.image = player.status.isIngame ? ingameImage : nil
 
         let myAlly = battleroom.myBattleStatus.allyNumber
         if let battleStatus = battleroom.userStatuses[id] {
