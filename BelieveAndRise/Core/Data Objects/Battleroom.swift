@@ -288,6 +288,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
     func mapDidUpdate(to map: Battle.Map) {
 
         mapInfoDisplay?.displayMapName(map.name)
+        minimapDisplay?.removeAllStartRects()
 
         if let (mapInfo, checksumMatch, _) = resourceManager.infoForMap(named: map.name, preferredChecksum: map.hash, preferredEngineVersion: battle.engineVersion) {
             hasMap = true
@@ -298,6 +299,8 @@ final class Battleroom: BattleDelegate, ListDelegate {
 
             let dimensions = mapInfo.dimensions ?? (width: 1, height: 1)
 
+            minimapDisplay?.setMapDimensions(dimensions.width, dimensions.height)
+
             resourceManager.loadMinimapData(forMapNamed: map.name, mipLevels: Range(0...5)) { [weak self] result in
                 guard let self = self,
                     let minimapDisplay = self.minimapDisplay,
@@ -305,11 +308,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
                     return
                 }
 
-                minimapDisplay.displayMap(imageData, dimension: dimension, realWidth: dimensions.width, realHeight: dimensions.height)
-                minimapDisplay.removeAllStartRects()
-                self.startRects.forEach({
-                    minimapDisplay.addStartRect($0.value, for: $0.key)
-                })
+                minimapDisplay.displayMapImage(for: imageData, dimension: dimension)
             }
         } else {
             hasMap = false
@@ -317,7 +316,9 @@ final class Battleroom: BattleDelegate, ListDelegate {
                 guard let self = self else {
                     return
                 }
-                if successful {
+                if successful,
+                    // Because this is async, check the map hasn't changed yet.
+                    map == self.battle.map {
                     self.mapDidUpdate(to: map)
                 } else {
                     print("Unsuccessful download of map \(map.name)")

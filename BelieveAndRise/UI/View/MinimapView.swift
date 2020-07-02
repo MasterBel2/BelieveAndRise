@@ -19,8 +19,11 @@ protocol MinimapDisplay: AnyObject {
     /// Displays an image in place of the map, indicating the minimap cannot be loaded for the specified map (likely because the map
     /// has not yet been downloaded).
     func displayMapUnknown()
-    /// Displays a minimap with the given image dimension, and the given map dimensions.
-    func displayMap(_ imageData: [UInt16], dimension: Int, realWidth: Int, realHeight: Int)
+
+    /// Prepares the view with the given map dimensions. Must be set before `displayMapImage(for:dimension:)` is called.
+    func setMapDimensions(_ width: Int, _ height: Int)
+    /// Displays a minimap with the given image dimension. Must be called after  `setMapDimensions(_:_:)`.
+    func displayMapImage(for imageData: [RGB565Color], dimension: Int)
 }
 
 final class MinimapView: NSImageView, MinimapDisplay {
@@ -34,25 +37,30 @@ final class MinimapView: NSImageView, MinimapDisplay {
     /// The map to be displayed.
 	///
     /// Must be set after the mapRect.
-    private var map: Map? {
+    private var mapImage: NSImage? {
         didSet {
-            guard let map = map else {
+            guard let mapImage = mapImage else {
                 image = nil
                 return
             }
-            map.image.size = mapRect(for: map).size
-            image = map.image
+            mapImage.size = mapRect.size
+            image = mapImage
         }
     }
+    private var mapDimensions: (width: CGFloat, height: CGFloat)?
+
 
     /// Calculates a CGRect describing the maximum size and its corresponding inset such that the map will be displayed within the bounds of and centred relative to the minimap view.
-    private func mapRect(for map: Map) -> CGRect {
-        let widthFactor = bounds.width / map.width
-        let heightFactor = bounds.height / map.height
+    private var mapRect: CGRect {
+        guard let mapDimensions = mapDimensions else {
+            return bounds
+        }
+        let widthFactor = bounds.width / mapDimensions.width
+        let heightFactor = bounds.height / mapDimensions.height
         let factor = widthFactor < heightFactor ? widthFactor : heightFactor
 
-        let width = map.width * factor
-        let height = map.height * factor
+        let width = mapDimensions.width * factor
+        let height = mapDimensions.height * factor
         let x = (bounds.width - width) / 2
         let y = (bounds.height - height) / 2
 
@@ -68,15 +76,12 @@ final class MinimapView: NSImageView, MinimapDisplay {
     }
 
     private func _addStartRect(_ rect: CGRect, for allyTeam: Int) {
-        guard let map = map else {
-            return
-        }
-
         if startRects[allyTeam] != nil {
             removeStartRect(for: allyTeam)
         }
 
-        let mapRect = self.mapRect(for: map)
+        // Cache to avoid re-calculating
+        let mapRect = self.mapRect
         // Rescale start rect to the map rect.
         let x = rect.minX / 200 * mapRect.width
         let y = rect.minY / 200 * mapRect.height
@@ -114,26 +119,26 @@ final class MinimapView: NSImageView, MinimapDisplay {
 
     func displayMapUnknown() {
         executeOnMain(target: self) { _self in
-            _self.map = nil
+            _self.mapImage = nil
             _self.image = #imageLiteral(resourceName: "Caution")
         }
     }
 
-    /// Converts image data into an image and displays a new map with the given aspect ratio. If image generation fails, the view
-    /// assumes a "map unknown" state
-    func displayMap(_ imageData: [UInt16], dimension: Int, realWidth: Int, realHeight: Int) {
-        executeOnMain { [weak self] in
-            self?._displayMap(imageData, dimension: dimension, realWidth: realWidth, realHeight: realHeight)
-        }
-        
+    func setMapDimensions(_ width: Int, _ height: Int) {
+        mapDimensions = (CGFloat(width), CGFloat(height))
     }
-    private func _displayMap(_ imageData: [UInt16], dimension: Int, realWidth: Int, realHeight: Int) {
-        guard let image = NSImage(rgb565Pixels: imageData, width: dimension, height: dimension) else {
-            displayMapUnknown()
-            return
+
+    /// Asynchronously converts image data into an image and displays a new map with the given aspect ratio. If image generation fails, the view
+    /// assumes a "map unknown" state
+    func displayMapImage(for imageData: [RGB565Color], dimension: Int) {
+        NSImage.fromRGB565Pixels(imageData, width: dimension, height: dimension) { [weak self] maybeImage in
+            executeOnMain { [weak self] in
+                if let self = self,
+                    let image = maybeImage {
+                    self.mapImage = image
+                }
+            }
         }
-        let map = Map(image: image, width: CGFloat(realWidth), height: CGFloat(realHeight))
-        self.map = map
     }
 
     // MARK: - Associated types

@@ -36,4 +36,11 @@ extension NSImage {
 		self.init(size: NSSize(width: width, height: height))
 		addRepresentation(bitmap)
 	}
+
+    /// Asynchronously creates an image from an array of pixel data, and hands it to a completion block.
+    static func fromRGB565Pixels(_ pixels: [RGB565Color], width: Int, height: Int, block: @escaping (NSImage?) -> Void) {
+        DispatchQueue(label: "ImageFromRGBPixels", qos: .userInteractive).async {
+            block(NSImage(rgb565Pixels: pixels, width: width, height: height))
+        }
+    }
 }
