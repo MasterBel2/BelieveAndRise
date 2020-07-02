@@ -66,7 +66,6 @@ final class CredentialsManager {
 
         // Check for errors.
         guard status != errSecItemNotFound else {
-            print(username)
             throw KeychainError.noPassword
         }
         guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }

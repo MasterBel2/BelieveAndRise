@@ -8,88 +8,114 @@
 
 import Cocoa
 
-enum TextFieldKey {
-    case username
-    case password
-    case email
-}
-
-protocol UserAuthenticationControllerDisplayDelegate: AnyObject {
-    func submitLogin(for userAuthenticationViewController: UserAuthenticationViewController)
+protocol LoginDelegate: AnyObject {
+    func submitLogin(
+        username: String,
+        password: String,
+        completionHandler: @escaping (Result<String, LoginError>) -> Void
+    )
+    func submitRegister(
+        username: String,
+        email: String,
+        password: String,
+        completionHandler: @escaping (String?) -> Void
+    )
+    var prefillableUsernames: [String] { get }
+    var lastCredentialsPair: Credentials? { get }
 }
 
 /// A controller for the user authentication process.
-final class UserAuthenticationViewController: DialogSheet, UserAuthenticationDisplay {
+final class UserAuthenticationViewController: DialogSheet {
 
-    // MARK: - Outlets
+    // MARK: - Dependencies
+
+    var delegate: LoginDelegate!
+
+    // MARK: - Interface connections
 
     @IBOutlet weak var contentStackView: NSStackView!
-    @IBOutlet weak var loginButton: NSButton!
-    
-    // MARK: - Properties
-    
-    private(set) var fields: [(key: TextFieldKey, field: NSTextField)] = []
+    @IBOutlet var toggleModeButton: NSButton!
+    @IBOutlet var emailRow: NSView!
+    @IBOutlet var confirmPasswordRow: NSView!
 
-    /// A function called in viewDidLoad() which allows operations accessing the view to be delayed until
-    /// after the view has loaded.
-    private var configureViewsAfterViewLoaded: (() -> Void)?
+    @IBOutlet var usernameField: NSTextField!
+    @IBOutlet var emailField: NSTextField!
+    @IBOutlet var passwordField: NSSecureTextField!
+    @IBOutlet var confirmPasswordField: NSSecureTextField!
 
-    // MARK: -
+    // MARK: - Setup
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        doneButton.title = "Login"
+        prefillUsernameAndPassword()
 
-        // Allows configuration to be postponed until after view has loaded.
-        configureViewsAfterViewLoaded?()
-        configureViewsAfterViewLoaded = nil
+        controlsToDisable += [usernameField, emailField, passwordField, confirmPasswordField, toggleModeButton]
 
         operation = { [weak self] _ -> Bool in
             guard let self = self else {
                 return false
             }
-            self.delegate?.submitLogin(for: self)
-            return true
+            return self.inRegisterMode ? self.submitRegister() : self.submitLogin()
         }
     }
 
-    // MARK: - Dependencies
+    func prefillUsernameAndPassword() {
+        if let lastCredentialsPair = delegate?.lastCredentialsPair {
+            usernameField.stringValue = lastCredentialsPair.username
+            passwordField.stringValue = lastCredentialsPair.password
+        }
+    }
 
-    /// The user authentication view controller's delegate.
-    weak var delegate: UserAuthenticationControllerDisplayDelegate?
+    // MARK: - Mode
 
-    // MARK: - Configuration
+    private var inRegisterMode: Bool = false
+    @IBAction func toggleMode(_ sender: Any) {
+        NSAnimationContext.runAnimationGroup({ context in
+            context.duration = 0.6
+            toggleModeButton.animator().title = inRegisterMode ? "Register" : "Login"
+            emailRow.animator().isHidden = !emailRow.isHidden
+            confirmPasswordRow.animator().isHidden = !confirmPasswordRow.isHidden
+        }, completionHandler: { self.inRegisterMode = !self.inRegisterMode })
+    }
 
-    /// Configures the view to present data already in the request
-    func displayAuthenticateUserRequest(_ request: IncompleteAuthenticateUserRequest) {
-        let configureViews = { [weak self] in
-            guard let self = self else {
-                return
+    private func submitLogin() -> Bool {
+        delegate?.submitLogin(
+            username: usernameField.stringValue,
+            password: passwordField.stringValue,
+            completionHandler: { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(_):
+                    self.operationDidSucceed()
+                case .failure(let error):
+                    self.operationDidFailWithError(error.description)
+                }
             }
-            let textField = NSTextField()
-            textField.placeholderString = "Username"
-            textField.stringValue = request.username ?? ""
-            self.contentStackView.addArrangedSubview(textField)
-            self.fields.append((key: .username, field: textField))
+        )
+        return true
+    }
 
-            let textField2 = NSSecureTextField()
-            textField2.placeholderString = "Password"
-            textField2.stringValue = request.password ?? ""
-            self.fields.append((key: .password, field: textField2))
-
-            self.contentStackView.addArrangedSubview(textField2)
-
-            textField.nextKeyView = textField2
-            // User will want to start entering information at the first ivew
-            textField.becomeFirstResponder()
-
-            self.controlsToDisable.append(textField)
-            self.controlsToDisable.append(textField2)
+    private func submitRegister() -> Bool {
+        let password = passwordField.stringValue
+        if password != confirmPasswordField.stringValue {
+            operationDidFailWithError("Passwords do not match!")
+            return false
         }
 
-        // Cannot access view's properties until after the view has loaded; if the view hasn't loaded yet,
-        // we'll wait until viewDidLoad to configure the views.
-        isViewLoaded ? configureViews() : (self.configureViewsAfterViewLoaded = configureViews)
+        delegate?.submitRegister(
+            username: usernameField.stringValue,
+            email: emailField.stringValue,
+            password: password,
+            completionHandler: { [weak self] maybeError in
+                guard let self = self else { return }
+                if let error = maybeError {
+                    self.operationDidFailWithError(error)
+                } else {
+                    self.operationDidSucceed()
+                }
+            }
+        )
+        return true
     }
 }

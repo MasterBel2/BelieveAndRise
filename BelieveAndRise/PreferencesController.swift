@@ -11,6 +11,9 @@ import Foundation
 /// An object that provides an API for persisting data about the user's preferences.
 final class PreferencesController {
 
+    private init() {}
+    static var `default` = PreferencesController()
+
 	/// The standard user defaults object.
     private let userDefaults = UserDefaults.standard
 	

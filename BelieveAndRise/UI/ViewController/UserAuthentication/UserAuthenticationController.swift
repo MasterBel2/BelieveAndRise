@@ -8,13 +8,12 @@
 
 import Foundation
 
-/// A set of methods for displaying information about the user authentication process.
-protocol UserAuthenticationDisplay: AnyObject {
-    func displayAuthenticateUserRequest(_ request: IncompleteAuthenticateUserRequest)
+struct LoginError: LocalizedError, CustomStringConvertible {
+    let description: String
 }
 
 /// A controller for the user authentication process.
-final class UserAuthenticationController: UserAuthenticationControllerDisplayDelegate {
+final class UserAuthenticationController: LoginDelegate {
 
     // MARK: - Data
 
@@ -39,13 +38,6 @@ final class UserAuthenticationController: UserAuthenticationControllerDisplayDel
         return "\(server.socket.address):\(server.socket.port)"
     }
 
-    /// The user authentication controller's outlet for UI events.
-    weak var display: UserAuthenticationDisplay? {
-        didSet {
-            prepareDisplay()
-        }
-    }
-
     // MARK: - Lifecycle
 
     init(server: TASServer, windowManager: ClientWindowManager, preferencesController: PreferencesController) {
@@ -55,62 +47,22 @@ final class UserAuthenticationController: UserAuthenticationControllerDisplayDel
         credentialsManager = CredentialsManager.shared
     }
 
-    // MARK: - Presentation
+    // MARK: - LoginDataSource
 
-    /// Instructs the display to present a request with automatically pre-filled username and password, retrieved from the keychain.
-    func prepareDisplay() {
-        let request: IncompleteAuthenticateUserRequest
+    var prefillableUsernames: [String] {
+        return (try? credentialsManager.usernames(forServerWithAddress: serverDescription)) ?? []
+    }
 
+    var lastCredentialsPair: Credentials? {
         if let lastUsername = preferencesController.lastUsername(for: serverDescription) {
-            do {
-                let credentials = try credentialsManager.credentials(forServerWithAddress: serverDescription, username: lastUsername)
-                request = IncompleteAuthenticateUserRequest(username: credentials.username, password: credentials.password, email: nil)
-            } catch {
-                print(error)
-                request = IncompleteAuthenticateUserRequest.empty
-            }
-        } else {
-            request = IncompleteAuthenticateUserRequest.empty
+            return try? credentialsManager.credentials(forServerWithAddress: serverDescription, username: lastUsername)
         }
-
-        display?.displayAuthenticateUserRequest(request)
+        return nil
     }
 
-    /// Completes the login process after a successful login.
-    func loginDidSucceed(for username: String) {
-        // Record username for auto-fill on next login
-        preferencesController.setLastUsername(username, for: serverDescription)
+    // MARK: - LoginDelegate
 
-        // Store logged-in username for access by other objects.
-        self.username = username
-
-        // Add password to keychain
-        if let password = password {
-            do {
-                #warning("fails if credentials are already written; implement a check, possibly just for whether the credentials were read")
-                try credentialsManager.writeCredentials(
-                    Credentials(username: username, password: password), forServerWithAddress: serverDescription
-                )
-            } catch {
-                #warning("Error invisible to user")
-                print(error)
-            }
-        }
-
-        windowManager.dismissLogin()
-    }
-
-    // MARK: - UserAuthenticationViewControllerDelegate
-
-    /// Takes the username and password from the fields 'username' and 'password' and sends a login command.
-    func submitLogin(for userAuthenticationViewController: UserAuthenticationViewController) {
-        guard let usernameField = userAuthenticationViewController.fields.filter({ $0.key == .username }).first, let passwordField = userAuthenticationViewController.fields.filter({ $0.key == .password }).first else {
-            return
-        }
-        let username = usernameField.field.stringValue
-        let password = passwordField.field.stringValue
-        self.password = password
-
+    func submitLogin(username: String, password: String, completionHandler: @escaping (Result<String, LoginError>) -> Void) {
         server.send(
             CSLoginCommand(
                 username: username,
@@ -120,9 +72,60 @@ final class UserAuthenticationController: UserAuthenticationControllerDisplayDel
                     .springEngineVersionAndNameInBattleOpened,
                     .lobbyIDInAddUser,
                     .joinBattleRequestAcceptDeny,
-                    .scriptPasswords,
+                    .scriptPasswords
                 ]
-            )
+            ),
+            specificHandler: { [weak self] (command: SCCommand) in
+                guard let self = self else { return }
+                if let loginAcceptedCommand = command as? SCLoginAcceptedCommand {
+                    self.recordLoginInformation(username: loginAcceptedCommand.username, password: password)
+                    completionHandler(.success(loginAcceptedCommand.username))
+                } else if let loginDeniedCommand = command as? SCLoginDeniedCommand {
+                    completionHandler(.failure(LoginError(description: loginDeniedCommand.reason)))
+                } else {
+                    completionHandler(.failure(LoginError(description: "A server error occured.")))
+                }
+            }
+        )
+    }
+
+    func submitRegister(username: String, email: String, password: String, completionHandler: @escaping (String?) -> Void) {
+        server.send(
+            CSRegisterCommand(
+                username: username,
+                password: password
+            ),
+            specificHandler: { [weak self] (command: SCCommand) in
+                guard let self = self else { return }
+                if command is SCRegistrationAcceptedCommand {
+                    completionHandler(nil)
+                    self.submitLogin(
+                        username: username,
+                        password: password,
+                        completionHandler: { result in
+                            switch result {
+                            case .success:
+                                break
+                            case .failure(let error):
+                                fatalError("Login failed: \(error.description)")
+                            }
+                        }
+                    )
+                } else if let deniedCommand = command as? SCRegistrationDeniedCommand {
+                    completionHandler(deniedCommand.reason)
+                } else {
+                    completionHandler("A server error occured.")
+                }
+            }
+        )
+    }
+
+    private func recordLoginInformation(username: String, password: String) {
+        preferencesController.setLastUsername(username, for: serverDescription)
+        self.username = username
+        self.password = password
+        try? credentialsManager.writeCredentials(
+            Credentials(username: username, password: password), forServerWithAddress: serverDescription
         )
     }
 }
