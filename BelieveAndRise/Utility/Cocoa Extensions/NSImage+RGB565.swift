@@ -26,16 +26,25 @@ extension NSImage {
 			print("Couldn't get reference to destination pixel buffer")
 			return nil
 		}
-		
-		var pixels = rgb565Pixels.map { $0.rgbaValue }
-		let pixelBuffer = UnsafeMutablePointer<UInt32>(&pixels)
-		let bytes = UnsafeRawPointer(pixelBuffer).assumingMemoryBound(to: UInt8.self)
 
-		destination.assign(from: bytes, count: pixels.count * 4)
-		
-		self.init(size: NSSize(width: width, height: height))
-		addRepresentation(bitmap)
-	}
+        let pixels = rgb565Pixels.map { $0.rgbaValue }
+        let destinationCount = pixels.count * 4
+
+        pixels.withUnsafeBufferPointer { pixelBuffer in
+            let data = Data(buffer: pixelBuffer)
+            data.copyBytes(to: destination, count: destinationCount)
+        }
+
+        // An alternate solution with 7x the run time:
+
+//        pixels.withUnsafeBytes { pixelBytes in
+//            let pointer = UnsafeMutableRawBufferPointer(start: destination, count: destinationCount)
+//            pointer.copyBytes(from: pixelBytes)
+//        }
+        
+        self.init(size: NSSize(width: width, height: height))
+        addRepresentation(bitmap)
+    }
 
     /// Asynchronously creates an image from an array of pixel data, and hands it to a completion block.
     static func fromRGB565Pixels(_ pixels: [RGB565Color], width: Int, height: Int, block: @escaping (NSImage?) -> Void) {
