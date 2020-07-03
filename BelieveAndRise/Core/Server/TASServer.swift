@@ -63,8 +63,11 @@ final class TASServer: NSObject, SocketDelegate {
 	}
 	
 	/// Closes the connection to one server, and connects to the new address
-	func redirect(to ip: String, port: Int) {
-		
+    func redirect(to serverAddress: ServerAddress) {
+        disconnect()
+        socket = Socket(address: serverAddress)
+        socket.delegate = self
+        connect()
 	}
 
 	/// The ID of the next message to be sent to the server, corresponding to the number of messages previously sent.

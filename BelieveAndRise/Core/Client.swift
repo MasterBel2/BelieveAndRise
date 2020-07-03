@@ -79,16 +79,11 @@ final class Client: ServerSelectionDelegate {
 
     // MARK: - Interacting with the server client
 
-    func start() {
-        server.connect()
-    }
-	
+    /// Disconnects from the current server and connects to a new one.
 	func redirect(to address: ServerAddress) {
-		server.disconnect()
 		commandHandler.setProtocol(.unknown)
+        server.redirect(to: address)
 		#warning("Pass information to the user!")
-		initialiseServer(address)
-		start()
 	}
 	
 	func initialiseServer(_ address: ServerAddress) {
@@ -97,6 +92,8 @@ final class Client: ServerSelectionDelegate {
 		
         chatController.server = server
         battleController.server = server
+
+        server.connect()
 		
 		self.server = server
 	}
@@ -159,8 +156,6 @@ final class Client: ServerSelectionDelegate {
     func serverSelectionInterface(didSelectServerAt serverAddress: ServerAddress) {
         // Connect to the selected server.
         initialiseServer(serverAddress)
-
-        start()
     }
 
     // MARK: - Helpers
