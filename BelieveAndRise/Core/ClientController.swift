@@ -45,9 +45,8 @@ final class ClientController {
             preferencesController: preferencesController,
             address: address
         )
-        client.start()
         client.createAndShowWindow()
-        self.clients.append(client)
+        clients.append(client)
     }
 
     /// Creates a new client without a predefined server.
@@ -58,7 +57,7 @@ final class ClientController {
             preferencesController: preferencesController
         )
         client.createAndShowWindow()
-        self.clients.append(client)
+        clients.append(client)
     }
 
 	/// Forgets the reference to a client.

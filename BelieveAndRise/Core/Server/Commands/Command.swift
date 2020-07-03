@@ -121,7 +121,7 @@ final class ServerBattle {
         self.engineVersion = engineVersion
     }
 
-    struct Status: Hashable {
+    struct Status {
         /// Indicates whether player is ready to play the next game. Usually, games may only start
         /// if all players are ready.
         var ready: Bool = false
