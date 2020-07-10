@@ -49,14 +49,7 @@ struct CSJoinBattleCommand: CSCommand {
 	}
 	
 	var description: String {
-		var string = "JOINBATTLE \(battleID)"
-		if let password = password {
-			string += " \(password)"
-			if let scriptPassword = scriptPassword {
-				string += " \(scriptPassword)"
-			}
-		}
-		return string
+		return "JOINBATTLE \(battleID) \(password ?? "") \(scriptPassword ?? "")"
 	}
 }
 
