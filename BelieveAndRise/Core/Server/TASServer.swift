@@ -10,9 +10,9 @@ import Foundation
 
 /// A set of methods the TASServer's delegate may implement.
 protocol TASServerDelegate: AnyObject {
-	/// Informs the delegate that the server has sent a command.
+    /// Informs the delegate that the server has sent a command.
     func server(_ server: TASServer, didReceive serverCommand: String)
-	/// Stores the handler and executes it on the command tagged with the given ID.
+    /// Stores the handler and executes it on the command tagged with the given ID.
     func prepareToDelegateResponseToMessage(identifiedBy id: Int, to handler: ((SCCommand) -> ())?)
 }
 
@@ -21,77 +21,87 @@ protocol TASServerDelegate: AnyObject {
 /// Lobbyserver protocol is described at http://springrts.com/dl/LobbyProtocol
 /// See here for an implementation in C++ https://github.com/cleanrock/flobby/tree/master/src/model
 final class TASServer: NSObject, SocketDelegate {
-	
-	// MARK: - Dependencies
+
+    // MARK: - Dependencies
 
     /// The TASServer's delegate object.
-	weak var delegate: TASServerDelegate?
-	
-	// MARK: - Properties
+    weak var delegate: TASServerDelegate?
+
+    // MARK: - Properties
 
     /// The socket that connects to the remote server.
-	private(set) var socket: Socket
+    private(set) var socket: Socket
     /// The delay after which the keepalive "PING" should be sent in order to maintain the server connection.
     /// A delay of 30 seconds is reccomended by TASServer documentation.
     var keepaliveDelay: TimeInterval = 30
-	
-	// MARK: - Lifecycle
+
+    // MARK: - Lifecycle
 
     /// Initialiser for the TASServer object.
     ///
     /// - parameter address: The IP address or domain name of the server.
     /// - parameter port: The port on which the socket should connect.
     init(address: ServerAddress) {
-		socket = Socket(address: address)
-		super.init()
-		
-		socket.delegate = self
-	}
-	
-	// MARK: - TASServing
+        socket = Socket(address: address)
+        super.init()
+
+        socket.delegate = self
+    }
+
+    // MARK: - TASServing
 
     /// Initiates the socket connection and begins the keepalive loop.
-	func connect() {
-		socket.connect()
+    func connect() {
+        socket.connect()
         perform(#selector(TASServer.sendPing), with: nil, afterDelay: 30)
-	}
+    }
 
     /// Terminates the connection to the server, and with it the keepalive loop.
-	func disconnect() {
+    func disconnect() {
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(TASServer.sendPing), object: nil)
-		socket.disconnect()
-	}
-	
-	/// Closes the connection to one server, and connects to the new address
+        socket.disconnect()
+    }
+
+    /// Closes the connection to one server, and connects to the new address
     func redirect(to serverAddress: ServerAddress) {
         disconnect()
         socket = Socket(address: serverAddress)
         socket.delegate = self
         connect()
-	}
+    }
 
-	/// The ID of the next message to be sent to the server, corresponding to the number of messages previously sent.
+    /// The ID of the next message to be sent to the server, corresponding to the number of messages previously sent.
     private var count = 0
     /// Sends an encoded command over the socket and delays the keepalive to avoid sending superfluous messages to the server.
     ///
     /// Command handlers should not contain any strong references to objects in the case a command is never responded to.
     func send(_ command: CSCommand, specificHandler: ((SCCommand) -> ())? = nil) {
-		NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(TASServer.sendPing), object: nil)
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(TASServer.sendPing), object: nil)
         delegate?.prepareToDelegateResponseToMessage(identifiedBy: count, to: specificHandler)
-		socket.send(message: "#\(count) \(command.description)\n")
-		perform(#selector(TASServer.sendPing), with: nil, afterDelay: keepaliveDelay)
+        socket.send(message: "#\(count) \(command.description)\n")
+        perform(#selector(TASServer.sendPing), with: nil, afterDelay: keepaliveDelay)
         count += 1
-	}
-	
-	// MARK: - SocketDelegate
+    }
 
+    // MARK: - SocketDelegate
+
+    private var incomingMessageCache: String = ""
     /// A message was received over the socket.
-	func socket(_ socket: Socket, didReceive message: String) {
-		let messages = message.components(separatedBy: "\n")
-		for message in messages {
-            delegate?.server(self, didReceive: message)
-		}
-	}
+    func socket(_ socket: Socket, didReceive message: String) {
+        let messages = message.components(separatedBy: "\n")
+        guard let lastMessage = messages.last else { return }
+        guard let lastCharacter = message.last,
+            lastCharacter == "\n" else {
+                if messages.count != 1 {
+                    incomingMessageCache = ""
+                }
+                incomingMessageCache += lastMessage
+                return
+        }
+        for message in messages {
+            delegate?.server(self, didReceive: message + incomingMessageCache)
+        }
+    }
 
     // MARK: - Helper functions
 
