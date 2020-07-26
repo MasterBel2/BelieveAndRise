@@ -202,6 +202,7 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
     func presentAccountWindow(_ controller: AccountInfoController) {
         if let accountWindow = accountWindow {
             accountWindow.orderFront(self)
+            return
         }
         let accountViewController = AccountViewController()
         accountViewController.delegate = controller
