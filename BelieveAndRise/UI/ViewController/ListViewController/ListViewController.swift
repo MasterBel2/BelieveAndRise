@@ -230,6 +230,26 @@ class ListViewController: NSViewController,
             )
         }
     }
+
+    func listWillClear(_ list: ListProtocol) {
+        executeOnMain { [weak self] in
+            self?._listWillClear(list)
+        }
+    }
+
+    private func _listWillClear(_ list: ListProtocol) {
+        guard sections.contains(where: { $0 === list }) else {
+            return
+        }
+        let rangeOfItems = indexRange(forSection: list)
+        rows.removeSubrange(rangeOfItems)
+        if isViewLoaded {
+            tableView.removeRows(
+                at: IndexSet(integersIn: rangeOfItems),
+                withAnimation: .effectFade
+            )
+        }
+    }
 	
 	// MARK: - Private Helpers
 

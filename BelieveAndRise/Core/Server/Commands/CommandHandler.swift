@@ -64,6 +64,11 @@ final class CommandHandler: TASServerDelegate {
         command.execute(on: client)
     }
 
+    func serverDidDisconnect(_ server: TASServer) {
+        client?.reset()
+        setProtocol(.unknown)
+    }
+
 	/// Stores the handler and executes it on the command tagged with the given ID.
     func prepareToDelegateResponseToMessage(identifiedBy id: Int, to handler: ((SCCommand) -> ())?) {
         specificCommandHandlers[id] = handler

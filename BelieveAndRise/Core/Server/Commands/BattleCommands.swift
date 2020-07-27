@@ -172,7 +172,7 @@ struct SCJoinBattleCommand: SCCommand {
 	}
 	
 	func execute(on client: Client) {
-        guard let myUsername = client.userAuthenticationController?.username,
+        guard let myUsername = client.userAuthenticationController.username,
             let myID = client.id(forPlayerNamed: myUsername) else {
             debugOnlyPrint("Error: was instructed to join a battle when not logged in!")
             return
@@ -277,7 +277,7 @@ struct SCRequestBattleStatusCommand: SCCommand {
             return
         }
         
-        client.server.send(CSMyBattleStatusCommand(
+        client.server?.send(CSMyBattleStatusCommand(
             battleStatus: battleroom.myBattleStatus,
             color: battleroom.myColor
         ))

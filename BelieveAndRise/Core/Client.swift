@@ -17,26 +17,29 @@ import Foundation
  */
 final class Client: ServerSelectionDelegate {
 
-    // MARK: - Dependencies
+    // MARK: - Delegating tasks
 
     /// Provides platform-specific windows.
     let windowManager: ClientWindowManager
     let resourceManager: ResourceManager
-    /// The user's preferences controller.
-    let preferencesController: PreferencesController
 
-    // MARK: - Components
+    // MARK: - Server
 
+    private(set) var server: TASServer?
     /// Processes incoming commands and updates the model and UI appropriately.
     let commandHandler = CommandHandler()
     var featureAvailability: ProtocolFeatureAvailability?
     /// Processes chat-related information directed back towards the server
+
+    // MARK: - Controlling specific data & interactions
+
+    /// The user's preferences controller.
+    let preferencesController: PreferencesController
     let chatController: ChatController
 	let battleController: BattleController
     let accountInfoController = AccountInfoController()
     /// The server.
-    private(set) var server: TASServer!
-    private(set) var userAuthenticationController: UserAuthenticationController?
+    let userAuthenticationController: UserAuthenticationController
 
     // MARK: - Data
 
@@ -44,7 +47,7 @@ final class Client: ServerSelectionDelegate {
 
     /// Returns the User object associated with the account the client has connected to the server with.
     var connectedAccount: User? {
-        guard let username = userAuthenticationController?.username,
+        guard let username = userAuthenticationController.username,
         let userID = id(forPlayerNamed: username) else {
             return nil
         }
@@ -63,6 +66,7 @@ final class Client: ServerSelectionDelegate {
         self.resourceManager = resourceManager
         self.preferencesController = preferencesController
 
+        userAuthenticationController = UserAuthenticationController(preferencesController: preferencesController)
         battleController = BattleController(battleList: battleList, windowManager: windowManager)
         chatController = ChatController(windowManager: windowManager)
 
@@ -71,6 +75,7 @@ final class Client: ServerSelectionDelegate {
         commandHandler.setProtocol(.unknown)
 
         accountInfoController.client = self
+        userAuthenticationController.client = self
 
         // Initialise server
         if let address = address {
@@ -78,12 +83,36 @@ final class Client: ServerSelectionDelegate {
         }
     }
 
+    func reset() {
+        channelList.clear()
+        userList.clear()
+        battleList.clear()
+
+        windowManager.resetServerWindows()
+
+        userAuthenticationController.username = nil
+        userAuthenticationController.password = nil
+
+        chatController.channels = []
+        battleController.battleroom = nil
+        accountInfoController.invalidate()
+
+        server?.disconnect()
+        server = nil
+
+        windowManager.presentServerSelection(delegate: self)
+    }
+
     // MARK: - Interacting with the server client
 
     /// Disconnects from the current server and connects to a new one.
 	func redirect(to address: ServerAddress) {
 		commandHandler.setProtocol(.unknown)
-        server.redirect(to: address)
+        if let server = server {
+            server.redirect(to: address)
+        } else {
+            initialiseServer(address)
+        }
 		#warning("Pass information to the user!")
 	}
 	
@@ -114,9 +143,7 @@ final class Client: ServerSelectionDelegate {
 
     /// Presents a login control to the user.
     func presentLogin() {
-        let userAuthenticationController = UserAuthenticationController(server: server, windowManager: windowManager, preferencesController: preferencesController)
         windowManager.presentLogin(controller: userAuthenticationController)
-        self.userAuthenticationController = userAuthenticationController
     }
 
     /// Handles an error from the server.
@@ -167,7 +194,7 @@ final class Client: ServerSelectionDelegate {
     // MARK: - Helpers
 
     var myID: Int? {
-        if let myUsername = userAuthenticationController?.username {
+        if let myUsername = userAuthenticationController.username {
             return id(forPlayerNamed: myUsername)
         }
         return nil

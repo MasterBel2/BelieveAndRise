@@ -28,21 +28,19 @@ final class UserAuthenticationController: LoginDelegate {
     let credentialsManager: CredentialsManager
     /// The controller's interface with user defaults.
     let preferencesController: PreferencesController
-    /// The controller's interface with the UI.
-    let windowManager: ClientWindowManager
-    /// The server for the authentication attempt is being made.
-    let server: TASServer
+    weak var client: Client?
 
     /// A string that uniquely identifies the server
-    private var serverDescription: String {
-        return "\(server.socket.address):\(server.socket.port)"
+    private var serverDescription: String? {
+        if let server = client?.server {
+            return "\(server.socket.address):\(server.socket.port)"
+        }
+        return nil
     }
 
     // MARK: - Lifecycle
 
-    init(server: TASServer, windowManager: ClientWindowManager, preferencesController: PreferencesController) {
-        self.server = server
-        self.windowManager = windowManager
+    init(preferencesController: PreferencesController) {
         self.preferencesController = preferencesController
         credentialsManager = CredentialsManager.shared
     }
@@ -50,11 +48,16 @@ final class UserAuthenticationController: LoginDelegate {
     // MARK: - LoginDataSource
 
     var prefillableUsernames: [String] {
-        return (try? credentialsManager.usernames(forServerWithAddress: serverDescription)) ?? []
+        if let serverDescription = serverDescription {
+            return (try? credentialsManager.usernames(forServerWithAddress: serverDescription)) ?? []
+        } else {
+            return []
+        }
     }
 
     var lastCredentialsPair: Credentials? {
-        if let lastUsername = preferencesController.lastUsername(for: serverDescription) {
+        if let serverDescription = serverDescription,
+            let lastUsername = preferencesController.lastUsername(for: serverDescription) {
             return try? credentialsManager.credentials(forServerWithAddress: serverDescription, username: lastUsername)
         }
         return nil
@@ -63,7 +66,7 @@ final class UserAuthenticationController: LoginDelegate {
     // MARK: - LoginDelegate
 
     func submitLogin(username: String, password: String, completionHandler: @escaping (Result<String, LoginError>) -> Void) {
-        server.send(
+        client?.server?.send(
             CSLoginCommand(
                 username: username,
                 password: password,
@@ -90,7 +93,7 @@ final class UserAuthenticationController: LoginDelegate {
     }
 
     func submitRegister(username: String, email: String, password: String, completionHandler: @escaping (String?) -> Void) {
-        server.send(
+        client?.server?.send(
             CSRegisterCommand(
                 username: username,
                 password: password
@@ -121,11 +124,12 @@ final class UserAuthenticationController: LoginDelegate {
     }
 
     private func recordLoginInformation(username: String, password: String) {
-        preferencesController.setLastUsername(username, for: serverDescription)
-        self.username = username
-        self.password = password
-        try? credentialsManager.writeCredentials(
-            Credentials(username: username, password: password), forServerWithAddress: serverDescription
-        )
+        if let serverDescription = serverDescription {
+            preferencesController.setLastUsername(username, for: serverDescription)
+            self.username = username
+            self.password = password
+            try? credentialsManager.writeCredentials(
+                Credentials(username: username, password: password), forServerWithAddress: serverDescription)
+        }
     }
 }

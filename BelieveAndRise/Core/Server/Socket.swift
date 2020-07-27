@@ -10,6 +10,7 @@ import Foundation
 
 protocol SocketDelegate: AnyObject {
 	func socket(_ socket: Socket, didReceive message: String)
+    func socketDidClose(_ socket: Socket)
 }
 
 final class Socket: NSObject, StreamDelegate {
@@ -120,10 +121,7 @@ final class Socket: NSObject, StreamDelegate {
 		case Stream.Event.hasSpaceAvailable:
 			break
 			
-		case Stream.Event.errorOccurred:
-			break
-			
-		case Stream.Event.endEncountered:
+        case Stream.Event.errorOccurred, Stream.Event.endEncountered:
 			stream.close()
 			stream.remove(from: .current, forMode: .default)
 			if stream == inputStream {
@@ -131,7 +129,9 @@ final class Socket: NSObject, StreamDelegate {
 			} else if stream == outputStream {
 				outputStream = nil
 			}
-			
+            if inputStream == nil && outputStream == nil {
+                delegate?.socketDidClose(self)
+            }
 		default:
 			print(eventCode)
 		}

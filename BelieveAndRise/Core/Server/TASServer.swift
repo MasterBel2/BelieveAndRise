@@ -14,6 +14,7 @@ protocol TASServerDelegate: AnyObject {
     func server(_ server: TASServer, didReceive serverCommand: String)
     /// Stores the handler and executes it on the command tagged with the given ID.
     func prepareToDelegateResponseToMessage(identifiedBy id: Int, to handler: ((SCCommand) -> ())?)
+    func serverDidDisconnect(_ server: TASServer)
 }
 
 /// Handles the socket connection to a TASServer.
@@ -101,6 +102,10 @@ final class TASServer: NSObject, SocketDelegate {
         for message in messages {
             delegate?.server(self, didReceive: message + incomingMessageCache)
         }
+    }
+
+    func socketDidClose(_ socket: Socket) {
+        delegate?.serverDidDisconnect(self)
     }
 
     // MARK: - Helper functions

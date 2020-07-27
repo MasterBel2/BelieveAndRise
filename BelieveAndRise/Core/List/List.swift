@@ -125,6 +125,14 @@ final class List<ListItem: Sortable>: ListProtocol {
 
     // MARK: - Updating list content
 
+    func clear() {
+        delegate?.listWillClear(self)
+        sublists.forEach({ $0.clear() })
+        items = [:]
+        sortedItemsByID = []
+        itemIndicies = [:]
+    }
+
     /// Inserts the item into the list, with the ID as its key, locating it according to the
     /// selected sorting method.
     func addItem(_ item: ListItem, with id: Int) {

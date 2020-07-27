@@ -25,6 +25,8 @@ protocol ClientWindowManager {
     /// Dismisses the login interface.
     func dismissLogin()
 
+    func resetServerWindows()
+
     func displayBattlelist(_ battleList: List<Battle>)
     func displayServerUserlist(_ userList: List<User>)
     func displayBattleroom(_ battleroom: Battleroom)
@@ -95,6 +97,14 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
         setChatController(client.chatController)
         displayBattlelist(client.battleList)
         displayServerUserlist(client.userList)
+    }
+
+    func resetServerWindows() {
+        destroyBattleroom()
+        accountWindow?.close()
+        accountWindow = nil
+        dismissLogin()
+        dismissServerSelection()
     }
 
     // MARK: - Sheets
