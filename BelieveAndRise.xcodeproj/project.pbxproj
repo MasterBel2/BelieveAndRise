@@ -95,6 +95,7 @@
 		6B880615249BBF1E00BAF05B /* DualTextInputDialogSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B880613249BBF1E00BAF05B /* DualTextInputDialogSheet.xib */; };
 		6B880619249BCC3700BAF05B /* SingleTextInputDialogSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B880617249BCC3700BAF05B /* SingleTextInputDialogSheet.swift */; };
 		6B88061A249BCC3700BAF05B /* SingleTextInputDialogSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B880618249BCC3700BAF05B /* SingleTextInputDialogSheet.xib */; };
+		6B95FC2824CDC05100957C5E /* ListSorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95FC2724CDC05100957C5E /* ListSorter.swift */; };
 		6BAE46BF2379A7FD0065CD53 /* executeOnMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAE46BE2379A7FD0065CD53 /* executeOnMain.swift */; };
 		6BAF4ABA24A86F7F0078A64E /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF4AB824A86F7F0078A64E /* TextViewController.swift */; };
 		6BAF4ABB24A86F7F0078A64E /* TextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BAF4AB924A86F7F0078A64E /* TextViewController.xib */; };
@@ -264,6 +265,7 @@
 		6B880613249BBF1E00BAF05B /* DualTextInputDialogSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DualTextInputDialogSheet.xib; sourceTree = "<group>"; };
 		6B880617249BCC3700BAF05B /* SingleTextInputDialogSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTextInputDialogSheet.swift; sourceTree = "<group>"; };
 		6B880618249BCC3700BAF05B /* SingleTextInputDialogSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SingleTextInputDialogSheet.xib; sourceTree = "<group>"; };
+		6B95FC2724CDC05100957C5E /* ListSorter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSorter.swift; sourceTree = "<group>"; };
 		6BAE46BE2379A7FD0065CD53 /* executeOnMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = executeOnMain.swift; sourceTree = "<group>"; };
 		6BAF4AB824A86F7F0078A64E /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
 		6BAF4AB924A86F7F0078A64E /* TextViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextViewController.xib; sourceTree = "<group>"; };
@@ -711,6 +713,7 @@
 		6BDDDCDC23798FB900292BAE /* List */ = {
 			isa = PBXGroup;
 			children = (
+				6B95FC2724CDC05100957C5E /* ListSorter.swift */,
 				6B815EF02313C99A000FD850 /* ListDisplay.swift */,
 				3E7F3D322319DBA60012A743 /* Sortable.swift */,
 				3E2D1C2922DD47CC008596E1 /* List.swift */,
@@ -1001,6 +1004,7 @@
 				6BF85C76237C6DA100A19493 /* UnitsyncConfig.swift in Sources */,
 				6BE441542326A63500951B49 /* Command.swift in Sources */,
 				6B7304A423E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift in Sources */,
+				6B95FC2824CDC05100957C5E /* ListSorter.swift in Sources */,
 				6BF85C71237C6A8400A19493 /* RemoteResourceFetcher.swift in Sources */,
 				3E98F86B237AC98D00DD2999 /* Private Messages.swift in Sources */,
 				6BE4414E2326A63500951B49 /* ChannelCommands.swift in Sources */,

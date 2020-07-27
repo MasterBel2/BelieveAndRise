@@ -69,7 +69,9 @@ final class Battleroom: BattleDelegate, ListDelegate {
     /// Indexed by ID.
     var colors: [Int : Int32] = [:]
 	/// Updated by SETSCRIPTTAGS command.
-	var scriptTags: [ScriptTag] = []
+    var trueSkills: [Int : String] = [:]
+    /// Updated by SETSCRIPTTAGS command.
+    var modOptions: [String : String] = [:]
 	/// Computed by the host's unitsync using the current map, game, and other dependencies.
 	/// It is used to check that the client has correct non-corrupt downloads of the required content.
     var disabledUnits: [String] = []
@@ -153,21 +155,30 @@ final class Battleroom: BattleDelegate, ListDelegate {
         return battle.userList.items[battle.founderID]?.status.isIngame ?? false
     }
 
+    func trueSkill(for id: Int) -> Float? {
+        guard let string = trueSkills[id] else { return nil }
+        return Float(string.filter({ $0.isNumber || $0 == "." }))
+    }
+
     // MARK: - Lifecycle
 
     init(battle: Battle, channel: Channel, hashCode: Int32, resourceManager: ResourceManager, battleController: BattleController, myID: Int) {
         self.battle = battle
         self.hashCode = hashCode
         self.channel = channel
-        spectatorList = List<User>(title: "Spectators", sortKey: .rank, parent: battle.userList)
+
         self.resourceManager = resourceManager
         self.myID = myID
 
         self.battleController = battleController
 
-        // + 1 – Users will count from 1, not from 0
-        allyTeamLists = (0...15).map({ List(title: "Ally \(String($0 + 1))", sortKey: .rank, parent: battle.userList) })
+        let battleroomSorter = BattleroomPlayerListSorter()
 
+        // + 1 – Users will count from 1, not from 0
+        allyTeamLists = (0...15).map({ List(title: "Ally \(String($0 + 1))", sorter: battleroomSorter, parent: battle.userList) })
+        spectatorList = List<User>(title: "Spectators", sorter: battleroomSorter, parent: battle.userList)
+
+        battleroomSorter.battleroom = self
         battle.delegate = self
         battle.userList.delegate = self
 
@@ -205,7 +216,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
                 // The user is no longer a player on an allyteam.
                 let allyTeamList = allyTeamLists[previousAllyNumber]
                 allyTeamList.removeItem(withID: userID)
-                if allyTeamList.itemCount == 0,
+                if allyTeamList.sortedItemCount == 0,
                     let allyName = allyNamesForAllyNumbers[previousAllyNumber] {
                     generalDisplay?.removedTeam(named: allyName)
                     allyNamesForAllyNumbers.removeValue(forKey: previousAllyNumber)
@@ -218,7 +229,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
                 // The user has changed to an ally team – I.e. joined a new ally.
                 let allyTeamList = allyTeamLists[newUserStatus.allyNumber]
                 allyTeamList.addItemFromParent(id: userID)
-                if allyTeamList.itemCount == 1 {
+                if allyTeamList.sortedItemCount == 1 {
                     let allyName = String(newUserStatus.allyNumber + 1)
                     allyNamesForAllyNumbers[newUserStatus.allyNumber] = allyName
                     generalDisplay?.addedTeam(named: allyName)
@@ -341,6 +352,7 @@ final class Battleroom: BattleDelegate, ListDelegate {
             displayIngameStatus()
         }
     }
+    func listWillClear(_ list: ListProtocol) {}
 
     // MARK: - Nested Types
 	
@@ -456,8 +468,5 @@ final class Battleroom: BattleDelegate, ListDelegate {
 			battleStatus += Int32(side*16777216) // 2^24
 			return battleStatus
 		}
-	}
-	enum ScriptTag {
-		
 	}
 }

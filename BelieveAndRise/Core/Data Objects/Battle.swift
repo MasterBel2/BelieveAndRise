@@ -31,7 +31,7 @@ final class Battle: Sortable {
     }
 
 	var playerCount: Int {
-        return userList.itemCount - spectatorCount
+        return userList.sortedItemCount - spectatorCount
 	}
 	
 	let title: String

@@ -502,57 +502,100 @@ struct SCRemoveStartRectCommand: SCCommand {
 
 struct SCSetScriptTagsCommand: SCCommand {
 
-	let tags: [String]
+	let tags: [ScriptTag]
 
 	// MARK: - Manual Construction
 
-	init(tags: [String]) {
+	init(tags: [ScriptTag]) {
 		self.tags = tags
 	}
 
 	// MARK: - SCCommand
 
 	init?(description: String) {
-		guard let (_, sentences) = try? wordsAndSentences(for: description, wordCount: 0, sentenceCount: 1, optionalSentences: 1000) else {
-			return nil
-		}
-		tags = sentences
+        tags = description.split(separator: "\t").compactMap({ ScriptTag(String($0)) })
 	}
 
 	func execute(on client: Client) {
-		#warning("todo")
+        for tag in tags {
+            switch tag.category {
+            case "players":
+                guard let battleroom = client.battleController.battleroom,
+                    tag.path[3] == "skill",
+                    let playerID = client.id(forPlayerNamed: tag.path[2]) else {
+                        continue
+                }
+                battleroom.trueSkills[playerID] = tag.value
+                (battleroom.allyTeamLists + [battleroom.spectatorList]).filter({ $0.sortedItemsByID.contains(playerID)}).forEach({ $0.respondToUpdatesOnItem(identifiedBy: playerID) })
+            case "modoptions":
+                client.battleController.battleroom?.modOptions[tag.path[1]] = tag.value
+            default:
+                print("Unrecognised script tag: \(tag)")
+            }
+        }
 	}
 
 	var description: String {
-		return "SETSCRIPTTAGS \(tags.joined(separator: "\t"))"
+        return "SETSCRIPTTAGS \(tags.map({ $0.description }).joined(separator: "\t"))"
 	}
+}
+
+struct ScriptTag: CustomStringConvertible {
+    let path: [String]
+    let value: String
+
+    var category: String {
+        return path[1]
+    }
+
+    init?(_ string: String) {
+        let parts = string.split(separator: "=")
+        guard parts.count == 2 else { return nil }
+        path = parts[0].split(separator: "/").map({ String($0) })
+        guard path.count > 2 else {
+            return nil
+        }
+        value = String(parts[1])
+    }
+    var description: String {
+        return "\(path.joined(separator: "/"))=\(value)"
+    }
 }
 
 struct SCRemoveScriptTagsCommand: SCCommand {
 
-	let keys: [String]
+	let keys: [[String]]
 
 	// MARK: - Manual Construction
 
-	init(keys: [String]) {
+	init(keys: [[String]]) {
 		self.keys = keys
 	}
 
 	// MARK: - SCCommand
 
 	init?(description: String) {
-		guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 1, sentenceCount: 0, optionalWords: 1000) else {
-			return nil
-		}
-		keys = words
+        keys = description.split(separator: "\t").map({ $0.split(separator: "/").map({ String($0) }) })
 	}
 
 	func execute(on client: Client) {
-		#warning("todo")
+        for key in keys {
+            guard key.count >= 2 else { continue }
+            switch key[1] {
+            case "players":
+                guard key.count == 4, key[3] == "skill", let playerID = client.id(forPlayerNamed: key[2]) else { continue }
+                client.battleController.battleroom?.trueSkills.removeValue(forKey: playerID)
+            case "modOptions":
+                guard key.count == 3 else { continue }
+                client.battleController.battleroom?.modOptions.removeValue(forKey: key[2])
+            default:
+                continue
+            }
+        }
 	}
 
 	var description: String {
-		return "REMOVESCRIPTTAGS \(keys.joined(separator: " "))"
+        return "REMOVESCRIPTTAGS \(keys.map({ $0.joined(separator: "/") }).joined(separator: " "))"
 	}
 }
 struct SCJoinBattleRequestCommand: SCCommand {

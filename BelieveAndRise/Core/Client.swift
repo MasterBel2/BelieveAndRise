@@ -170,7 +170,7 @@ final class Client: ServerSelectionDelegate {
     /// Returns ID of a player, if they are online.
     func id(forPlayerNamed username: String) -> Int? {
         return userList.items.first { (_, user) in
-            return user.profile.fullUsername == username
+            return user.profile.fullUsername.lowercased() == username.lowercased()
         }?.key
     }
 

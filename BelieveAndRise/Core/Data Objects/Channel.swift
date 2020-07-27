@@ -39,6 +39,6 @@ final class Channel: Sortable {
     }
 
     func receivedNewMessage(_ message: ChatMessage) {
-        messageList.addItem(message, with: messageList.itemCount)
+        messageList.addItem(message, with: messageList.sortedItemCount)
     }
 }

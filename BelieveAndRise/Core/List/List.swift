@@ -17,11 +17,13 @@ protocol ListDelegate: AnyObject {
     func list(_ list: ListProtocol, itemWasUpdatedAt index: Int)
     /// Notifies the delegate that the list moved an item between the given indices.
     func list(_ list: ListProtocol, didMoveItemFrom index1: Int, to index2: Int)
+    /// Notifies the delegate that the list will clear all data, so that they may remove all data associated with the list.
+    func listWillClear(_ list: ListProtocol)
 }
 
 protocol ListProtocol: AnyObject {
     var title: String { get }
-    var itemCount: Int { get }
+    var sortedItemCount: Int { get }
     var delegate: ListDelegate? { get set }
 	var sortedItemsByID: [Int] { get }
 }
@@ -46,8 +48,6 @@ final class List<ListItem: Sortable>: ListProtocol {
 
     // Content
 
-    /// A key value indicating by which property the list items should be sorted
-    private(set) var sortKey: ListItem.PropertyKey
     /// An array of item IDs, sorted in the order determined by the values of the item's properties, as indicated by the sort key. `itemIndicies` and `items` must be updated before updating this array.
     private(set) var sortedItemsByID: [Int] = [] {
         didSet {
@@ -80,30 +80,37 @@ final class List<ListItem: Sortable>: ListProtocol {
 
     /// The List object's delegate.
 	weak var delegate: ListDelegate?
+    let sorter: ListSorter
 
     // MARK: - Lifecycle
 
     /// Creates a list with the given title, sorted by the given sort key
-    init(title: String, sortKey: ListItem.PropertyKey, parent: List<ListItem>? = nil) {
+    init(title: String, sorter: ListSorter, parent: List<ListItem>? = nil) {
         self.title = title
-        self.sortKey = sortKey
+        self.sorter = sorter
         self.parent = parent
 
         queue = DispatchQueue(label: title)
 
         parent?.sublists.append(self)
     }
+    /// Creates a list with the given title, sorted by the given sort key
+    convenience init(title: String, sortKey: ListItem.PropertyKey, parent: List<ListItem>? = nil) {
+        let sorter = SortKeyBasedSorter<ListItem>(sortKey: sortKey)
+        self.init(title: title, sorter: sorter, parent: parent)
+        sorter.list = self
+    }
 
     // MARK: - Retrieving list data
 
     /// The number of items in the list
-    var itemCount: Int {
-        return items.count
+    var sortedItemCount: Int {
+        return sortedItemsByID.count
     }
 
     /// The ID of the item at the given location
     func itemID(at index: Int) -> Int? {
-        guard (0..<itemCount).contains(index) else {
+        guard (0..<sortedItemCount).contains(index) else {
             return nil
         }
         return sortedItemsByID[index]
@@ -121,15 +128,13 @@ final class List<ListItem: Sortable>: ListProtocol {
     /// Inserts the item into the list, with the ID as its key, locating it according to the
     /// selected sorting method.
     func addItem(_ item: ListItem, with id: Int) {
-        for index in 0..<itemCount {
+        items[id] = item
+        for index in 0..<sortedItemCount {
             let idAtIndex = sortedItemsByID[index]
-            guard let itemAtIndex = items[idAtIndex] else {
-                return
-            }
-            if item.relationTo(itemAtIndex, forSortKey: sortKey) != .lesser {
+            if sorter.relation(betweenItemIdentifiedBy: id, shouldAppearBeforeItemIdentifiedBy: idAtIndex) != .lesser {
                 // Update the location of the items this displaces. Must happen before we sort the
                 // so that we can identify them by their current location.
-                for indexToUpdate in index..<itemCount {
+                for indexToUpdate in index..<sortedItemCount {
                     let idToUpdate = sortedItemsByID[indexToUpdate]
                     itemIndicies[idToUpdate] = indexToUpdate + 1
                 }
@@ -137,10 +142,10 @@ final class List<ListItem: Sortable>: ListProtocol {
                 return
             }
         }
-        placeItem(item, with: id, at: itemCount)
+        placeItem(item, with: id, at: sortedItemCount)
     }
 
-    /// A helper function that ensures an item is in the parent list before adding it to this list. Returns true if the operation is successful
+    /// A helper function that ensures an item is in the parent list before adding it to this list.
     func addItemFromParent(id: Int) {
         if let item = self.parent?.items[id] {
             self.addItem(item, with: id)
@@ -149,7 +154,6 @@ final class List<ListItem: Sortable>: ListProtocol {
 
     /// Places an item in the list and sets its indexes etc. Does not update the items that it displaces.
     private func placeItem(_ item: ListItem, with id: Int, at index: Int) {
-        items[id] = item
         itemIndicies[id] = index
         sortedItemsByID.insert(id, at: index)
         delegate?.list(self, didAddItemWithID: id, at: index)
@@ -157,26 +161,22 @@ final class List<ListItem: Sortable>: ListProtocol {
 
     /// Updates the list's sort order and notifies the delegate that the item has been updated.
     func respondToUpdatesOnItem(identifiedBy id: Int) {
-        guard let index = itemIndicies[id],
-            let updatedItem = item(at: index) else {
+        guard let index = itemIndicies[id] else {
                 return
         }
 
-        // ID : Position
         var indexesToUpdate: [Int] = []
         var newIndex = index
 
-        for (relation, offset) in [(ValueRelation.lesser, 1), (ValueRelation.greater, -1)] {
-            while let otherItem = item(at: newIndex + offset),
-                updatedItem.relationTo(otherItem, forSortKey: sortKey) == relation {
-                    // the new value for newIndex is the position we're going to move into, so
-                    // that's the item that will be displaced.
-                    newIndex += offset
-                    // Remember the index needs to be updated later. We won't update the dictionary yet since
-                    // we're not actually moving things in sortedItemsByID yet.
-                    indexesToUpdate.append(newIndex)
+        for (relationToMove, offset) in [(ValueRelation.lesser, 1), (ValueRelation.greater, -1)] {
+            var nextIndex: Int {
+                return newIndex + offset
             }
-
+            while (0..<sortedItemCount).contains(nextIndex),
+                sorter.relation(betweenItemIdentifiedBy: id, shouldAppearBeforeItemIdentifiedBy: sortedItemsByID[nextIndex]) == relationToMove {
+                newIndex = nextIndex
+                indexesToUpdate.append(newIndex)
+            }
             if newIndex != index {
                 // Update indexes associated with IDs before updating IDs associated with indexes, because it depends on the array
                 // -1 * offset, since they move the opposite direction to the updated item
@@ -202,7 +202,7 @@ final class List<ListItem: Sortable>: ListProtocol {
             return
         }
         itemIndicies.removeValue(forKey: id)
-        for indexToUpdate in (index + 1)..<itemCount {
+        for indexToUpdate in (index + 1)..<sortedItemCount {
             let idToUpdate = sortedItemsByID[indexToUpdate]
             itemIndicies[idToUpdate] = indexToUpdate - 1
         }

@@ -70,7 +70,7 @@ class ListViewController: NSViewController,
 				var offset = 0
 				for section in sections {
 					tableView.reloadData(forRowIndexes: IndexSet(integer: offset), columnIndexes: IndexSet(integer: 0))
-					offset += section.itemCount + 1
+					offset += section.sortedItemCount + 1
 				}
 			}
 		}
@@ -164,7 +164,7 @@ class ListViewController: NSViewController,
 	/// Creates a header for the given section.
     private func header(for list: ListProtocol) -> Row {
         if shouldDisplayRowCountInHeader {
-            return .header(list.title + " (\(list.itemCount))")
+            return .header(list.title + " (\(list.sortedItemCount))")
         } else {
             return .header(list.title)
         }
@@ -188,7 +188,7 @@ class ListViewController: NSViewController,
 
         list.delegate = self
         sections.append(list)
-        if shouldDisplaySectionHeaders && list.itemCount > 0 {
+        if shouldDisplaySectionHeaders && list.sortedItemCount > 0 {
             rows.append(.header(list.title))
         }
         rows.append(contentsOf: list.sortedItemsByID.map({ Row.item($0) }))
@@ -235,13 +235,13 @@ class ListViewController: NSViewController,
 
     /// Returns the range of indexes corresponding to the list's items in the array of rows.
     private func indexRange(forSection section: ListProtocol) -> Range<Int> {
-        guard section.itemCount > 0 else {
+        guard section.sortedItemCount > 0 else {
             // If there are no items, we don't display the header.
             return 0..<0
         }
-        let offsetDueToHeader = (shouldDisplaySectionHeaders && section.itemCount > 0 ? 1 : 0)
+        let offsetDueToHeader = (shouldDisplaySectionHeaders && section.sortedItemCount > 0 ? 1 : 0)
         let startIndex = offset(forSectionNamed: section.title) - offsetDueToHeader
-        let endIndex = startIndex + section.itemCount + offsetDueToHeader
+        let endIndex = startIndex + section.sortedItemCount + offsetDueToHeader
         return startIndex..<endIndex
     }
 
@@ -249,13 +249,13 @@ class ListViewController: NSViewController,
     private func offset(forSectionNamed sectionName: String) -> Int {
         var count = 0
         for section in sections {
-            if shouldDisplaySectionHeaders && section.itemCount > 0 {
+            if shouldDisplaySectionHeaders && section.sortedItemCount > 0 {
                 count += 1
             }
             if section.title == sectionName {
                 return count
             }
-            count += section.itemCount
+            count += section.sortedItemCount
         }
         fatalError("Section \(sectionName) doesn't exist!")
     }
@@ -277,7 +277,7 @@ class ListViewController: NSViewController,
         // When adding the first item, we also need to add the header. Because the item is
         // already in the list, we check for == 1 (the first item) rather than == 0
         if  shouldDisplaySectionHeaders {
-            if list.itemCount == 1 {
+            if list.sortedItemCount == 1 {
                 rows.insert(header(for: list), at: sectionOffset - 1)
                 tableView.insertRows(
                     at: IndexSet(integer: sectionOffset - 1),
@@ -312,7 +312,7 @@ class ListViewController: NSViewController,
         tableView.removeRows(at: IndexSet(integer: sectionOffset + index), withAnimation: .effectFade)
 
         // Update header
-        if list.itemCount > 0 && shouldDisplayRowCountInHeader {
+        if list.sortedItemCount > 0 && shouldDisplayRowCountInHeader {
             rows[sectionOffset - 1] = header(for: list)
             tableView.reloadData(
                 forRowIndexes: IndexSet(integer: sectionOffset - 1),

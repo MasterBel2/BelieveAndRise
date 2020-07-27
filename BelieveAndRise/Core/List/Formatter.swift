@@ -35,7 +35,7 @@ struct BattlelistItemViewProvider: ItemViewProvider {
         }
         let view = SingleColumnTableColumnRowView.loadFromNib()
         view.primaryLabel.stringValue = battle.founder
-        view.secondaryLabel.stringValue = "\(battle.userList.itemCount - battle.spectatorCount) + \(battle.spectatorCount) / \(battle.maxPlayers)"
+        view.secondaryLabel.stringValue = "\(battle.userList.sortedItemCount - battle.spectatorCount) + \(battle.spectatorCount) / \(battle.maxPlayers)"
         return view
     }
 }
@@ -138,6 +138,9 @@ struct BattleroomPlayerListItemViewProvider: ItemViewProvider {
                 view.usernameField.textColor = NSColor(named: "userIsEnemy")
             }
             view.alphaValue = battleStatus.isReady && !battleStatus.isSpectator ? 1 : 0.5
+        }
+        if let trueSkill = battleroom.trueSkill(for: id) {
+            view.toolTip = String(trueSkill)
         }
 
         return view
