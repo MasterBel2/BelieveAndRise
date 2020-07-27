@@ -146,18 +146,20 @@ struct SCJoinBattleCommand: SCCommand {
 	
 	let battleID: Int
 	let hashCode: Int32
+    let channelName: String
 	
 	// MARK: - Manual Construction
 	
-	init(battleID: Int, hashCode: Int32) {
+    init(battleID: Int, hashCode: Int32, channelName: String) {
 		self.battleID = battleID
 		self.hashCode = hashCode
+        self.channelName = channelName
 	}
 	
 	// MARK: - SCCommand
 	
 	init?(description: String) {
-		guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 2, sentenceCount: 0),
+		guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 3, sentenceCount: 0),
 		let battleID = Int(words[0]),
 		let hashCode = Int32(words[1]) else {
 			return nil
@@ -165,10 +167,11 @@ struct SCJoinBattleCommand: SCCommand {
 		
 		self.battleID = battleID
 		self.hashCode = hashCode
+        channelName = words[2]
 	}
 	
 	var description: String {
-		return "JOINBATTLE \(battleID) \(hashCode)"
+		return "JOINBATTLE \(battleID) \(hashCode) \(channelName)"
 	}
 	
 	func execute(on client: Client) {
