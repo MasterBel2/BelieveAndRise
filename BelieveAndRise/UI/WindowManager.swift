@@ -13,6 +13,8 @@ protocol WindowManager {
 	/// Immediately displays current and past downloads to the user.
 	func presentDownloads(_ controller: DownloadController)
 
+    func presentReplays(_ controller: ReplayController, springProcessController: SpringProcessController)
+
     /// Creates a new manager for client-specific windows.
     func newClientWindowManager(clientController: ClientController) -> ClientWindowManager
 }
@@ -22,6 +24,8 @@ protocol WindowManager {
 final class MacOSWindowManager: WindowManager {
     /// The window displaying information about current and past downloads.
     private var downloadsWindow: NSWindow?
+    private var replaysWindow: NSWindow?
+    weak var system: System!
 
     /// The controller for storing and retrieving interface-related defaults.
     private let defaultsController = InterfaceDefaultsController()
@@ -32,6 +36,25 @@ final class MacOSWindowManager: WindowManager {
         let manager = MacOSClientWindowManager(defaultsController: defaultsController)
         manager.clientController = clientController
         return manager
+    }
+
+    func presentReplays(_ controller: ReplayController, springProcessController: SpringProcessController) {
+        if let replaysWindow = replaysWindow {
+            replaysWindow.orderFront(self)
+            return
+        }
+        let viewController = ListViewController()
+        viewController.selectionHandler = ReplayListSelectionHandler(
+            springProcessController: springProcessController,
+            replayList: controller.replays
+        )
+        viewController.itemViewProvider = ReplayListItemViewProvider(replayList: controller.replays)
+        viewController.addSection(controller.replays)
+        let replaysWindow = NSWindow(contentViewController: viewController)
+
+        replaysWindow.makeKeyAndOrderFront(self)
+
+        self.replaysWindow = replaysWindow
     }
 
     func presentDownloads(_ downloadController: DownloadController) {

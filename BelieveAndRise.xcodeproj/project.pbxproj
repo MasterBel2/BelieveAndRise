@@ -3,13 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		3E04709A22CD6B91005241E6 /* ServerCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E04709922CD6B91005241E6 /* ServerCommand.swift */; };
-		3E04709D22CD71C3005241E6 /* ListViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E04709C22CD71C3005241E6 /* ListViewControllerDelegate.swift */; };
-		3E04709F22CD71D3005241E6 /* ListViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E04709E22CD71D3005241E6 /* ListViewControllerDataSource.swift */; };
 		3E1A49CF237A970600F549FF /* BattleCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1A49CE237A970600F549FF /* BattleCommands.swift */; };
 		3E1A49D1237AA53200F549FF /* Things.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1A49D0237AA53200F549FF /* Things.swift */; };
 		3E2D1C2A22DD47CC008596E1 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2D1C2922DD47CC008596E1 /* List.swift */; };
@@ -77,7 +75,6 @@
 		6B50660F23EF5C72006FEC49 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50660E23EF5C72006FEC49 /* Downloader.swift */; };
 		6B50661123EF6DAE006FEC49 /* ClientWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50661023EF6DAE006FEC49 /* ClientWindowManager.swift */; };
 		6B5A333A23863A7800A32433 /* ArrayDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A333923863A7800A32433 /* ArrayDownloader.swift */; };
-		6B5A333D23863AD000A32433 /* DataCompression in Frameworks */ = {isa = PBXBuildFile; productRef = 6B5A333C23863AD000A32433 /* DataCompression */; };
 		6B5A333F23863AE500A32433 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A333E23863AE500A32433 /* Platform.swift */; };
 		6B5A334123863B0200A32433 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334023863B0200A32433 /* Resource.swift */; };
 		6B5A334323863B0F00A32433 /* RapidArchiveInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A334223863B0F00A32433 /* RapidArchiveInfo.swift */; };
@@ -88,6 +85,24 @@
 		6B7304A423E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A323E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift */; };
 		6B7304A623E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A523E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift */; };
 		6B7304A823E7DB5E0027E757 /* InterfaceDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A723E7DB5E0027E757 /* InterfaceDefaultsController.swift */; };
+		6B745D4124CF190200A4ED4D /* Ally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D3924CF190100A4ED4D /* Ally.swift */; };
+		6B745D4224CF190200A4ED4D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D3A24CF190100A4ED4D /* Player.swift */; };
+		6B745D4324CF190200A4ED4D /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D3B24CF190100A4ED4D /* AI.swift */; };
+		6B745D4424CF190200A4ED4D /* StartConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D3C24CF190200A4ED4D /* StartConfig.swift */; };
+		6B745D4524CF190200A4ED4D /* Game Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D3D24CF190200A4ED4D /* Game Data.swift */; };
+		6B745D4624CF190200A4ED4D /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D3E24CF190200A4ED4D /* Team.swift */; };
+		6B745D4724CF190200A4ED4D /* StartBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D3F24CF190200A4ED4D /* StartBox.swift */; };
+		6B745D4824CF190200A4ED4D /* HostConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D4024CF190200A4ED4D /* HostConfig.swift */; };
+		6B745D4A24CF192400A4ED4D /* StartScriptDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D4924CF192400A4ED4D /* StartScriptDecoder.swift */; };
+		6B745D4C24CF1FAC00A4ED4D /* Replay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D4B24CF1FAC00A4ED4D /* Replay.swift */; };
+		6B745D4E24CF1FC100A4ED4D /* Decompression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D4D24CF1FC100A4ED4D /* Decompression.swift */; };
+		6B745D5024CF24CB00A4ED4D /* LaunchScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D4F24CF24CB00A4ED4D /* LaunchScript.swift */; };
+		6B745D5224CF251600A4ED4D /* StartScriptError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D5124CF251600A4ED4D /* StartScriptError.swift */; };
+		6B745D5424CF253A00A4ED4D /* ScriptSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D5324CF253A00A4ED4D /* ScriptSections.swift */; };
+		6B745D5624CF280A00A4ED4D /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D5524CF280A00A4ED4D /* DataParser.swift */; };
+		6B745D5824CF283100A4ED4D /* RawReplayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D5724CF283100A4ED4D /* RawReplayHeader.swift */; };
+		6B745D5A24CF481000A4ED4D /* ReplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D5924CF481000A4ED4D /* ReplayController.swift */; };
+		6B745D5C24CF593B00A4ED4D /* NSHomeDirectoryURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D5B24CF593B00A4ED4D /* NSHomeDirectoryURL.swift */; };
 		6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */; };
 		6B7C82D722D9489A0031F9C9 /* UserAuthenticationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */; };
 		6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82D822D948A50031F9C9 /* UserAuthenticationController.swift */; };
@@ -103,14 +118,6 @@
 		6BAF4ABB24A86F7F0078A64E /* TextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BAF4AB924A86F7F0078A64E /* TextViewController.xib */; };
 		6BB77D7123EA46C500087CBF /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB77D7023EA46C500087CBF /* System.swift */; };
 		6BBBEFC5244D3E350063F2A0 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBEFC4244D3E350063F2A0 /* Logger.swift */; };
-		6BBC3483244736F7006A85B0 /* Game Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC3482244736F7006A85B0 /* Game Data.swift */; };
-		6BBC348524473701006A85B0 /* Ally.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348424473701006A85B0 /* Ally.swift */; };
-		6BBC348724473710006A85B0 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348624473710006A85B0 /* Team.swift */; };
-		6BBC348924473719006A85B0 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348824473719006A85B0 /* AI.swift */; };
-		6BBC348B2447372E006A85B0 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348A2447372E006A85B0 /* Player.swift */; };
-		6BBC348D2447373A006A85B0 /* StartConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348C2447373A006A85B0 /* StartConfig.swift */; };
-		6BBC348F24473747006A85B0 /* StartBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC348E24473747006A85B0 /* StartBox.swift */; };
-		6BBC349124473750006A85B0 /* HostConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC349024473750006A85B0 /* HostConfig.swift */; };
 		6BBF44A2238B64E10076B656 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF44A1238B64E10076B656 /* ChatController.swift */; };
 		6BBF44A4238B6AD80076B656 /* ChatLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF44A3238B6AD80076B656 /* ChatLogViewController.swift */; };
 		6BC4473E2379C1F9006842DD /* UserCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC4473D2379C1F9006842DD /* UserCommands.swift */; };
@@ -135,12 +142,10 @@
 		6BE441532326A63500951B49 /* GeneralServerCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414B2326A63500951B49 /* GeneralServerCommands.swift */; };
 		6BE441542326A63500951B49 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414C2326A63500951B49 /* Command.swift */; };
 		6BE441552326A63500951B49 /* Clients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE4414D2326A63500951B49 /* Clients.swift */; };
-		6BEB5B872446297400D73A48 /* Running Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB5B862446297400D73A48 /* Running Spring.swift */; };
 		6BEE6526239A8F2A0029528A /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 6BEE6525239A8F2A0029528A /* LICENSE */; };
 		6BEE6528239A91940029528A /* RapidClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE6527239A91940029528A /* RapidClient.swift */; };
 		6BF044CA2391F50D008CCE3C /* BattleroomHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */; };
 		6BF65C972397A9CB00D85DDE /* SpringProcessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */; };
-		6BF65C992397AAB300D85DDE /* LaunchScriptWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF65C982397AAB300D85DDE /* LaunchScriptWriter.swift */; };
 		6BF65C9B2397BBAD00D85DDE /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF65C9A2397BBAD00D85DDE /* CountryCode.swift */; };
 		6BF85C63237C648900A19493 /* Array+MoveItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C62237C648900A19493 /* Array+MoveItem.swift */; };
 		6BF85C65237C68EB00A19493 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85C64237C68EB00A19493 /* ChatMessage.swift */; };
@@ -173,8 +178,6 @@
 
 /* Begin PBXFileReference section */
 		3E04709922CD6B91005241E6 /* ServerCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCommand.swift; sourceTree = "<group>"; };
-		3E04709C22CD71C3005241E6 /* ListViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerDelegate.swift; sourceTree = "<group>"; };
-		3E04709E22CD71D3005241E6 /* ListViewControllerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerDataSource.swift; sourceTree = "<group>"; };
 		3E1A49CE237A970600F549FF /* BattleCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleCommands.swift; sourceTree = "<group>"; };
 		3E1A49D0237AA53200F549FF /* Things.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Things.swift; sourceTree = "<group>"; };
 		3E2D1C2922DD47CC008596E1 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
@@ -260,6 +263,24 @@
 		6B7304A323E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewControllerResizeDelegate.swift; sourceTree = "<group>"; };
 		6B7304A523E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewControllerResizeDelegate.swift; sourceTree = "<group>"; };
 		6B7304A723E7DB5E0027E757 /* InterfaceDefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceDefaultsController.swift; sourceTree = "<group>"; };
+		6B745D3924CF190100A4ED4D /* Ally.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ally.swift; sourceTree = "<group>"; };
+		6B745D3A24CF190100A4ED4D /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		6B745D3B24CF190100A4ED4D /* AI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
+		6B745D3C24CF190200A4ED4D /* StartConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartConfig.swift; sourceTree = "<group>"; };
+		6B745D3D24CF190200A4ED4D /* Game Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Game Data.swift"; sourceTree = "<group>"; };
+		6B745D3E24CF190200A4ED4D /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		6B745D3F24CF190200A4ED4D /* StartBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartBox.swift; sourceTree = "<group>"; };
+		6B745D4024CF190200A4ED4D /* HostConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostConfig.swift; sourceTree = "<group>"; };
+		6B745D4924CF192400A4ED4D /* StartScriptDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScriptDecoder.swift; sourceTree = "<group>"; };
+		6B745D4B24CF1FAC00A4ED4D /* Replay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Replay.swift; sourceTree = "<group>"; };
+		6B745D4D24CF1FC100A4ED4D /* Decompression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decompression.swift; sourceTree = "<group>"; };
+		6B745D4F24CF24CB00A4ED4D /* LaunchScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScript.swift; sourceTree = "<group>"; };
+		6B745D5124CF251600A4ED4D /* StartScriptError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScriptError.swift; sourceTree = "<group>"; };
+		6B745D5324CF253A00A4ED4D /* ScriptSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptSections.swift; sourceTree = "<group>"; };
+		6B745D5524CF280A00A4ED4D /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
+		6B745D5724CF283100A4ED4D /* RawReplayHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawReplayHeader.swift; sourceTree = "<group>"; };
+		6B745D5924CF481000A4ED4D /* ReplayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplayController.swift; sourceTree = "<group>"; };
+		6B745D5B24CF593B00A4ED4D /* NSHomeDirectoryURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSHomeDirectoryURL.swift; sourceTree = "<group>"; };
 		6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationViewController.swift; sourceTree = "<group>"; };
 		6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserAuthenticationViewController.xib; sourceTree = "<group>"; };
 		6B7C82D822D948A50031F9C9 /* UserAuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationController.swift; sourceTree = "<group>"; };
@@ -275,14 +296,6 @@
 		6BAF4AB924A86F7F0078A64E /* TextViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextViewController.xib; sourceTree = "<group>"; };
 		6BB77D7023EA46C500087CBF /* System.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		6BBBEFC4244D3E350063F2A0 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		6BBC3482244736F7006A85B0 /* Game Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Game Data.swift"; sourceTree = "<group>"; };
-		6BBC348424473701006A85B0 /* Ally.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ally.swift; sourceTree = "<group>"; };
-		6BBC348624473710006A85B0 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
-		6BBC348824473719006A85B0 /* AI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
-		6BBC348A2447372E006A85B0 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		6BBC348C2447373A006A85B0 /* StartConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartConfig.swift; sourceTree = "<group>"; };
-		6BBC348E24473747006A85B0 /* StartBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartBox.swift; sourceTree = "<group>"; };
-		6BBC349024473750006A85B0 /* HostConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostConfig.swift; sourceTree = "<group>"; };
 		6BBF44A1238B64E10076B656 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		6BBF44A3238B6AD80076B656 /* ChatLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewController.swift; sourceTree = "<group>"; };
 		6BC4473D2379C1F9006842DD /* UserCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCommands.swift; sourceTree = "<group>"; };
@@ -307,12 +320,10 @@
 		6BE4414B2326A63500951B49 /* GeneralServerCommands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralServerCommands.swift; sourceTree = "<group>"; };
 		6BE4414C2326A63500951B49 /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		6BE4414D2326A63500951B49 /* Clients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clients.swift; sourceTree = "<group>"; };
-		6BEB5B862446297400D73A48 /* Running Spring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Running Spring.swift"; sourceTree = "<group>"; };
 		6BEE6525239A8F2A0029528A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		6BEE6527239A91940029528A /* RapidClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidClient.swift; sourceTree = "<group>"; };
 		6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleroomHeaderView.swift; sourceTree = "<group>"; };
 		6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringProcessController.swift; sourceTree = "<group>"; };
-		6BF65C982397AAB300D85DDE /* LaunchScriptWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScriptWriter.swift; sourceTree = "<group>"; };
 		6BF65C9A2397BBAD00D85DDE /* CountryCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		6BF85C62237C648900A19493 /* Array+MoveItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+MoveItem.swift"; sourceTree = "<group>"; };
 		6BF85C64237C68EB00A19493 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
@@ -332,7 +343,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BF85C7A237C87C700A19493 /* NetworkExtension.framework in Frameworks */,
-				6B5A333D23863AD000A32433 /* DataCompression in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,8 +369,6 @@
 				3E77162622C179E500B8C6C0 /* TableHeaderData.swift */,
 				3E33C9D822C203B200C340F9 /* ListViewController.swift */,
 				3EF20F7322F825D10005650E /* ListViewController.xib */,
-				3E04709E22CD71D3005241E6 /* ListViewControllerDataSource.swift */,
-				3E04709C22CD71C3005241E6 /* ListViewControllerDelegate.swift */,
 			);
 			path = ListViewController;
 			sourceTree = "<group>";
@@ -614,10 +622,12 @@
 		6B898F162398BE1C002AC64B /* Engine Interface */ = {
 			isa = PBXGroup;
 			children = (
+				6B745D5724CF283100A4ED4D /* RawReplayHeader.swift */,
+				6B745D5324CF253A00A4ED4D /* ScriptSections.swift */,
+				6B745D4F24CF24CB00A4ED4D /* LaunchScript.swift */,
+				6B745D4B24CF1FAC00A4ED4D /* Replay.swift */,
 				6BBC3481244736ED006A85B0 /* Game Data */,
-				6BEB5B862446297400D73A48 /* Running Spring.swift */,
 				6BF65C962397A9CB00D85DDE /* SpringProcessController.swift */,
-				6BF65C982397AAB300D85DDE /* LaunchScriptWriter.swift */,
 			);
 			path = "Engine Interface";
 			sourceTree = "<group>";
@@ -645,6 +655,7 @@
 		6BAE46C02379A80E0065CD53 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				6B745D5924CF481000A4ED4D /* ReplayController.swift */,
 				3EE7B36C24AB331F00EE1F98 /* AccountInfoController.swift */,
 				6BCB3FBD23A3FB4B00142E28 /* Credentials.swift */,
 				6BCB3FBB23A3FA0E00142E28 /* KeychainError.swift */,
@@ -673,16 +684,19 @@
 		6BAE46C22379A8300065CD53 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				6BF65C9A2397BBAD00D85DDE /* CountryCode.swift */,
-				6B5A333E23863AE500A32433 /* Platform.swift */,
-				6BF85C62237C648900A19493 /* Array+MoveItem.swift */,
-				3EB5912D22C1A74B00103CDE /* String+MD5.swift */,
-				6BAE46BE2379A7FD0065CD53 /* executeOnMain.swift */,
-				3EE7B36A24AB1B2D00EE1F98 /* debugOnlyPrint.swift */,
+				6B745D5B24CF593B00A4ED4D /* NSHomeDirectoryURL.swift */,
 				6B30FB50237D743500A893C8 /* Cocoa Extensions */,
+				6BF85C62237C648900A19493 /* Array+MoveItem.swift */,
+				6BF65C9A2397BBAD00D85DDE /* CountryCode.swift */,
+				6B745D5524CF280A00A4ED4D /* DataParser.swift */,
 				3EB5912F22C1A75600103CDE /* Data+Base64.swift */,
-				6B30FB4C237D72FF00A893C8 /* UInt16+RGB.swift */,
+				3EE7B36A24AB1B2D00EE1F98 /* debugOnlyPrint.swift */,
+				6B745D4D24CF1FC100A4ED4D /* Decompression.swift */,
+				6BAE46BE2379A7FD0065CD53 /* executeOnMain.swift */,
 				6B5A334423863B2200A32433 /* Int+Data.swift */,
+				6B5A333E23863AE500A32433 /* Platform.swift */,
+				3EB5912D22C1A74B00103CDE /* String+MD5.swift */,
+				6B30FB4C237D72FF00A893C8 /* UInt16+RGB.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -703,14 +717,16 @@
 		6BBC3481244736ED006A85B0 /* Game Data */ = {
 			isa = PBXGroup;
 			children = (
-				6BBC3482244736F7006A85B0 /* Game Data.swift */,
-				6BBC348424473701006A85B0 /* Ally.swift */,
-				6BBC348624473710006A85B0 /* Team.swift */,
-				6BBC348824473719006A85B0 /* AI.swift */,
-				6BBC348A2447372E006A85B0 /* Player.swift */,
-				6BBC348C2447373A006A85B0 /* StartConfig.swift */,
-				6BBC348E24473747006A85B0 /* StartBox.swift */,
-				6BBC349024473750006A85B0 /* HostConfig.swift */,
+				6B745D4924CF192400A4ED4D /* StartScriptDecoder.swift */,
+				6B745D3B24CF190100A4ED4D /* AI.swift */,
+				6B745D3924CF190100A4ED4D /* Ally.swift */,
+				6B745D5124CF251600A4ED4D /* StartScriptError.swift */,
+				6B745D3D24CF190200A4ED4D /* Game Data.swift */,
+				6B745D4024CF190200A4ED4D /* HostConfig.swift */,
+				6B745D3A24CF190100A4ED4D /* Player.swift */,
+				6B745D3F24CF190200A4ED4D /* StartBox.swift */,
+				6B745D3C24CF190200A4ED4D /* StartConfig.swift */,
+				6B745D3E24CF190200A4ED4D /* Team.swift */,
 			);
 			path = "Game Data";
 			sourceTree = "<group>";
@@ -784,7 +800,6 @@
 			);
 			name = BelieveAndRise;
 			packageProductDependencies = (
-				6B5A333C23863AD000A32433 /* DataCompression */,
 			);
 			productName = BelieveAndRise;
 			productReference = 3E46333122C0C2D000AE0F2F /* BelieveAndRise.app */;
@@ -865,7 +880,6 @@
 			);
 			mainGroup = 3E46332822C0C2D000AE0F2F;
 			packageReferences = (
-				6B5A333B23863AD000A32433 /* XCRemoteSwiftPackageReference "DataCompression" */,
 			);
 			productRefGroup = 3E46333222C0C2D000AE0F2F /* Products */;
 			projectDirPath = "";
@@ -929,8 +943,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B745D4C24CF1FAC00A4ED4D /* Replay.swift in Sources */,
 				6B179C3E249B175400D3DC56 /* DialogSheet.swift in Sources */,
-				6BBC348924473719006A85B0 /* AI.swift in Sources */,
 				3EB5912922C1A6E200103CDE /* Socket.swift in Sources */,
 				6B30FB4B237D72F700A893C8 /* NSImage+RGB565.swift in Sources */,
 				6B5C2A9623A726AC00132337 /* PreferencesController.swift in Sources */,
@@ -942,58 +956,64 @@
 				6BE441452326A5E100951B49 /* CommandParsing.swift in Sources */,
 				6B50660F23EF5C72006FEC49 /* Downloader.swift in Sources */,
 				3E2E50A822FB77CF00831EF8 /* WindowManager.swift in Sources */,
+				6B745D5C24CF593B00A4ED4D /* NSHomeDirectoryURL.swift in Sources */,
 				6BF85C77237C6DA100A19493 /* UnitsyncWrapper.swift in Sources */,
 				6B18E85524B06FED00ED7BEE /* Protocol.swift in Sources */,
 				6BF65C9B2397BBAD00D85DDE /* CountryCode.swift in Sources */,
 				6BF85C63237C648900A19493 /* Array+MoveItem.swift in Sources */,
 				6B880619249BCC3700BAF05B /* SingleTextInputDialogSheet.swift in Sources */,
+				6B745D4324CF190200A4ED4D /* AI.swift in Sources */,
 				3E1A49D1237AA53200F549FF /* Things.swift in Sources */,
 				6BBBEFC5244D3E350063F2A0 /* Logger.swift in Sources */,
 				3EB5913022C1A75600103CDE /* Data+Base64.swift in Sources */,
 				6BB77D7123EA46C500087CBF /* System.swift in Sources */,
 				6B5A334523863B2200A32433 /* Int+Data.swift in Sources */,
 				3E7C827E239CC25F004B835D /* DownloadItemViewProvider.swift in Sources */,
+				6B745D4E24CF1FC100A4ED4D /* Decompression.swift in Sources */,
+				6B745D5624CF280A00A4ED4D /* DataParser.swift in Sources */,
 				3E46333522C0C2D000AE0F2F /* AppDelegate.swift in Sources */,
 				3EE7B36924AB1ADE00EE1F98 /* IncompleteUserAuthenticationRequest.swift in Sources */,
 				6B5A333A23863A7800A32433 /* ArrayDownloader.swift in Sources */,
-				6BEB5B872446297400D73A48 /* Running Spring.swift in Sources */,
 				3E46336822C0C31700AE0F2F /* NATType.swift in Sources */,
 				6BE233B423269ACE0029425E /* ChatViewController.swift in Sources */,
 				6BE441522326A63500951B49 /* SCBattleOpenedCommand.swift in Sources */,
 				3E46336A22C0C32D00AE0F2F /* Battleroom.swift in Sources */,
-				6BBC348D2447373A006A85B0 /* StartConfig.swift in Sources */,
+				6B745D5224CF251600A4ED4D /* StartScriptError.swift in Sources */,
 				6BF85C67237C691800A19493 /* ServerError.swift in Sources */,
 				3E7F3D332319DBA60012A743 /* Sortable.swift in Sources */,
+				6B745D5024CF24CB00A4ED4D /* LaunchScript.swift in Sources */,
 				6B30FB4F237D73D600A893C8 /* MinimapView.swift in Sources */,
+				6B745D5424CF253A00A4ED4D /* ScriptSections.swift in Sources */,
 				6BE441512326A63500951B49 /* TASServerCommand.swift in Sources */,
 				6B3D83A02324C41A00CE04BB /* Client.swift in Sources */,
 				6BF85C6F237C6A7B00A19493 /* LocalResourceManager.swift in Sources */,
 				3E04709A22CD6B91005241E6 /* ServerCommand.swift in Sources */,
 				6B4F07692321151800B52C7E /* MainWindowController.swift in Sources */,
 				3E46336522C0C2F700AE0F2F /* Channel.swift in Sources */,
-				3E04709D22CD71C3005241E6 /* ListViewControllerDelegate.swift in Sources */,
 				6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */,
 				3E77162522C1775A00B8C6C0 /* NibLoadable.swift in Sources */,
 				6BCB3FBC23A3FA0E00142E28 /* KeychainError.swift in Sources */,
 				3E7C827F239CC25F004B835D /* DownloadInfo.swift in Sources */,
+				6B745D4724CF190200A4ED4D /* StartBox.swift in Sources */,
 				6B5A334123863B0200A32433 /* Resource.swift in Sources */,
 				6B5A334723863B5700A32433 /* SpringArchiveInfo.swift in Sources */,
 				6BE233B1232668E60029425E /* NSView+BackgroundColor.swift in Sources */,
-				6BBC3483244736F7006A85B0 /* Game Data.swift in Sources */,
 				3E2D1C2A22DD47CC008596E1 /* List.swift in Sources */,
 				6BF044CA2391F50D008CCE3C /* BattleroomHeaderView.swift in Sources */,
 				3EB5912522C1A24700103CDE /* TASServer.swift in Sources */,
 				6B7304A823E7DB5E0027E757 /* InterfaceDefaultsController.swift in Sources */,
 				6BAE46BF2379A7FD0065CD53 /* executeOnMain.swift in Sources */,
-				3E04709F22CD71D3005241E6 /* ListViewControllerDataSource.swift in Sources */,
+				6B745D4624CF190200A4ED4D /* Team.swift in Sources */,
 				6B4266022391FA3E00AB46A2 /* BattleroomViewController.swift in Sources */,
-				6BF65C992397AAB300D85DDE /* LaunchScriptWriter.swift in Sources */,
 				3E1A49CF237A970600F549FF /* BattleCommands.swift in Sources */,
-				6BBC349124473750006A85B0 /* HostConfig.swift in Sources */,
+				6B745D4A24CF192400A4ED4D /* StartScriptDecoder.swift in Sources */,
 				3E46335F22C0C2E000AE0F2F /* Battle.swift in Sources */,
 				6B179C42249B17F600D3DC56 /* ServerSelectionDialogSheet.swift in Sources */,
 				6B815EF12313C99A000FD850 /* ListDisplay.swift in Sources */,
+				6B745D4824CF190200A4ED4D /* HostConfig.swift in Sources */,
+				6B745D5824CF283100A4ED4D /* RawReplayHeader.swift in Sources */,
 				3E77162722C179E500B8C6C0 /* TableHeaderData.swift in Sources */,
+				6B745D4424CF190200A4ED4D /* StartConfig.swift in Sources */,
 				6BAF4ABA24A86F7F0078A64E /* TextViewController.swift in Sources */,
 				6B27C51E249B9BA700E400E9 /* AccountMetadataCommands.swift in Sources */,
 				6BCC43AE2497BB8C00C7AA53 /* AccountViewController.swift in Sources */,
@@ -1004,6 +1024,7 @@
 				6BDB8EB8249CB24500259633 /* ServerAddress.swift in Sources */,
 				6B50661123EF6DAE006FEC49 /* ClientWindowManager.swift in Sources */,
 				3E7C8284239CC312004B835D /* RankIngameAndUsernameView.swift in Sources */,
+				6B745D4124CF190200A4ED4D /* Ally.swift in Sources */,
 				6BE441552326A63500951B49 /* Clients.swift in Sources */,
 				6BE4414F2326A63500951B49 /* AccountCommands.swift in Sources */,
 				6BC4473E2379C1F9006842DD /* UserCommands.swift in Sources */,
@@ -1015,25 +1036,24 @@
 				6B95FC2824CDC05100957C5E /* ListSorter.swift in Sources */,
 				6BF85C71237C6A8400A19493 /* RemoteResourceFetcher.swift in Sources */,
 				3E98F86B237AC98D00DD2999 /* Private Messages.swift in Sources */,
+				6B745D5A24CF481000A4ED4D /* ReplayController.swift in Sources */,
 				6BE4414E2326A63500951B49 /* ChannelCommands.swift in Sources */,
 				3E93BB9C237B86A1009036E7 /* BattleController.swift in Sources */,
 				6BBF44A4238B6AD80076B656 /* ChatLogViewController.swift in Sources */,
 				6B2C64D0232517930017A1BC /* ChatBar.swift in Sources */,
 				6B5A333F23863AE500A32433 /* Platform.swift in Sources */,
 				3E46336122C0C2EB00AE0F2F /* User.swift in Sources */,
-				6BBC348F24473747006A85B0 /* StartBox.swift in Sources */,
 				6BF65C972397A9CB00D85DDE /* SpringProcessController.swift in Sources */,
 				3E86E057237B087B0032BCBF /* StartRectOverlayView.swift in Sources */,
 				3E7C827D239CC25F004B835D /* DownloadController.swift in Sources */,
 				6B880614249BBF1E00BAF05B /* DualTextInputDialogSheet.swift in Sources */,
-				6BBC348524473701006A85B0 /* Ally.swift in Sources */,
 				6BF85C6D237C6A7100A19493 /* ResourceManager.swift in Sources */,
 				6BC447402379E324006842DD /* Formatter.swift in Sources */,
 				6BE233B723269ECA0029425E /* ChatBarController.swift in Sources */,
+				6B745D4524CF190200A4ED4D /* Game Data.swift in Sources */,
 				6BF85C75237C6DA000A19493 /* DynamicLibraryHandle.swift in Sources */,
 				6BCB3FBA23A3DE5D00142E28 /* CredentialsManager.swift in Sources */,
 				6B7C82D922D948A50031F9C9 /* UserAuthenticationController.swift in Sources */,
-				6BBC348724473710006A85B0 /* Team.swift in Sources */,
 				3E93BB9E237B9F50009036E7 /* ListSelectionHandler.swift in Sources */,
 				3EE7B36D24AB331F00EE1F98 /* AccountInfoController.swift in Sources */,
 				3EE7B36B24AB1B2D00EE1F98 /* debugOnlyPrint.swift in Sources */,
@@ -1044,9 +1064,9 @@
 				6BCC43B12497BCA100C7AA53 /* RankView.swift in Sources */,
 				6BE441502326A63500951B49 /* CommandHandler.swift in Sources */,
 				3E33C9D922C203B200C340F9 /* ListViewController.swift in Sources */,
+				6B745D4224CF190200A4ED4D /* Player.swift in Sources */,
 				3E7C8288239CC33D004B835D /* DownloadItemView.swift in Sources */,
 				6BE441532326A63500951B49 /* GeneralServerCommands.swift in Sources */,
-				6BBC348B2447372E006A85B0 /* Player.swift in Sources */,
 				3E77161F22C175A800B8C6C0 /* TableSectionHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1374,25 +1394,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		6B5A333B23863AD000A32433 /* XCRemoteSwiftPackageReference "DataCompression" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mw99/DataCompression.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.6.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		6B5A333C23863AD000A32433 /* DataCompression */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6B5A333B23863AD000A32433 /* XCRemoteSwiftPackageReference "DataCompression" */;
-			productName = DataCompression;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3E46332922C0C2D000AE0F2F /* Project object */;
 }

@@ -18,11 +18,13 @@ final class ClientController {
     private let resourceManager: ResourceManager
     /// The user's preferences controller.
     let preferencesController: PreferencesController
+    let springProcessController: SpringProcessController
 
-    init(windowManager: WindowManager, resourceManager: ResourceManager, preferencesController: PreferencesController) {
+    init(windowManager: WindowManager, resourceManager: ResourceManager, preferencesController: PreferencesController, springProcessController: SpringProcessController) {
         self.windowManager = windowManager
         self.resourceManager = resourceManager
         self.preferencesController = preferencesController
+        self.springProcessController = springProcessController
     }
 
     /// On update, inserts the most recent server
@@ -43,7 +45,8 @@ final class ClientController {
             windowManager: windowManager.newClientWindowManager(clientController: self),
             resourceManager: resourceManager,
             preferencesController: preferencesController,
-            address: address
+            address: address,
+            springProcessController: springProcessController
         )
         client.createAndShowWindow()
         clients.append(client)
@@ -54,7 +57,8 @@ final class ClientController {
         let client = Client(
             windowManager: windowManager.newClientWindowManager(clientController: self),
             resourceManager: resourceManager,
-            preferencesController: preferencesController
+            preferencesController: preferencesController,
+            springProcessController: springProcessController
         )
         client.createAndShowWindow()
         clients.append(client)

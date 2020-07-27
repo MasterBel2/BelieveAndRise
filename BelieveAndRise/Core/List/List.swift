@@ -29,6 +29,8 @@ protocol ListProtocol: AnyObject {
 }
 
 /// A list wraps a set of objects by their ID.
+///
+/// - warning: This class is **not** thread-safe and must be updated serially from a single thread.
 final class List<ListItem>: ListProtocol {
 
     // MARK: - Behaviour
@@ -251,6 +253,13 @@ extension List where ListItem: Sortable {
     /// Creates a list with the given title, sorted by the given sort key
     convenience init(title: String, sortKey: ListItem.PropertyKey, parent: List<ListItem>? = nil) {
         let sorter = SortKeyBasedSorter<ListItem>(sortKey: sortKey)
+        self.init(title: title, sorter: sorter, parent: parent)
+        sorter.list = self
+    }
+}
+extension List {
+    convenience init<T: Comparable>(title: String, property: @escaping (ListItem) -> T, parent: List<ListItem>? = nil) {
+        let sorter = PropertySorter<ListItem, T>(property: property)
         self.init(title: title, sorter: sorter, parent: parent)
         sorter.list = self
     }

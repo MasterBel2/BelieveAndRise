@@ -59,13 +59,13 @@ final class Client: ServerSelectionDelegate {
     // MARK: - Lifecycle
 
 
-    init(windowManager: ClientWindowManager, resourceManager: ResourceManager, preferencesController: PreferencesController, address: ServerAddress? = nil) {
+    init(windowManager: ClientWindowManager, resourceManager: ResourceManager, preferencesController: PreferencesController, address: ServerAddress? = nil, springProcessController: SpringProcessController) {
         self.windowManager = windowManager
         self.resourceManager = resourceManager
         self.preferencesController = preferencesController
 
         userAuthenticationController = UserAuthenticationController(preferencesController: preferencesController)
-        battleController = BattleController(battleList: battleList, windowManager: windowManager)
+        battleController = BattleController(battleList: battleList, windowManager: windowManager, springProcessController: springProcessController)
         chatController = ChatController(windowManager: windowManager)
 
         // Configure the command handler

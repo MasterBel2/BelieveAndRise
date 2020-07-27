@@ -10,6 +10,9 @@ import Foundation
 
 /// Details about an AI that will control the units of a team.
 struct AI {
+    /// An integer for uniquely identifying the AI within the startscript.
+    let scriptID: Int
+    /// The nickname for the AI instance.
     let name: String
     /// The ID of the player providing the AI
     let hostID: Int
@@ -17,4 +20,7 @@ struct AI {
     let shortName: String
     /// The AI's version as given by unitsync
     let version: String
+
+    /// Whether or not the AI come from a demo.
+    let isFromDemo: Bool
 }

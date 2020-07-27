@@ -21,6 +21,29 @@ struct DefaultItemViewProvider: ItemViewProvider {
     }
 }
 
+/// Provides a simple view describing the map and date of replays.
+struct ReplayListItemViewProvider: ItemViewProvider {
+
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
+
+    weak var replayList: List<Replay>?
+    func view(forItemIdentifiedBy id: Int) -> NSView? {
+        guard let item = replayList?.items[id] else {
+            return nil
+        }
+        let view = SingleColumnTableColumnRowView.loadFromNib()
+        view.primaryLabel.stringValue = item.specification.mapName
+        view.secondaryLabel.stringValue = dateFormatter.string(from: item.header.gameStartDate)
+        return view
+    }
+}
+
+
 /// An `ItemViewProvider` that provides a default view for a battlelist item.
 struct BattlelistItemViewProvider: ItemViewProvider {
     let list: List<Battle>

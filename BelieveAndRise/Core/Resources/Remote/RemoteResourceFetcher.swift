@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import DataCompression
 
 var springDataDirectory: URL {
     return FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".spring")

@@ -95,11 +95,6 @@ class ListViewController: NSViewController,
 	
 	// MARK: - Dependencies
 	
-	/// The list view controller's delegate.
-	weak var delegate: ListViewControllerDelegate?
-	/// The list view controller's data source.
-	weak var dataSource: ListViewControllerDataSource?
-	/// The list's selection handler.
 	var selectionHandler: ListSelectionHandler?
 	
 	// MARK: - Interface

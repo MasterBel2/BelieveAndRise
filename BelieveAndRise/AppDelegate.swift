@@ -19,8 +19,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 	var clientController: ClientController!
     var resourceManager: ResourceManager!
     var downloadController: DownloadController!
+    var replayController: ReplayController!
     var mainWindowController: NSWindowController?
-    let windowManager: WindowManager = MacOSWindowManager()
+    let system = MacOS()
+    var springProcessController: SpringProcessController!
 
     var downloadsWindow: NSWindow?
 
@@ -30,8 +32,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// Displays downloads to the user.
 	@IBAction func showDownloads(_ sender: NSMenuItem) {
-		windowManager.presentDownloads(downloadController)
+        system.windowManager.presentDownloads(downloadController)
 	}
+    @IBAction func showReplays(_ sender: NSMenuItem) {
+        try? replayController.loadReplays()
+        system.windowManager.presentReplays(replayController, springProcessController: springProcessController)
+    }
 
     /// Opens a new client.
     @IBAction func newClient(_ sender: Any) {
@@ -48,22 +54,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 	// MARK: - NSApplicationDelegate
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
-
         Logger.log("Logger is online", tag: .General)
 
-        let system = MacOS()
         downloadController = DownloadController(system: system)
+        replayController = ReplayController(system: system)
+        springProcessController = SpringProcessController(system: system, replayController: replayController)
 
         let resourceManager = ResourceManager(
 			downloadController: downloadController,
-			windowManager: windowManager
+            windowManager: system.windowManager
 		)
         resourceManager.loadLocalResources()
 
-        let clientController = ClientController(windowManager: windowManager, resourceManager: resourceManager, preferencesController: PreferencesController.default)
+        let clientController = ClientController(
+            windowManager: system.windowManager,
+            resourceManager: resourceManager,
+            preferencesController: PreferencesController.default,
+            springProcessController: springProcessController
+        )
         clientController.createNewClient()
 
         self.clientController = clientController
         self.resourceManager = resourceManager
 	}
 }
+

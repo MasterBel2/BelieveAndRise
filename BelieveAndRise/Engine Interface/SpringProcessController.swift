@@ -8,51 +8,54 @@
 
 import Cocoa
 
-/// Handles configuring and launching of a single instance of the SpringRTS engine
+/// Describes a data object with the necessary information to start Spring.
+protocol LaunchScriptConvertible {
+    /// Generates a string suitable for launching the engine to a specification.
+    func launchScript(shouldRecordDemo: Bool) -> String
+}
+
+/// Handles configuring and launching of a single instance of the SpringRTS engine.
 final class SpringProcessController {
-    private(set) var springProcess: Process?
-    private let scriptTxtManager = LaunchScriptWriter()
+    private(set) var canLaunchSpring: Bool = true
+
+    let system: System
+    let replayController: ReplayController
+
+    var scriptFileURL: URL {
+        return system.configDirectory.appendingPathComponent("script.txt")
+    }
+
+    init(system: System, replayController: ReplayController) {
+        self.system = system
+        self.replayController = replayController
+    }
 
     /// Launches a spring instance with instructions to connect to the specified host.
     func launchSpringAsClient(andConnectTo ip: String, at port: Int, with username: String, and password: String, completionHandler: (() -> Void)?) {
-        scriptTxtManager.prepareForLaunchOfSpringAsClient(
+        let specification = LaunchScript.ClientSpecification(
             ip: ip,
             port: port,
             username: username,
             scriptPassword: password
         )
-        startSpringRTS(completionHandler: completionHandler)
+        startSpringRTS(specification, shouldRecordDemo: true, completionHandler: completionHandler)
     }
 
     /// Launches spring.
-    private func startSpringRTS(completionHandler: (() -> Void)?) {
-        // TODO: --Some sort of cache interface to allow multiple engines to be used
-        guard let path = NSWorkspace.shared.fullPath(forApplication: "Spring_103.0.app") else { debugPrint("Non-Fatal Error: could not find Spring_103.0.app"); return }
-        guard let bundle = Bundle(path: path) else { debugPrint("Non-Fatal Error: could not create bundle object for SpringRTS"); return }
-
-        let process = Process()
-        process.launchPath = bundle.executablePath
-        process.arguments = [LaunchScriptWriter.filePath]
-        process.terminationHandler = { _ in
-            debugPrint("Spring engine exited")
-            self.springProcess = nil
+    func startSpringRTS(_ launchObject: LaunchScriptConvertible, shouldRecordDemo: Bool, completionHandler: (() -> Void)?) {
+        guard let scriptData = launchObject.launchScript(shouldRecordDemo: shouldRecordDemo).data(using: .utf8) else {
             completionHandler?()
+            return
         }
-        process.launch()
-        springProcess = process
+        let app = "Spring_103.0.app"
+        system.write(scriptData, to: scriptFileURL)
+        system.launchApplication(app, with: [scriptFileURL.path], completionHandler: { [weak self] in
+            completionHandler?()
+            if shouldRecordDemo {
+                try? self?.replayController.loadReplays()
+            }
+            self?.canLaunchSpring = true
+        })
+        canLaunchSpring = false
     }
-
-    // TODO
-
-//    func launch(_ replay: Replay) {
-//        let scriptTxtManager = LaunchScriptWriter()
-//        scriptTxtManager.prepareForLaunchOfReplay()
-//        startSpringRTS()
-//    }
-
-//    func launch(_ game: HostedGame) {
-//        let scriptTxtManager = LaunchScriptWriter()
-//        scriptTxtManager.prepareForLaunchOfSinglePlayerGame(game)
-//        startSpringRTS()
-//    }
 }

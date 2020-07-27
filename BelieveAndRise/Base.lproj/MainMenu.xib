@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
     </dependencies>
     <objects>
@@ -701,6 +702,11 @@
                             <menuItem title="Downloads" keyEquivalent="D" id="9rW-Rg-ueV">
                                 <connections>
                                     <action selector="showDownloads:" target="Voe-Tx-rLC" id="nGk-K1-Abs"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Replays" keyEquivalent="R" id="Uwq-bt-Xy7" userLabel="Replays…">
+                                <connections>
+                                    <action selector="showReplays:" target="Voe-Tx-rLC" id="Cu9-Sd-t1N"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>

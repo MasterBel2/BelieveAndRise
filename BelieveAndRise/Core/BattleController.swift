@@ -17,7 +17,7 @@ final class BattleController {
     /// The battleroom the user is currently in, if the user has joined one.
 	var battleroom: Battleroom?
     /// Provides controll of a spring process, for joining battles specified by the host.
-    let springProcessController = SpringProcessController()
+    let springProcessController: SpringProcessController
     private let windowManager: ClientWindowManager
     /// The server this controller provides an interface for.
 	weak var server: TASServer?
@@ -25,13 +25,14 @@ final class BattleController {
     // MARK: - Properties
 
     /// A unique string used to identify this user when connecting to another host.
-    let scriptPassword = String(0.hashValue)
+    let scriptPassword = UUID().uuidString
 
     // MARK: - Lifecycle
 
-    init(battleList: List<Battle>, windowManager: ClientWindowManager) {
+    init(battleList: List<Battle>, windowManager: ClientWindowManager, springProcessController: SpringProcessController) {
 		self.battleList = battleList
         self.windowManager = windowManager
+        self.springProcessController = springProcessController
 	}
 
     // MARK: - Interacting with battles
