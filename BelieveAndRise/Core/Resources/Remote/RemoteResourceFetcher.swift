@@ -32,6 +32,9 @@ final class RemoteResourceFetcher: DownloaderDelegate {
     private let downloadController: DownloadController
 	private let windowManager: WindowManager
 
+    /// In-progress download task cache.
+    private var tasks: [UUID : URLSessionDownloadTask] = [:]
+
 	init(downloadController: DownloadController, windowManager: WindowManager) {
         self.downloadController = downloadController
 		self.windowManager = windowManager
@@ -90,22 +93,27 @@ final class RemoteResourceFetcher: DownloaderDelegate {
         guard let url = URL(string: "https://api.springfiles.com/json.php?category=\(resource.category)&torrent=true&springname=\(resource.name.replacingOccurrences(of: " ", with: "%20"))") else {
             return
         }
+        let taskID = UUID()
 
         let downloadTask = URLSession.shared.downloadTask(with: url) { [weak self] (urlOrNil, responseOrNil, errorOrNil) in
             guard let self = self else {
                 return
             }
-            guard let url = urlOrNil else {
+            defer {
+                self.tasks.removeValue(forKey: taskID)
+            }
+            guard let url = urlOrNil,
+                let data = FileManager.default.contents(atPath: url.path) else {
                 self.completionHandler?(false)
                 return
             }
-            let data = FileManager.default.contents(atPath: url.path)!
             let jsonDecoder = JSONDecoder()
             let results = try? jsonDecoder.decode([SpringArchiveInfo].self, from: data)
 
             completionHandler(results)
         }
         downloadTask.resume()
+        tasks[taskID] = downloadTask
     }
 
     // MARK: - DownloaderDelegate
