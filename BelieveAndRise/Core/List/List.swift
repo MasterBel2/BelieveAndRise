@@ -29,7 +29,7 @@ protocol ListProtocol: AnyObject {
 }
 
 /// A list wraps a set of objects by their ID.
-final class List<ListItem: Sortable>: ListProtocol {
+final class List<ListItem>: ListProtocol {
 
     // MARK: - Behaviour
 
@@ -93,12 +93,6 @@ final class List<ListItem: Sortable>: ListProtocol {
         queue = DispatchQueue(label: title)
 
         parent?.sublists.append(self)
-    }
-    /// Creates a list with the given title, sorted by the given sort key
-    convenience init(title: String, sortKey: ListItem.PropertyKey, parent: List<ListItem>? = nil) {
-        let sorter = SortKeyBasedSorter<ListItem>(sortKey: sortKey)
-        self.init(title: title, sorter: sorter, parent: parent)
-        sorter.list = self
     }
 
     // MARK: - Retrieving list data
@@ -251,5 +245,13 @@ final class List<ListItem: Sortable>: ListProtocol {
                 }
             }).forEach({ debugOnlyPrint($0)})
         }
+    }
+}
+extension List where ListItem: Sortable {
+    /// Creates a list with the given title, sorted by the given sort key
+    convenience init(title: String, sortKey: ListItem.PropertyKey, parent: List<ListItem>? = nil) {
+        let sorter = SortKeyBasedSorter<ListItem>(sortKey: sortKey)
+        self.init(title: title, sorter: sorter, parent: parent)
+        sorter.list = self
     }
 }
