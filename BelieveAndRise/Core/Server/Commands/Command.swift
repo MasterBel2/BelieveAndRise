@@ -174,5 +174,5 @@ protocol CSCommand: Command {
  */
 protocol SCCommand: Command {
     /// Updates the client's data and triggers UI updates. (The UI knows how to update itself.)
-    func execute(on connection: Connection)
+    func execute(on client: Client)
 }

@@ -30,7 +30,7 @@ final class UserAuthenticationController: UserAuthenticationControllerDisplayDel
     /// The controller's interface with user defaults.
     let preferencesController: PreferencesController
     /// The controller's interface with the UI.
-    let windowManager: ConnectionWindowManager
+    let windowManager: ClientWindowManager
     /// The server for the authentication attempt is being made.
     let server: TASServer
 
@@ -48,7 +48,7 @@ final class UserAuthenticationController: UserAuthenticationControllerDisplayDel
 
     // MARK: - Lifecycle
 
-    init(server: TASServer, windowManager: ConnectionWindowManager, preferencesController: PreferencesController) {
+    init(server: TASServer, windowManager: ClientWindowManager, preferencesController: PreferencesController) {
         self.server = server
         self.windowManager = windowManager
         self.preferencesController = preferencesController

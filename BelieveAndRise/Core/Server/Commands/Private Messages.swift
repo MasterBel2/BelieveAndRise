@@ -30,7 +30,7 @@ struct SCSayPrivateCommand: SCCommand {
 		message = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -61,7 +61,7 @@ struct SCSaidPrivateCommand: SCCommand {
 		message = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -92,7 +92,7 @@ struct SCSayPrivateEXCommand: SCCommand {
 		message = sentences[1]
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -123,7 +123,7 @@ struct SCSaidPrivateEXCommand: SCCommand {
 		message = sentences[1]
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	

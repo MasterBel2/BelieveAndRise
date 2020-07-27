@@ -1,5 +1,5 @@
 //
-//  Connection.swift
+//  Client.swift
 //  BelieveAndRise
 //
 //  Created by MasterBel2 on 8/9/19.
@@ -9,21 +9,18 @@
 import Foundation
 
 /**
- An object that at an abstract level represents a connection between a user and the server.
+ An object that at an abstract level represents a client between a user and the server.
 
- A connection handles the top-level data and windows associated with a client-server connection, as well as handling the outputting of
- commands back to the server.
+ A client handles the top-level data and windows associated with a client-server connection, as well as handling the outputting of commands back to the server.
 
- Updates received from the server are processed by instances of the SCServerCommand protocol. The Connection object simply manages
- the interactions between its various components as needed.
+ Updates received from the server are processed by instances of the SCServerCommand protocol. The Client object simply manages the interactions between its various components as needed.
  */
-final class Connection: ServerSelectionDelegate {
+final class Client: ServerSelectionDelegate {
 
     // MARK: - Dependencies
 
     /// Provides platform-specific windows.
-    let windowManager: ConnectionWindowManager
-    ///
+    let windowManager: ClientWindowManager
     let resourceManager: ResourceManager
     /// The user's preferences controller.
     let preferencesController: PreferencesController
@@ -60,7 +57,7 @@ final class Connection: ServerSelectionDelegate {
     // MARK: - Lifecycle
 
 
-    init(windowManager: ConnectionWindowManager, resourceManager: ResourceManager, preferencesController: PreferencesController, address: ServerAddress? = nil) {
+    init(windowManager: ClientWindowManager, resourceManager: ResourceManager, preferencesController: PreferencesController, address: ServerAddress? = nil) {
         self.windowManager = windowManager
         self.resourceManager = resourceManager
         self.preferencesController = preferencesController
@@ -69,10 +66,10 @@ final class Connection: ServerSelectionDelegate {
         chatController = ChatController(windowManager: windowManager)
 
         // Configure the command handler
-        commandHandler.connection = self
+        commandHandler.client = self
         commandHandler.setProtocol(.unknown)
 
-        accountInfoController.connection = self
+        accountInfoController.client = self
 
         // Initialise server
         if let address = address {
@@ -80,7 +77,7 @@ final class Connection: ServerSelectionDelegate {
         }
     }
 
-    // MARK: - Interacting with the server connection
+    // MARK: - Interacting with the server client
 
     func start() {
         server.connect()

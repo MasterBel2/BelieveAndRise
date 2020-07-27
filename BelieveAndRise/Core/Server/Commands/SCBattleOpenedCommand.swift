@@ -85,12 +85,12 @@ struct SCBattleOpenedCommand: SCCommand {
     
     // MARK: - Behaviour
     
-    func execute(on connection: Connection) {
-        guard let founderID = connection.id(forPlayerNamed: founder) else {
+    func execute(on client: Client) {
+        guard let founderID = client.id(forPlayerNamed: founder) else {
             fatalError("Could not find battle host with username \(founder)")
         }
         let battle = Battle(
-            serverUserList: connection.userList,
+            serverUserList: client.userList,
             isReplay: isReplay,
             natType: natType,
             founder: founder,
@@ -109,7 +109,7 @@ struct SCBattleOpenedCommand: SCCommand {
             channel: channel
         )
 
-        connection.battleList.addItem(battle, with: battleID)
+        client.battleList.addItem(battle, with: battleID)
     }
 
     // MARK: - String representation
@@ -139,7 +139,7 @@ struct SCOpenBattleCommand: SCCommand {
 		self.battleID = battleID
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("TODO")
 	}
 	
@@ -165,8 +165,8 @@ struct SCOpenBattleFailedCommand: SCCommand {
 		reason = description
 	}
 	
-	func execute(on connection: Connection) {
-		connection.receivedError(.openBattleFailed(reason: reason))
+	func execute(on client: Client) {
+		client.receivedError(.openBattleFailed(reason: reason))
 	}
 	
 	var description: String {

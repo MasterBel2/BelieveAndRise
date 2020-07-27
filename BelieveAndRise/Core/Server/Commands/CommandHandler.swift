@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- Interprets commands received from the server and updates the connection.
+ Interprets commands received from the server and updates the client.
 
  By default, the CommandHandler does not recognise any commands. A protocol must be set (`setProtocol(_:)` before any commands will be recognised. If you do not know the protocol you will be connecting to, setting `ServerProtocol.unknown` will allow the handler to detect which protocol is being used by the server it connects to, and therefore update its protocol handling appropriately.
  */
@@ -17,22 +17,22 @@ final class CommandHandler: TASServerDelegate {
 
     // MARK: - Dependencies
 
-	/// The connection the handler handles commands for.
-    weak var connection: Connection?
+	/// The client the handler handles commands for.
+    weak var client: Client?
 
     // MARK: - Something
 
 	/// A dictionary specifying data structures relating to the server commands that the command handler will handle.
 	private var incomingCommands: [String : SCCommand.Type] = [:]
 	/// Blocks to be executed when a command with a specific ID is received.
-    private var specificCommandHandlers: [Int : (SCCommand) -> ()] = [:]
+    var specificCommandHandlers: [Int : (SCCommand) -> ()] = [:]
 
     // MARK: - TASServerDelegate
 
     func server(_ server: TASServer, didReceive serverCommand: String) {
-        // If the connection no longer exists, there's no benefit to receiving further commands
+        // If the client no longer exists, there's no benefit to receiving further commands
         // from the server, so we'll disconnect.
-        guard let connection = connection else {
+        guard let client = client else {
             server.disconnect()
             return
         }
@@ -61,7 +61,7 @@ final class CommandHandler: TASServerDelegate {
             specificCommandHandlers[messageID]?(command)
             specificCommandHandlers.removeValue(forKey: messageID)
         }
-        command.execute(on: connection)
+        command.execute(on: client)
     }
 
 	/// Stores the handler and executes it on the command tagged with the given ID.

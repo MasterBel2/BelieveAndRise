@@ -37,8 +37,8 @@ struct TASServerCommand: SCCommand {
         return "TASSERVER \(protocolVersion) \(springVersion) \(udpPort) \(lanMode ? 1 : 0)"
     }
 
-    func execute(on connection: Connection) {
-        connection.commandHandler.setProtocol(.tasServer(version: protocolVersion))
-        connection.presentLogin()
+    func execute(on client: Client) {
+        client.commandHandler.setProtocol(.tasServer(version: protocolVersion))
+        client.presentLogin()
     }
 }

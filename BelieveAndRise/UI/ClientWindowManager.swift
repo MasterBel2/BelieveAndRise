@@ -1,5 +1,5 @@
 //
-//  ConnectionWindowManager.swift
+//  ClientWindowManager.swift
 //  BelieveAndRise
 //
 //  Created by MasterBel2 on 9/2/20.
@@ -8,9 +8,9 @@
 
 import Cocoa
 
-/// A set of functions providing a platform-agnostic interface for platform-specific windows associated with a single connection.
-protocol ConnectionWindowManager {
-    func configure(for connection: Connection)
+/// A set of functions providing a platform-agnostic interface for platform-specific windows associated with a single client.
+protocol ClientWindowManager {
+    func configure(for client: Client)
 
     func presentInitialWindow()
     /// Displays an window with information about the logged in user's account
@@ -35,9 +35,9 @@ protocol ConnectionWindowManager {
     func setBattleController(_ battleController: BattleController)
 }
 
-#warning("ConnectionWindowManager accesses the UI and should be made thread-safe by use of `executeOnMain` on its non-private functions.")
-/// A MacOS-specific implementation of `ConnectionWindowManager`.
-final class MacOSConnectionWindowManager: NSResponder, ConnectionWindowManager {
+#warning("ClientWindowManager accesses the UI and should be made thread-safe by use of `executeOnMain` on its non-private functions.")
+/// A MacOS-specific implementation of `ClientWindowManager`.
+final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
 
     // MARK: - Windows
 
@@ -47,8 +47,8 @@ final class MacOSConnectionWindowManager: NSResponder, ConnectionWindowManager {
 
     // MARK: - Dependencies
 
-    weak var connection: Connection?
-    weak var connectionController: ConnectionController?
+    weak var client: Client?
+    weak var clientController: ClientController?
     private let defaultsController: InterfaceDefaultsController
 
     // MARK: - Sheets
@@ -59,10 +59,10 @@ final class MacOSConnectionWindowManager: NSResponder, ConnectionWindowManager {
     ]
 
     @IBAction func accountWindow(_ sender: Any) {
-        guard let connection = connection else {
+        guard let client = client else {
             return
         }
-        presentAccountWindow(connection.accountInfoController)
+        presentAccountWindow(client.accountInfoController)
     }
 
     // MARK: - Lifecycle
@@ -89,12 +89,12 @@ final class MacOSConnectionWindowManager: NSResponder, ConnectionWindowManager {
         mainWindowController.window?.makeKeyAndOrderFront(self)
     }
 
-    func configure(for connection: Connection) {
-        self.connection = connection
-        setBattleController(connection.battleController)
-        setChatController(connection.chatController)
-        displayBattlelist(connection.battleList)
-        displayServerUserlist(connection.userList)
+    func configure(for client: Client) {
+        self.client = client
+        setBattleController(client.battleController)
+        setChatController(client.chatController)
+        displayBattlelist(client.battleList)
+        displayServerUserlist(client.userList)
     }
 
     // MARK: - Sheets
@@ -107,11 +107,11 @@ final class MacOSConnectionWindowManager: NSResponder, ConnectionWindowManager {
         serverSelectionViewController.delegate = delegate
         serverSelectionViewController.didCancelOperation = { [weak self] in
             guard let self = self,
-                let connection = self.connection else {
+                let client = self.client else {
                 return
             }
             self.mainWindowController.close()
-            self.connectionController?.destroyConnection(connection)
+            self.clientController?.destroyClient(client)
         }
         mainWindowController.window?.contentViewController?.presentAsSheet(serverSelectionViewController)
         self.serverSelectionViewController = serverSelectionViewController
@@ -189,13 +189,12 @@ final class MacOSConnectionWindowManager: NSResponder, ConnectionWindowManager {
         let userAuthenticationViewController = UserAuthenticationViewController()
         userAuthenticationViewController.didCancelOperation = { [weak self] in
             guard let self = self,
-                let connection = self.connection else {
+                let client = self.client else {
                 return
             }
-            self.presentServerSelection(delegate: connection)
+            self.presentServerSelection(delegate: client)
         }
         userAuthenticationViewController.delegate = controller
-        controller.display = userAuthenticationViewController
         _userAuthenticationViewController = userAuthenticationViewController
         return userAuthenticationViewController
     }

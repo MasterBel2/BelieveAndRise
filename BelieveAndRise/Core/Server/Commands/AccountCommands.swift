@@ -59,8 +59,10 @@ struct SCLoginAcceptedCommand: SCCommand {
         return "ACCEPTED \(username)"
     }
 
-    func execute(on connection: Connection) {
-        connection.userAuthenticationController?.loginDidSucceed(for: username)
+    /// Uberserver does not handle command IDs properly, so this hacks around that (since we know that we don't send a second command handler before login completes).
+    func execute(on client: Client) {
+        client.commandHandler.specificCommandHandlers.first?.value(self)
+        client.commandHandler.specificCommandHandlers = [:]
     }
 }
 
@@ -85,11 +87,13 @@ struct SCLoginDeniedCommand: SCCommand {
 		}
 		self.reason = sentences[0]
 	}
-	
-	func execute(on connection: Connection) {
-		connection.receivedError(.loginDenied(reason: reason))
-	}
-	
+
+    /// Uberserver does not handle command IDs properly, so this hacks around that (since we know that we don't send a second command handler before login completes).
+	func execute(on client: Client) {
+        client.commandHandler.specificCommandHandlers.first?.value(self)
+        client.commandHandler.specificCommandHandlers = [:]
+    }
+
 	var description: String {
 		return "DENIED \(reason)"
 	}
@@ -118,8 +122,8 @@ struct SCRegistrationDeniedCommand: SCCommand {
 		self.reason = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
-		connection.receivedError(.registrationDenied(reason: reason))
+	func execute(on client: Client) {
+		client.receivedError(.registrationDenied(reason: reason))
 	}
 	
 	var description: String {
@@ -145,7 +149,7 @@ struct SCRegistrationAcceptedCommand: SCCommand {
 	
 	init?(description: String) {}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("Display some kind of success")
 	}
 	
@@ -167,7 +171,7 @@ struct SCLoginInfoEndCommand: SCCommand {
 	init?(description: String) {
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 	}
 	
 	var description: String {
@@ -195,7 +199,7 @@ struct SCAgreementCommand: SCCommand {
 		self.agreement = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("Update agreement")
 	}
 	
@@ -217,7 +221,7 @@ struct SCAgreementEndCommand: SCCommand {
 	init?(description: String) {
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("Display agreement now")
 	}
 	
@@ -239,7 +243,7 @@ struct SCChangeEmailRequestAcceptedCommand: SCCommand {
 	init?(description: String) {
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("Should display some kind of success here")
 	}
 	
@@ -268,8 +272,8 @@ struct SCChangeEmailRequestDeniedCommand: SCCommand {
 		self.errorMessage = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
-		connection.receivedError(.changeEmailRequestDenied(errorMessage: errorMessage))
+	func execute(on client: Client) {
+		client.receivedError(.changeEmailRequestDenied(errorMessage: errorMessage))
 	}
 	
 	var description: String {
@@ -290,7 +294,7 @@ struct SCChangeEmailAcceptedCommand: SCCommand {
 	init?(description: String) {
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("Should display some kind of success here")
 	}
 	
@@ -319,8 +323,8 @@ struct SCChangeEmailDeniedCommand: SCCommand {
 		self.errorMessage = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
-		connection.receivedError(.changeEmailDenied(errorMessage: errorMessage))
+	func execute(on client: Client) {
+		client.receivedError(.changeEmailDenied(errorMessage: errorMessage))
 	}
 	
 	var description: String {
@@ -341,8 +345,9 @@ struct SCResendVerificationAcceptedCommand: SCCommand {
 	init?(description: String) {
 		#warning("Should display some kind of success here")
 	}
-	
-	func execute(on connection: Connection) {
+
+    /// Noop: this is a response and does not need an action.
+	func execute(on client: Client) {
 	}
 	
 	var description: String {
@@ -370,8 +375,8 @@ struct SCResendVerificationDeniedCommand: SCCommand {
 		self.errorMessage = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
-		connection.receivedError(.resendVerificationDenied(errorMessage: errorMessage))
+	func execute(on client: Client) {
+		client.receivedError(.resendVerificationDenied(errorMessage: errorMessage))
 	}
 	
 	var description: String {
@@ -392,7 +397,7 @@ struct SCResetPasswordRequestAcceptedCommand: SCCommand {
 	init?(description: String) {
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("Should display some kind of success here")
 	}
 	
@@ -420,8 +425,8 @@ struct SCResetPasswordRequestDeniedCommand: SCCommand {
 		self.errorMessage = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
-		connection.receivedError(.resetPasswordRequestDenied(errorMessage: errorMessage))
+	func execute(on client: Client) {
+		client.receivedError(.resetPasswordRequestDenied(errorMessage: errorMessage))
 	}
 	
 	var description: String {
@@ -443,7 +448,7 @@ struct SCResetPasswordAcceptedCommand: SCCommand {
 	
 	init?(description: String) {}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("Should display some kind of success here")
 	}
 	
@@ -472,8 +477,8 @@ struct SCResetPasswordDeniedCommand: SCCommand {
 		errorMessage = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
-		connection.receivedError(.resetPasswordDenied(errorMessage: errorMessage))
+	func execute(on client: Client) {
+		client.receivedError(.resetPasswordDenied(errorMessage: errorMessage))
 	}
 	
 	var description: String {

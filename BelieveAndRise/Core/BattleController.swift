@@ -12,13 +12,13 @@ final class BattleController {
 
     // MARK: - Dependencies
 
-    /// The battlelist associated with the server connection this controller provides an outgoing interface for.
+    /// The battlelist associated with the server client this controller provides an outgoing interface for.
 	let battleList: List<Battle>
     /// The battleroom the user is currently in, if the user has joined one.
 	var battleroom: Battleroom?
     /// Provides controll of a spring process, for joining battles specified by the host.
     let springProcessController = SpringProcessController()
-    private let windowManager: ConnectionWindowManager
+    private let windowManager: ClientWindowManager
     /// The server this controller provides an interface for.
 	weak var server: TASServer?
 
@@ -29,7 +29,7 @@ final class BattleController {
 
     // MARK: - Lifecycle
 
-    init(battleList: List<Battle>, windowManager: ConnectionWindowManager) {
+    init(battleList: List<Battle>, windowManager: ClientWindowManager) {
 		self.battleList = battleList
         self.windowManager = windowManager
 	}

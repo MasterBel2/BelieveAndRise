@@ -13,14 +13,14 @@ final class AccountInfoController: AccountInfoDelegate {
 	
 	// MARK: - Depedencies
 	
-	/// The connection associated with the account.
-    weak var connection: Connection?
+	/// The client associated with the account.
+    weak var client: Client?
 	
 	// MARK: - Data
 
 	/// The logged-in user which the metadata describes.
     var user: User? {
-        return connection?.connectedAccount
+        return client?.connectedAccount
     }
 
     /// A cached value for email. Wiped on present.
@@ -77,15 +77,15 @@ final class AccountInfoController: AccountInfoDelegate {
 
     func retrieveAccountData(completionBlock: @escaping (AccountData) -> ()) {
         self.completionBlock = completionBlock
-        connection?.server?.send(CSGetUserInfoCommand())
+        client?.server?.send(CSGetUserInfoCommand())
         presentIfReady()
     }
 
     // MARK: - AccountInfoDelegate
 
     func requestVerficationCodeForChangingEmail(to newEmailAddress: String, password: String, completionBlock: @escaping (String?) -> ()) {
-        if password == connection?.userAuthenticationController?.password {
-            connection?.server?.send(CSChangeEmailRequestCommand(newEmail: newEmailAddress)) { response in
+        if password == client?.userAuthenticationController?.password {
+            client?.server?.send(CSChangeEmailRequestCommand(newEmail: newEmailAddress)) { response in
                 if let _ = response as? SCChangeEmailRequestAcceptedCommand {
                     completionBlock(nil)
                 } else if let failureResponse = response as? SCChangeEmailRequestDeniedCommand {
@@ -100,8 +100,8 @@ final class AccountInfoController: AccountInfoDelegate {
     }
 
     func changeEmail(to newEmailAddress: String, password: String, verificationCode: String, completionBlock: @escaping (String?) -> ()) {
-        if password == connection?.userAuthenticationController?.password {
-            connection?.server?.send(CSChangeEmailCommand(newEmail: newEmailAddress, verificationCode: verificationCode)) { response in
+        if password == client?.userAuthenticationController?.password {
+            client?.server?.send(CSChangeEmailCommand(newEmail: newEmailAddress, verificationCode: verificationCode)) { response in
                 if let _ = response as? SCChangeEmailAcceptedCommand {
                     completionBlock(nil)
                 } else if let failureResponse = response as? SCChangeEmailDeniedCommand {
@@ -114,15 +114,15 @@ final class AccountInfoController: AccountInfoDelegate {
     }
 
     func renameAccount(to newAccountName: String, password: String, completionBlock: @escaping (String?) -> ()) {
-        if password == connection?.userAuthenticationController?.password {
-            connection?.server?.send(CSRenameAccountCommand(newUsername: newAccountName))
+        if password == client?.userAuthenticationController?.password {
+            client?.server?.send(CSRenameAccountCommand(newUsername: newAccountName))
             completionBlock(nil)
         }
     }
 
     func changePassword(from oldPassword: String, to newPassword: String, completionBlock: @escaping (String?) -> ()) {
-        if oldPassword == connection?.userAuthenticationController?.password {
-            connection?.server?.send(CSChangePasswordCommand(oldPassword: oldPassword, newPassword: newPassword))
+        if oldPassword == client?.userAuthenticationController?.password {
+            client?.server?.send(CSChangePasswordCommand(oldPassword: oldPassword, newPassword: newPassword))
             completionBlock(nil)
         }
     }

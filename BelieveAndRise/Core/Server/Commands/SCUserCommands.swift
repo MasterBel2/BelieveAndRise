@@ -48,10 +48,10 @@ struct SCAddUserCommand: SCCommand {
         lobbyID = sentences[0]
     }
 
-    func execute(on connection: Connection) {
+    func execute(on client: Client) {
         let userProfile = User.Profile(id: userID, fullUsername: username, lobbyID: lobbyID)
         let user = User(profile: userProfile)
-        connection.userList.addItem(user, with: userID)
+        client.userList.addItem(user, with: userID)
     }
 
     var description: String {
@@ -80,11 +80,11 @@ struct SCRemoveUserCommand: SCCommand {
 		username = words[0]
 	}
 	
-	func execute(on connection: Connection) {
-		guard let userID = connection.id(forPlayerNamed: username) else {
+	func execute(on client: Client) {
+		guard let userID = client.id(forPlayerNamed: username) else {
 			return
 		}
-		connection.userList.removeItem(withID: userID)
+		client.userList.removeItem(withID: userID)
 	}
 	
 	var description: String {
@@ -115,19 +115,19 @@ struct SCClientStatusCommand: SCCommand {
 		status = User.Status(rawValue: statusValue)
 	}
 	
-	func execute(on connection: Connection) {
-		guard let userID = connection.id(forPlayerNamed: username),
-			let user = connection.userList.items[userID] else {
+	func execute(on client: Client) {
+		guard let userID = client.id(forPlayerNamed: username),
+			let user = client.userList.items[userID] else {
 				return
 		}
 
         // Update battleroom before we update the status, so we can access the previous status
-        if let battleroom = connection.battleController.battleroom,
+        if let battleroom = client.battleController.battleroom,
             userID == battleroom.battle.founderID,
             user.status.isIngame != status.isIngame {
             // TODO: move this logic into `Battleroom.list(_:itemWasUpdatedAt:)` ?
             if status.isIngame {
-                connection.battleController.startGame()
+                client.battleController.startGame()
             }
             user.status = status
             /// Display new status after the update.

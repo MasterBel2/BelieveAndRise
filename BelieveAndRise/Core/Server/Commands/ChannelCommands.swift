@@ -30,13 +30,13 @@ struct SCJoinCommand: SCCommand {
         return "JOIN \(channelName)"
     }
 
-    func execute(on connection: Connection) {
-		let channelID = connection.id(forChannelnamed: channelName)
-		guard connection.channelList.items[channelID] == nil else {
+    func execute(on client: Client) {
+		let channelID = client.id(forChannelnamed: channelName)
+		guard client.channelList.items[channelID] == nil else {
 			return
 		}
-        let channel = Channel(title: channelName, rootList: connection.userList)
-        connection.channelList.addItem(channel, with: channelID)
+        let channel = Channel(title: channelName, rootList: client.userList)
+        client.channelList.addItem(channel, with: channelID)
     }
 }
 
@@ -68,8 +68,8 @@ struct SCJoinFailedCommand: SCCommand {
         return "JOINFAILED \(channelName) \(reason)"
     }
 
-    func execute(on connection: Connection) {
-        connection.receivedError(.joinFailed(channel: channelName, reason: reason))
+    func execute(on client: Client) {
+        client.receivedError(.joinFailed(channel: channelName, reason: reason))
     }
 }
 
@@ -133,9 +133,9 @@ struct SCChannelTopicCommand: SCCommand {
         return "CHANNELTOPIC \(channelName) \(author) \(topic)"
     }
 
-    func execute(on connection: Connection) {
-		let channelID = connection.id(forChannelnamed: channelName)
-        guard let channel = connection.channelList.items[channelID] else {
+    func execute(on client: Client) {
+		let channelID = client.id(forChannelnamed: channelName)
+        guard let channel = client.channelList.items[channelID] else {
             return
         }
         channel.topic = topic
@@ -236,7 +236,7 @@ struct SCChannelMessageCommand: SCCommand {
         return "CHANNELMESSAGE \(channelName) \(message)"
     }
 
-    func execute(on connection: Connection) {
+    func execute(on client: Client) {
         #warning("Incomplete implementation")
     }
 }
@@ -309,10 +309,10 @@ struct SCSaidCommand: SCCommand {
         return "SAID \(channelName) \(username) \(message)"
     }
 
-    func execute(on connection: Connection) {
-		let channelID = connection.id(forChannelnamed: channelName)
-		guard let channel = connection.channelList.items[channelID],
-            let userID = connection.id(forPlayerNamed: username) else {
+    func execute(on client: Client) {
+		let channelID = client.id(forChannelnamed: channelName)
+		guard let channel = client.channelList.items[channelID],
+            let userID = client.id(forPlayerNamed: username) else {
 				return
 		}
         channel.receivedNewMessage(ChatMessage(
@@ -392,10 +392,10 @@ struct SCSaidExCommand: SCCommand {
         return "SAIDEX \(channelName) \(username) \(message)"
     }
 
-    func execute(on connection: Connection) {
-		let channelID = connection.id(forChannelnamed: channelName)
-        guard let channel = connection.channelList.items[channelID],
-            let senderID = connection.id(forPlayerNamed: username) else {
+    func execute(on client: Client) {
+		let channelID = client.id(forChannelnamed: channelName)
+        guard let channel = client.channelList.items[channelID],
+            let senderID = client.id(forPlayerNamed: username) else {
             return
         }
         channel.receivedNewMessage(ChatMessage(
@@ -434,7 +434,7 @@ struct SCChannelCommand: SCCommand {
 		topic = sentences.count == 1 ? sentences[0] : nil
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -457,7 +457,7 @@ struct SCEndOfChannelsCommand: SCCommand {
 	
 	init?(description: String) {}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	

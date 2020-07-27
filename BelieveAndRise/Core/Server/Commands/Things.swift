@@ -33,7 +33,7 @@ struct SCIgnoreCommand: SCCommand {
 		reason = sentences.count == 1 ? sentences[0] : nil
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -65,7 +65,7 @@ struct SCUnignoreCommand: SCCommand {
 		self.username = words[0]
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -84,7 +84,7 @@ struct SCIgnoreListBegin: SCCommand {
 	
 	init?(description: String) {}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -115,7 +115,7 @@ struct SCIgnoreListCommand: SCCommand {
 		reason = sentences.count == 1 ? sentences[0] : nil
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -138,7 +138,7 @@ struct SCCIgnoreListEndCommand: SCCommand {
 	
 	init?(description: String) {}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -171,7 +171,7 @@ struct SCCompFlagsCommand: SCCommand {
 		self.unrecognisedFlags = unrecognisedFlags
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		debugOnlyPrint("Unrecognised flags: \(unrecognisedFlags.joined(separator: " "))")
 	}
 	
@@ -203,8 +203,8 @@ struct SCRedirectCommand: SCCommand {
 		self.port = port
 	}
 	
-	func execute(on connection: Connection) {
-		connection.redirect(to: ServerAddress(location: ip, port: port))
+	func execute(on client: Client) {
+		client.redirect(to: ServerAddress(location: ip, port: port))
 	}
 	
 	var description: String {
@@ -223,8 +223,8 @@ struct SCFailedCommand: SCCommand {
 	
 	init?(description: String) {}
 	
-	func execute(on connection: Connection) {
-		connection.receivedError(.failed)
+	func execute(on client: Client) {
+		client.receivedError(.failed)
 	}
 	
 	var description: String {
@@ -251,7 +251,7 @@ struct SCJSONCommand: SCCommand {
 		json = description
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 //		jsonCommandHandler.execute(json, on: connection)
 	}
 	
@@ -276,7 +276,7 @@ struct SCPongCommand: SCCommand {
 	
 	init?(description: String) {}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -298,7 +298,7 @@ struct SCOKCommand: SCCommand {
 	
 	init?(description: String) {}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("TODO")
 	}
 	

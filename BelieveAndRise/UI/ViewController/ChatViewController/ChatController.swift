@@ -14,7 +14,7 @@ final class ChatController {
     /// The server the controller is associated with.
     weak var server: TASServer?
     /// Provides an API for the user interface associated with this 
-    let windowManager: ConnectionWindowManager
+    let windowManager: ClientWindowManager
 
     var channels: [ChannelSummary] = []
 
@@ -25,7 +25,7 @@ final class ChatController {
         let isPrivate: Bool
     }
 
-    init(windowManager: ConnectionWindowManager) {
+    init(windowManager: ClientWindowManager) {
         self.windowManager = windowManager
     }
 

@@ -20,7 +20,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow?
 	var parser: TASServerDelegate!
 
-	var connectionController: ConnectionController!
+	var clientController: ClientController!
     var resourceManager: ResourceManager!
     var downloadController: DownloadController!
     var mainWindowController: NSWindowController?
@@ -30,16 +30,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Menu Items
 
-    @IBOutlet weak var recentConnectionsMenuItem: NSMenu!
+    @IBOutlet weak var recentClientsMenuItem: NSMenu!
 
     /// Displays downloads to the user.
 	@IBAction func showDownloads(_ sender: NSMenuItem) {
 		windowManager.presentDownloads(downloadController)
 	}
 
-    /// Opens a new connection.
-    @IBAction func newServerConnection(_ sender: Any) {
-        connectionController.createNewConnection()
+    /// Opens a new client.
+    @IBAction func newClient(_ sender: Any) {
+        clientController.createNewClient()
     }
     @IBAction func printResponders(_ sender: Any) {
         var responder = NSApplication.shared.keyWindow?.firstResponder
@@ -64,10 +64,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 		)
         resourceManager.loadLocalResources()
 
-        let connectionController = ConnectionController(windowManager: windowManager, resourceManager: resourceManager, preferencesController: PreferencesController())
-        connectionController.createNewConnection()
+        let clientController = ClientController(windowManager: windowManager, resourceManager: resourceManager, preferencesController: PreferencesController.default)
+        clientController.createNewClient()
 
-        self.connectionController = connectionController
+        self.clientController = clientController
         self.resourceManager = resourceManager
 	}
 }

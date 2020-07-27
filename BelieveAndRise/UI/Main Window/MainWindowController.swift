@@ -12,7 +12,7 @@ final class MainWindowController: NSWindowController {
 
     // MARK: - Dependencies
 
-    weak var connection: Connection?
+    weak var client: Client?
     private weak var chatController: ChatController?
     private weak var battleController: BattleController?
 

@@ -35,7 +35,7 @@ struct SCBridgeClientFromCommand: SCCommand {
 		externalUsername = words[2]
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("TODO")
 	}
 	
@@ -71,7 +71,7 @@ struct SCUnbridgeClientFromCommand: SCCommand {
 		externalUsername = words[2]
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("TODO")
 	}
 	
@@ -105,7 +105,7 @@ struct SCJoinedFromCommand: SCCommand {
 		username = words[2]
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("TODO")
 	}
 	
@@ -136,7 +136,7 @@ struct SCLeftFromCommand: SCCommand {
 		username = words[1]
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -171,7 +171,7 @@ struct SCSaidFromCommand: SCCommand {
 		message = sentences.count == 1 ? sentences[0] : nil
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -213,7 +213,7 @@ struct SCClientsFromCommand: SCCommand {
         return "CLIENTSFROM \(channelName) \(bridge) \(clients.joined(separator: " "))"
     }
 
-    func execute(on connection: Connection) {
+    func execute(on client: Client) {
 		#warning("todo")
     }
 }

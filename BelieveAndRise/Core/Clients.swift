@@ -13,13 +13,13 @@ import Foundation
 // - SCJoinedCommand
 // - SCLeftCommand
 
-private func addClientsToChannel(named channelName: String, on connection: Connection, usernames: [String]) {
-    guard let channel = connection.channelList.items[connection.id(forChannelnamed: channelName)] else {
+private func addUsersToChannel(named channelName: String, on client: Client, usernames: [String]) {
+    guard let channel = client.channelList.items[client.id(forChannelnamed: channelName)] else {
 		return
 	}
 	
 	for username in usernames {
-		guard let id = connection.id(forPlayerNamed: username) else {
+		guard let id = client.id(forPlayerNamed: username) else {
 			return
 		}
 		channel.userlist.addItemFromParent(id: id)
@@ -63,8 +63,8 @@ struct SCClientsCommand: SCCommand {
         return "CLIENTS \(channelName) \(clients.joined(separator: " "))"
     }
 
-    func execute(on connection: Connection) {
-        addClientsToChannel(named: channelName, on: connection, usernames: clients)
+    func execute(on client: Client) {
+        addUsersToChannel(named: channelName, on: client, usernames: clients)
     }
 }
 
@@ -97,8 +97,8 @@ struct SCJoinedCommand: SCCommand {
         return "JOINED \(channelName) \(username)"
     }
 
-    func execute(on connection: Connection) {
-        addClientsToChannel(named: channelName, on: connection, usernames: [username])
+    func execute(on client: Client) {
+        addUsersToChannel(named: channelName, on: client, usernames: [username])
     }
 }
 
@@ -135,10 +135,10 @@ struct SCLeftCommand: SCCommand {
         return "LEFT \(channelName) \(username) \(reason)"
     }
 
-    func execute(on connection: Connection) {
-		let channelID = connection.id(forChannelnamed: channelName)
-        guard let channel = connection.channelList.items[channelID],
-			let id = connection.id(forPlayerNamed: username)
+    func execute(on client: Client) {
+		let channelID = client.id(forChannelnamed: channelName)
+        guard let channel = client.channelList.items[channelID],
+			let id = client.id(forPlayerNamed: username)
 			else {
 				return
 		}

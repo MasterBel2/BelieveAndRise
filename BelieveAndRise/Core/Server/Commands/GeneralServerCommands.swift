@@ -24,7 +24,7 @@ struct MOTDCommand: SCCommand {
         return "MOTD \(payload)"
     }
 
-    func execute(on connection: Connection) {
+    func execute(on client: Client) {
         print(payload)
     }
 }
@@ -55,8 +55,8 @@ struct SCServerMessageCommand: SCCommand {
 		message = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
-        connection.didReceiveMessageFromServer(message)
+	func execute(on client: Client) {
+        client.didReceiveMessageFromServer(message)
 	}
 	
 	var description: String {
@@ -86,7 +86,7 @@ struct SCServerMessageBoxCommand: SCCommand {
 		url = sentences.count == 2 ? URL(string: sentences[1]) : nil
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("")
 	}
 	

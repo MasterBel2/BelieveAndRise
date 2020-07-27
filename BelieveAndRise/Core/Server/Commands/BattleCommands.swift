@@ -178,26 +178,26 @@ struct SCJoinBattleCommand: SCCommand {
 		return "JOINBATTLE \(battleID) \(hashCode)"
 	}
 	
-	func execute(on connection: Connection) {
-        guard let myUsername = connection.userAuthenticationController?.username,
-            let myID = connection.id(forPlayerNamed: myUsername) else {
+	func execute(on client: Client) {
+        guard let myUsername = client.userAuthenticationController?.username,
+            let myID = client.id(forPlayerNamed: myUsername) else {
             debugOnlyPrint("Error: was instructed to join a battle when not logged in!")
             return
         }
-		guard connection.battleController.battleroom == nil else {
+		guard client.battleController.battleroom == nil else {
 			debugOnlyPrint("Was instructed to join a battleroom when already in one!")
             return
 		}
-		guard let battle = connection.battleList.items[battleID] else {
+		guard let battle = client.battleList.items[battleID] else {
 			debugOnlyPrint("Was instructed to join a battleroom that doesn't exist!")
             return
 		}
 		
 		let battleroomChannel = Channel(title: battle.channel, rootList: battle.userList)
-		connection.channelList.addItem(battleroomChannel, with: connection.id(forChannelnamed: battleroomChannel.title))
-        let battleroom = Battleroom(battle: battle, channel: battleroomChannel, hashCode: hashCode, resourceManager: connection.resourceManager, battleController: connection.battleController, myID: myID)
-        connection.battleController.battleroom = battleroom
-        connection.windowManager.displayBattleroom(battleroom)
+		client.channelList.addItem(battleroomChannel, with: client.id(forChannelnamed: battleroomChannel.title))
+        let battleroom = Battleroom(battle: battle, channel: battleroomChannel, hashCode: hashCode, resourceManager: client.resourceManager, battleController: client.battleController, myID: myID)
+        client.battleController.battleroom = battleroom
+        client.windowManager.displayBattleroom(battleroom)
 	}
 }
 
@@ -220,8 +220,8 @@ struct SCJoinBattleFailedCommand: SCCommand {
 		self.reason = description
 	}
 	
-	func execute(on connection: Connection) {
-		connection.receivedError(.joinBattleFailed(reason: reason))
+	func execute(on client: Client) {
+		client.receivedError(.joinBattleFailed(reason: reason))
 	}
 	
 	var description: String {
@@ -255,9 +255,9 @@ struct SCClientBattleStatusCommand: SCCommand {
 		self.init(username: words[0], battleStatus: battleStatus, teamColor: teamColor)
 	}
 	
-	func execute(on connection: Connection) {
-		guard let battleroom = connection.battleController.battleroom,
-			let userID = connection.id(forPlayerNamed: username) else {
+	func execute(on client: Client) {
+		guard let battleroom = client.battleController.battleroom,
+			let userID = client.id(forPlayerNamed: username) else {
 			return
 		}
         battleroom.updateUserStatus(battleStatus, forUserIdentifiedBy: userID)
@@ -279,12 +279,12 @@ struct SCRequestBattleStatusCommand: SCCommand {
 	
 	init?(description: String) {}
 	
-	func execute(on connection: Connection) {
-        guard let battleroom = connection.battleController.battleroom else {
+	func execute(on client: Client) {
+        guard let battleroom = client.battleController.battleroom else {
             return
         }
         
-        connection.server.send(CSMyBattleStatusCommand(
+        client.server.send(CSMyBattleStatusCommand(
             battleStatus: battleroom.myBattleStatus,
             color: battleroom.myColor
         ))
@@ -334,10 +334,10 @@ struct SCAddBotCommand: SCCommand {
 		aiDll = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
-		guard let battleroom = connection.battleController.battleroom,
-			let ownerID = connection.id(forPlayerNamed: owner),
-			let ownerUser = connection.userList.items[ownerID] else {
+	func execute(on client: Client) {
+		guard let battleroom = client.battleController.battleroom,
+			let ownerID = client.id(forPlayerNamed: owner),
+			let ownerUser = client.userList.items[ownerID] else {
 				return
 		}
 		let bot = Battleroom.Bot(name: name, owner: ownerUser, status: battleStatus, color: teamColor)
@@ -368,8 +368,8 @@ struct SCRemoveBotCommand: SCCommand {
 		self.botName = words[0]
 	}
 	
-	func execute(on connection: Connection) {
-		guard let battleroom = connection.battleController.battleroom else {
+	func execute(on client: Client) {
+		guard let battleroom = client.battleController.battleroom else {
 			return
 		}
 		battleroom.bots = battleroom.bots.filter { $0.name != botName }
@@ -413,8 +413,8 @@ struct SCUpdateBotCommand: SCCommand {
 		self.teamColor = teamColor
 	}
 	
-	func execute(on connection: Connection) {
-		guard let battleroom = connection.battleController.battleroom,
+	func execute(on client: Client) {
+		guard let battleroom = client.battleController.battleroom,
 			let bot = battleroom.bots.first(where: { $0.name == name }) else {
 				return
 		}
@@ -464,8 +464,8 @@ struct SCAddStartRectCommand: SCCommand {
 		bottom = integers[4]
 	}
 	
-	func execute(on connection: Connection) {
-        guard let battleroom = connection.battleController.battleroom else {
+	func execute(on client: Client) {
+        guard let battleroom = client.battleController.battleroom else {
             return
         }
         // y = 0 correlates to bottom = 200.
@@ -498,8 +498,8 @@ struct SCRemoveStartRectCommand: SCCommand {
 		self.allyNo = allyNo
 	}
 	
-	func execute(on connection: Connection) {
-        connection.battleController.battleroom?.removeStartRect(for: allyNo)
+	func execute(on client: Client) {
+        client.battleController.battleroom?.removeStartRect(for: allyNo)
 	}
 	
 	var description: String {
@@ -526,7 +526,7 @@ struct SCSetScriptTagsCommand: SCCommand {
 		tags = sentences
 	}
 
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 
@@ -554,7 +554,7 @@ struct SCRemoveScriptTagsCommand: SCCommand {
 		keys = words
 	}
 
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 
@@ -584,7 +584,7 @@ struct SCJoinBattleRequestCommand: SCCommand {
 		ip = words[1]
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("TODO")
 	}
 	
@@ -619,13 +619,13 @@ struct SCJoinedBattleCommand: SCCommand {
 		scriptPassword = words.count == 3 ? words[2] : nil
 	}
 	
-	func execute(on connection: Connection) {
-		guard let battle = connection.battleList.items[battleID],
-			let userID = connection.id(forPlayerNamed: username) else {
+	func execute(on client: Client) {
+		guard let battle = client.battleList.items[battleID],
+			let userID = client.id(forPlayerNamed: username) else {
 				return
 		}
 		battle.userList.addItemFromParent(id: userID)
-        connection.battleList.respondToUpdatesOnItem(identifiedBy: battleID)
+        client.battleList.respondToUpdatesOnItem(identifiedBy: battleID)
 	}
 	
 	var description: String {
@@ -663,13 +663,13 @@ struct SCLeftBattleCommand: SCCommand {
 		self.username = words[1]
 	}
 	
-	func execute(on connection: Connection) {
-		guard let battle = connection.battleList.items[battleID],
-			let userID = connection.id(forPlayerNamed: username) else {
+	func execute(on client: Client) {
+		guard let battle = client.battleList.items[battleID],
+			let userID = client.id(forPlayerNamed: username) else {
 				return
 		}
 		battle.userList.removeItem(withID: userID)
-        connection.battleList.respondToUpdatesOnItem(identifiedBy: battleID)
+        client.battleList.respondToUpdatesOnItem(identifiedBy: battleID)
 	}
 	
 	var description: String {
@@ -702,13 +702,13 @@ struct SCBattleClosedCommand: SCCommand {
 		self.battleID = battleID
 	}
 	
-	func execute(on connection: Connection) {
-        if let battle = connection.battleController.battleroom?.battle,
-            battle === connection.battleList.items[battleID] {
-            connection.battleController.battleroom = nil
-            connection.windowManager.destroyBattleroom()
+	func execute(on client: Client) {
+        if let battle = client.battleController.battleroom?.battle,
+            battle === client.battleList.items[battleID] {
+            client.battleController.battleroom = nil
+            client.windowManager.destroyBattleroom()
         }
-		connection.battleList.removeItem(withID: battleID)
+		client.battleList.removeItem(withID: battleID)
 	}
 	
 	var description: String {
@@ -737,7 +737,7 @@ struct SCUDPSourcePortCommand: SCCommand {
 		self.port = port
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -772,7 +772,7 @@ struct SCClientIPPortCommand: SCCommand {
 		self.port = port
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -804,7 +804,7 @@ struct SCHostPortCommand: SCCommand {
 		self.port = port
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
@@ -850,14 +850,14 @@ struct SCUpdateBattleInfoCommand: SCCommand {
 		mapName = sentences[0]
 	}
 	
-	func execute(on connection: Connection) {
-		guard let battle = connection.battleList.items[battleID] else {
+	func execute(on client: Client) {
+		guard let battle = client.battleList.items[battleID] else {
 			return
 		}
 		battle.spectatorCount = spectatorCount
 		battle.isLocked = locked
 		battle.map = Battle.Map(name: mapName, hash: mapHash)
-        connection.battleList.respondToUpdatesOnItem(identifiedBy: battleID)
+        client.battleList.respondToUpdatesOnItem(identifiedBy: battleID)
 	}
 	
 	var description: String {
@@ -889,9 +889,9 @@ struct SCKickFromBattleCommand: SCCommand {
 		username = words[1]
 	}
 	
-	func execute(on connection: Connection) {
-        connection.battleController.battleroom = nil
-        connection.windowManager.destroyBattleroom()
+	func execute(on client: Client) {
+        client.battleController.battleroom = nil
+        client.windowManager.destroyBattleroom()
 		#warning("todo")
 	}
 	
@@ -915,8 +915,8 @@ struct SCForceQuitBattleCommand: SCCommand {
 	
 	init?(description: String) {}
 	
-	func execute(on connection: Connection) {
-		connection.battleController.battleroom = nil
+	func execute(on client: Client) {
+		client.battleController.battleroom = nil
 	}
 	
 	var description: String {
@@ -946,8 +946,8 @@ struct SCDisableUnitsCommand: SCCommand {
 		units = words
 	}
 	
-	func execute(on connection: Connection) {
-		connection.battleController.battleroom?.disabledUnits.append(contentsOf: units)
+	func execute(on client: Client) {
+		client.battleController.battleroom?.disabledUnits.append(contentsOf: units)
 	}
 	
 	var description: String {
@@ -977,8 +977,8 @@ struct SCEnableUnitsCommand: SCCommand {
 		units = words
 	}
 	
-	func execute(on connection: Connection) {
-		connection.battleController.battleroom?.disabledUnits.removeAll(where: { units.contains($0) })
+	func execute(on client: Client) {
+		client.battleController.battleroom?.disabledUnits.removeAll(where: { units.contains($0) })
 	}
 	
 	var description: String {
@@ -1005,7 +1005,7 @@ struct SCRingCommand: SCCommand {
 		username = description
 	}
 	
-	func execute(on connection: Connection) {
+	func execute(on client: Client) {
 		#warning("todo")
 	}
 	
