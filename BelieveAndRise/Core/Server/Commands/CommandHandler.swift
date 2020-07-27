@@ -37,8 +37,6 @@ final class CommandHandler: TASServerDelegate {
             return
         }
 
-        debugOnlyPrint(serverCommand)
-
         var components = serverCommand.components(separatedBy: " ")
         let messageID: Int?
         if components[0].first == "#" {
@@ -100,8 +98,7 @@ final class CommandHandler: TASServerDelegate {
 				"JSON" : SCJSONCommand.self,
 				"PONG" : SCPongCommand.self,
 				"OK" : SCOKCommand.self,
-				
-				
+
 				// Interaction commands
 				"RING" : SCRingCommand.self,
 				"IGNORE" : SCIgnoreCommand.self,

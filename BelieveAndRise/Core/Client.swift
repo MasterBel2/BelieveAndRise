@@ -43,8 +43,6 @@ final class Client: ServerSelectionDelegate {
 
     // MARK: - Data
 
-    private var serverMetaData: ServerMetaData?
-
     /// Returns the User object associated with the account the client has connected to the server with.
     var connectedAccount: User? {
         guard let username = userAuthenticationController.username,
@@ -219,18 +217,4 @@ final class Client: ServerSelectionDelegate {
 			return id
 		}
 	}
-
-    // MARK: - Helper types
-
-    /// Contains information about a lobby server.
-    struct ServerMetaData {
-        /// The IP address of th server.
-        let ip: String
-        /// The server port.
-        let port: Int
-        /// The server's "Message of the Day".
-        ///
-        /// The MotD is receieved dynamically after the user logs in.
-        var motd: String
-    }
 }

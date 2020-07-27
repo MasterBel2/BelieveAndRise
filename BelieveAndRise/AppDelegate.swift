@@ -13,10 +13,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Properties
 
-	/// Handles the connection to the server.
-	///
-	/// `applicationDidFinishLaunching()` must be called to initialise this object
-    var server: TASServer!
     var window: NSWindow?
 	var parser: TASServerDelegate!
 

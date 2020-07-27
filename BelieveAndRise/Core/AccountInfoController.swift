@@ -10,15 +10,15 @@ import Foundation
 
 /// Manages information about a user's account.
 final class AccountInfoController: AccountInfoDelegate {
-	
-	// MARK: - Depedencies
-	
-	/// The client associated with the account.
-    weak var client: Client?
-	
-	// MARK: - Data
 
-	/// The logged-in user which the metadata describes.
+    // MARK: - Depedencies
+
+    /// The client associated with the account.
+    weak var client: Client?
+
+    // MARK: - Data
+
+    /// The logged-in user which the metadata describes.
     var user: User? {
         return client?.connectedAccount
     }
@@ -30,30 +30,30 @@ final class AccountInfoController: AccountInfoDelegate {
     /// A cached value for registration date. Wiped on present. (Wiping)
     private var registrationDate: Date?
 
-	/// A block to execute when account data has been retrieved and is ready to present.
+    /// A block to execute when account data has been retrieved and is ready to present.
     private var completionBlock: ((AccountData) -> ())?
-	
-	// MARK: - Receiving data
 
-	/// Records the registration date of the user for presentation.
+    // MARK: - Updating data
+
+    /// Records the registration date of the user for presentation.
     func setRegistrationDate(_ registrationDate: Date?) {
         self.registrationDate = registrationDate
         presentIfReady()
     }
 
-	/// Records the ingame hours of the user for presentation.
+    /// Records the ingame hours of the user for presentation.
     func setIngameHours(_ ingameHours: Int) {
         self.ingameHours = ingameHours
         presentIfReady()
     }
-	
-	/// Records the email of the user for presentation.
+
+    /// Records the email of the user for presentation.
     func setEmail(_ email: String) {
         self.email = email
         presentIfReady()
     }
-	
-	/// Wipes the cached information.
+
+    /// Wipes the cached information.
     func invalidate() {
         email = nil
         ingameHours = nil

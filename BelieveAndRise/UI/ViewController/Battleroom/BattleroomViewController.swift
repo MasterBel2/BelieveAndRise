@@ -112,8 +112,6 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
             right: 0
         )
 
-        // Something
-
         configureAllyTeamControl()
     }
 

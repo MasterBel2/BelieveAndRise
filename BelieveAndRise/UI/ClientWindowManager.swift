@@ -174,26 +174,6 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
 
     // MARK: - Platform UI wrappers
 
-    private func presentSheet(with contentViewController: NSViewController, ofType sheetType: SheetType) {
-        guard let mainWindow = mainWindowController.window else {
-            return
-        }
-        let sheet = NSWindow(contentViewController: contentViewController)
-        if let sheetSize = sheetSizes[sheetType] {
-            sheet.setContentSize(sheetSize)
-        }
-        sheet.styleMask.remove(.resizable)
-        mainWindow.beginSheet(sheet, completionHandler: nil)
-        sheets[sheetType] = sheet
-    }
-
-    private func dismissSheet(_ type: SheetType) {
-        if let sheetWindow = sheets[type] {
-            mainWindowController.window?.endSheet(sheetWindow)
-            sheets.removeValue(forKey: type)
-        }
-    }
-
     private var _userAuthenticationViewController: UserAuthenticationViewController?
     private func userAuthenticationViewController(controller: UserAuthenticationController) -> NSViewController {
         let userAuthenticationViewController = UserAuthenticationViewController()
