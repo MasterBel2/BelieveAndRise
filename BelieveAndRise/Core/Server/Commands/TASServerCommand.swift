@@ -38,7 +38,15 @@ struct TASServerCommand: SCCommand {
     }
 
     func execute(on client: Client) {
-        client.commandHandler.setProtocol(.tasServer(version: protocolVersion))
-        client.presentLogin()
+
+        if protocolVersion == "unknown" {
+            client.featureAvailability = ProtocolFeatureAvailability(serverProtocol: .tasServer(version: 0.38))
+            client.commandHandler.setProtocol(.tasServer(version: 0.38))
+            client.presentLogin()
+        } else if let version = Float(String(protocolVersion.prefix(while: { "0.123456789".contains($0) }))) {
+            client.featureAvailability = ProtocolFeatureAvailability(serverProtocol: .tasServer(version: version))
+            client.commandHandler.setProtocol(.tasServer(version: version))
+            client.presentLogin()
+        }
     }
 }

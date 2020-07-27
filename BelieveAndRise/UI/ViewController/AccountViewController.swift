@@ -15,7 +15,7 @@ struct AccountData {
 	/// The number of hours the server has recorded as the user's status has indicated that they are ingame.
     let ingameHours: Int
 	/// The date the user's account was registered.
-    let registrationDate: Date
+    let registrationDate: Date?
 }
 
 /// Performs operations associated with modifying account information.
@@ -62,13 +62,16 @@ final class AccountViewController: NSViewController, AccountInfoDisplay {
                 return
             }
 
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .short
-            dateFormatter.timeStyle = .none
-            let dateString = dateFormatter.string(from: accountData.registrationDate)
-
             emailField.stringValue = accountData.email
-            statisticsField.stringValue = "\(accountData.ingameHours) hours played since \(dateString)"
+            statisticsField.stringValue = "\(accountData.ingameHours) hours played"
+
+            if let registrationDate = accountData.registrationDate {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .short
+                dateFormatter.timeStyle = .none
+                let dateString = dateFormatter.string(from: registrationDate)
+                statisticsField.stringValue += " since \(dateString)"
+            }
         }
     }
 

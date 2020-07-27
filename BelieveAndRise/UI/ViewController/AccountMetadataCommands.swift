@@ -53,7 +53,40 @@ struct CSChangeEmailRequestCommand: CSCommand {
 
  `CSChangeEmailDenied` or `CSChangeEmailAccepted`
  */
-struct CSChangeEmailCommand: CSCommand {
+struct CSChangeEmailWithoutVerificationCommand: CSCommand {
+    let newEmail: String
+
+    /**
+     - parameter newEmail: The email address the user wishes to change too.
+     */
+    init(newEmail: String) {
+        self.newEmail = newEmail
+    }
+
+    init?(description: String) {
+        guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 1, sentenceCount: 0) else {
+            return nil
+        }
+        newEmail = words[0]
+    }
+
+    var description: String {
+        return "CHANGEEMAIL \(newEmail)"
+    }
+
+    func execute(on server: LobbyServer) {
+        // TODO
+    }
+}
+
+/**
+ Asks the server to change the email address associated to the client. See also `CSChangeEmailRequestCommand`, which would typically be sent first.
+
+ # Response
+
+ `CSChangeEmailDenied` or `CSChangeEmailAccepted`
+ */
+struct CSChangeEmailWithVerificationCommand: CSCommand {
     let newEmail: String
     let verificationCode: String
 
@@ -67,7 +100,7 @@ struct CSChangeEmailCommand: CSCommand {
     }
 
     init?(description: String) {
-        guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 1, sentenceCount: 0) else {
+        guard let (words, _) = try? wordsAndSentences(for: description, wordCount: 2, sentenceCount: 0) else {
             return nil
         }
         newEmail = words[0]
@@ -75,7 +108,7 @@ struct CSChangeEmailCommand: CSCommand {
     }
 
     var description: String {
-        return "CHANGEEMAILREQUEST \(newEmail) \(verificationCode)"
+        return "CHANGEEMAIL \(newEmail) \(verificationCode)"
     }
 
     func execute(on server: LobbyServer) {

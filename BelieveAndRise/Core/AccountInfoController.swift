@@ -36,7 +36,7 @@ final class AccountInfoController: AccountInfoDelegate {
 	// MARK: - Receiving data
 
 	/// Records the registration date of the user for presentation.
-    func setRegistrationDate(_ registrationDate: Date) {
+    func setRegistrationDate(_ registrationDate: Date?) {
         self.registrationDate = registrationDate
         presentIfReady()
     }
@@ -53,20 +53,19 @@ final class AccountInfoController: AccountInfoDelegate {
         presentIfReady()
     }
 	
-	// MARK: - Private helpers
-	
 	/// Wipes the cached information.
-    private func invalidate() {
+    func invalidate() {
         email = nil
         ingameHours = nil
         registrationDate = nil
     }
 
+    // MARK: - Private helpers
+
     /// Presents cached data and wipes the cache.
     private func presentIfReady() {
         if let email = email,
-            let ingameHours = ingameHours,
-            let registrationDate = registrationDate {
+            let ingameHours = ingameHours {
             let accountData = AccountData(email: email, ingameHours: ingameHours, registrationDate: registrationDate)
             completionBlock?(accountData)
             invalidate()
@@ -84,7 +83,12 @@ final class AccountInfoController: AccountInfoDelegate {
     // MARK: - AccountInfoDelegate
 
     func requestVerficationCodeForChangingEmail(to newEmailAddress: String, password: String, completionBlock: @escaping (String?) -> ()) {
-        if password == client?.userAuthenticationController?.password {
+        guard client?.featureAvailability?.requiresVerificationCodeForChangeEmail == true else {
+            changeEmailWithoutVerification(to: newEmailAddress, password: password, completionBlock: completionBlock)
+            return
+        }
+
+        if password == client?.userAuthenticationController.password {
             client?.server?.send(CSChangeEmailRequestCommand(newEmail: newEmailAddress)) { response in
                 if let _ = response as? SCChangeEmailRequestAcceptedCommand {
                     completionBlock(nil)
@@ -100,28 +104,47 @@ final class AccountInfoController: AccountInfoDelegate {
     }
 
     func changeEmail(to newEmailAddress: String, password: String, verificationCode: String, completionBlock: @escaping (String?) -> ()) {
-        if password == client?.userAuthenticationController?.password {
-            client?.server?.send(CSChangeEmailCommand(newEmail: newEmailAddress, verificationCode: verificationCode)) { response in
+        if password == client?.userAuthenticationController.password {
+            client?.server?.send(CSChangeEmailWithVerificationCommand(newEmail: newEmailAddress, verificationCode: verificationCode)) { [weak self] response in
                 if let _ = response as? SCChangeEmailAcceptedCommand {
                     completionBlock(nil)
+                    self?.client?.server?.send(CSGetUserInfoCommand())
                 } else if let failureResponse = response as? SCChangeEmailDeniedCommand {
                     completionBlock(failureResponse.errorMessage)
                 } else {
                     completionBlock("A server error occurred!")
                 }
             }
+        } else {
+            completionBlock("Incorrect password.")
+        }
+    }
+    func changeEmailWithoutVerification(to newEmailAddress: String, password: String, completionBlock: @escaping (String?) -> ()) {
+        if password == client?.userAuthenticationController.password {
+            client?.server?.send(CSChangeEmailWithoutVerificationCommand(newEmail: newEmailAddress)) { [weak self] response in
+                if let _ = response as? SCChangeEmailAcceptedCommand {
+                    completionBlock(nil)
+                    self?.client?.server?.send(CSGetUserInfoCommand())
+                } else if let failureResponse = response as? SCChangeEmailDeniedCommand {
+                    completionBlock(failureResponse.errorMessage)
+                } else {
+                    completionBlock("A server error occurred!")
+                }
+            }
+        } else {
+            completionBlock("Incorrect password.")
         }
     }
 
     func renameAccount(to newAccountName: String, password: String, completionBlock: @escaping (String?) -> ()) {
-        if password == client?.userAuthenticationController?.password {
+        if password == client?.userAuthenticationController.password {
             client?.server?.send(CSRenameAccountCommand(newUsername: newAccountName))
             completionBlock(nil)
         }
     }
 
     func changePassword(from oldPassword: String, to newPassword: String, completionBlock: @escaping (String?) -> ()) {
-        if oldPassword == client?.userAuthenticationController?.password {
+        if oldPassword == client?.userAuthenticationController.password {
             client?.server?.send(CSChangePasswordCommand(oldPassword: oldPassword, newPassword: newPassword))
             completionBlock(nil)
         }

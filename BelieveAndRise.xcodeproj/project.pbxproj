@@ -60,6 +60,8 @@
 		6B179C3E249B175400D3DC56 /* DialogSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B179C392499E5ED00D3DC56 /* DialogSheet.swift */; };
 		6B179C40249B17D200D3DC56 /* ServerSelectionDialogSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B179C3F249B17D200D3DC56 /* ServerSelectionDialogSheet.xib */; };
 		6B179C42249B17F600D3DC56 /* ServerSelectionDialogSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B179C41249B17F600D3DC56 /* ServerSelectionDialogSheet.swift */; };
+		6B18E85524B06FED00ED7BEE /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B18E85424B06FED00ED7BEE /* Protocol.swift */; };
+		6B18E85824B0862A00ED7BEE /* Ignore Command Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B18E85724B0862A00ED7BEE /* Ignore Command Set.swift */; };
 		6B27C51E249B9BA700E400E9 /* AccountMetadataCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B27C51D249B9BA700E400E9 /* AccountMetadataCommands.swift */; };
 		6B2C64D0232517930017A1BC /* ChatBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2C64CF232517930017A1BC /* ChatBar.swift */; };
 		6B2C64D2232517A00017A1BC /* ChatBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B2C64D1232517A00017A1BC /* ChatBar.xib */; };
@@ -231,6 +233,8 @@
 		6B179C3A2499E5ED00D3DC56 /* DialogSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DialogSheet.xib; sourceTree = "<group>"; };
 		6B179C3F249B17D200D3DC56 /* ServerSelectionDialogSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerSelectionDialogSheet.xib; sourceTree = "<group>"; };
 		6B179C41249B17F600D3DC56 /* ServerSelectionDialogSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelectionDialogSheet.swift; sourceTree = "<group>"; };
+		6B18E85424B06FED00ED7BEE /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		6B18E85724B0862A00ED7BEE /* Ignore Command Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ignore Command Set.swift"; sourceTree = "<group>"; };
 		6B27C51D249B9BA700E400E9 /* AccountMetadataCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMetadataCommands.swift; sourceTree = "<group>"; };
 		6B2C64CF232517930017A1BC /* ChatBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBar.swift; sourceTree = "<group>"; };
 		6B2C64D1232517A00017A1BC /* ChatBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatBar.xib; sourceTree = "<group>"; };
@@ -398,6 +402,7 @@
 				6BAE46C02379A80E0065CD53 /* Core */,
 				3E7C8281239CC267004B835D /* Downloads */,
 				6BDB8EB7249CB24500259633 /* ServerAddress.swift */,
+				6B18E85424B06FED00ED7BEE /* Protocol.swift */,
 				6BAE46C32379A8480065CD53 /* UI */,
 				3E46333622C0C2D200AE0F2F /* Assets.xcassets */,
 				3E46333822C0C2D200AE0F2F /* MainMenu.xib */,
@@ -739,6 +744,7 @@
 				6BE441492326A63500951B49 /* TASServerCommand.swift */,
 				3E1A49D0237AA53200F549FF /* Things.swift */,
 				3E98F86A237AC98D00DD2999 /* Private Messages.swift */,
+				6B18E85724B0862A00ED7BEE /* Ignore Command Set.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -937,6 +943,7 @@
 				6B50660F23EF5C72006FEC49 /* Downloader.swift in Sources */,
 				3E2E50A822FB77CF00831EF8 /* WindowManager.swift in Sources */,
 				6BF85C77237C6DA100A19493 /* UnitsyncWrapper.swift in Sources */,
+				6B18E85524B06FED00ED7BEE /* Protocol.swift in Sources */,
 				6BF65C9B2397BBAD00D85DDE /* CountryCode.swift in Sources */,
 				6BF85C63237C648900A19493 /* Array+MoveItem.swift in Sources */,
 				6B880619249BCC3700BAF05B /* SingleTextInputDialogSheet.swift in Sources */,
@@ -1004,6 +1011,7 @@
 				6BF85C76237C6DA100A19493 /* UnitsyncConfig.swift in Sources */,
 				6BE441542326A63500951B49 /* Command.swift in Sources */,
 				6B7304A423E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift in Sources */,
+				6B18E85824B0862A00ED7BEE /* Ignore Command Set.swift in Sources */,
 				6B95FC2824CDC05100957C5E /* ListSorter.swift in Sources */,
 				6BF85C71237C6A8400A19493 /* RemoteResourceFetcher.swift in Sources */,
 				3E98F86B237AC98D00DD2999 /* Private Messages.swift in Sources */,

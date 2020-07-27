@@ -72,7 +72,7 @@ final class CommandHandler: TASServerDelegate {
     /// Identifies a protocol that the command handler can handle.
     enum ServerProtocol {
 		case unknown
-        case tasServer(version: String)
+        case tasServer(version: Float)
         case zeroKServer
     }
 

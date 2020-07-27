@@ -29,6 +29,7 @@ final class Client: ServerSelectionDelegate {
 
     /// Processes incoming commands and updates the model and UI appropriately.
     let commandHandler = CommandHandler()
+    var featureAvailability: ProtocolFeatureAvailability?
     /// Processes chat-related information directed back towards the server
     let chatController: ChatController
 	let battleController: BattleController
@@ -130,7 +131,12 @@ final class Client: ServerSelectionDelegate {
 
     func didReceiveMessageFromServer(_ message: String) {
         if message.hasPrefix("Registration date:") {
-            let dateString = message.components(separatedBy: " ")[2..<5].joined(separator: " ")
+            let components = message.components(separatedBy: " ")
+            guard components.count >= 6 else {
+                accountInfoController.setRegistrationDate(.none)
+                return
+            }
+            let dateString = components[2..<5].joined(separator: " ")
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM DD, YYYY"
             guard let date = dateFormatter.date(from: dateString) else { return }
