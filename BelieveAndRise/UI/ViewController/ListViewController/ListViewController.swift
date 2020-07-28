@@ -396,11 +396,6 @@ class ListViewController: NSViewController,
 			return displaysSelectableContent && true
 		}
 	}
-
-    func tableViewColumnDidResize(_ notification: Notification) {
-        let allIndexes = IndexSet(integersIn: 0..<rows.count)
-        tableView.noteHeightOfRows(withIndexesChanged: allIndexes)
-    }
 	
 	// MARK: - NSTableViewDataSource
 	
@@ -414,7 +409,7 @@ class ListViewController: NSViewController,
             return 1
         }
 
-        view.widthAnchor.constraint(equalToConstant: tableView.frame.width).isActive = true
+        view.widthAnchor.constraint(equalToConstant: tableView.tableColumns[0].width).isActive = true
         view.layoutSubtreeIfNeeded()
         return view.fittingSize.height
     }
