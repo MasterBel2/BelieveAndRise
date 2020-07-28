@@ -373,13 +373,18 @@ class ListViewController: NSViewController,
 	// MARK: - NSTableViewDelegate
 	
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+
 		switch rows[row] {
 		case .header(let title):
-			let view = TableSectionHeaderView.loadFromNib()
+            let viewMaybe = tableView.makeView(
+                withIdentifier: NSUserInterfaceItemIdentifier("TableSectionHeaderView"),
+                owner: nil
+            ) as? TableSectionHeaderView
+            let view = viewMaybe ?? TableSectionHeaderView.loadFromNib()
 			view.label.stringValue = title
 			return view
 		case .item(let id):
-			return itemViewProvider.view(forItemIdentifiedBy: id)
+            return itemViewProvider.tableView(tableView, viewForItemIdentifiedBy: id)
 		}
 	}
 	

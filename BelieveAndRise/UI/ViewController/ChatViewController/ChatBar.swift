@@ -27,7 +27,7 @@ final class ChatBar: NSView, NibLoadable, NSTextFieldDelegate, NSControlTextEdit
 
     // MARK: - Lifecycle
 
-    override func loadedFromNib() {
+    func loadedFromNib() {
         padding = ChatBar.defaultInsets
     }
 

@@ -28,7 +28,7 @@ final class DownloadItemView: NSView, NibLoadable {
 
     // MARK: - Lifecycle
 
-    override func loadedFromNib() {
+    func loadedFromNib() {
         button.sendAction(on: .leftMouseDown)
         button.target = self
     }

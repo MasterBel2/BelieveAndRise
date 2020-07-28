@@ -11,6 +11,11 @@ import Cocoa
 protocol NibLoadable {
 	static var nibName: String { get }
 	static func loadFromNib(in bundle: Bundle) -> Self
+    /// Called after the view was loaded from a Nib.
+    ///
+    /// Override this method to perform post-initialisation setup to a view that has been loaded
+    /// from a Nib.
+    func loadedFromNib()
 }
 
 extension NibLoadable where Self: NSView {
@@ -23,15 +28,10 @@ extension NibLoadable where Self: NSView {
 		var topLevelArray: NSArray? = nil
 		bundle.loadNibNamed(NSNib.Name(nibName), owner: self, topLevelObjects: &topLevelArray)
 		let view = (Array<Any>(topLevelArray!).filter { $0 is Self }).last as! Self
+        view.identifier = NSUserInterfaceItemIdentifier(nibName)
         view.loadedFromNib()
 		return view
 	}
-}
 
-extension NSView {
-    /// Called after the view was loaded from a Nib.
-    ///
-    /// Override this method to perform post-initialisation setup to a view that has been loaded
-    /// from a Nib.
-    @objc func loadedFromNib() {}
+    func loadedFromNib() {}
 }

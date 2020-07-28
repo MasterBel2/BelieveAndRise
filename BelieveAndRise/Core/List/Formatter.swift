@@ -10,19 +10,35 @@ import Cocoa
 
 /// Describes a set of functions required for providing an item to a `ListViewController`.
 protocol ItemViewProvider {
-    func view(forItemIdentifiedBy id: Int) -> NSView?
-//    func headerView(forSectionDescribedBy list: ListProtocol) -> NSView
+    func tableView(_ listView: NSTableView, viewForItemIdentifiedBy id: Int) -> NSView?
 }
 
-/// An `ItemViewProvider` that always returns nil
+/// Extends ItemViewProvider with a default implementation.
+protocol _ItemViewProvider: ItemViewProvider {
+    associatedtype ViewType: NibLoadable & NSView
+}
+
+extension _ItemViewProvider {
+    func _view(for tableView: NSTableView) -> ViewType {
+        return tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(ViewType.nibName), owner: nil) as? ViewType
+             ?? ViewType.loadFromNib()
+    }
+}
+
+/// An `ItemViewProvider` that always provides nil.
 struct DefaultItemViewProvider: ItemViewProvider {
-    func view(forItemIdentifiedBy id: Int) -> NSView? {
+
+    typealias ViewType = NSView
+
+    func tableView(_ listView: NSTableView, viewForItemIdentifiedBy id: Int) -> NSView? {
         return nil
     }
 }
 
 /// Provides a simple view describing the map and date of replays.
-struct ReplayListItemViewProvider: ItemViewProvider {
+struct ReplayListItemViewProvider: _ItemViewProvider {
+
+    typealias ViewType = SingleColumnTableColumnRowView
 
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -32,11 +48,11 @@ struct ReplayListItemViewProvider: ItemViewProvider {
     }()
 
     weak var replayList: List<Replay>?
-    func view(forItemIdentifiedBy id: Int) -> NSView? {
+    func tableView(_ listView: NSTableView, viewForItemIdentifiedBy id: Int) -> NSView? {
         guard let item = replayList?.items[id] else {
             return nil
         }
-        let view = SingleColumnTableColumnRowView.loadFromNib()
+        let view = _view(for: listView)
         view.primaryLabel.stringValue = item.specification.mapName
         view.secondaryLabel.stringValue = dateFormatter.string(from: item.header.gameStartDate)
         return view
@@ -45,18 +61,21 @@ struct ReplayListItemViewProvider: ItemViewProvider {
 
 
 /// An `ItemViewProvider` that provides a default view for a battlelist item.
-struct BattlelistItemViewProvider: ItemViewProvider {
+struct BattlelistItemViewProvider: _ItemViewProvider {
+
+    typealias ViewType = SingleColumnTableColumnRowView
+
     let list: List<Battle>
 
     init(list: List<Battle>) {
         self.list = list
     }
 
-    func view(forItemIdentifiedBy id: Int) -> NSView? {
+    func tableView(_ listView: NSTableView, viewForItemIdentifiedBy id: Int) -> NSView? {
         guard let battle = list.items[id] else {
             return nil
         }
-        let view = SingleColumnTableColumnRowView.loadFromNib()
+        let view = _view(for: listView)
         view.primaryLabel.stringValue = battle.founder
         view.secondaryLabel.stringValue = "\(battle.userList.sortedItemCount - battle.spectatorCount) + \(battle.spectatorCount) / \(battle.maxPlayers)"
         return view
@@ -64,35 +83,42 @@ struct BattlelistItemViewProvider: ItemViewProvider {
 }
 
 /// An `ItemViewProvider` that provides a default view for a userlist item.
-struct DefaultPlayerListItemViewProvider: ItemViewProvider {
+struct DefaultPlayerListItemViewProvider: _ItemViewProvider {
+
+    typealias ViewType = SingleColumnTableColumnRowView
+
     let list: List<User>
 
     init(list: List<User>) {
         self.list = list
     }
 
-    func view(forItemIdentifiedBy id: Int) -> NSView? {
+    func tableView(_ listView: NSTableView, viewForItemIdentifiedBy id: Int) -> NSView? {
         guard let user = list.items[id] else {
             return nil
         }
-        let view = SingleColumnTableColumnRowView.loadFromNib()
+        let view = _view(for: listView)
         view.primaryLabel.stringValue = user.profile.fullUsername
         view.secondaryLabel.stringValue = "\(user.status.rank)"
         return view
     }
 }
 
-struct PlayerRankIngameUsernameItemViewProvider: ItemViewProvider {
+struct PlayerRankIngameUsernameItemViewProvider: _ItemViewProvider {
+
+    typealias ViewType = RankIngameAndUsernameView
+
     let ingameImage = #imageLiteral(resourceName: "In Battle Icon")
 
     let playerList: List<User>
 
-    func view(forItemIdentifiedBy id: Int) -> NSView? {
+    func tableView(_ listView: NSTableView, viewForItemIdentifiedBy id: Int) -> NSView? {
         guard let player = playerList.items[id] else {
             return nil
         }
 
-        let view = RankIngameAndUsernameView.loadFromNib()
+        let view = _view(for: listView)
+
         view.clanField.stringValue = player.profile.clans.first ?? ""
         view.usernameField.stringValue = player.profile.username
 
@@ -107,7 +133,10 @@ struct PlayerRankIngameUsernameItemViewProvider: ItemViewProvider {
     }
 }
 
-struct DefaultMessageListItemViewProvider: ItemViewProvider {
+struct DefaultMessageListItemViewProvider: _ItemViewProvider {
+
+    typealias ViewType = SingleColumnTableColumnRowView
+
     let messageList: List<ChatMessage>
     let userlist: List<User>
 
@@ -116,19 +145,23 @@ struct DefaultMessageListItemViewProvider: ItemViewProvider {
         self.userlist = userlist
     }
 
-    func view(forItemIdentifiedBy id: Int) -> NSView? {
+    func tableView(_ listView: NSTableView, viewForItemIdentifiedBy id: Int) -> NSView? {
         guard let message = messageList.items[id],
             let sender = userlist.items[message.senderID] else {
             return nil
         }
-        let view = SingleColumnTableColumnRowView.loadFromNib()
+        let view = _view(for: listView)
+
         view.primaryLabel.stringValue = sender.profile.fullUsername
         view.secondaryLabel.stringValue = message.content
         return view
     }
 }
 
-struct BattleroomPlayerListItemViewProvider: ItemViewProvider {
+struct BattleroomPlayerListItemViewProvider: _ItemViewProvider {
+
+    typealias ViewType = RankIngameAndUsernameView
+
     let battleroom: Battleroom
     let ingameImage = #imageLiteral(resourceName: "In Battle Icon")
     private var playerList: List<User> {
@@ -139,12 +172,13 @@ struct BattleroomPlayerListItemViewProvider: ItemViewProvider {
         self.battleroom = battleroom
     }
 
-    func view(forItemIdentifiedBy id: Int) -> NSView? {
+    func tableView(_ listView: NSTableView, viewForItemIdentifiedBy id: Int) -> NSView? {
         guard let player = playerList.items[id] else {
             return nil
         }
 
-        let view = RankIngameAndUsernameView.loadFromNib()
+        let view = _view(for: listView)
+
         view.clanField.stringValue = player.profile.clans.first ?? ""
         view.usernameField.stringValue = player.profile.username
 
@@ -171,7 +205,10 @@ struct BattleroomPlayerListItemViewProvider: ItemViewProvider {
     }
 }
 
-struct BattleroomMessageListItemViewProvider: ItemViewProvider {
+struct BattleroomMessageListItemViewProvider: _ItemViewProvider {
+
+    typealias ViewType = ExtendedChatMessageView
+
     let list: List<ChatMessage>
     let battleroom: Battleroom
 
@@ -180,14 +217,14 @@ struct BattleroomMessageListItemViewProvider: ItemViewProvider {
         self.battleroom = battleroom
     }
 
-    func view(forItemIdentifiedBy id: Int) -> NSView? {
+    func tableView(_ listView: NSTableView, viewForItemIdentifiedBy id: Int) -> NSView? {
         guard let message = list.items[id]
             else {
             return nil
         }
         let user = battleroom.battle.userList.items[message.senderID] ?? User(profile: User.Profile(id: 0, fullUsername: message.senderName, lobbyID: ""))
 
-        let view = ExtendedChatMessageView.loadFromNib()
+        let view = _view(for: listView)
 
         view.messageField.stringValue = message.content
 

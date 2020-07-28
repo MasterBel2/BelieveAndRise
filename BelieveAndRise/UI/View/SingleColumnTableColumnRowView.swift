@@ -14,11 +14,11 @@ final class SingleColumnTableColumnRowView: NSView, NibLoadable {
 	
 	@IBOutlet weak var primaryLabel: NSTextField!
 	@IBOutlet weak var secondaryLabel: NSTextField!
-	
-	override func awakeFromNib() {
+
+    func loadedFromNib() {
         primaryLabel.textColor = .labelColor
-		primaryLabel.stringValue = ""
+        primaryLabel.stringValue = ""
         secondaryLabel.textColor = .secondaryLabelColor
-		secondaryLabel.stringValue = ""
-	}
+        secondaryLabel.stringValue = ""
+    }
 }

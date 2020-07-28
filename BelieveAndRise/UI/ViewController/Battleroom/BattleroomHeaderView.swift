@@ -41,7 +41,7 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
 
     // MARK: - Lifecycle
 
-    override func loadedFromNib() {
+    func loadedFromNib() {
         allySelectorPopupButton.removeAllItems()
     }
 

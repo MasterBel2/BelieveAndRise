@@ -21,7 +21,7 @@ final class RankIngameAndUsernameView: NSView, NibLoadable {
 
     // MARK: - Lifecycle
 
-    override func loadedFromNib() {
+    func loadedFromNib() {
         clanField.textColor = NSColor(named: "minorMajorLabel")
     }
 }
