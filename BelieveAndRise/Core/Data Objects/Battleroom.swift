@@ -25,12 +25,12 @@ extension Color {
 
 protocol BattleroomMapInfoDisplay: AnyObject {
     func displayMapName(_ mapName: String)
-    func addCustomisedMapOption(_ option: String, value: UnitsyncWrapper.InfoValue)
+//    func addCustomisedMapOption(_ option: String, value: UnitsyncWrapper.InfoValue)
     func removeCustomisedMapOption(_ option: String)
 }
 
 protocol BattleroomGameInfoDisplay: AnyObject {
-    func addCustomisedGameOption(_ option: String, value: UnitsyncWrapper.InfoValue)
+//    func addCustomisedGameOption(_ option: String, value: UnitsyncWrapper.InfoValue)
     func removeCustomisedGameOption(_ option: String)
 }
 
@@ -301,16 +301,15 @@ final class Battleroom: BattleDelegate, ListDelegate {
         mapInfoDisplay?.displayMapName(map.name)
         minimapDisplay?.removeAllStartRects()
 
-        if let (mapInfo, checksumMatch, _) = resourceManager.infoForMap(named: map.name, preferredChecksum: map.hash, preferredEngineVersion: battle.engineVersion) {
-            hasMap = true
-
+        let (nameMatch, checksumMatch, usedPreferredVersion) = resourceManager.hasMap(named: map.name, checksum: map.hash, preferredVersion: battle.engineVersion)
+        self.hasMap = nameMatch
+        if self.hasMap {
             if !checksumMatch {
                 debugOnlyPrint("Warning: Map checksums do not match.")
             }
 
-            let dimensions = mapInfo.dimensions ?? (width: 1, height: 1)
-
-            minimapDisplay?.setMapDimensions(dimensions.width, dimensions.height)
+            let (width, height) = resourceManager.dimensions(forMapNamed: map.name) ?? (width: 1, height: 1)
+            minimapDisplay?.setMapDimensions(width, height)
 
             resourceManager.loadMinimapData(forMapNamed: map.name, mipLevels: Range(0...5)) { [weak self] result in
                 guard let self = self,
@@ -322,7 +321,6 @@ final class Battleroom: BattleDelegate, ListDelegate {
                 minimapDisplay.displayMapImage(for: imageData, dimension: dimension)
             }
         } else {
-            hasMap = false
             resourceManager.download(.map(name: map.name), completionHandler: { [weak self] successful in
                 guard let self = self else {
                     return
@@ -347,11 +345,13 @@ final class Battleroom: BattleDelegate, ListDelegate {
     func list(_ list: ListProtocol, didMoveItemFrom index1: Int, to index2: Int) {}
 
     func list(_ list: ListProtocol, didRemoveItemAt index: Int) {}
+
     func list(_ list: ListProtocol, itemWasUpdatedAt index: Int) {
         if list.sortedItemsByID[index] == myID {
             displayIngameStatus()
         }
     }
+
     func listWillClear(_ list: ListProtocol) {}
 
     // MARK: - Nested Types

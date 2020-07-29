@@ -27,8 +27,6 @@ final class ResourceManager {
     /// Loads engines, maps, then games.
     func loadLocalResources() {
         localResourceManager.loadEngines()
-        localResourceManager.loadMaps()
-        localResourceManager.loadGames()
     }
 
     /// Downloads a resource, and calls a completion handler with a boolean value indicating whether the download
@@ -44,10 +42,8 @@ final class ResourceManager {
                 case .engine(let (name, platform)):
                     fatalError()
                 case .game(let name):
-                    self.localResourceManager.loadGames()
                     completionHandler(self.hasGame(name: name))
                 case .map(let name):
-                    self.localResourceManager.loadMaps()
                     // We only care about the name match here. Checksum can be checked where sync is important.
                     let hasMap = self.hasMap(named: name, checksum: 0, preferredVersion: "").hasNameMatch
                     completionHandler(hasMap)
@@ -61,42 +57,20 @@ final class ResourceManager {
     // MARK: - Establishing sync
 
     /// 
-    func hasMap(named mapName: String, checksum: Int32, preferredVersion: String) -> (hasNameMatch: Bool, hasNameAndChecksumMatch: Bool, usedPreferredVersion: Bool) {
-        let matches = localResourceManager.maps.filter({ $0.name == mapName })
+    func hasMap(named mapName: String, checksum: Int32, preferredVersion: String) -> (hasNameMatch: Bool, hasChecksumMatch: Bool, usedPreferredVersion: Bool) {
+        let matches = localResourceManager.archiveLoader!.mapArchives.filter({ $0.name == mapName })
         return (
             hasNameMatch: matches.count > 0,
-            hasNameAndChecksumMatch: matches.filter({ $0.checksum == checksum }).count == 1,
-            true
+            hasChecksumMatch: matches.filter({ $0.checksum == checksum }).count == 1,
+            usedPreferredVersion: true
         )
     }
 
-    /// Retrieves a set of information about the map, also determining whether the map located has a matching checksum. Supports
-    /// two maps with the same name, but differing checksums.
-    func infoForMap(named mapName: String, preferredChecksum: Int32, preferredEngineVersion: String)
-        -> (mapInfo: Map, checksumMatch: Bool, usedPreferredEngineVersion: Bool)? {
-        let matches = localResourceManager.maps.filter({ $0.name == mapName })
-        var mapInfo: Map
-        let checksumMatch: Bool
-        let usedPreferredEngineVersion = false
-        if let exactMatch = matches.filter({ $0.checksum == preferredChecksum }).first {
-            mapInfo = exactMatch
-            checksumMatch = true
-        } else if let partialMatch = matches.first {
-            mapInfo = partialMatch
-            checksumMatch = false
-        } else {
-            return nil
+    func dimensions(forMapNamed name: String) -> (width: Int, height: Int)? {
+        if let match = localResourceManager.archiveLoader!.mapArchives.first(where: { $0.name == name}) {
+            return (match.width, match.height)
         }
-
-        if mapInfo.dimensions == nil {
-            mapInfo.dimensions = localResourceManager.diemnsions(forMapNamed: mapName)
-        }
-
-        return (
-            mapInfo: mapInfo,
-            checksumMatch: checksumMatch,
-            usedPreferredEngineVersion: usedPreferredEngineVersion
-        )
+        return nil
     }
 
     /// Whether the lobby has located an engine with the specified version.
@@ -106,7 +80,7 @@ final class ResourceManager {
 
     /// Whether unitsync can find a game with the matching name. The name string should include the game's version.
     func hasGame(name: String) -> Bool {
-        return localResourceManager.games.contains(where: { $0.name == name })
+        return localResourceManager.archiveLoader!.modArchives.contains(where: { $0.name == name })
     }
 
     // MARK: - Maps

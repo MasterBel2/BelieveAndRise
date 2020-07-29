@@ -8,13 +8,13 @@
 
 import Foundation
 
+/// A handle providing access to a library.
 final class DynamicLibraryHandle {
 
     private let handle: UnsafeMutableRawPointer
 
     init?(libraryPath: String) {
         guard let handle = dlopen(libraryPath, RTLD_LAZY + RTLD_LOCAL) else {
-//            NSLog("Failed to load library at: \(libraryPath)")
             return nil
         }
         self.handle = handle
@@ -24,9 +24,15 @@ final class DynamicLibraryHandle {
         dlclose(handle)
     }
 
-    func resolve<T>(_ functionName: String, _ type: T.Type) -> T? {
+    /// Resolves a function without checking for failure.
+    func unsafeResolve<T>(_ functionName: String) -> T {
+        return resolve(functionName)!
+    }
+    
+    /// Resolves a function from the library, returning nil on failure.
+    func resolve<T>(_ functionName: String) -> T? {
         let sym = dlsym(handle, functionName)
-        let value = unsafeBitCast(sym, to: type)
+        let value = unsafeBitCast(sym, to: T.self)
         return value
     }
 }

@@ -268,10 +268,10 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
         }
     }
 
-    func addCustomisedMapOption(_ option: String, value: UnitsyncWrapper.InfoValue) {
-        // TODO
-    }
-
+//    func addCustomisedMapOption(_ option: String, value: UnitsyncWrapper.InfoValue) {
+//        // TODO
+//    }
+//
     func removeCustomisedMapOption(_ option: String) {
         // TODO
     }
