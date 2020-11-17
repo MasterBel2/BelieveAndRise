@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import UberserverClientCore
 
 /// Provides an interface for debug-only logging.
 final class Logger {
@@ -31,6 +32,7 @@ final class Logger {
     }
 
     private init() {
+        #if DEBUG
         let textViewController = TextViewController()
         let window = NSWindow(contentViewController: textViewController)
         window.title = "Log"
@@ -39,20 +41,31 @@ final class Logger {
         self.logWindow = window
 
         window.orderFront(self)
+        #else
+        logWindow = nil
+        viewController = nil
+        #endif
     }
 
     private static let `logger` = Logger()
-    private static let path = "~/.config/spring/believeandrise.log"
+    #if DEBUG
+    private static let path = NSHomeDirectoryURL().appendingPathComponent(".config")
+        .appendingPathComponent("spring")
+        .appendingPathComponent("debug.believeandrise.log").path
+    #else
+    private static let path = NSHomeDirectoryURL().appendingPathComponent(".config")
+        .appendingPathComponent("spring")
+        .appendingPathComponent("believeandrise.log").path
+    #endif
 
-    private let logWindow: NSWindow
-    private let viewController: TextViewController
+    private let logWindow: NSWindow?
+    private let viewController: TextViewController?
 
     private(set) var messages: [Logger.Message] = []
     private var previousWrite: String = "Start of log file"
 
     /// Adds a message to the application's log.
     static func log(_ message: String, tag: Message.Tag) {
-        #if DEBUG
         let newMessage = Message(message: message, tag: tag)
         logger.messages.append(newMessage)
 
@@ -61,13 +74,10 @@ final class Logger {
         let newWrite = logger.previousWrite + "\n" + newEntry
         write(newWrite)
         logger.previousWrite = newWrite
-        logger.viewController.addLine("\n" + newEntry)
-        #endif
+        logger.viewController?.addLine("\n" + newEntry)
     }
 
     private static func write(_ log: String) {
-        let data = log.data(using: .utf8)
-        let fileManager = FileManager.default
-        fileManager.createFile(atPath: path, contents: data, attributes: nil)
+        try? log.write(toFile: path, atomically: true, encoding: .utf8)
     }
 }
