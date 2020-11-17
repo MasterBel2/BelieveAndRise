@@ -55,6 +55,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 	// MARK: - NSApplicationDelegate
 
+    @objc func addSomething() {
+        let newView = NSTextField()
+        newView.stringValue = "Hello!"
+        stackView?.animateInsertion(ofArrangedSubviews: [newView], at: [0], completionHandler: nil)
+    }
+    @objc func removeSomething() {
+        stackView?.animateRemoval(ofViewsAt: [0], completionHandler: nil)
+    }
+    var stackView: NSStackView?
+
+    func testStackViews() {
+        let stackView = NSStackView(views: [
+            NSButton(title: "Add!", target: self, action: #selector(addSomething)),
+            NSButton(title: "Remove!", target: self, action: #selector(removeSomething))
+        ])
+        self.stackView = stackView
+        let window = NSWindow()
+        window.title = "NSStackView test"
+        window.contentView = stackView
+        window.makeKeyAndOrderFront(self)
+        self.window = window
+    }
+
     func battleroomSetup() {
                 let window = NSWindow(contentViewController: BattleroomSetupViewController())
                 window.title = "Battleroom Setup Test"

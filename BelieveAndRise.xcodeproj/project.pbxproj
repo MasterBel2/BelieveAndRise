@@ -59,6 +59,7 @@
 		6B7304A823E7DB5E0027E757 /* InterfaceDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A723E7DB5E0027E757 /* InterfaceDefaultsController.swift */; };
 		6B745D5F24D04FE200A4ED4D /* BattleroomSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D5D24D04FE200A4ED4D /* BattleroomSetupViewController.swift */; };
 		6B745D6024D04FE200A4ED4D /* BattleroomSetupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B745D5E24D04FE200A4ED4D /* BattleroomSetupViewController.xib */; };
+		6B79F0B524D37B1F00CDD892 /* NSStackView+animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B79F0B424D37B1F00CDD892 /* NSStackView+animations.swift */; };
 		6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */; };
 		6B7C82D722D9489A0031F9C9 /* UserAuthenticationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */; };
 		6B7EBD26239A108D0071BE22 /* BattleroomHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7EBD25239A108D0071BE22 /* BattleroomHeaderView.xib */; };
@@ -439,6 +440,7 @@
 			isa = PBXGroup;
 			children = (
 				6BCD568B24D48DC7001131BA /* NSView+addBacking.swift */,
+				6B79F0B424D37B1F00CDD892 /* NSStackView+animations.swift */,
 				6BE233B0232668E60029425E /* NSView+BackgroundColor.swift */,
 				6B30FB4A237D72F700A893C8 /* NSImage+RGB565.swift */,
 			);
@@ -860,6 +862,7 @@
 				6B7304A423E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift in Sources */,
 				6B6340BB2519909000C1CBCB /* MacOSWindowManager.swift in Sources */,
 				6BBF44A4238B6AD80076B656 /* ChatLogViewController.swift in Sources */,
+				6B79F0B524D37B1F00CDD892 /* NSStackView+animations.swift in Sources */,
 				6B2C64D0232517930017A1BC /* ChatBar.swift in Sources */,
 				3E86E057237B087B0032BCBF /* StartRectOverlayView.swift in Sources */,
 				6B745D5F24D04FE200A4ED4D /* BattleroomSetupViewController.swift in Sources */,

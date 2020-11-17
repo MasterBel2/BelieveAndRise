@@ -18,7 +18,7 @@ final class UserAuthenticationViewController: DialogSheet {
 
     // MARK: - Interface connections
 
-    @IBOutlet weak var contentStackView: NSStackView!
+    @IBOutlet var contentStackView: NSStackView!
     @IBOutlet var toggleModeButton: NSButton!
     @IBOutlet var emailRow: NSView!
     @IBOutlet var confirmPasswordRow: NSView!
@@ -32,6 +32,11 @@ final class UserAuthenticationViewController: DialogSheet {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        contentStackView.removeArrangedSubview(emailRow)
+        emailRow.isHidden = true
+        contentStackView.removeArrangedSubview(confirmPasswordRow)
+        confirmPasswordRow.isHidden = true
 
         prefillUsernameAndPassword()
 
@@ -56,12 +61,16 @@ final class UserAuthenticationViewController: DialogSheet {
 
     private var inRegisterMode: Bool = false
     @IBAction func toggleMode(_ sender: Any) {
+        if inRegisterMode {
+            contentStackView.animateRemoval(ofArrangedSubviews: [emailRow, confirmPasswordRow])
+        } else {
+            contentStackView.animateInsertion(ofArrangedSubviews: [emailRow, confirmPasswordRow], at: [1, 3])
+        }
         NSAnimationContext.runAnimationGroup({ context in
-            context.duration = 0.6
             toggleModeButton.animator().title = inRegisterMode ? "Register" : "Login"
-            emailRow.animator().isHidden = !emailRow.isHidden
-            confirmPasswordRow.animator().isHidden = !confirmPasswordRow.isHidden
-        }, completionHandler: { self.inRegisterMode = !self.inRegisterMode })
+        }, completionHandler: {
+            self.inRegisterMode = !self.inRegisterMode
+        })
     }
 
     private func submitLogin() -> Bool {
