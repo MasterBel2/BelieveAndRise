@@ -7,16 +7,7 @@
 //
 
 import Cocoa
-
-/// A set of functions to be implemented by the download item view's delegate.
-protocol DownloadItemViewDelegate: AnyObject {
-	/// Instructs the delegate to show the download in its directory.
-    func showDownload(_ id: Int)
-	/// Instructs the delegate to pause the download.
-    func pauseDownload(_ id: Int)
-	/// Instructs the delegate to resume the paused download.
-    func resumeDownload(_ id: Int)
-}
+import UberserverClientCore
 
 /// A view that displays information about the state of a download.
 final class DownloadItemView: NSView, NibLoadable {

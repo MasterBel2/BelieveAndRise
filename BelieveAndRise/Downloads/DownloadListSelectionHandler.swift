@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UberserverClientCore
 
 final class DownloadListSelectionHandler: ListSelectionHandler {
     func primarySelect(itemIdentifiedBy id: Int) {}

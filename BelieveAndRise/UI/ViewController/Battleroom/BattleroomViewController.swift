@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import UberserverClientCore
 
 /**
  A view controller for a standard client battleroom.

@@ -1,23 +1,13 @@
 //
-//  WindowManager.swift
+//  MacOSWindowManager.swift
 //  BelieveAndRise
 //
-//  Created by MasterBel2 on 7/8/19.
-//  Copyright © 2019 MasterBel2. All rights reserved.
+//  Created by MasterBel2 on 22/9/20.
+//  Copyright © 2020 MasterBel2. All rights reserved.
 //
 
 import Cocoa
-
-/// A set of functions providing a platform-agnostic interface for platform-specific window creation.
-protocol WindowManager {
-	/// Immediately displays current and past downloads to the user.
-	func presentDownloads(_ controller: DownloadController)
-
-    func presentReplays(_ controller: ReplayController, springProcessController: SpringProcessController)
-
-    /// Creates a new manager for client-specific windows.
-    func newClientWindowManager(clientController: ClientController) -> ClientWindowManager
-}
+import UberserverClientCore
 
 #warning("Window manager accesses the UI and should be made thread-safe by use of executeOnMain on its non-private functions.")
 /// The MacOS implementation of `WindowManager`.
@@ -45,8 +35,8 @@ final class MacOSWindowManager: WindowManager {
         }
         let viewController = ListViewController()
         viewController.selectionHandler = ReplayListSelectionHandler(
-            springProcessController: springProcessController,
-            replayList: controller.replays
+            replayList: controller.replays,
+            springProcessController: springProcessController
         )
         viewController.itemViewProvider = ReplayListItemViewProvider(replayList: controller.replays)
         viewController.addSection(controller.replays)

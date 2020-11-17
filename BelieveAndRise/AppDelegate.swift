@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import UberserverClientCore
 
 @NSApplicationMain
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -21,7 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var downloadController: DownloadController!
     var replayController: ReplayController!
     var mainWindowController: NSWindowController?
-    let system = MacOS()
+    var system: System!
     var springProcessController: SpringProcessController!
 
     var downloadsWindow: NSWindow?
@@ -43,6 +44,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func newClient(_ sender: Any) {
         clientController.createNewClient()
     }
+
     @IBAction func printResponders(_ sender: Any) {
         var responder = NSApplication.shared.keyWindow?.firstResponder
         while let actualResponder = responder {
@@ -56,14 +58,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
         Logger.log("Logger is online", tag: .General)
 
+        system = MacOS(windowManager: MacOSWindowManager())
+
         downloadController = DownloadController(system: system)
         replayController = ReplayController(system: system)
         springProcessController = SpringProcessController(system: system, replayController: replayController)
 
         let resourceManager = ResourceManager(
-			downloadController: downloadController,
+            downloadController: downloadController,
             windowManager: system.windowManager
-		)
+        )
         resourceManager.loadLocalResources()
 
         let clientController = ClientController(
@@ -76,6 +80,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         self.clientController = clientController
         self.resourceManager = resourceManager
-	}
+    }
 }
 

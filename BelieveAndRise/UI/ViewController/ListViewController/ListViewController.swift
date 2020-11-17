@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import UberserverClientCore
 
 /**
  A view controller wrapping a single-column table view that displays a sectioned list of

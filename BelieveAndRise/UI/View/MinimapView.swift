@@ -7,24 +7,7 @@
 //
 
 import Cocoa
-
-protocol MinimapDisplay: AnyObject {
-    /// Draws a start rect overlay on the minimap for the specified allyteam.
-    func addStartRect(_ rect: CGRect, for allyTeam: Int)
-    /// Removes the start rect coresponding to the specified ally team.
-    func removeStartRect(for allyTeam: Int)
-    /// Removes all start rects that have been displayed.
-    func removeAllStartRects()
-
-    /// Displays an image in place of the map, indicating the minimap cannot be loaded for the specified map (likely because the map
-    /// has not yet been downloaded).
-    func displayMapUnknown()
-
-    /// Prepares the view with the given map dimensions. Must be set before `displayMapImage(for:dimension:)` is called.
-    func setMapDimensions(_ width: Int, _ height: Int)
-    /// Displays a minimap with the given image dimension. Must be called after  `setMapDimensions(_:_:)`.
-    func displayMapImage(for imageData: [RGB565Color], dimension: Int)
-}
+import UberserverClientCore
 
 final class MinimapView: NSImageView, MinimapDisplay {
 

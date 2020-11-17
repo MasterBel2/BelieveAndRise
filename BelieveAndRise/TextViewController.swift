@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import UberserverClientCore
 
 final class TextViewController: NSViewController {
 

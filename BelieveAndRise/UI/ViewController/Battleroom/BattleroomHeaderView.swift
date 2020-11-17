@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import UberserverClientCore
 
 /**
  A set of delegate functions for the `BattleroomHeaderView`.
@@ -155,7 +156,7 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
 
     private func enableWatchGameButton() {
         watchGameButton.image = NSImage(named: "NSFollowLinkFreestandingTemplate")
-        watchGameButton.title = "Watch Game"
+        watchGameButton.title = "Join Game"//"Watch Game"
         watchGameButton.isEnabled = true
     }
 

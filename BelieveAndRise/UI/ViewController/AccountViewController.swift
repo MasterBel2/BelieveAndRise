@@ -7,36 +7,7 @@
 //
 
 import Cocoa
-
-/// A set of account metadata.
-struct AccountData {
-	/// The user's email address.
-    let email: String
-	/// The number of hours the server has recorded as the user's status has indicated that they are ingame.
-    let ingameHours: Int
-	/// The date the user's account was registered.
-    let registrationDate: Date?
-}
-
-/// Performs operations associated with modifying account information.
-protocol AccountInfoDelegate: AnyObject {
-	/// Attempts to change the user's email to the new email address.
-    func changeEmail(to newEmailAddress: String, password: String, verificationCode: String, completionBlock: @escaping (String?) -> ())
-	/// Requests a verification code to be sent to the new email address, before changing email address.
-    func requestVerficationCodeForChangingEmail(to newEmailAddress: String, password: String, completionBlock: @escaping (String?) -> ())
-	/// Attempts to change the user's username to the new value..
-    func renameAccount(to newAccountName: String, password: String, completionBlock: @escaping (String?) -> ())
-	/// Attempts to change the user's password to the new value.
-    func changePassword(from oldPassword: String, to newPassword: String, completionBlock: @escaping (String?) -> ())
-}
-
-/// Displays the user's account infromation.
-protocol AccountInfoDisplay {
-    /// Presents the account name to the user.
-    func display(accountName: String)
-	/// Presents account metadata to the user.
-    func display(accountData: AccountData)
-}
+import UberserverClientCore
 
 /// A view controller for presenting account metadata.
 final class AccountViewController: NSViewController, AccountInfoDisplay {
@@ -101,9 +72,11 @@ final class AccountViewController: NSViewController, AccountInfoDisplay {
             self?.delegate?.renameAccount(
                 to: viewController.textField.stringValue,
                 password: viewController.secureTextField.stringValue,
-                completionBlock: { _ in }
+                completionBlock: { result in
+                    print(result)
+                }
             )
-            return false
+            return true
         }
         presentAsSheet(viewController)
     }

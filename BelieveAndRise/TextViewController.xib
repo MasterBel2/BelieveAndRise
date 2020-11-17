@@ -18,26 +18,26 @@
             <rect key="frame" x="0.0" y="0.0" width="240" height="135"/>
             <autoresizingMask key="autoresizingMask"/>
             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Bqa-n1-O6V">
-                <rect key="frame" x="0.0" y="0.0" width="225" height="135"/>
+                <rect key="frame" x="0.0" y="0.0" width="240" height="135"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="K1h-Af-rPC">
-                        <rect key="frame" x="0.0" y="0.0" width="225" height="135"/>
+                        <rect key="frame" x="0.0" y="0.0" width="240" height="135"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        <size key="minSize" width="225" height="135"/>
+                        <size key="minSize" width="240" height="135"/>
                         <size key="maxSize" width="240" height="10000000"/>
                         <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                     </textView>
                 </subviews>
             </clipView>
-            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="qMv-P2-N3n">
+            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="qMv-P2-N3n">
                 <rect key="frame" x="-100" y="-100" width="240" height="16"/>
                 <autoresizingMask key="autoresizingMask"/>
             </scroller>
             <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="lyu-Qn-lj0">
-                <rect key="frame" x="225" y="0.0" width="15" height="135"/>
+                <rect key="frame" x="224" y="0.0" width="16" height="135"/>
                 <autoresizingMask key="autoresizingMask"/>
             </scroller>
             <point key="canvasLocation" x="75" y="165"/>

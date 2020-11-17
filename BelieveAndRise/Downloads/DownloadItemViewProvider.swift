@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import UberserverClientCore
 
 /// Provides view for the list view controller displaying the contents of a list of `DownloadInfo`.
 final class DownloadItemViewProvider: _ItemViewProvider {

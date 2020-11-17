@@ -7,22 +7,7 @@
 //
 
 import Cocoa
-
-protocol LoginDelegate: AnyObject {
-    func submitLogin(
-        username: String,
-        password: String,
-        completionHandler: @escaping (Result<String, LoginError>) -> Void
-    )
-    func submitRegister(
-        username: String,
-        email: String,
-        password: String,
-        completionHandler: @escaping (String?) -> Void
-    )
-    var prefillableUsernames: [String] { get }
-    var lastCredentialsPair: Credentials? { get }
-}
+import UberserverClientCore
 
 /// A controller for the user authentication process.
 final class UserAuthenticationViewController: DialogSheet {

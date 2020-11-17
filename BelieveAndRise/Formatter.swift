@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import SpringRTSReplayHandling
+import UberserverClientCore
 
 /// Describes a set of functions required for providing an item to a `ListViewController`.
 protocol ItemViewProvider {
@@ -25,7 +27,7 @@ extension _ItemViewProvider {
     }
 }
 
-/// An `ItemViewProvider` that always provides nil.
+/// An `ItemViewProvider` that always provides a nil view.
 struct DefaultItemViewProvider: ItemViewProvider {
 
     typealias ViewType = NSView
@@ -53,7 +55,7 @@ struct ReplayListItemViewProvider: _ItemViewProvider {
             return nil
         }
         let view = _view(for: listView)
-        view.primaryLabel.stringValue = item.specification.mapName
+        view.primaryLabel.stringValue = item.gameSpecification.mapName
         view.secondaryLabel.stringValue = dateFormatter.string(from: item.header.gameStartDate)
         return view
     }
@@ -206,7 +208,6 @@ struct BattleroomPlayerListItemViewProvider: _ItemViewProvider {
 }
 
 struct BattleroomMessageListItemViewProvider: _ItemViewProvider {
-
     typealias ViewType = ExtendedChatMessageView
 
     let list: List<ChatMessage>
@@ -242,7 +243,7 @@ struct BattleroomMessageListItemViewProvider: _ItemViewProvider {
 
         let myAlly = battleroom.myBattleStatus.allyNumber
         if battleStatus.isSpectator || battleroom.myBattleStatus.isSpectator {
-            //
+            view.usernameField.textColor = .controlTextColor
         } else if battleStatus.allyNumber == myAlly {
             view.usernameField.textColor = NSColor(named: "userIsAlly")
         } else {

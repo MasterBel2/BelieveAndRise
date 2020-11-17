@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import UberserverClientCore
 
 final class ChatLogViewController: ListViewController {
     override func addSection(_ list: ListProtocol) {

@@ -7,11 +7,8 @@
 //
 
 import Cocoa
-
-/// An object that handles a request to connect to a lobbyserver.
-protocol ServerSelectionDelegate: AnyObject {
-    func serverSelectionInterface(didSelectServerAt serverAddress: ServerAddress)
-}
+import ServerAddress
+import UberserverClientCore
 
 /// A sheet providing an interface for selecting a lobbyserver to connect to.
 final class ServerSelectionDialogSheet: DialogSheet, NSComboBoxDataSource, NSComboBoxDelegate {

@@ -1,41 +1,13 @@
 //
-//  ClientWindowManager.swift
+//  MacOSClientWindowManager.swift
 //  BelieveAndRise
 //
-//  Created by MasterBel2 on 9/2/20.
+//  Created by MasterBel2 on 22/9/20.
 //  Copyright © 2020 MasterBel2. All rights reserved.
 //
 
 import Cocoa
-
-/// A set of functions providing a platform-agnostic interface for platform-specific windows associated with a single client.
-protocol ClientWindowManager {
-    func configure(for client: Client)
-
-    func presentInitialWindow()
-    /// Displays an window with information about the logged in user's account
-    func presentAccountWindow(_ controller: AccountInfoController)
-
-    /// Presents the server selection interface, with a delegate.
-    func presentServerSelection(delegate: ServerSelectionDelegate)
-    /// Dismisses the server selection interface.
-    func dismissServerSelection()
-    /// Present a login interface.
-    func presentLogin(controller: UserAuthenticationController)
-    /// Dismisses the login interface.
-    func dismissLogin()
-
-    func resetServerWindows()
-
-    func displayBattlelist(_ battleList: List<Battle>)
-    func displayServerUserlist(_ userList: List<User>)
-    func displayBattleroom(_ battleroom: Battleroom)
-
-    func destroyBattleroom()
-
-    func setChatController(_ chatController: ChatController)
-    func setBattleController(_ battleController: BattleController)
-}
+import UberserverClientCore
 
 #warning("ClientWindowManager accesses the UI and should be made thread-safe by use of `executeOnMain` on its non-private functions.")
 /// A MacOS-specific implementation of `ClientWindowManager`.
@@ -93,10 +65,10 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
 
     func configure(for client: Client) {
         self.client = client
-        setBattleController(client.battleController)
-        setChatController(client.chatController)
-        displayBattlelist(client.battleList)
-        displayServerUserlist(client.userList)
+        mainWindowController.setBattleController(client.battleController)
+        mainWindowController.setChatController(client.chatController)
+        mainWindowController.displayBattlelist(client.battleList)
+        mainWindowController.displayServerUserlist(client.userList)
     }
 
     func resetServerWindows() {
@@ -148,28 +120,12 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
 
     // MARK: - Content
 
-    func displayBattlelist(_ battleList: List<Battle>) {
-        mainWindowController.displayBattlelist(battleList)
-    }
-
-    func displayServerUserlist(_ userList: List<User>) {
-        mainWindowController.displayServerUserlist(userList)
-    }
-
     func displayBattleroom(_ battleroom: Battleroom) {
         mainWindowController.displayBattleroom(battleroom)
     }
 
     func destroyBattleroom() {
         mainWindowController.destroyBattleroomViewController()
-    }
-
-    func setChatController(_ chatController: ChatController) {
-        mainWindowController.setChatController(chatController)
-    }
-
-    func setBattleController(_ battleController: BattleController) {
-        mainWindowController.setBattleController(battleController)
     }
 
     // MARK: - Platform UI wrappers

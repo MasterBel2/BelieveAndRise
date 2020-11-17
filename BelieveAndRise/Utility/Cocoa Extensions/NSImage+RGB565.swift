@@ -6,6 +6,7 @@
 //  Copyright © 2017 MasterBel2. All rights reserved.
 //
 import Cocoa
+import UberserverClientCore
 
 extension NSImage {
 
