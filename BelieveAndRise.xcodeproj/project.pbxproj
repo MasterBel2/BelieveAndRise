@@ -69,6 +69,7 @@
 		6BCC43AE2497BB8C00C7AA53 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCC43AC2497BB8C00C7AA53 /* AccountViewController.swift */; };
 		6BCC43AF2497BB8C00C7AA53 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BCC43AD2497BB8C00C7AA53 /* AccountViewController.xib */; };
 		6BCC43B12497BCA100C7AA53 /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCC43B02497BCA100C7AA53 /* RankView.swift */; };
+		6BCD568C24D48DC7001131BA /* NSView+addBacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCD568B24D48DC7001131BA /* NSView+addBacking.swift */; };
 		6BD56FA425199961002AC8E6 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD56FA325199961002AC8E6 /* Formatter.swift */; };
 		6BE233B1232668E60029425E /* NSView+BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE233B0232668E60029425E /* NSView+BackgroundColor.swift */; };
 		6BE233B423269ACE0029425E /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE233B223269ACE0029425E /* ChatViewController.swift */; };
@@ -177,6 +178,7 @@
 		6B7304A323E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewControllerResizeDelegate.swift; sourceTree = "<group>"; };
 		6B7304A523E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewControllerResizeDelegate.swift; sourceTree = "<group>"; };
 		6B7304A723E7DB5E0027E757 /* InterfaceDefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceDefaultsController.swift; sourceTree = "<group>"; };
+		6B79F0B424D37B1F00CDD892 /* NSStackView+animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSStackView+animations.swift"; sourceTree = "<group>"; };
 		6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationViewController.swift; sourceTree = "<group>"; };
 		6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserAuthenticationViewController.xib; sourceTree = "<group>"; };
 		6B7EBD25239A108D0071BE22 /* BattleroomHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattleroomHeaderView.xib; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 		6BCC43AC2497BB8C00C7AA53 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		6BCC43AD2497BB8C00C7AA53 /* AccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
 		6BCC43B02497BCA100C7AA53 /* RankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankView.swift; sourceTree = "<group>"; };
+		6BCD568B24D48DC7001131BA /* NSView+addBacking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+addBacking.swift"; sourceTree = "<group>"; };
 		6BD56FA325199961002AC8E6 /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		6BD56FBB2519E2D8002AC8E6 /* BelieveAndRiseSwiftUIDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BelieveAndRiseSwiftUIDebug.entitlements; sourceTree = "<group>"; };
 		6BE233B0232668E60029425E /* NSView+BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSView+BackgroundColor.swift"; sourceTree = "<group>"; };
@@ -423,6 +426,7 @@
 		6B30FB50237D743500A893C8 /* Cocoa Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				6BCD568B24D48DC7001131BA /* NSView+addBacking.swift */,
 				6BE233B0232668E60029425E /* NSView+BackgroundColor.swift */,
 				6B30FB4A237D72F700A893C8 /* NSImage+RGB565.swift */,
 			);
@@ -812,6 +816,7 @@
 				6B7304A123E7B5FA0027E757 /* ResizeTrackingSplitViewController.swift in Sources */,
 				6B880619249BCC3700BAF05B /* SingleTextInputDialogSheet.swift in Sources */,
 				6BBBEFC5244D3E350063F2A0 /* Logger.swift in Sources */,
+				6BCD568C24D48DC7001131BA /* NSView+addBacking.swift in Sources */,
 				3E7C827E239CC25F004B835D /* DownloadItemViewProvider.swift in Sources */,
 				3E46333522C0C2D000AE0F2F /* AppDelegate.swift in Sources */,
 				6BE233B423269ACE0029425E /* ChatViewController.swift in Sources */,
