@@ -56,6 +56,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 	// MARK: - NSApplicationDelegate
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
+        runNormally()
+//        testForms()
+    }
+
+    func testForms() {
+        let viewController = FormViewController()
+        viewController.pages = [TestFormPageViewController(), TestFormPageViewController()]
+        let window = NSWindow(contentViewController: viewController)
+        window.title = "Form Test"
+        window.makeKeyAndOrderFront(self)
+        self.window = window
+    }
+    
+    func runNormally() {
         Logger.log("Logger is online", tag: .General)
 
         system = MacOS(windowManager: MacOSWindowManager())

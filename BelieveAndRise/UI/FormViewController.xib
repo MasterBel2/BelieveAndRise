@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="FormViewController" customModule="BelieveAndRise" customModuleProvider="target">
+            <connections>
+                <outlet property="buttonStackView" destination="Lhe-yb-jqA" id="Xbu-P8-t85"/>
+                <outlet property="cancelButton" destination="tgN-vM-Kvs" id="iRb-EX-RJ8"/>
+                <outlet property="contentContainerView" destination="gEM-0w-DiU" id="qDl-MH-JxT"/>
+                <outlet property="nextButton" destination="XCb-5i-zOh" id="cRh-IR-Xc9"/>
+                <outlet property="structureStackView" destination="OEP-Y9-58U" id="7vq-rD-35n"/>
+                <outlet property="titleField" destination="ibA-Tc-x4S" id="Ujg-Rr-RqQ"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="58t-ZV-0Bz"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="540" height="237"/>
+            <subviews>
+                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OEP-Y9-58U">
+                    <rect key="frame" x="20" y="65" width="500" height="142"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ibA-Tc-x4S">
+                            <rect key="frame" x="-2" y="116" width="62" height="26"/>
+                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="yCW-v3-S2B">
+                                <font key="font" size="22" name="HelveticaNeue-Bold"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="gEM-0w-DiU">
+                            <rect key="frame" x="0.0" y="0.0" width="500" height="96"/>
+                            <subviews>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sv2-mc-Mas">
+                                    <rect key="frame" x="18" y="20" width="464" height="56"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Placeholder to allow this NIB to load correctly" id="KAS-jK-wgW">
+                                        <font key="font" usesAppearanceFont="YES"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                            </subviews>
+                        </customView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="gEM-0w-DiU" firstAttribute="width" secondItem="OEP-Y9-58U" secondAttribute="width" id="TnQ-8H-gk4"/>
+                    </constraints>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
+                <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lhe-yb-jqA">
+                    <rect key="frame" x="385" y="20" width="135" height="25"/>
+                    <subviews>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tgN-vM-Kvs">
+                            <rect key="frame" x="-6" y="-3" width="82" height="32"/>
+                            <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TdI-FP-6f2">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                                <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                            </buttonCell>
+                            <connections>
+                                <action selector="cancelButton:" target="-2" id="dKG-5N-yHE"/>
+                            </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XCb-5i-zOh">
+                            <rect key="frame" x="72" y="-3" width="69" height="32"/>
+                            <buttonCell key="cell" type="push" title="Next" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zHC-Tk-Ord">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="nextPage:" target="-2" id="RHq-f4-JaS"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Lhe-yb-jqA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="4lL-d2-h09"/>
+                <constraint firstItem="OEP-Y9-58U" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="7gh-Wp-lhq"/>
+                <constraint firstItem="Lhe-yb-jqA" firstAttribute="top" secondItem="OEP-Y9-58U" secondAttribute="bottom" constant="20" id="P8T-JE-Mc9"/>
+                <constraint firstAttribute="bottom" secondItem="Lhe-yb-jqA" secondAttribute="bottom" constant="20" id="jbQ-aL-R1r"/>
+                <constraint firstAttribute="trailing" secondItem="OEP-Y9-58U" secondAttribute="trailing" constant="20" id="juR-iv-CNX"/>
+                <constraint firstAttribute="trailing" secondItem="Lhe-yb-jqA" secondAttribute="trailing" constant="20" id="qsV-aO-BN1"/>
+                <constraint firstItem="OEP-Y9-58U" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="30" id="whA-BL-fSj"/>
+            </constraints>
+            <point key="canvasLocation" x="163" y="112.5"/>
+        </customView>
+    </objects>
+</document>
