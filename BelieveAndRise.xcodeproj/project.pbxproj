@@ -121,7 +121,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3E04709922CD6B91005241E6 /* ServerCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCommand.swift; sourceTree = "<group>"; };
 		3E33C9D822C203B200C340F9 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		3E46333122C0C2D000AE0F2F /* BelieveAndRise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BelieveAndRise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E46333422C0C2D000AE0F2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -201,7 +200,6 @@
 		6BAF4AB924A86F7F0078A64E /* TextViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextViewController.xib; sourceTree = "<group>"; };
 		6BBBEFC4244D3E350063F2A0 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		6BBF44A3238B6AD80076B656 /* ChatLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewController.swift; sourceTree = "<group>"; };
-		6BC4473F2379E324006842DD /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Formatter.swift; path = BelieveAndRise/Core/List/Formatter.swift; sourceTree = SOURCE_ROOT; };
 		6BCC43AC2497BB8C00C7AA53 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		6BCC43AD2497BB8C00C7AA53 /* AccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
 		6BCC43B02497BCA100C7AA53 /* RankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankView.swift; sourceTree = "<group>"; };
@@ -309,6 +307,9 @@
 		3E46333322C0C2D000AE0F2F /* BelieveAndRise */ = {
 			isa = PBXGroup;
 			children = (
+				6BBBEFC4244D3E350063F2A0 /* Logger.swift */,
+				6BAF4AB824A86F7F0078A64E /* TextViewController.swift */,
+				6BAF4AB924A86F7F0078A64E /* TextViewController.xib */,
 				6BEE6525239A8F2A0029528A /* LICENSE */,
 				3E46333422C0C2D000AE0F2F /* AppDelegate.swift */,
 				6BD56FA325199961002AC8E6 /* Formatter.swift */,
