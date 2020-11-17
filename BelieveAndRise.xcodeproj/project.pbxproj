@@ -57,6 +57,8 @@
 		6B7304A423E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A323E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift */; };
 		6B7304A623E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A523E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift */; };
 		6B7304A823E7DB5E0027E757 /* InterfaceDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7304A723E7DB5E0027E757 /* InterfaceDefaultsController.swift */; };
+		6B745D5F24D04FE200A4ED4D /* BattleroomSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B745D5D24D04FE200A4ED4D /* BattleroomSetupViewController.swift */; };
+		6B745D6024D04FE200A4ED4D /* BattleroomSetupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B745D5E24D04FE200A4ED4D /* BattleroomSetupViewController.xib */; };
 		6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */; };
 		6B7C82D722D9489A0031F9C9 /* UserAuthenticationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */; };
 		6B7EBD26239A108D0071BE22 /* BattleroomHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B7EBD25239A108D0071BE22 /* BattleroomHeaderView.xib */; };
@@ -184,6 +186,8 @@
 		6B7304A323E7B63B0027E757 /* SplitViewControllerResizeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewControllerResizeDelegate.swift; sourceTree = "<group>"; };
 		6B7304A523E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSplitViewControllerResizeDelegate.swift; sourceTree = "<group>"; };
 		6B7304A723E7DB5E0027E757 /* InterfaceDefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceDefaultsController.swift; sourceTree = "<group>"; };
+		6B745D5D24D04FE200A4ED4D /* BattleroomSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleroomSetupViewController.swift; sourceTree = "<group>"; };
+		6B745D5E24D04FE200A4ED4D /* BattleroomSetupViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattleroomSetupViewController.xib; sourceTree = "<group>"; };
 		6B79F0B424D37B1F00CDD892 /* NSStackView+animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSStackView+animations.swift"; sourceTree = "<group>"; };
 		6B7C82D422D9489A0031F9C9 /* UserAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthenticationViewController.swift; sourceTree = "<group>"; };
 		6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserAuthenticationViewController.xib; sourceTree = "<group>"; };
@@ -467,6 +471,8 @@
 		6B7BE5F2238E5D530039697A /* Battleroom */ = {
 			isa = PBXGroup;
 			children = (
+				6B745D5D24D04FE200A4ED4D /* BattleroomSetupViewController.swift */,
+				6B745D5E24D04FE200A4ED4D /* BattleroomSetupViewController.xib */,
 				6BF044C92391F50D008CCE3C /* BattleroomHeaderView.swift */,
 				6B7EBD25239A108D0071BE22 /* BattleroomHeaderView.xib */,
 				6B4266002391FA3E00AB46A2 /* BattleroomViewController.swift */,
@@ -768,6 +774,7 @@
 				6BEE6526239A8F2A0029528A /* LICENSE in Resources */,
 				6BAF4ABB24A86F7F0078A64E /* TextViewController.xib in Resources */,
 				3E7C8285239CC312004B835D /* RankIngameAndUsernameView.xib in Resources */,
+				6B745D6024D04FE200A4ED4D /* BattleroomSetupViewController.xib in Resources */,
 				3E46333722C0C2D200AE0F2F /* Assets.xcassets in Resources */,
 				6B179C3C2499E5ED00D3DC56 /* DialogSheet.xib in Resources */,
 				6B08BD7923927B05001F9C3F /* ExtendedChatMessageView.xib in Resources */,
@@ -855,6 +862,7 @@
 				6BBF44A4238B6AD80076B656 /* ChatLogViewController.swift in Sources */,
 				6B2C64D0232517930017A1BC /* ChatBar.swift in Sources */,
 				3E86E057237B087B0032BCBF /* StartRectOverlayView.swift in Sources */,
+				6B745D5F24D04FE200A4ED4D /* BattleroomSetupViewController.swift in Sources */,
 				6B880614249BBF1E00BAF05B /* DualTextInputDialogSheet.swift in Sources */,
 				6BE233B723269ECA0029425E /* ChatBarController.swift in Sources */,
 				6B7304A623E7B64F0027E757 /* MainSplitViewControllerResizeDelegate.swift in Sources */,

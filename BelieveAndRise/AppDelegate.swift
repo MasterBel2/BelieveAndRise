@@ -55,6 +55,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 	// MARK: - NSApplicationDelegate
 
+    func battleroomSetup() {
+                let window = NSWindow(contentViewController: BattleroomSetupViewController())
+                window.title = "Battleroom Setup Test"
+                window.makeKeyAndOrderFront(self)
+                self.window = window
+    }
+
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
         runNormally()
 //        testForms()
