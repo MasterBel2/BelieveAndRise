@@ -30,6 +30,13 @@
 		3EF20F7422F825D10005650E /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EF20F7322F825D10005650E /* ListViewController.xib */; };
 		6B08BD7723927AF6001F9C3F /* ExtendedChatMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B08BD7623927AF6001F9C3F /* ExtendedChatMessageView.swift */; };
 		6B08BD7923927B05001F9C3F /* ExtendedChatMessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B08BD7823927B05001F9C3F /* ExtendedChatMessageView.xib */; };
+		6B114C06251882E000F76670 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B114C05251882E000F76670 /* AppDelegate.swift */; };
+		6B114C08251882E000F76670 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B114C07251882E000F76670 /* ContentView.swift */; };
+		6B114C0A251882E200F76670 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B114C09251882E200F76670 /* Assets.xcassets */; };
+		6B114C0D251882E200F76670 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B114C0C251882E200F76670 /* Preview Assets.xcassets */; };
+		6B114C10251882E200F76670 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B114C0E251882E200F76670 /* Main.storyboard */; };
+		6B114C1C251882E300F76670 /* BelieveAndRiseSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B114C1B251882E300F76670 /* BelieveAndRiseSwiftUITests.swift */; };
+		6B114C27251882E300F76670 /* BelieveAndRiseSwiftUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B114C26251882E300F76670 /* BelieveAndRiseSwiftUIUITests.swift */; };
 		6B179C3C2499E5ED00D3DC56 /* DialogSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B179C3A2499E5ED00D3DC56 /* DialogSheet.xib */; };
 		6B179C3E249B175400D3DC56 /* DialogSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B179C392499E5ED00D3DC56 /* DialogSheet.swift */; };
 		6B179C40249B17D200D3DC56 /* ServerSelectionDialogSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B179C3F249B17D200D3DC56 /* ServerSelectionDialogSheet.xib */; };
@@ -89,6 +96,20 @@
 			remoteGlobalIDString = 3E46333022C0C2D000AE0F2F;
 			remoteInfo = BelieveAndRise;
 		};
+		6B114C18251882E300F76670 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E46332922C0C2D000AE0F2F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6B114C02251882E000F76670;
+			remoteInfo = BelieveAndRiseSwiftUI;
+		};
+		6B114C23251882E300F76670 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E46332922C0C2D000AE0F2F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6B114C02251882E000F76670;
+			remoteInfo = BelieveAndRiseSwiftUI;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -124,6 +145,20 @@
 		3EF20F7322F825D10005650E /* ListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListViewController.xib; sourceTree = "<group>"; };
 		6B08BD7623927AF6001F9C3F /* ExtendedChatMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedChatMessageView.swift; sourceTree = "<group>"; };
 		6B08BD7823927B05001F9C3F /* ExtendedChatMessageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExtendedChatMessageView.xib; sourceTree = "<group>"; };
+		6B114C03251882E000F76670 /* BelieveAndRiseSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BelieveAndRiseSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B114C05251882E000F76670 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6B114C07251882E000F76670 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6B114C09251882E200F76670 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6B114C0C251882E200F76670 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		6B114C0F251882E200F76670 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6B114C11251882E200F76670 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B114C12251882E200F76670 /* BelieveAndRiseSwiftUI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BelieveAndRiseSwiftUI.entitlements; sourceTree = "<group>"; };
+		6B114C17251882E300F76670 /* BelieveAndRiseSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BelieveAndRiseSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B114C1B251882E300F76670 /* BelieveAndRiseSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BelieveAndRiseSwiftUITests.swift; sourceTree = "<group>"; };
+		6B114C1D251882E300F76670 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B114C22251882E300F76670 /* BelieveAndRiseSwiftUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BelieveAndRiseSwiftUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B114C26251882E300F76670 /* BelieveAndRiseSwiftUIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BelieveAndRiseSwiftUIUITests.swift; sourceTree = "<group>"; };
+		6B114C28251882E300F76670 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B179C392499E5ED00D3DC56 /* DialogSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogSheet.swift; sourceTree = "<group>"; };
 		6B179C3A2499E5ED00D3DC56 /* DialogSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DialogSheet.xib; sourceTree = "<group>"; };
 		6B179C3F249B17D200D3DC56 /* ServerSelectionDialogSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerSelectionDialogSheet.xib; sourceTree = "<group>"; };
@@ -158,6 +193,7 @@
 		6BCC43AD2497BB8C00C7AA53 /* AccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
 		6BCC43B02497BCA100C7AA53 /* RankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankView.swift; sourceTree = "<group>"; };
 		6BD56FA325199961002AC8E6 /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		6BD56FBB2519E2D8002AC8E6 /* BelieveAndRiseSwiftUIDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BelieveAndRiseSwiftUIDebug.entitlements; sourceTree = "<group>"; };
 		6BE233B0232668E60029425E /* NSView+BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSView+BackgroundColor.swift"; sourceTree = "<group>"; };
 		6BE233B223269ACE0029425E /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = BelieveAndRise/UI/ViewController/ChatViewController/ChatViewController.swift; sourceTree = SOURCE_ROOT; };
 		6BE233B323269ACE0029425E /* ChatViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ChatViewController.xib; path = BelieveAndRise/UI/ViewController/ChatViewController/ChatViewController.xib; sourceTree = SOURCE_ROOT; };
@@ -233,6 +269,9 @@
 				3E46333322C0C2D000AE0F2F /* BelieveAndRise */,
 				3E46334422C0C2D200AE0F2F /* BelieveAndRiseTests */,
 				3E46334F22C0C2D200AE0F2F /* BelieveAndRiseUITests */,
+				6B114C04251882E000F76670 /* BelieveAndRiseSwiftUI */,
+				6B114C1A251882E300F76670 /* BelieveAndRiseSwiftUITests */,
+				6B114C25251882E300F76670 /* BelieveAndRiseSwiftUIUITests */,
 				3E46333222C0C2D000AE0F2F /* Products */,
 				6BF85C78237C87C700A19493 /* Frameworks */,
 			);
@@ -244,6 +283,9 @@
 				3E46333122C0C2D000AE0F2F /* BelieveAndRise.app */,
 				3E46334122C0C2D200AE0F2F /* BelieveAndRiseTests.xctest */,
 				3E46334C22C0C2D200AE0F2F /* BelieveAndRiseUITests.xctest */,
+				6B114C03251882E000F76670 /* BelieveAndRiseSwiftUI.app */,
+				6B114C17251882E300F76670 /* BelieveAndRiseSwiftUITests.xctest */,
+				6B114C22251882E300F76670 /* BelieveAndRiseSwiftUIUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -326,9 +368,45 @@
 			path = Downloads;
 			sourceTree = "<group>";
 		};
+		6B114C04251882E000F76670 /* BelieveAndRiseSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				6BD56FBB2519E2D8002AC8E6 /* BelieveAndRiseSwiftUIDebug.entitlements */,
+				6B114C05251882E000F76670 /* AppDelegate.swift */,
+				6B114C07251882E000F76670 /* ContentView.swift */,
+				6B114C09251882E200F76670 /* Assets.xcassets */,
+				6B114C0E251882E200F76670 /* Main.storyboard */,
+				6B114C11251882E200F76670 /* Info.plist */,
+				6B114C12251882E200F76670 /* BelieveAndRiseSwiftUI.entitlements */,
+				6B114C0B251882E200F76670 /* Preview Content */,
 			);
+			path = BelieveAndRiseSwiftUI;
+			sourceTree = "<group>";
+		};
+		6B114C0B251882E200F76670 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				6B114C0C251882E200F76670 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		6B114C1A251882E300F76670 /* BelieveAndRiseSwiftUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6B114C1B251882E300F76670 /* BelieveAndRiseSwiftUITests.swift */,
+				6B114C1D251882E300F76670 /* Info.plist */,
+			);
+			path = BelieveAndRiseSwiftUITests;
+			sourceTree = "<group>";
+		};
+		6B114C25251882E300F76670 /* BelieveAndRiseSwiftUIUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6B114C26251882E300F76670 /* BelieveAndRiseSwiftUIUITests.swift */,
+				6B114C28251882E300F76670 /* Info.plist */,
+			);
+			path = BelieveAndRiseSwiftUIUITests;
 			sourceTree = "<group>";
 		};
 		6B179C3D249B161800D3DC56 /* DialogSheet */ = {
@@ -530,6 +608,62 @@
 			productReference = 3E46334C22C0C2D200AE0F2F /* BelieveAndRiseUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		6B114C02251882E000F76670 /* BelieveAndRiseSwiftUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6B114C29251882E300F76670 /* Build configuration list for PBXNativeTarget "BelieveAndRiseSwiftUI" */;
+			buildPhases = (
+				6B114BFF251882E000F76670 /* Sources */,
+				6B114C00251882E000F76670 /* Frameworks */,
+				6B114C01251882E000F76670 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BelieveAndRiseSwiftUI;
+			packageProductDependencies = (
+				6BF7CD57256391480080CA02 /* UberserverClientCore */,
+			);
+			productName = BelieveAndRiseSwiftUI;
+			productReference = 6B114C03251882E000F76670 /* BelieveAndRiseSwiftUI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6B114C16251882E300F76670 /* BelieveAndRiseSwiftUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6B114C2C251882E300F76670 /* Build configuration list for PBXNativeTarget "BelieveAndRiseSwiftUITests" */;
+			buildPhases = (
+				6B114C13251882E300F76670 /* Sources */,
+				6B114C14251882E300F76670 /* Frameworks */,
+				6B114C15251882E300F76670 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6B114C19251882E300F76670 /* PBXTargetDependency */,
+			);
+			name = BelieveAndRiseSwiftUITests;
+			productName = BelieveAndRiseSwiftUITests;
+			productReference = 6B114C17251882E300F76670 /* BelieveAndRiseSwiftUITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6B114C21251882E300F76670 /* BelieveAndRiseSwiftUIUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6B114C2F251882E300F76670 /* Build configuration list for PBXNativeTarget "BelieveAndRiseSwiftUIUITests" */;
+			buildPhases = (
+				6B114C1E251882E300F76670 /* Sources */,
+				6B114C1F251882E300F76670 /* Frameworks */,
+				6B114C20251882E300F76670 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6B114C24251882E300F76670 /* PBXTargetDependency */,
+			);
+			name = BelieveAndRiseSwiftUIUITests;
+			productName = BelieveAndRiseSwiftUIUITests;
+			productReference = 6B114C22251882E300F76670 /* BelieveAndRiseSwiftUIUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -557,6 +691,17 @@
 						CreatedOnToolsVersion = 10.2.1;
 						TestTargetID = 3E46333022C0C2D000AE0F2F;
 					};
+					6B114C02251882E000F76670 = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					6B114C16251882E300F76670 = {
+						CreatedOnToolsVersion = 12.0;
+						TestTargetID = 6B114C02251882E000F76670;
+					};
+					6B114C21251882E300F76670 = {
+						CreatedOnToolsVersion = 12.0;
+						TestTargetID = 6B114C02251882E000F76670;
+					};
 				};
 			};
 			buildConfigurationList = 3E46332C22C0C2D000AE0F2F /* Build configuration list for PBXProject "BelieveAndRise" */;
@@ -578,6 +723,9 @@
 				3E46333022C0C2D000AE0F2F /* BelieveAndRise */,
 				3E46334022C0C2D200AE0F2F /* BelieveAndRiseTests */,
 				3E46334B22C0C2D200AE0F2F /* BelieveAndRiseUITests */,
+				6B114C02251882E000F76670 /* BelieveAndRiseSwiftUI */,
+				6B114C16251882E300F76670 /* BelieveAndRiseSwiftUITests */,
+				6B114C21251882E300F76670 /* BelieveAndRiseSwiftUIUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -620,6 +768,30 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		3E46334A22C0C2D200AE0F2F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6B114C01251882E000F76670 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B114C10251882E200F76670 /* Main.storyboard in Resources */,
+				6B114C0D251882E200F76670 /* Preview Assets.xcassets in Resources */,
+				6B114C0A251882E200F76670 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6B114C15251882E300F76670 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6B114C20251882E300F76670 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -690,6 +862,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6B114BFF251882E000F76670 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B114C08251882E000F76670 /* ContentView.swift in Sources */,
+				6B114C06251882E000F76670 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6B114C13251882E300F76670 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B114C1C251882E300F76670 /* BelieveAndRiseSwiftUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6B114C1E251882E300F76670 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B114C27251882E300F76670 /* BelieveAndRiseSwiftUIUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -703,6 +900,16 @@
 			target = 3E46333022C0C2D000AE0F2F /* BelieveAndRise */;
 			targetProxy = 3E46334D22C0C2D200AE0F2F /* PBXContainerItemProxy */;
 		};
+		6B114C19251882E300F76670 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6B114C02251882E000F76670 /* BelieveAndRiseSwiftUI */;
+			targetProxy = 6B114C18251882E300F76670 /* PBXContainerItemProxy */;
+		};
+		6B114C24251882E300F76670 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6B114C02251882E000F76670 /* BelieveAndRiseSwiftUI */;
+			targetProxy = 6B114C23251882E300F76670 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -712,6 +919,14 @@
 				3E46333922C0C2D200AE0F2F /* Base */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		6B114C0E251882E200F76670 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6B114C0F251882E200F76670 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -957,6 +1172,146 @@
 			};
 			name = Release;
 		};
+		6B114C2A251882E300F76670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = BelieveAndRiseSwiftUI/BelieveAndRiseSwiftUIDebug.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"BelieveAndRiseSwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = Y6Q66BXSCV;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BelieveAndRiseSwiftUI/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.masterbel2.BelieveAndRiseSwiftUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		6B114C2B251882E300F76670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = BelieveAndRiseSwiftUI/BelieveAndRiseSwiftUI.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"BelieveAndRiseSwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = Y6Q66BXSCV;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BelieveAndRiseSwiftUI/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.masterbel2.BelieveAndRiseSwiftUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		6B114C2D251882E300F76670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Y6Q66BXSCV;
+				INFOPLIST_FILE = BelieveAndRiseSwiftUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.masterbel2.BelieveAndRiseSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BelieveAndRiseSwiftUI.app/Contents/MacOS/BelieveAndRiseSwiftUI";
+			};
+			name = Debug;
+		};
+		6B114C2E251882E300F76670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Y6Q66BXSCV;
+				INFOPLIST_FILE = BelieveAndRiseSwiftUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.masterbel2.BelieveAndRiseSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BelieveAndRiseSwiftUI.app/Contents/MacOS/BelieveAndRiseSwiftUI";
+			};
+			name = Release;
+		};
+		6B114C30251882E300F76670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Y6Q66BXSCV;
+				INFOPLIST_FILE = BelieveAndRiseSwiftUIUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.masterbel2.BelieveAndRiseSwiftUIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = BelieveAndRiseSwiftUI;
+			};
+			name = Debug;
+		};
+		6B114C31251882E300F76670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = Y6Q66BXSCV;
+				INFOPLIST_FILE = BelieveAndRiseSwiftUIUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.masterbel2.BelieveAndRiseSwiftUIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = BelieveAndRiseSwiftUI;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -992,6 +1347,33 @@
 			buildConfigurations = (
 				3E46335C22C0C2D200AE0F2F /* Debug */,
 				3E46335D22C0C2D200AE0F2F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6B114C29251882E300F76670 /* Build configuration list for PBXNativeTarget "BelieveAndRiseSwiftUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6B114C2A251882E300F76670 /* Debug */,
+				6B114C2B251882E300F76670 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6B114C2C251882E300F76670 /* Build configuration list for PBXNativeTarget "BelieveAndRiseSwiftUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6B114C2D251882E300F76670 /* Debug */,
+				6B114C2E251882E300F76670 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6B114C2F251882E300F76670 /* Build configuration list for PBXNativeTarget "BelieveAndRiseSwiftUIUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6B114C30251882E300F76670 /* Debug */,
+				6B114C31251882E300F76670 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
