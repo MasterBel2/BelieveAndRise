@@ -13,7 +13,7 @@ final class MinimapView: NSImageView, MinimapDisplay {
 
     // MARK: - View Components
 
-    private var startRects: [Int : NSView] = [:]
+    private var startRects: [Int : StartRectOverlayView] = [:]
 
     // MARK: - Properties
 
@@ -63,21 +63,7 @@ final class MinimapView: NSImageView, MinimapDisplay {
             removeStartRect(for: allyTeam)
         }
 
-        // Cache to avoid re-calculating
-        let mapRect = self.mapRect
-        // Rescale start rect to the map rect.
-        let x = rect.minX / 200 * mapRect.width
-        let y = rect.minY / 200 * mapRect.height
-        let width = rect.width / 200 * mapRect.width
-        let height = rect.height / 200 * mapRect.height
-
-        // Position the start rect relative to the map rect.
-        let newRect = CGRect(x: x + mapRect.minX, y: y + mapRect.minY, width: width, height: height)
-
-        let view = StartRectOverlayView.loadFromNib()
-        view.frame = newRect
-        view.allyTeamNumberLabel.stringValue = String(allyTeam)
-        view.backgroundColor = NSColor(deviceRed: 1, green: 1, blue: 1, alpha: 0.3)
+        let view = StartRectOverlayView.loadForAllyTeam(allyTeam, unscaledRect: rect, mapRect: mapRect)
         startRects[allyTeam] = view
         addSubview(view)
     }
@@ -109,6 +95,9 @@ final class MinimapView: NSImageView, MinimapDisplay {
 
     func setMapDimensions(_ width: Int, _ height: Int) {
         mapDimensions = (CGFloat(width), CGFloat(height))
+        executeOnMain(target: self) { _self in
+            _self.startRects.forEach({ $0.value.adjustFrame(for: _self.mapRect) })
+        }
     }
 
     /// Asynchronously converts image data into an image and displays a new map with the given aspect ratio. If image generation fails, the view
