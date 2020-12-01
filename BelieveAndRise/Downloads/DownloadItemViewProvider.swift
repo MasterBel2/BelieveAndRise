@@ -32,6 +32,9 @@ final class DownloadItemViewProvider: _ItemViewProvider {
 
         view.downloadNameLabel.stringValue = item.name
         view.progressIndicator.isIndeterminate = item.progress == item.target
+        view.progressIndicator.minValue = 0
+        view.progressIndicator.maxValue = Double(item.target)
+        view.progressIndicator.doubleValue = Double(item.progress)
 
 		view.state = item.state
 
