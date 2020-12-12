@@ -11,7 +11,7 @@ import Cocoa
 final class StartRectOverlayView: ColoredView, NibLoadable {
 	@IBOutlet weak var allyTeamNumberLabel: NSTextField!
 
-    private var unscaledRect: CGRect! = .zero
+    private var unscaledRect: CGRect = .zero
 
     static func loadForAllyTeam(_ allyTeam: Int, unscaledRect: CGRect, mapRect: CGRect) -> StartRectOverlayView {
         let startRectView = StartRectOverlayView.loadFromNib()

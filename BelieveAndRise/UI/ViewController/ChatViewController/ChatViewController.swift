@@ -78,7 +78,7 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
 
     /// Sets a background color on the view controller's view.
     func setViewBackgroundColor(_ color: NSColor?) {
-        (view as! ColoredView).backgroundColor = color
+        (view as? ColoredView)?.backgroundColor = color
     }
 
     // MARK: - ChatBarControllerDelegate
