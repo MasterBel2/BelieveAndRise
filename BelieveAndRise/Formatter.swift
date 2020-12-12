@@ -180,6 +180,7 @@ struct BattleroomPlayerListItemViewProvider: _ItemViewProvider {
         }
 
         let view = _view(for: listView)
+        var toolTip = ""
 
         view.clanField.stringValue = player.profile.clans.first ?? ""
         view.usernameField.stringValue = player.profile.username
@@ -189,7 +190,10 @@ struct BattleroomPlayerListItemViewProvider: _ItemViewProvider {
 
         let myAlly = battleroom.myBattleStatus.allyNumber
         if let battleStatus = battleroom.userStatuses[id] {
-            if battleStatus.isSpectator {
+            if battleStatus.syncStatus != .synced {
+                view.usernameField.textColor = .systemRed
+                toolTip += "User is unsynced. "
+            } else if battleStatus.isSpectator {
                 view.usernameField.textColor = .labelColor
             } else if battleStatus.allyNumber == myAlly {
                 view.usernameField.textColor = NSColor(named: "userIsAlly")
@@ -198,9 +202,11 @@ struct BattleroomPlayerListItemViewProvider: _ItemViewProvider {
             }
             view.alphaValue = battleStatus.isReady && !battleStatus.isSpectator ? 1 : 0.5
         }
+
         if let trueSkill = battleroom.trueSkill(for: id) {
-            view.toolTip = String(trueSkill)
+            toolTip += "TrueSkill: \(trueSkill)"
         }
+        view.toolTip = toolTip
 
         return view
 
