@@ -10,7 +10,7 @@ import Cocoa
 import UberserverClientCore
 
 /// A view controller for presenting account metadata.
-final class AccountViewController: NSViewController, AccountInfoDisplay {
+final class AccountViewController: NSViewController {
 
     @IBOutlet var accountNameField: NSTextField!
     @IBOutlet var emailField: NSTextField!
@@ -21,8 +21,6 @@ final class AccountViewController: NSViewController, AccountInfoDisplay {
 
 	/// The controller for account information.
     weak var accountInfoController: AccountInfoController?
-	/// The account view controller's delegate.
-    weak var delegate: AccountInfoDelegate?
 
 	/// Information about the uer's account.
 	///
@@ -69,10 +67,12 @@ final class AccountViewController: NSViewController, AccountInfoDisplay {
         viewController.textFieldPlaceholder = accountNameField.stringValue
         viewController.secureTextFieldTitle = "Confirm password:"
         viewController.operation = { [weak self] _ -> Bool in
-            self?.delegate?.renameAccount(
+            self?.accountInfoController?.renameAccount(
                 to: viewController.textField.stringValue,
                 password: viewController.secureTextField.stringValue,
                 completionBlock: { result in
+                    // We'll be logged out, so no need to update the interface
+                    // (TODO: Actually maybe we should throw up an alert? Hmm.)
                     print(result)
                 }
             )
@@ -95,7 +95,7 @@ final class AccountViewController: NSViewController, AccountInfoDisplay {
             }
             let newEmail = viewController.textField.stringValue
             let passwordToConfirm = viewController.secureTextField.stringValue
-            self.delegate?.requestVerficationCodeForChangingEmail(
+            self.accountInfoController?.requestVerficationCodeForChangingEmail(
                 to: newEmail,
                 password: viewController.secureTextField.stringValue,
                 completionBlock: { errorMessage in
@@ -122,7 +122,7 @@ final class AccountViewController: NSViewController, AccountInfoDisplay {
                 let viewController = viewController else {
                     return false
             }
-            self.delegate?.changeEmail(
+            self.accountInfoController?.changeEmail(
                 to: newEmail,
                 password: confirmedPassword,
                 verificationCode: viewController.textField.stringValue,
@@ -132,7 +132,8 @@ final class AccountViewController: NSViewController, AccountInfoDisplay {
                     } else {
                         viewController.operationDidSucceed()
                     }
-            })
+                }
+            )
             return true
         }
         presentAsSheet(viewController)
@@ -145,13 +146,13 @@ final class AccountViewController: NSViewController, AccountInfoDisplay {
 
     // MARK: - Updating interface data
 
-    func display(accountName: String) {
+    private func display(accountName: String) {
         accountNameField.stringValue = accountName
         editAccountNameButton.isHidden = false
     }
 
     /// Hides the spinner and shows the data fields with the given data.
-    func display(accountData: AccountData) {
+    private func display(accountData: AccountData) {
         // Update the presentation
         spinner.stopAnimation(self)
         spinner.isHidden = true

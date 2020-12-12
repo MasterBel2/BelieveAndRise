@@ -151,7 +151,6 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
             return
         }
         let accountViewController = AccountViewController()
-        accountViewController.delegate = controller
         accountViewController.accountInfoController = controller
         let accountWindow = NSPanel(contentViewController: accountViewController)
         accountWindow.title = "Account – \(controller.user?.profile.fullUsername ?? "Unknown user")"
