@@ -15,7 +15,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Properties
 
     var window: NSWindow?
-	var parser: TASServerDelegate!
 
 	var clientController: ClientController!
     var resourceManager: ResourceManager!
