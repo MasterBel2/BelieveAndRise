@@ -127,6 +127,7 @@ class ListViewController: NSViewController,
 		tableView.dataSource = self
 		
 		tableView.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
+		tableView.allowsTypeSelect = false
 		
 		tableView.reloadData()
     }
