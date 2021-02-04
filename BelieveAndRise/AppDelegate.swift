@@ -109,7 +109,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let resourceManager = ResourceManager(
             downloadController: downloadController,
-            windowManager: system.windowManager
+            windowManager: system.windowManager,
+			archiveLoader: UnitsyncArchiveLoader()
         )
         resourceManager.loadLocalResources()
 
