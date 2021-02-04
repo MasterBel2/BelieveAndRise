@@ -7,15 +7,16 @@
 //
 
 import Cocoa
+import UberserverClientCore
 
 final class StartRectOverlayView: ColoredView, NibLoadable {
 	@IBOutlet weak var allyTeamNumberLabel: NSTextField!
 
-    private var unscaledRect: CGRect = .zero
+    private var unscaledRect: StartRect!
 
-    static func loadForAllyTeam(_ allyTeam: Int, unscaledRect: CGRect, mapRect: CGRect) -> StartRectOverlayView {
+    static func loadForAllyTeam(_ allyTeam: Int, unscaledRect: StartRect, mapRect: CGRect) -> StartRectOverlayView {
         let startRectView = StartRectOverlayView.loadFromNib()
-        startRectView.unscaledRect = unscaledRect
+		startRectView.unscaledRect = unscaledRect
         startRectView.adjustFrame(for: mapRect)
         startRectView.allyTeamNumberLabel.stringValue = String(allyTeam)
         startRectView.backgroundColor = NSColor.white.withAlphaComponent(0.3)
@@ -24,10 +25,11 @@ final class StartRectOverlayView: ColoredView, NibLoadable {
     }
 
     func adjustFrame(for mapRect: CGRect) {
-        let x = unscaledRect.minX / 200 * mapRect.width
-        let y = unscaledRect.minY / 200 * mapRect.height
-        let width = unscaledRect.width / 200 * mapRect.width
-        let height = unscaledRect.height / 200 * mapRect.height
+		let something: (x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) = unscaledRect.scaled()
+        let x = something.x * mapRect.width
+        let y = something.y * mapRect.height
+        let width = something.width * mapRect.width
+        let height = something.height * mapRect.height
 
         frame = CGRect(x: x + mapRect.minX, y: y + mapRect.minY, width: width, height: height)
     }

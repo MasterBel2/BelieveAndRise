@@ -52,13 +52,13 @@ final class MinimapView: NSImageView, MinimapDisplay {
 
     // MARK: - MinimapDisplay
 
-    func addStartRect(_ rect: CGRect, for allyTeam: Int) {
+    func addStartRect(_ rect: StartRect, for allyTeam: Int) {
         executeOnMain { [weak self] in
             self?._addStartRect(rect, for: allyTeam)
         }
     }
 
-    private func _addStartRect(_ rect: CGRect, for allyTeam: Int) {
+    private func _addStartRect(_ rect: StartRect, for allyTeam: Int) {
         if startRects[allyTeam] != nil {
             removeStartRect(for: allyTeam)
         }
