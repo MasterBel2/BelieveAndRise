@@ -188,17 +188,7 @@ final class MainWindowController: NSWindowController {
             interfaceDefaultsController: defaultsController
         )
 
-        // Add view controllers to the split view.
-
-        let item1 = NSSplitViewItem(sidebarWithViewController: battlelistViewController)
-
-        let item2 = NSSplitViewItem(viewController: chatViewController)
-
-        let item3 = NSSplitViewItem(contentListWithViewController: userListViewController)
-
-        [item1, item2, item3].forEach(viewController.addSplitViewItem)
-
-        // Return the split view controller.
+        viewController.addItems(forViewControllers: [battlelistViewController, chatViewController, userListViewController])
 
         return viewController
     }
