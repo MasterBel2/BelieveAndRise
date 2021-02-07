@@ -130,6 +130,7 @@ class ListViewController: NSViewController,
 		
 		tableView.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
 		tableView.allowsTypeSelect = false
+		tableView.doubleAction = #selector(doubleSelect(_:))
 		
 		tableView.reloadData()
     }
@@ -383,27 +384,21 @@ class ListViewController: NSViewController,
         }
     }
 	
-	// MARK: - NSTableViewDelegate
-	
-	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+	// MARK: - Selection
 
-		switch rows[row] {
-		case .header(let title):
-            let viewMaybe = tableView.makeView(
-                withIdentifier: NSUserInterfaceItemIdentifier("TableSectionHeaderView"),
-                owner: nil
-            ) as? TableSectionHeaderView
-            let view = viewMaybe ?? TableSectionHeaderView.loadFromNib()
-			view.label.stringValue = title
-			return view
+	@objc func doubleSelect(_: Any?) {
+		guard tableView.clickedRow >= 0 else {
+			return
+		}
+		switch rows[tableView.clickedRow] {
+		case .header(_):
+			break
 		case .item(let id):
-            return itemViewProvider.tableView(tableView, viewForItemIdentifiedBy: id)
+			selectionHandler?.secondarySelect(itemIdentifiedBy: id)
 		}
 	}
 	
-	func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
-		return NSTableRowView()
-	}
+	// MARK: NSTableViewDelegate
 	
 	func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
 		switch rows[row] {
@@ -415,7 +410,32 @@ class ListViewController: NSViewController,
 		}
 	}
 	
-	// MARK: - NSTableViewDataSource
+	// MARK: - Presentation
+	
+	// MARK: NSTableViewDelegate
+	
+	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+
+		switch rows[row] {
+		case .header(let title):
+			let viewMaybe = tableView.makeView(
+				withIdentifier: NSUserInterfaceItemIdentifier("TableSectionHeaderView"),
+				owner: nil
+			) as? TableSectionHeaderView
+			let view = viewMaybe ?? TableSectionHeaderView.loadFromNib()
+			view.label.stringValue = title
+			return view
+		case .item(let id):
+			let view = itemViewProvider.tableView(tableView, viewForItemIdentifiedBy: id)
+			return view
+		}
+	}
+	
+	func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+		return NSTableRowView()
+	}
+	
+	// MARK: NSTableViewDataSource
 	
 	func numberOfRows(in tableView: NSTableView) -> Int {
 		return rows.count
