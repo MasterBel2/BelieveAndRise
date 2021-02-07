@@ -183,7 +183,7 @@ class ListViewController: NSViewController,
             return
         }
 
-        list.delegate = self
+        list.addDelegate(self)
         sections.append(list)
         if shouldDisplaySectionHeaders && list.sortedItemCount > 0 {
             rows.append(.header(list.title))
@@ -210,11 +210,11 @@ class ListViewController: NSViewController,
         }
     }
 
-    func _removeSection(_ list: ListProtocol) {
+    private func _removeSection(_ list: ListProtocol) {
         guard sections.contains(where: { $0 === list }) else {
             return
         }
-        list.delegate = nil
+        list.removeDelegate(self)
         let rangeOfItems = indexRange(forSection: list)
         // We need to know the section's order in the array to calculate the indexes.
         sections = sections.filter({ $0 !== list })

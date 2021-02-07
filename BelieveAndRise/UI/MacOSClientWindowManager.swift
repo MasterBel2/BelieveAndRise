@@ -128,6 +128,9 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
         mainWindowController.destroyBattleroomViewController()
     }
 
+    func joinedChannel(_ channel: Channel) {
+    }
+
     // MARK: - Platform UI wrappers
 
     private var _userAuthenticationViewController: UserAuthenticationViewController?
