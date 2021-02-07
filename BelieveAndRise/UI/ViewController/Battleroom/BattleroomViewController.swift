@@ -71,6 +71,9 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
         header.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         header.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         self.header = header
+		
+		// Must be called before battleroom.displayIngameStatus
+		configureAllyTeamControl()
 
         // Player list
 
@@ -112,11 +115,11 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
             bottom: 0,
             right: 0
         )
-
-        configureAllyTeamControl()
     }
 
     /// Configures the ally team selector in the header view with intitial values.
+	///
+	/// Must be configured before new options are pushed to the control.
     private func configureAllyTeamControl() {
         for (allyNumber, _) in battleroom.allyTeamLists.enumerated().filter({ $0.element.sortedItemCount > 0 }) {
             addedTeam(named: String(allyNumber))
@@ -195,32 +198,34 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
             }
         }
     }
-
-    func addedTeam(named teamName: String) {
-        executeOnMain { [weak self] in
-            self?._addedTeam(named: teamName)
-        }
-    }
-
-    private func _addedTeam(named teamName: String) {
-        for index in 0..<(header.allyItems.count - 2) {
-            // Ensure that 2 is positioned before 10.
-            if Int(teamName) != nil,
-                allyItemTitle(forAllyNamed: teamName).count < header.allyItems[index].title.count {
-                insertAllyOption(named: teamName, at: index)
-                return
-            }
-            if header.allyItems[index].title > allyItemTitle(forAllyNamed: teamName) {
-                // Ensure that 10 is positioned after 2.
-                if Int(teamName) != nil,
-                    allyItemTitle(forAllyNamed: teamName).count > header.allyItems[index].title.count {
-                    break
-                }
-                insertAllyOption(named: teamName, at: index)
-                return
-            }
-        }
-        insertAllyOption(named: teamName, at: header.allyItems.count - 2)
+	
+	func addedTeam(named teamName: String) {
+		executeOnMain { [weak self] in
+			self?._addedTeam(named: teamName)
+		}
+	}
+	
+	private func _addedTeam(named teamName: String) {
+		if isViewLoaded {
+			for index in 0..<(header.allyItems.count - 2) {
+				// Ensure that 2 is positioned before 10.
+				if Int(teamName) != nil,
+				   allyItemTitle(forAllyNamed: teamName).count < header.allyItems[index].title.count {
+					insertAllyOption(named: teamName, at: index)
+					return
+				}
+				if header.allyItems[index].title > allyItemTitle(forAllyNamed: teamName) {
+					// Ensure that 10 is positioned after 2.
+					if Int(teamName) != nil,
+					   allyItemTitle(forAllyNamed: teamName).count > header.allyItems[index].title.count {
+						break
+					}
+					insertAllyOption(named: teamName, at: index)
+					return
+				}
+			}
+			insertAllyOption(named: teamName, at: header.allyItems.count - 2)
+		}
     }
     
     private func insertAllyOption(named teamName: String, at index: Int) {

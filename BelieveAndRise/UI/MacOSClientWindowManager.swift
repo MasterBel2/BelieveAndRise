@@ -35,6 +35,17 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
     private var sheetSizes: [SheetType : CGSize] = [
         .serverSelection : CGSize(width: 290, height: 150)
     ]
+	
+	private var openBattleWindow: NSWindow?
+	
+	@IBAction func openBattle(_ sender: Any) {
+		let vc = BattleroomSetupViewController()
+		vc.client = client
+		let window = NSWindow(contentViewController: vc)
+		window.title = "Battleroom Setup Test"
+		window.makeKeyAndOrderFront(self)
+		self.openBattleWindow = window
+	}
 
     @IBAction func chatWindow(_ sender: Any) {
         chatWindow.makeKeyAndOrderFront(self)
