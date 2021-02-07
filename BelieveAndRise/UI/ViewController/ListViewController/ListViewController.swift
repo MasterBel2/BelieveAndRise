@@ -49,13 +49,15 @@ class ListViewController: NSViewController,
 						tableView.insertRows(at: IndexSet(integer: 0), withAnimation: .effectFade)
 					}
 				})
-			} else if shouldDisplaySectionHeaders && !newValue {
+            } else if shouldDisplaySectionHeaders && !newValue {
 				sections.forEach({
 					let index = offset(forSectionNamed: $0.title) - 1
-					rows.remove(at: index)
-					if isViewLoaded {
-						tableView.removeRows(at: IndexSet(integer: 0), withAnimation: .effectFade)
-					}
+                    if index >= 0 {
+                        rows.remove(at: index)
+                        if isViewLoaded {
+                            tableView.removeRows(at: IndexSet(integer: 0), withAnimation: .effectFade)
+                        }
+                    }
 				})
 			}
 		}
@@ -198,6 +200,15 @@ class ListViewController: NSViewController,
                     withAnimation: .effectFade
                 )
             }
+        }
+    }
+    /// Removes all sections.
+    ///
+    /// Called asynchronously on the main thread
+    func removeAllSections() {
+        executeOnMain { [weak self] in
+            guard let self = self else { return }
+            self.sections.forEach(self._removeSection(_:))
         }
     }
 

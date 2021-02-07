@@ -19,6 +19,10 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
     /// The window displaying information about the currently logged in account.
     private var accountWindow: NSWindow?
 
+    private var chatSidebar: ListViewController
+    private var chatWindow: NSWindow
+    private var chatViewController: ChatViewController
+
     // MARK: - Dependencies
 
     weak var client: Client?
@@ -32,6 +36,10 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
         .serverSelection : CGSize(width: 290, height: 150)
     ]
 
+    @IBAction func chatWindow(_ sender: Any) {
+        chatWindow.makeKeyAndOrderFront(self)
+    }
+
     @IBAction func accountWindow(_ sender: Any) {
         guard let client = client else {
             return
@@ -42,10 +50,31 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
     // MARK: - Lifecycle
 
     init(defaultsController: InterfaceDefaultsController) {
+        chatSidebar = ListViewController()
+        let chatViewController = ChatViewController()
+        let splitViewController = ResizeTrackingSplitViewController()
+        chatSidebar.view.setFrameSize(CGSize(width: defaultsController.defaultChatSidebarWidth, height: chatViewController.view.frame.height))
+
+        splitViewController.resizeDelegate = ChatWindowSplitViewControllerResizeDelegate(
+            chatSidebar: chatSidebar,
+            chatViewController: chatViewController,
+            interfaceDefaultsController: defaultsController
+        )
+
+        splitViewController.addItems(forViewControllers: [chatSidebar, chatViewController])
+
+        let chatWindow = NSPanel(contentViewController: splitViewController)
+        chatWindow.title = "Chat"
+        chatWindow.isFloatingPanel = true
+        self.chatWindow = chatWindow
+        chatWindow.setFrameAutosaveName("com.believeAndRise.chat")
+        self.chatViewController = chatViewController
+
         self.defaultsController = defaultsController
         super.init()
         nextResponder = mainWindowController.nextResponder
         mainWindowController.nextResponder = self
+        chatWindow.nextResponder = self
     }
 
     required init?(coder: NSCoder) {
@@ -69,6 +98,14 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
         mainWindowController.setChatController(client.chatController)
         mainWindowController.displayBattlelist(client.battleList)
         mainWindowController.displayServerUserlist(client.userList)
+
+        chatSidebar.removeAllSections()
+        chatSidebar.addSection(client.channelList)
+        chatSidebar.addSection(client.privateMessageList)
+        chatSidebar.addSection(client.forwardedMessageList)
+        chatSidebar.selectionHandler = ChatSidebarSelectionHandler(channelList: client.channelList, privateMessageList: client.privateMessageList, forwardedMessageList: client.forwardedMessageList, chatViewController: chatViewController)
+        chatSidebar.itemViewProvider = ChatSidebarListItemViewProvider(channelList: client.channelList, privateMessageList: client.privateMessageList, forwardedMessageList: client.forwardedMessageList)
+        chatViewController.chatController = client.chatController
     }
 
     func resetServerWindows() {

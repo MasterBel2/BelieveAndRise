@@ -38,3 +38,21 @@ final class MainSplitViewControllerResizeDelegate: SplitViewControllerResizeDele
         }
     }
 }
+
+final class ChatWindowSplitViewControllerResizeDelegate: SplitViewControllerResizeDelegate {
+    private let chatSidebar: NSViewController
+    private let chatViewController: NSViewController
+    private let interfaceDefaultsController: InterfaceDefaultsController
+
+    init(chatSidebar: NSViewController, chatViewController: NSViewController, interfaceDefaultsController: InterfaceDefaultsController) {
+        self.chatSidebar = chatSidebar
+        self.chatViewController = chatViewController
+        self.interfaceDefaultsController = interfaceDefaultsController
+    }
+
+    func splitViewController(_ splitViewController: NSSplitViewController, viewWasResizedFor viewController: NSViewController) {
+        if viewController === chatSidebar {
+            interfaceDefaultsController.defaultChatSidebarWidth = chatSidebar.view.frame.width
+        }
+    }
+}

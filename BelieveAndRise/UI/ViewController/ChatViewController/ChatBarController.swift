@@ -26,7 +26,7 @@ final class ChatBarController: NSViewController, ChatBarDelegate {
     private var _isChatBarEnabled = true {
         didSet {
             if isViewLoaded {
-                chatBar.isEnabled = isChatBarEnabled
+                chatBar.isEnabled = _isChatBarEnabled
             }
         }
     }
@@ -52,7 +52,7 @@ final class ChatBarController: NSViewController, ChatBarDelegate {
     override func loadView() {
         let chatBar = ChatBar.loadFromNib()
         chatBar.delegate = self
-        chatBar.isEnabled = isChatBarEnabled
+        chatBar.isEnabled = _isChatBarEnabled
         view = chatBar
         self.chatBar = chatBar
     }

@@ -26,6 +26,15 @@ final class InterfaceDefaultsController {
         }
     }
 
+    var defaultChatSidebarWidth: CGFloat {
+        get {
+            return value(for: .chatSidebarWidth) ?? defaultSidebarWidth
+        }
+        set {
+            setValue(newValue, for: .chatSidebarWidth)
+        }
+    }
+
     /// The customised value for the width of the main window's playerlist sidebar.
     ///
     /// Returns the default sidebar width if the user has not modified the sidebar's width.
@@ -54,5 +63,6 @@ final class InterfaceDefaultsController {
         case battlelistSidebarWidth
         /// The key associated with the preffered width of the playerlist in the main window.
         case playerlistSidebarWidth
+        case chatSidebarWidth
     }
 }

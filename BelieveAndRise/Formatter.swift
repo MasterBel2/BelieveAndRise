@@ -37,6 +37,26 @@ struct DefaultItemViewProvider: ItemViewProvider {
     }
 }
 
+struct ChatSidebarListItemViewProvider: _ItemViewProvider {
+    func tableView(_ listView: NSTableView, viewForItemIdentifiedBy id: Int) -> NSView? {
+        guard let channel = channelList.items[id] ?? privateMessageList.items[id] ?? forwardedMessageList.items[id] else {
+            return nil
+        }
+
+        let view = _view(for: listView)
+        view.primaryLabel.stringValue = channel.title
+        view.secondaryLabel.stringValue = ""
+        return view
+    }
+
+    typealias ViewType = SingleColumnTableColumnRowView
+
+    let channelList: List<Channel>
+    let privateMessageList: List<Channel>
+    let forwardedMessageList: List<Channel>
+
+}
+
 /// Provides a simple view describing the map and date of replays.
 struct ReplayListItemViewProvider: _ItemViewProvider {
 

@@ -16,6 +16,11 @@ protocol ListSelectionHandler {
 	func secondarySelect(itemIdentifiedBy id: Int)
 }
 
+extension ListSelectionHandler {
+	func primarySelect(itemIdentifiedBy id: Int) {}
+	func secondarySelect(itemIdentifiedBy id: Int) {}
+}
+
 /// Executes select actions for a battle list.
 struct DefaultBattleListSelectionHandler: ListSelectionHandler {
 	
@@ -52,6 +57,16 @@ struct ReplayListSelectionHandler: ListSelectionHandler {
 			try? springProcessController.launchReplay(first, shouldRecordDemo: false)
 		}
     }
+}
 
-    public func secondarySelect(itemIdentifiedBy id: Int) {}
+struct ChatSidebarSelectionHandler: ListSelectionHandler {
+	func primarySelect(itemIdentifiedBy id: Int) {
+		let channel = channelList.items[id] ?? privateMessageList.items[id] ?? forwardedMessageList.items[id]
+		chatViewController.setChannel(channel)
+	}
+
+	let channelList: List<Channel>
+	let privateMessageList: List<Channel>
+	let forwardedMessageList: List<Channel>
+	let chatViewController: ChatViewController
 }

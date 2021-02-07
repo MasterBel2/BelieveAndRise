@@ -50,7 +50,7 @@ final class MainWindowController: NSWindowController {
             debugOnlyPrint("No battle controller set!")
             return
         }
-        battlelistViewController.sections.forEach(battlelistViewController.removeSection(_:))
+        battlelistViewController.removeAllSections()
         battlelistViewController.addSection(battleList)
         battlelistViewController.itemViewProvider = BattlelistItemViewProvider(list: battleList)
         battlelistViewController.selectionHandler = DefaultBattleListSelectionHandler(

@@ -704,9 +704,14 @@
                                     <action selector="showDownloads:" target="Voe-Tx-rLC" id="nGk-K1-Abs"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Replays" keyEquivalent="R" id="Uwq-bt-Xy7" userLabel="Replays…">
+                            <menuItem title="Chat" keyEquivalent="C" id="Uwq-bt-Xy7">
                                 <connections>
-                                    <action selector="showReplays:" target="Voe-Tx-rLC" id="Cu9-Sd-t1N"/>
+                                    <action selector="chatWindow:" target="-1" id="tc9-3x-ZGc"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Replays" keyEquivalent="R" id="fOx-Sq-wHJ">
+                                <connections>
+                                    <action selector="showReplays:" target="Voe-Tx-rLC" id="C4l-6I-toK"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
