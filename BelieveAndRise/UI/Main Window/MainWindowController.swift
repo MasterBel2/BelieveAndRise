@@ -47,7 +47,6 @@ final class MainWindowController: NSWindowController {
 
     private func _displayBattleList(_ battleList: List<Battle>) {
         guard let battleController = battleController else {
-            debugOnlyPrint("No battle controller set!")
             return
         }
         battlelistViewController.removeAllSections()
@@ -99,12 +98,12 @@ final class MainWindowController: NSWindowController {
             )
         }
 
+        battleroomViewController.chatViewController.chatController = chatController
+        battleroomViewController.battleController = battleController
 
         self.battleroomViewController = battleroomViewController
-        self.battleroomViewController?.chatViewController.chatController = chatController
-        self.battleroomViewController?.battleController = battleController
 
-        leaveBattleButton.isHidden = false
+        battlelistViewController.footer = leaveBattleButton
     }
 
     func destroyBattleroomViewController() {
@@ -144,6 +143,8 @@ final class MainWindowController: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        
+        battlelistViewController.footer = hostBattleButton
 
         // Load user's preferred sidebar widths.
 
@@ -169,12 +170,10 @@ final class MainWindowController: NSWindowController {
         // Customise appearance.
 
         chatViewController.setViewBackgroundColor(.controlBackgroundColor)
-
-        leaveBattleButton.isHidden = true
-        battlelistViewController.footer = leaveBattleButton
     }
 
     let leaveBattleButton = NSButton(title: "Leave Battle", target: self, action: #selector(leaveBattle))
+    let hostBattleButton = NSButton(title: "Host Battle", target: self, action: #selector(MacOSClientWindowManager.openBattle(_:)))
 
     /// Creates a new split view controller to control the content.
     ///
@@ -204,7 +203,7 @@ final class MainWindowController: NSWindowController {
     @objc private func leaveBattle() {
         destroyBattleroomViewController()
         battleController?.leaveBattle()
-        leaveBattleButton.isHidden = true
+        battlelistViewController.footer = hostBattleButton
         // Deselect the battle so the player may re-select it.
         battlelistViewController.tableView.deselectAll(nil)
     }

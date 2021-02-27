@@ -9,7 +9,7 @@
 import Cocoa
 import UberserverClientCore
 
-final class MinimapView: NSImageView, MinimapDisplay {
+final class MinimapView: NSImageView, ReceivesBattleroomUpdates, ReceivesBattleUpdates {
 
     // MARK: - View Components
 
@@ -29,6 +29,7 @@ final class MinimapView: NSImageView, MinimapDisplay {
             mapImage.size = mapRect.size
             image = mapImage
         }
+        
     }
     private var mapDimensions: (width: CGFloat, height: CGFloat)?
 
@@ -50,7 +51,51 @@ final class MinimapView: NSImageView, MinimapDisplay {
         return CGRect(x: x, y: y, width: width, height: height)
     }
 
-    // MARK: - MinimapDisplay
+    private func displayMapUnknown() {
+        executeOnMain(target: self) { _self in
+            _self.mapImage = nil
+            _self.image = #imageLiteral(resourceName: "Caution")
+        }
+    }
+
+    private func setMapDimensions(_ width: Int, _ height: Int) {
+        mapDimensions = (CGFloat(width), CGFloat(height))
+        executeOnMain(target: self) { _self in
+            _self.startRects.forEach({ $0.value.adjustFrame(for: _self.mapRect) })
+        }
+    }
+
+    /// Asynchronously converts image data into an image and displays a new map with the given aspect ratio. If image generation fails, the view
+    /// assumes a "map unknown" state
+    private func displayMapImage(for imageData: [RGB565Color], dimension: Int) {
+        NSImage.fromRGB565Pixels(imageData, width: dimension, height: dimension) { [weak self] maybeImage in
+            executeOnMain { [weak self] in
+                if let self = self,
+                    let image = maybeImage {
+                    self.mapImage = image
+                }
+            }
+        }
+    }
+    
+    // MARK: - Battle Updates
+    
+    private let minimapLoadQueue = DispatchQueue(label: "Minimap Load Queue", qos: .userInitiated)
+    
+    func mapDidUpdate(to map: Battle.MapIdentification) {
+        displayMapUnknown()
+    }
+    
+    func loadedMapArchive(_ mapArchive: MapArchive, checksumMatch: Bool, usedPreferredEngineVersion: Bool) {
+        setMapDimensions(mapArchive.width, mapArchive.height)
+        mapArchive.miniMap.loadMinimaps(mipLevels: Range(0...5), queue: minimapLoadQueue) { [weak self] result in
+            guard let self = self,
+                  let (data, dimension) = result else { return }
+            self.displayMapImage(for: data, dimension: dimension)
+        }
+    }
+    
+    // MARK: - Battleroom Updates
 
     func addStartRect(_ rect: StartRect, for allyTeam: Int) {
         executeOnMain { [weak self] in
@@ -82,33 +127,6 @@ final class MinimapView: NSImageView, MinimapDisplay {
             for (key, value) in _self.startRects {
                 value.removeFromSuperview()
                 _self.startRects[key] = nil
-            }
-        }
-    }
-
-    func displayMapUnknown() {
-        executeOnMain(target: self) { _self in
-            _self.mapImage = nil
-            _self.image = #imageLiteral(resourceName: "Caution")
-        }
-    }
-
-    func setMapDimensions(_ width: Int, _ height: Int) {
-        mapDimensions = (CGFloat(width), CGFloat(height))
-        executeOnMain(target: self) { _self in
-            _self.startRects.forEach({ $0.value.adjustFrame(for: _self.mapRect) })
-        }
-    }
-
-    /// Asynchronously converts image data into an image and displays a new map with the given aspect ratio. If image generation fails, the view
-    /// assumes a "map unknown" state
-    func displayMapImage(for imageData: [RGB565Color], dimension: Int) {
-        NSImage.fromRGB565Pixels(imageData, width: dimension, height: dimension) { [weak self] maybeImage in
-            executeOnMain { [weak self] in
-                if let self = self,
-                    let image = maybeImage {
-                    self.mapImage = image
-                }
             }
         }
     }

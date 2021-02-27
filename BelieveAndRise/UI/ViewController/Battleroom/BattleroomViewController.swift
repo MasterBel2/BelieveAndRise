@@ -15,7 +15,7 @@ import UberserverClientCore
  The battleroom is backed by a `ColoredView` to allow drawing of background colors. Use `setViewBackgroundColor` to modify
  this property.
  */
-final class BattleroomViewController: NSViewController, BattleroomDisplay, BattleroomMapInfoDisplay, BattleroomHeaderViewDelegate {
+final class BattleroomViewController: NSViewController, BattleroomHeaderViewDelegate, ReceivesBattleroomUpdates, ReceivesBattleUpdates {
 
     // MARK: - Dependencies
 
@@ -26,8 +26,8 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     #warning("Should support displaying an empty battleroom when currently not in a battle.")
     private weak var battleroom: Battleroom! {
         didSet {
-            battleroom.allyTeamListDisplay = playerlistViewController
-            battleroom.spectatorListDisplay = playerlistViewController
+            battleroom.allyTeamLists.forEach({ playerlistViewController.addSection($0) })
+            playerlistViewController.addSection(battleroom.spectatorList)
 
             chatViewController.setChannel(battleroom.channel)
         }
@@ -35,7 +35,27 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
 
     func setBattleroom(_ battleroom: Battleroom?) {
         executeOnMain { [weak self] in
-            self?.battleroom = battleroom
+            guard let self = self else { return }
+            self.battleroom = battleroom
+            
+            if let battleroom = battleroom {
+                if let loadedMapArchive = battleroom.battle.loadedMap {
+                    self.header.minimapView.loadedMapArchive(loadedMapArchive, checksumMatch: false, usedPreferredEngineVersion: false)
+                }
+
+                battleroom.battle.addObject(self.header.minimapView)
+                battleroom.addObject(self.header.minimapView)
+                
+                battleroom.battle.addObject(self)
+                battleroom.addObject(self)
+                
+                self.playerlistViewController.itemViewProvider = BattleroomPlayerListItemViewProvider(battleroom: battleroom)
+                
+                self.chatViewController.logViewController.itemViewProvider = BattleroomMessageListItemViewProvider(
+                    list: battleroom.channel.messageList,
+                    battleroom: battleroom
+                )
+            }
         }
     }
 
@@ -47,7 +67,7 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
 
      Initialised on `viewDidLoad()`.
      */
-    private(set) var header: BattleroomHeaderView!
+    let header = BattleroomHeaderView.loadFromNib()
 
     /// The controller for the battleroom's chat view.
     let chatViewController = ChatViewController()
@@ -63,14 +83,12 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
 
         // Header
 
-        let header = BattleroomHeaderView.loadFromNib()
         header.delegate = self
         header.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(header)
         header.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         header.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         header.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        self.header = header
 		
 		// Must be called before battleroom.displayIngameStatus
 		configureAllyTeamControl()
@@ -80,27 +98,16 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
         addChild(playerlistViewController)
         stackView.addArrangedSubview(playerlistViewController.view)
         playerlistViewController.view.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        playerlistViewController.itemViewProvider = BattleroomPlayerListItemViewProvider(battleroom: battleroom)
 
         // Chat
 
         addChild(chatViewController)
         stackView.addArrangedSubview(chatViewController.view)
 
-        chatViewController.logViewController.itemViewProvider = BattleroomMessageListItemViewProvider(
-            list: battleroom.channel.messageList,
-            battleroom: battleroom
-        )
-
         // Battleroom display delegates
-
-        battleroom.minimapDisplay = header.minimapView
-        battleroom.generalDisplay = self
-        battleroom.mapInfoDisplay = self
         
-        // FIXME: Hacky solution to the way map loading & Stuff currently works.
-        battleroom.mapDidUpdate(to: battleroom.battle.map)
-        battleroom.displayIngameStatus()
+        displayMapName(battleroom.battle.mapIdentification.name)
+        displaySyncStatus(battleroom.battle.isSynced)
 
         chatViewController.logViewController.tableView.enclosingScrollView?.contentInsets = NSEdgeInsets(
             top: 1 * header.frame.height,
@@ -186,8 +193,19 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
     func setViewBackgroundColor(_ color: NSColor?) {
         (view as? ColoredView)?.backgroundColor = color
     }
+    
+    // MARK: - Battle Updates
+    
+    func mapDidUpdate(to map: Battle.MapIdentification) {
+        displayMapName(map.name)
+        header.displaySyncStatus(battleroom.battle.isSynced)
+    }
+    
+    func loadedMapArchive(_ mapArchive: MapArchive, checksumMatch: Bool, usedPreferredEngineVersion: Bool) {
+        header.displaySyncStatus(battleroom.battle.isSynced)
+    }
 
-    // MARK: - Battleroom Display
+    // MARK: - Battleroom Updates
 
     func display(isHostIngame: Bool, isPlayerIngame: Bool) {
         executeOnMain(target: header) { header in
@@ -266,9 +284,7 @@ final class BattleroomViewController: NSViewController, BattleroomDisplay, Battl
 		}
 	}
 
-    // MARK: - BattleroomMapInfoDisplay
-
-    func displayMapName(_ mapName: String) {
+    private func displayMapName(_ mapName: String) {
         executeOnMain(target: header) { header in
             header.mapNameField.stringValue = mapName
         }
