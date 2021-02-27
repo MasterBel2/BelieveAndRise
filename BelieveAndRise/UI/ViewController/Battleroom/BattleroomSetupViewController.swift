@@ -9,14 +9,15 @@
 import Cocoa
 import UberserverClientCore
 
-class BattleroomSetupViewController: NSViewController {
+class BattleroomSetupViewController: NSViewController, NSTextFieldDelegate {
+    
+    // MARK: - Associated Objects
 	
-	var client: Client! {
-		didSet {
-			archiveLoader = client.resourceManager.archiveLoader
-		}
-	}
-	private var archiveLoader: DescribesArchivesOnDisk!
+	var client: Client!
+	
+    private var archiveLoader: DescribesArchivesOnDisk {
+        return ResourceManager.default.archiveLoader
+    }
 	
 	// MARK: - Interface
 	
@@ -34,6 +35,7 @@ class BattleroomSetupViewController: NSViewController {
         super.viewDidLoad()
         titleField.font = .boldSystemFont(ofSize: 22.0)
         titleField.stringValue = "Configure Battleroom"
+        descriptionField.delegate = self
 		
 		// If the archive loader is refreshed, it will corrupt the available options.
 		// So cache the options that are available when setting up the UI.
@@ -46,55 +48,28 @@ class BattleroomSetupViewController: NSViewController {
 		setUIEnabled(true)
 		updateOpenBattleButtonState()
     }
+    
+    var completionHandler: (() -> Void)?
 	
-	
+	// MARK: - UI State
+    
 	private var uiIsEnabled = true
+    
+    // MARK: - Cached data
 	
 	private var engines: [Engine] = []
 	private var selectedEngine: Engine?
 	
 	private var games: [ModArchive] = []
 	private var selectedGame: ModArchive?
+    
+    // MARK: - Updating the UI
 	
 	private func updateOpenBattleButtonState() {
 		openBattleButton.isEnabled = uiIsEnabled
 			&& selectedEngine != nil
 			&& selectedGame != nil
 			&& descriptionField.stringValue != ""
-	}
-	
-	@IBAction func selectGame(_ sender: NSPopUpButton) {
-		if sender.indexOfSelectedItem == 0 {
-			selectedGame = nil
-		} else {
-			selectedGame = games[sender.indexOfSelectedItem - 1]
-		}
-		
-		updateOpenBattleButtonState()
-	}
-	@IBAction func selectEngine(_ sender: NSPopUpButton) {
-		if sender.indexOfSelectedItem == 0 {
-			selectedEngine = nil
-		} else {
-			selectedEngine = engines[sender.indexOfSelectedItem - 1]
-		}
-		
-		updateOpenBattleButtonState()
-	}
-	
-	@IBAction func openBattle(_ sender: Any) {
-		guard let selectedEngine = selectedEngine else { return }
-		spinner.isHidden = false
-		spinner.startAnimation(self)
-		
-		setUIEnabled(false)
-		
-		let map = archiveLoader.mapArchives.first!
-		let game = archiveLoader.modArchives.first(where: { $0.name.contains("Balanced Annihilation") })!
-		
-		// TODO: Add support for restrictions (password, rank, maxPlayers etc.)
-		let command = CSOpenBattleCommand(isReplay: false, natType: .none, password: nil, port: 8452, maxPlayers: 32, gameHash: game.completeChecksum, rank: 0, mapHash: map.completeChecksum, engineName: "Spring", engineVersion: selectedEngine.syncVersion, mapName: map.name, title: descriptionField.stringValue, gameName: game.name)
-		client.server?.send(command)
 	}
 	
 	func setUIEnabled(_ isEnabled: Bool) {
@@ -106,5 +81,56 @@ class BattleroomSetupViewController: NSViewController {
 		openBattleButton.isEnabled = isEnabled
 	}
 	
+    // MARK: - UI Events
+    
+    func controlTextDidChange(_: Notification) {
+        updateOpenBattleButtonState()
+    }
+    
+    @IBAction func selectGame(_ sender: NSPopUpButton) {
+        if sender.indexOfSelectedItem == 0 {
+            selectedGame = nil
+        } else {
+            selectedGame = games[sender.indexOfSelectedItem - 1]
+        }
+        
+        updateOpenBattleButtonState()
+    }
+    @IBAction func selectEngine(_ sender: NSPopUpButton) {
+        if sender.indexOfSelectedItem == 0 {
+            selectedEngine = nil
+        } else {
+            selectedEngine = engines[sender.indexOfSelectedItem - 1]
+        }
+        
+        updateOpenBattleButtonState()
+        
+    }
+    
+    @IBAction func openBattle(_ sender: Any) {
+        guard let selectedEngine = selectedEngine,
+              let selectedGame = selectedGame else {
+            return
+        }
+        
+        setUIEnabled(false)
+        
+        let map = archiveLoader.mapArchives.first!
+        
+        // TODO: Add support for restrictions (password, rank, maxPlayers etc.)
+        let command = CSOpenBattleCommand(isReplay: false, natType: .none, password: nil, port: 8452, maxPlayers: 32, gameHash: selectedGame.completeChecksum, rank: 0, mapHash: map.completeChecksum, engineName: "Spring", engineVersion: selectedEngine.syncVersion, mapName: map.name, title: descriptionField.stringValue, gameName: selectedGame.name)
+        client.server?.send(command, specificHandler: { [weak self] response in
+            guard let self = self else { return true }
+            if let _ = response as? SCOpenBattleCommand {
+                self.completionHandler?()
+            } else if let failure = response as? SCOpenBattleFailedCommand {
+                print("Open Battle failed! \(failure.reason)")
+                // TODO
+            } else {
+                return false
+            }
+            return true
+        })
+    }
 	
 }

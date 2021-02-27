@@ -17,7 +17,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow?
 
 	var clientController: ClientController!
-    var resourceManager: ResourceManager!
     var downloadController: DownloadController!
     var replayController: ReplayController!
     var mainWindowController: NSWindowController?
@@ -100,23 +99,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         replayController = ReplayController(system: system)
         springProcessController = SpringProcessController(system: system, replayController: replayController)
 
-        let resourceManager = ResourceManager(
-            downloadController: downloadController,
-            windowManager: system.windowManager,
-			archiveLoader: UnitsyncArchiveLoader()
-        )
-        resourceManager.loadLocalResources()
+        ResourceManager.make(downloadController: downloadController, windowManager: system.windowManager, archiveLoader: UnitsyncArchiveLoader())
+        ResourceManager.default.loadLocalResources()
 
         let clientController = ClientController(
             windowManager: system.windowManager,
-            resourceManager: resourceManager,
             preferencesController: PreferencesController.default,
             springProcessController: springProcessController
         )
         clientController.createNewClient()
 
         self.clientController = clientController
-        self.resourceManager = resourceManager
     }
 }
 

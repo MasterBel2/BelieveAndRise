@@ -43,11 +43,16 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
 	
 	@IBAction func openBattle(_ sender: Any) {
 		let vc = BattleroomSetupViewController()
+        vc.completionHandler = { [weak self] in
+            self?.openBattleWindow?.close()
+            self?.openBattleWindow = nil
+        }
 		vc.client = client
 		let window = NSWindow(contentViewController: vc)
 		window.title = "Battleroom Setup Test"
 		window.makeKeyAndOrderFront(self)
 		self.openBattleWindow = window
+        mainWindowController.hostBattleButton.isEnabled = false
 	}
 
     @IBAction func chatWindow(_ sender: Any) {
