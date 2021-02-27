@@ -189,6 +189,9 @@ final class MainWindowController: NSWindowController {
         )
 
         viewController.addItems(forViewControllers: [battlelistViewController, chatViewController, userListViewController])
+        
+        // Make the middle element (non-sidebar) accept all extra width by default
+        viewController.splitViewItems[1].holdingPriority = .init(rawValue: 249)
 
         return viewController
     }
