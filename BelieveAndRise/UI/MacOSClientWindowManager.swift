@@ -8,6 +8,7 @@
 
 import Cocoa
 import UberserverClientCore
+import ServerAddress
 
 #warning("ClientWindowManager accesses the UI and should be made thread-safe by use of `executeOnMain` on its non-private functions.")
 /// A MacOS-specific implementation of `ClientWindowManager`.
@@ -22,6 +23,8 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
     private var chatSidebar: ListViewController
     private var chatWindow: NSWindow
     private var chatViewController: ChatViewController
+    
+    private var serverSelectionViewController: NSViewController?
 
     // MARK: - Dependencies
 
@@ -128,13 +131,9 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
     }
 
     // MARK: - Sheets
-
-    var serverSelectionViewController: NSViewController?
-    /// Presents a server selection sheet. If there is no main window, a new window is created for
-    /// the sheet to be presented to.
-    func presentServerSelection(delegate: ServerSelectionDelegate) {
+    
+    func selectServer(completionHandler: @escaping (ServerAddress) -> Void) {
         let serverSelectionViewController = ServerSelectionDialogSheet()
-        serverSelectionViewController.delegate = delegate
         serverSelectionViewController.didCancelOperation = { [weak self] in
             guard let self = self,
                 let client = self.client else {
@@ -143,6 +142,7 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
             self.mainWindowController.close()
             self.clientController?.destroyClient(client)
         }
+        serverSelectionViewController.completionHandler = completionHandler
         mainWindowController.window?.contentViewController?.presentAsSheet(serverSelectionViewController)
         self.serverSelectionViewController = serverSelectionViewController
     }
@@ -189,7 +189,7 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
                 let client = self.client else {
                 return
             }
-            self.presentServerSelection(delegate: client)
+            self.selectServer(completionHandler: client.initialiseServer(_:))
         }
         userAuthenticationViewController.delegate = controller
         _userAuthenticationViewController = userAuthenticationViewController

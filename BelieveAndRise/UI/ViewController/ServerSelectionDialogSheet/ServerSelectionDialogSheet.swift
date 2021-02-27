@@ -15,9 +15,9 @@ final class ServerSelectionDialogSheet: DialogSheet, NSComboBoxDataSource, NSCom
 
 	/// Allows a user to select a server or enter a custom address.
     @IBOutlet var comboSelectionBox: NSComboBox!
-
-	/// The sheet's delegate.
-    weak var delegate: ServerSelectionDelegate?
+    
+    /// A block to be called with the selected server address.
+    var completionHandler: ((ServerAddress) -> Void)!
 
 	/// A list of server options to pre-fill for the user to select from.
     private var options: [String] = ["Official Server", "BA Server", "BAR Server"]
@@ -41,7 +41,7 @@ final class ServerSelectionDialogSheet: DialogSheet, NSComboBoxDataSource, NSCom
                 return false
             }
 
-            self.delegate?.serverSelectionInterface(didSelectServerAt: validServerAddress)
+            self.completionHandler(validServerAddress)
             return true
         }
     }
