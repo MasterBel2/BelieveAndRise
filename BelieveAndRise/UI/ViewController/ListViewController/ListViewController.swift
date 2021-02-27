@@ -133,30 +133,29 @@ class ListViewController: NSViewController,
 		tableView.doubleAction = #selector(doubleSelect(_:))
 		
 		tableView.reloadData()
+        
+        if let footer = footer {
+            stackView.addArrangedSubview(footer)
+        }
     }
 
 	// MARK: - Accessories
 	
-	private(set) var hasFooter = false
+    var hasFooter: Bool {
+        return footer != nil
+    }
 	
 	/// Returns the list's footer, or nil if one has not been set.
 	///
 	/// This property is not thread-safe. Access only from the main thread.
 	var footer: NSView? {
-		get {
-			return hasFooter ? stackView.arrangedSubviews.last : nil
-		}
-		set {
-			if hasFooter {
-				if footer == newValue { return }
+		didSet {
+            guard isViewLoaded else { return }
+			if oldValue != nil, oldValue != footer {
 				stackView.removeView(stackView.arrangedSubviews.last!)
 			}
-			// We don't have to worry if the footer is nil, because the previous footer has
-			if let newFooter = newValue {
-				stackView.addArrangedSubview(newFooter)
-				hasFooter = true
-			} else {
-				hasFooter = false
+			if let footer = footer {
+				stackView.addArrangedSubview(footer)
 			}
         }
     }
