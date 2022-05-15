@@ -26,8 +26,6 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
         didSet {
             battleroom.allyTeamLists.forEach({ playerlistViewController.addSection($0) })
             playerlistViewController.addSection(battleroom.spectatorList)
-
-            chatViewController.setChannel(battleroom.channel)
         }
     }
 
@@ -49,6 +47,8 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
                 
                 self.playerlistViewController.itemViewProvider = BattleroomPlayerListItemViewProvider(battleroom: battleroom)
                 
+                self.chatViewController.setChannel(battleroom.channel)
+
                 self.chatViewController.logViewController.itemViewProvider = BattleroomMessageListItemViewProvider(
                     list: battleroom.channel.messageList,
                     battleroom: battleroom
