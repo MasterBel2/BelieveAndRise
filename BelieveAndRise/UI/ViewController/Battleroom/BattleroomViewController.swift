@@ -106,6 +106,7 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
         
         displayMapName(battleroom.battle.mapIdentification.name)
         displaySyncStatus(battleroom.battle.isSynced)
+        display(isHostIngame: battleroom.isHostIngame, isPlayerIngame: battleroom.isPlayerIngame)
 
         chatViewController.logViewController.tableView.enclosingScrollView?.contentInsets = NSEdgeInsets(
             top: 1 * header.frame.height,
@@ -207,11 +208,15 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
 
     func display(isHostIngame: Bool, isPlayerIngame: Bool) {
         executeOnMainSync { [self] in
-            if !isHostIngame {
-                header.setWatchGameButtonState(.hidden)
+            if battleroom.battle.founderID == battleroom.myID {
+                header.setWatchGameButtonState(.startGame)
+            } else if isHostIngame {
+                header.setWatchGameButtonState(.joinGame)
             } else {
-                header.setWatchGameButtonState(isPlayerIngame ? .disabled : .enabled)
+                header.setWatchGameButtonState(.hidden)
             }
+
+            header.watchGameButton.isEnabled = !isPlayerIngame
         }
     }
 	

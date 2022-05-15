@@ -108,12 +108,12 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
     }
     private func _setWatchGameButtonState(_ state: WatchGameButtonState) {
         switch state {
-        case .enabled:
+        case .startGame:
+            watchGameButton.title = "Start Game"
             watchGameButton.isHidden = false
-            enableWatchGameButton()
-        case .disabled:
+        case .joinGame:
+            watchGameButton.title = "Watch Game"
             watchGameButton.isHidden = false
-            disableWatchGameButton()
         case .hidden:
             watchGameButton.isHidden = true
         }
@@ -161,10 +161,9 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
     }
 
     enum WatchGameButtonState {
+        case startGame
         /// The state associated with the host being ingame and the player being out of game.
-        case enabled
-        /// The state associated with the player and host being ingame.
-        case disabled
+        case joinGame
         /// The state associated with the host being out of game.
         case hidden
     }
