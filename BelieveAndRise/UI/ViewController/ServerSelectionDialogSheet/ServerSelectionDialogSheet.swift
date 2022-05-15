@@ -54,7 +54,7 @@ final class ServerSelectionDialogSheet: DialogSheet, NSComboBoxDataSource, NSCom
         case "BA Server".lowercased():
             return ServerAddress(location: "springfightclub.com", port: 8200)
         case "BAR Server".lowercased():
-            return ServerAddress(location: "road-flag.bnr.la", port: 8200)
+            return ServerAddress(location: "server2.beyondallreason.info", port: 8200)
         default:
             let storedValue = string.components(separatedBy: ":")
             guard storedValue.count == 2, let port = Int(storedValue[1]) else { return nil }
