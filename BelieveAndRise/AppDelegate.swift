@@ -16,12 +16,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     var window: NSWindow?
 
+    var windowManager: MacOSWindowManager!
+
 	var clientController: ClientController!
     var downloadController: DownloadController!
     var replayController: ReplayController!
     var mainWindowController: NSWindowController?
     var system: System!
-    var springProcessController: SpringProcessController!
 
     var downloadsWindow: NSWindow?
 
@@ -31,11 +32,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// Displays downloads to the user.
 	@IBAction func showDownloads(_ sender: NSMenuItem) {
-        system.windowManager.presentDownloads(downloadController)
+        windowManager.presentDownloads(downloadController)
 	}
+
     @IBAction func showReplays(_ sender: NSMenuItem) {
         try? replayController.loadReplays()
-        system.windowManager.presentReplays(replayController, springProcessController: springProcessController)
+        windowManager.presentReplays(replayController)
     }
 
     /// Opens a new client.
@@ -93,20 +95,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func runNormally() {
         Logger.log("Logger is online", tag: .General)
 
-        system = MacOS(windowManager: MacOSWindowManager())
+        system = MacOS()
 
         downloadController = DownloadController(system: system)
         replayController = ReplayController(system: system)
-        springProcessController = SpringProcessController(system: system, replayController: replayController)
 
-        ResourceManager.make(downloadController: downloadController, windowManager: system.windowManager, archiveLoader: UnitsyncArchiveLoader())
-        ResourceManager.default.loadLocalResources()
+        let resourceManager = ResourceManager(
+            replayController: replayController,
+            remoteResourceFetcher: RemoteResourceFetcher(
+                downloadController: downloadController
+            ),
+            archiveLoader: UnitsyncArchiveLoader(system: system)
+        )
+
+        resourceManager.loadLocalResources()
+
+        windowManager = MacOSWindowManager(resourceManager: resourceManager)
 
         let clientController = ClientController(
-            windowManager: system.windowManager,
-            preferencesController: PreferencesController.default,
-            springProcessController: springProcessController
+            system: system,
+            resourceManager: resourceManager
         )
+        clientController.addObject(windowManager)
         clientController.createNewClient()
 
         self.clientController = clientController

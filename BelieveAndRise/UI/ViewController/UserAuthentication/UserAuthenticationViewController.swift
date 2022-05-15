@@ -12,9 +12,7 @@ import UberserverClientCore
 /// A controller for the user authentication process.
 final class UserAuthenticationViewController: DialogSheet {
 
-    // MARK: - Dependencies
-
-    var delegate: LoginDelegate!
+    weak var unauthenticatedSession: UnauthenticatedSession?
 
     // MARK: - Interface connections
 
@@ -46,12 +44,17 @@ final class UserAuthenticationViewController: DialogSheet {
             guard let self = self else {
                 return false
             }
-            return self.inRegisterMode ? self.submitRegister() : self.submitLogin()
+            do {
+                return self.inRegisterMode ? try self.submitRegister() : self.submitLogin()
+            } catch {
+                print(error)
+                return false
+            }
         }
     }
 
     func prefillUsernameAndPassword() {
-        if let lastCredentialsPair = delegate?.lastCredentialsPair {
+        if let lastCredentialsPair = unauthenticatedSession?.lastCredentialsPair {
             usernameField.stringValue = lastCredentialsPair.username
             passwordField.stringValue = lastCredentialsPair.password
         }
@@ -74,39 +77,43 @@ final class UserAuthenticationViewController: DialogSheet {
     }
 
     private func submitLogin() -> Bool {
-        delegate?.submitLogin(
+        unauthenticatedSession?.submitLogin(
             username: usernameField.stringValue,
             password: passwordField.stringValue,
             completionHandler: { [weak self] result in
                 guard let self = self else { return }
-                switch result {
-                case .success(_):
-                    self.operationDidSucceed()
-                case .failure(let error):
-                    self.operationDidFailWithError(error.description)
+                executeOnMainSync {
+                    switch result {
+                    case .success(_):
+                        self.dismiss(self)
+                    case .failure(let error):
+                        self.operationDidFailWithError(error.description)
+                    }
                 }
             }
         )
         return true
     }
 
-    private func submitRegister() -> Bool {
+    private func submitRegister() throws -> Bool {
         let password = passwordField.stringValue
         if password != confirmPasswordField.stringValue {
             operationDidFailWithError("Passwords do not match!")
             return false
         }
 
-        delegate?.submitRegister(
+        unauthenticatedSession?.submitRegister(
             username: usernameField.stringValue,
-            email: emailField.stringValue,
+            email: try EmailAddress.decode(from: emailField.stringValue),
             password: password,
             completionHandler: { [weak self] maybeError in
                 guard let self = self else { return }
-                if let error = maybeError {
-                    self.operationDidFailWithError(error)
-                } else {
-                    self.operationDidSucceed()
+                executeOnMainSync {
+                    if let error = maybeError {
+                        self.operationDidFailWithError(error)
+                    } else {
+                        self.dismiss(self)
+                    }
                 }
             }
         )

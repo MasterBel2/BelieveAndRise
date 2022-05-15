@@ -16,12 +16,10 @@ import UberserverClientCore
  this property.
  */
 final class BattleroomViewController: NSViewController, BattleroomHeaderViewDelegate, ReceivesBattleroomUpdates, ReceivesBattleUpdates {
-
-    // MARK: - Dependencies
-
-    weak var battleController: BattleController!
     
     // MARK: - Data
+
+    var session: UnownedQueueLocked<AuthenticatedSession>!
 
     #warning("Should support displaying an empty battleroom when currently not in a battle.")
     private weak var battleroom: Battleroom! {
@@ -141,7 +139,7 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
                     return
                 }
                 let myBattleStatus = self.battleroom.myBattleStatus
-                self.battleController.setBattleStatus(Battleroom.UserStatus(
+                self.battleroom.setBattleStatus(Battleroom.UserStatus(
                     isReady: myBattleStatus.isReady,
                     teamNumber: myBattleStatus.teamNumber,
                     allyNumber: newAllyNumber,
@@ -163,7 +161,7 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
                     return
                 }
                 let myBattleStatus = self.battleroom.myBattleStatus
-                self.battleController.setBattleStatus(Battleroom.UserStatus(
+                self.battleroom.setBattleStatus(Battleroom.UserStatus(
                     isReady: myBattleStatus.isReady,
                     teamNumber: myBattleStatus.teamNumber,
                     allyNumber: myBattleStatus.allyNumber,
@@ -253,7 +251,7 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
             }
             let myBattleStatus = self.battleroom.myBattleStatus
             let newAllyNumber = self.battleroom.allyNamesForAllyNumbers.first(where: { $0.value == teamName })?.key
-            self.battleController.setBattleStatus(Battleroom.UserStatus(
+            self.battleroom.setBattleStatus(Battleroom.UserStatus(
                 isReady: myBattleStatus.isReady,
                 teamNumber: myBattleStatus.teamNumber,
                 allyNumber: newAllyNumber ?? myBattleStatus.allyNumber,
@@ -301,13 +299,13 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
     // MARK: - BattleroomHeaderViewDelegate
 
     func startGame() {
-        battleController.startGame()
+        try? battleroom.startGame()
     }
 	
 	func setReadyState(_ ready: Bool) {
         Logger.log("Requesting Ready status -> \(ready)", tag: .BattleStatusUpdate)
 		let myBattleStatus = battleroom.myBattleStatus
-		battleController.setBattleStatus(
+		battleroom.setBattleStatus(
 			Battleroom.UserStatus(
 				isReady: ready,
 				teamNumber: myBattleStatus.teamNumber,

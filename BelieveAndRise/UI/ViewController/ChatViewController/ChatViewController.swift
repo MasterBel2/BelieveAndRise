@@ -26,8 +26,8 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
 
     // MARK: - Dependencies
 
+    weak var authenticatedClient: AuthenticatedSession?
     private(set) var channel: Channel?
-    var chatController: ChatController!
 
     // MARK: - Configuration
 
@@ -84,15 +84,12 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
     // MARK: - ChatBarControllerDelegate
 
     func send(_ message: String) {
-        guard let channel = channel else {
-            return
-        }
-        chatController.sendMessage(message, toChannelNamed: channel.title)
+        channel?.send(message)
     }
 
     // MARK: - LogViewControllerDelegate
 
     func ring(_ id: Int) {
-        chatController.ring(id)
+        authenticatedClient?.ring(id)
     }
 }

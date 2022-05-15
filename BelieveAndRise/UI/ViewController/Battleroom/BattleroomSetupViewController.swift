@@ -13,10 +13,10 @@ class BattleroomSetupViewController: NSViewController, NSTextFieldDelegate {
     
     // MARK: - Associated Objects
 	
-	var client: Client!
+	weak var client: Client!
 	
     private var archiveLoader: DescribesArchivesOnDisk {
-        return ResourceManager.default.archiveLoader
+        return client.resourceManager.archiveLoader
     }
 	
 	// MARK: - Interface
@@ -119,7 +119,7 @@ class BattleroomSetupViewController: NSViewController, NSTextFieldDelegate {
         
         // TODO: Add support for restrictions (password, rank, maxPlayers etc.)
         let command = CSOpenBattleCommand(isReplay: false, natType: .none, password: nil, port: 8452, maxPlayers: 32, gameHash: selectedGame.completeChecksum, rank: 0, mapHash: map.completeChecksum, engineName: "Spring", engineVersion: selectedEngine.syncVersion, mapName: map.name, title: descriptionField.stringValue, gameName: selectedGame.name)
-        client.server?.send(command, specificHandler: { [weak self] response in
+        client.connection?.send(command, specificHandler: { [weak self] response in
             guard let self = self else { return true }
             if let _ = response as? SCOpenBattleCommand {
                 self.completionHandler?()

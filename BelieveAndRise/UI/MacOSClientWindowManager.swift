@@ -12,7 +12,7 @@ import ServerAddress
 
 #warning("ClientWindowManager accesses the UI and should be made thread-safe by use of `executeOnMain` on its non-private functions.")
 /// A MacOS-specific implementation of `ClientWindowManager`.
-final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
+final class MacOSClientWindowManager: NSResponder, ReceivesClientUpdates, ReceivesConnectionUpdates, RecievesPreAgreementSessionUpdates, ReceivesAuthenticatedClientUpdates {
 
     // MARK: - Windows
 
@@ -25,10 +25,15 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
     private var chatViewController: ChatViewController
     
     private var serverSelectionViewController: NSViewController?
+    private var loginViewController: NSViewController?
 
     // MARK: - Dependencies
 
-    weak var client: Client?
+    weak var client: Client? {
+        didSet {
+            mainWindowController.client = client
+        }
+    }
     weak var clientController: ClientController?
     private let defaultsController: InterfaceDefaultsController
 
@@ -62,10 +67,12 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
     }
 
     @IBAction func accountWindow(_ sender: Any) {
-        guard let client = client else {
+        guard let client = client,
+              let connection = client.connection,
+              case let .authenticated(session) = connection.session else {
             return
         }
-        presentAccountWindow(client.accountInfoController)
+        presentAccountWindow(session)
     }
 
     // MARK: - Lifecycle
@@ -96,52 +103,163 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
         nextResponder = mainWindowController.nextResponder
         mainWindowController.nextResponder = self
         chatWindow.nextResponder = self
+
+        mainWindowController.defaultsController = defaultsController
     }
 
     required init?(coder: NSCoder) {
         fatalError()
     }
 
+    // MARK: - Client Updates
+
+    func client(_ client: Client, willConnectTo address: ServerAddress) {
+        client.addObject(self)
+    }
+
+    func client(_ client: Client, successfullyEstablishedConnection connection: Connection) {
+        connection._connection.sync(block: { $0.addObject(self) })
+
+        executeOnMainSync {
+            self.serverSelectionViewController?.dismiss(self)
+        }
+
+        guard case let .unauthenticated(unauthenticatedSession) = connection.session else {
+            executeOnMainSync {
+                self.selectServer(completionHandler: client.connect(to:))
+            }
+            return
+        }
+
+        executeOnMainSync { [self] in
+            let viewController = userAuthenticationViewController(controller: unauthenticatedSession)
+            mainWindowController.window?.contentViewController?.presentAsSheet(viewController)
+            self.loginViewController = viewController
+        }
+    }
+
+    func client(_ client: Client, willRedirectFrom oldServerAddress: ServerAddress, to newServerAddress: ServerAddress) {
+
+    }
+
+    func client(_ client: Client, didSuccessfullyRedirectTo newConnection: Connection) {
+
+    }
+
+    func clientDisconnectedFromServer(_ client: Client) {
+        executeOnMainSync { [self] in
+            agreementAlert?.close()
+            agreementAlert = nil
+            mainWindowController.destroyBattleroomViewController()
+            accountWindow?.close()
+            accountWindow = nil
+            mainWindowController.window?.contentViewController?.presentedViewControllers?.forEach({ $0.dismiss(self) })
+
+            selectServer(completionHandler: client.connect(to:))
+        }
+    }
+
+    // MARK: - Connection Updates
+
+    func connection(_ connection: ThreadUnsafeConnection, willConnectTo newAddress: ServerAddress) {}
+
+    func serverDidDisconnect(_ server: Connection) {}
+
+    func server(_ server: Connection, willUseCommandProtocolWithFeatureAvailability availability: ProtocolFeatureAvailability) {}
+
+    func connection(_ connection: ThreadUnsafeConnection, didBecomeAuthenticated authenticatedClient: AuthenticatedSession) {
+        executeOnMainSync { [self] in
+            self.agreementAlert = nil
+
+            authenticatedClient.addObject(self)
+
+            mainWindowController.configure(for: authenticatedClient)
+
+            chatSidebar.removeAllSections()
+            chatSidebar.addSection(authenticatedClient.channelList)
+            chatSidebar.addSection(authenticatedClient.privateMessageList)
+            chatSidebar.addSection(authenticatedClient.forwardedMessageList)
+            chatSidebar.selectionHandler = ChatSidebarSelectionHandler(
+                channelList: authenticatedClient.channelList,
+                privateMessageList: authenticatedClient.privateMessageList,
+                forwardedMessageList: authenticatedClient.forwardedMessageList,
+                chatViewController: chatViewController
+            )
+            chatSidebar.itemViewProvider = ChatSidebarListItemViewProvider(
+                channelList: authenticatedClient.channelList,
+                privateMessageList: authenticatedClient.privateMessageList,
+                forwardedMessageList: authenticatedClient.forwardedMessageList
+            )
+            chatViewController.authenticatedClient = authenticatedClient
+        }
+    }
+
+    func connection(_ connection: ThreadUnsafeConnection, didBecomePreAgreement preAgreementSession: PreAgreementSession) {
+        preAgreementSession.addObject(self)
+    }
+
+    func connection(_ connection: ThreadUnsafeConnection, didBecomeUnauthenticated unauthenticatedSession: UnauthenticatedSession) {
+        executeOnMainSync {
+            self._userAuthenticationViewController?.unauthenticatedSession = unauthenticatedSession
+            self.mainWindowController.deconfigure()
+        }
+    }
+
+    // MARK: - Pre-Agreement Updates
+
+    private var agreementAlert: NSWindow?
+
+    func preAgreementSession(_ session: PreAgreementSession, didReceiveAgreement agreement: String) {
+        executeOnMainSync {
+            let dialog = AgreementDialogViewController()
+            dialog.agreement = agreement
+            dialog.operation = { dialog in
+                guard let dialog = dialog as? AgreementDialogViewController else {
+                    dialog.didCancelOperation?(dialog)
+                    return false
+                }
+                session.acceptAgreement(verificationCode: dialog.confirmationCodeField.stringValue)
+                return true
+            }
+            dialog.didCancelOperation = { [weak self] _ in
+                self?.client?.disconnect()
+            }
+
+            let window = NSWindow(contentViewController: dialog)
+            self.agreementAlert = window
+
+            window.makeKeyAndOrderFront(self)
+        }
+    }
+
+
+    // MARK: - Authenticated Client Updates
+
+    func authenticatedClient(_ authenticatedClient: AuthenticatedSession, didJoin battleroom: Battleroom) {
+        executeOnMainSync {
+            self.mainWindowController.displayBattleroom(battleroom)
+        }
+    }
+
+    func authenticatedClientDidLeaveBattleroom(_ authenticatedClient: AuthenticatedSession) {
+        executeOnMainSync {
+            self.mainWindowController.destroyBattleroomViewController()
+        }
+    }
+
     // MARK: - WindowManager
 
-    /// Presents a new instance of the main window. (Currently an alias for `presentServerSelection()`)
-    ///
-    /// This method assumes that it is being called because no window exists already. It will not
-    /// check for (or remove) any windows that have already been presented.
-    func presentInitialWindow() {
-        mainWindowController.defaultsController = defaultsController
+    /// Presents the main window.
+    func prepare() {
         mainWindowController.window?.makeKeyAndOrderFront(self)
-    }
-
-    func configure(for client: Client) {
-        self.client = client
-        mainWindowController.setBattleController(client.battleController)
-        mainWindowController.setChatController(client.chatController)
-        mainWindowController.displayBattlelist(client.battleList)
-        mainWindowController.displayServerUserlist(client.userList)
-
-        chatSidebar.removeAllSections()
-        chatSidebar.addSection(client.channelList)
-        chatSidebar.addSection(client.privateMessageList)
-        chatSidebar.addSection(client.forwardedMessageList)
-        chatSidebar.selectionHandler = ChatSidebarSelectionHandler(channelList: client.channelList, privateMessageList: client.privateMessageList, forwardedMessageList: client.forwardedMessageList, chatViewController: chatViewController)
-        chatSidebar.itemViewProvider = ChatSidebarListItemViewProvider(channelList: client.channelList, privateMessageList: client.privateMessageList, forwardedMessageList: client.forwardedMessageList)
-        chatViewController.chatController = client.chatController
-    }
-
-    func resetServerWindows() {
-        destroyBattleroom()
-        accountWindow?.close()
-        accountWindow = nil
-        dismissLogin()
-        dismissServerSelection()
     }
 
     // MARK: - Sheets
     
     func selectServer(completionHandler: @escaping (ServerAddress) -> Void) {
         let serverSelectionViewController = ServerSelectionDialogSheet()
-        serverSelectionViewController.didCancelOperation = { [weak self] in
+        serverSelectionViewController.didCancelOperation = { [weak self] dialog in
+            dialog.dismiss(self)
             guard let self = self,
                 let client = self.client else {
                 return
@@ -154,64 +272,34 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
         self.serverSelectionViewController = serverSelectionViewController
     }
 
-    /// Dismisses the sheet associated with the server selection controller.
-    func dismissServerSelection() {
-        serverSelectionViewController?.dismiss(self)
-    }
-
-    var loginViewController: NSViewController?
-    /// Configures the login sheet with the controller and presents it to the users.
-    func presentLogin(controller: UserAuthenticationController) {
-        dismissServerSelection()
-        let viewController = userAuthenticationViewController(controller: controller)
-        mainWindowController.window?.contentViewController?.presentAsSheet(viewController)
-        self.loginViewController = viewController
-    }
-
-    /// Dismisses the sheet associated with the user authentication controller.
-    func dismissLogin() {
-        loginViewController?.dismiss(self)
-    }
-
-    // MARK: - Content
-
-    func displayBattleroom(_ battleroom: Battleroom) {
-        mainWindowController.displayBattleroom(battleroom)
-    }
-
-    func destroyBattleroom() {
-        mainWindowController.destroyBattleroomViewController()
-    }
-
-    func joinedChannel(_ channel: Channel) {
-    }
-
     // MARK: - Platform UI wrappers
 
     private var _userAuthenticationViewController: UserAuthenticationViewController?
-    private func userAuthenticationViewController(controller: UserAuthenticationController) -> NSViewController {
+    private func userAuthenticationViewController(controller: UnauthenticatedSession) -> NSViewController {
         let userAuthenticationViewController = UserAuthenticationViewController()
-        userAuthenticationViewController.didCancelOperation = { [weak self] in
+        userAuthenticationViewController.didCancelOperation = { [weak self] dialog in
+            dialog.dismiss(self)
             guard let self = self,
                 let client = self.client else {
                 return
             }
-            self.selectServer(completionHandler: client.initialiseServer(_:))
+            client.disconnect()
+            self.selectServer(completionHandler: client.connect(to:))
         }
-        userAuthenticationViewController.delegate = controller
+        userAuthenticationViewController.unauthenticatedSession = controller
         _userAuthenticationViewController = userAuthenticationViewController
         return userAuthenticationViewController
     }
 
-    func presentAccountWindow(_ controller: AccountInfoController) {
+    func presentAccountWindow(_ controller: AuthenticatedSession) {
         if let accountWindow = accountWindow {
             accountWindow.orderFront(self)
             return
         }
         let accountViewController = AccountViewController()
-        accountViewController.accountInfoController = controller
+        accountViewController.authenticatedSession = controller
         let accountWindow = NSPanel(contentViewController: accountViewController)
-        accountWindow.title = "Account – \(controller.user?.profile.fullUsername ?? "Unknown user")"
+        accountWindow.title = "Account – \(controller.myUser?.profile.fullUsername ?? "Unknown user")"
         accountWindow.isFloatingPanel = true
         accountWindow.setFrameAutosaveName("com.believeAndRise.accountInfo")
         accountWindow.titlebarAppearsTransparent = true

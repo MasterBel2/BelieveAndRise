@@ -20,7 +20,7 @@ final class AccountViewController: NSViewController {
     @IBOutlet var editEmailAddressButton: NSButton!
 
 	/// The controller for account information.
-    weak var accountInfoController: AccountInfoController?
+    weak var authenticatedSession: AuthenticatedSession?
 
 	/// Information about the uer's account.
 	///
@@ -54,10 +54,10 @@ final class AccountViewController: NSViewController {
         editAccountNameButton.isHidden = true
         editEmailAddressButton.isHidden = true
 
-        if let username = accountInfoController?.user?.profile.fullUsername {
-            display(accountName: username)
+        if let myUser = authenticatedSession?.myUser {
+            display(accountName: myUser.profile.fullUsername)
         }
-        accountInfoController?.retrieveAccountData(completionBlock: display(accountData:))
+        authenticatedSession?.accountInfoController.retrieveAccountData(completionBlock: display(accountData:))
     }
 
 	/// Presents a sheet for editing the user's account name.
@@ -67,7 +67,7 @@ final class AccountViewController: NSViewController {
         viewController.textFieldPlaceholder = accountNameField.stringValue
         viewController.secureTextFieldTitle = "Confirm password:"
         viewController.operation = { [weak self] _ -> Bool in
-            self?.accountInfoController?.renameAccount(
+            self?.authenticatedSession?.accountInfoController.renameAccount(
                 to: viewController.textField.stringValue,
                 password: viewController.secureTextField.stringValue,
                 completionBlock: { result in
@@ -95,7 +95,7 @@ final class AccountViewController: NSViewController {
             }
             let newEmail = viewController.textField.stringValue
             let passwordToConfirm = viewController.secureTextField.stringValue
-            self.accountInfoController?.requestVerficationCodeForChangingEmail(
+            self.authenticatedSession?.accountInfoController.requestVerficationCodeForChangingEmail(
                 to: newEmail,
                 password: viewController.secureTextField.stringValue,
                 completionBlock: { errorMessage in
@@ -122,7 +122,7 @@ final class AccountViewController: NSViewController {
                 let viewController = viewController else {
                     return false
             }
-            self.accountInfoController?.changeEmail(
+            self.authenticatedSession?.accountInfoController.changeEmail(
                 to: newEmail,
                 password: confirmedPassword,
                 verificationCode: viewController.textField.stringValue,

@@ -14,8 +14,7 @@ final class MainWindowController: NSWindowController {
     // MARK: - Dependencies
 
     weak var client: Client?
-    private weak var chatController: ChatController?
-    private weak var battleController: BattleController?
+    weak var authenticatedClient: AuthenticatedSession?
 
     /// The controller for storing and retrieving interface-related defaults.
     var defaultsController: InterfaceDefaultsController!
@@ -37,45 +36,27 @@ final class MainWindowController: NSWindowController {
         splitViewController.splitViewItems[0].animator().isCollapsed = !splitViewController.splitViewItems[0].isCollapsed
     }
 
-    // MARK: - MainWindowController
-
-    func displayBattlelist(_ battleList: List<Battle>) {
-        executeOnMain { [weak self] in
-            self?._displayBattleList(battleList)
-        }
-    }
-
-    private func _displayBattleList(_ battleList: List<Battle>) {
-        guard let battleController = battleController else {
-            return
-        }
-        battlelistViewController.removeAllSections()
-        battlelistViewController.addSection(battleList)
-        battlelistViewController.itemViewProvider = BattlelistItemViewProvider(list: battleList)
+    func configure(for authenticatedClient: AuthenticatedSession) {
+        self.authenticatedClient = authenticatedClient
+        battlelistViewController.addSection(authenticatedClient.battleList)
+        battlelistViewController.itemViewProvider = BattlelistItemViewProvider(list: authenticatedClient.battleList)
         battlelistViewController.selectionHandler = DefaultBattleListSelectionHandler(
-            battlelist: battleList,
-            battleController: battleController
+            client: authenticatedClient,
+            battlelist: authenticatedClient.battleList
         )
+
+        userListViewController.addSection(authenticatedClient.userList)
+        userListViewController.itemViewProvider = PlayerRankIngameUsernameItemViewProvider(playerList: authenticatedClient.userList)
+
+        chatViewController.authenticatedClient = authenticatedClient
     }
 
-    func displayServerUserlist(_ userList: List<User>) {
-        executeOnMain { [weak self] in
-            self?._displayServerUserList(userList)
-        }
+    func deconfigure() {
+        battlelistViewController.removeAllSections()
+        userListViewController.removeAllSections()
     }
 
-    private func _displayServerUserList(_ userList: List<User>) {
-        userListViewController.sections.forEach(userListViewController.removeSection(_:))
-        userListViewController.addSection(userList)
-        userListViewController.itemViewProvider = PlayerRankIngameUsernameItemViewProvider(playerList: userList)
-    }
-
-    func displayChannel(_ channel: Channel) {
-        executeOnMain { [weak self] in
-            guard let self = self else { return }
-            self.chatViewController.setChannel(channel)
-        }
-    }
+    // MARK: - MainWindowController
 
     /**
      Displays a battleroom and configures it with the information that should be already populated.
@@ -88,6 +69,9 @@ final class MainWindowController: NSWindowController {
 
     private func _displayBattleroom(_ battleroom: Battleroom) {
         let battleroomViewController = self.battleroomViewController ?? BattleroomViewController()
+        battleroomViewController.session = authenticatedClient.map({ // We'll just assume here that if we have a session, we have a client
+            MakeUnownedQueueLocked(lockedObject: $0, queue: client!.connection!._connection.queue)
+        })
         battleroomViewController.setBattleroom(battleroom)
         let middleSplitViewItem = splitViewController.splitViewItems[1]
         if middleSplitViewItem.viewController !== battleroomViewController {
@@ -98,8 +82,7 @@ final class MainWindowController: NSWindowController {
             )
         }
 
-        battleroomViewController.chatViewController.chatController = chatController
-        battleroomViewController.battleController = battleController
+        battleroomViewController.chatViewController.authenticatedClient = authenticatedClient
 
         self.battleroomViewController = battleroomViewController
 
@@ -112,27 +95,14 @@ final class MainWindowController: NSWindowController {
         }
     }
 
-   private func _destroyBattleroomViewController() {
-            guard let battleroomViewController = battleroomViewController,
-                let battleroomSplitViewItem = splitViewController.splitViewItem(for: battleroomViewController) else {
-                    return
-            }
-            self.battleroomViewController = nil
-            splitViewController.removeSplitViewItem(battleroomSplitViewItem)
-            splitViewController.insertSplitViewItem(NSSplitViewItem(viewController: chatViewController), at: 1)
-    }
-
-    func setChatController(_ chatController: ChatController) {
-        executeOnMain { [weak self] in
-            self?.chatViewController.chatController = chatController
-            self?.chatController = chatController
+    private func _destroyBattleroomViewController() {
+        guard let battleroomViewController = battleroomViewController,
+              let battleroomSplitViewItem = splitViewController.splitViewItem(for: battleroomViewController) else {
+            return
         }
-    }
-
-    func setBattleController(_ battleController: BattleController) {
-        executeOnMain { [weak self] in
-            self?.battleController = battleController
-        }
+        self.battleroomViewController = nil
+        splitViewController.removeSplitViewItem(battleroomSplitViewItem)
+        splitViewController.insertSplitViewItem(NSSplitViewItem(viewController: chatViewController), at: 1)
     }
 
     // MARK: - Presentation
@@ -202,7 +172,7 @@ final class MainWindowController: NSWindowController {
     /// After the battleroom is destroyed, the notification that the user wishes to leave the battle is sent to the server.
     @objc private func leaveBattle() {
         destroyBattleroomViewController()
-        battleController?.leaveBattle()
+        authenticatedClient?.leaveBattle()
         battlelistViewController.footer = hostBattleButton
         // Deselect the battle so the player may re-select it.
         battlelistViewController.tableView.deselectAll(nil)

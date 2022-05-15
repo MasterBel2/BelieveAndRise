@@ -9,6 +9,8 @@
 import Foundation
 import UberserverClientCore
 import SpringRTSReplayHandling
+import SpringRTSStartScriptHandling
+import ServerAddress
 
 /// Executes an action corresponding to a selection on the behalf of a list.
 protocol ListSelectionHandler {
@@ -24,16 +26,16 @@ extension ListSelectionHandler {
 /// Executes select actions for a battle list.
 struct DefaultBattleListSelectionHandler: ListSelectionHandler {
 	
-	let battleController: BattleController
 	let battlelist: List<Battle>
-	
-	public init(battlelist: List<Battle>, battleController: BattleController) {
-		self.battlelist = battlelist
-		self.battleController = battleController
-	}
-	
+    weak var client: AuthenticatedSession?
+    
+    init(client: AuthenticatedSession?, battlelist: List<Battle>) {
+        self.battlelist = battlelist
+        self.client = client
+    }
+
 	public func primarySelect(itemIdentifiedBy id: Int) {
-		battleController.joinBattle(id)
+		client?.joinBattle(id)
 	}
 	
 	public func secondarySelect(itemIdentifiedBy id: Int) {
@@ -44,17 +46,43 @@ struct DefaultBattleListSelectionHandler: ListSelectionHandler {
 /// Executes select actions for a list of replays.
 struct ReplayListSelectionHandler: ListSelectionHandler {
 
-    public init(replayList: List<Replay>, springProcessController: SpringProcessController) {
-        self.replayList = replayList
-        self.springProcessController = springProcessController
-    }
-
-    public let springProcessController: SpringProcessController
     public let replayList: List<Replay>
+    public let resourceManager: ResourceManager
 
     public func primarySelect(itemIdentifiedBy id: Int) {
 		if let first = replayList.items[id] {
-			try? springProcessController.launchReplay(first, shouldRecordDemo: false)
+            resourceManager.loadEngine(version: first.header.springVersion, shouldDownload: false) { result in
+                switch result {
+                case .success(let engine):
+                    let demoSpecification = first.gameSpecification
+                    let newSpecification = GameSpecification(
+                        allyTeams: demoSpecification.allyTeams,
+                        spectators: demoSpecification.spectators,
+                        demoFile: first.fileURL,
+                        hostConfig: HostConfig(
+                            userID: nil,
+                            username: "Viewer",
+                            type: .user(lobbyName: "BelieveAndRise"), // TODO: Use the user's logged-in name if possible
+                            address: ServerAddress(location: "", port: 8452),
+                            rank: nil,
+                            countryCode: nil
+                        ),
+                        startConfig: demoSpecification.startConfig,
+                        mapName: demoSpecification.mapName,
+                        mapHash: demoSpecification.mapHash,
+                        gameType: demoSpecification.gameType,
+                        modHash: demoSpecification.modHash,
+                        gameStartDelay: demoSpecification.gameStartDelay,
+                        mapOptions: demoSpecification.mapOptions,
+                        modOptions: demoSpecification.modOptions,
+                        restrictions: demoSpecification.restrictions
+                    )
+                    
+                    try? engine.launchGame(script: newSpecification, doRecordDemo: false, completionHandler: nil)
+                default:
+                    return
+                }
+            }
 		}
     }
 }

@@ -11,24 +11,25 @@ import UberserverClientCore
 
 #warning("Window manager accesses the UI and should be made thread-safe by use of executeOnMain on its non-private functions.")
 /// The MacOS implementation of `WindowManager`.
-final class MacOSWindowManager: WindowManager {
+final class MacOSWindowManager: ReceivesClientControllerUpdates {
     /// The window displaying information about current and past downloads.
     private var downloadsWindow: NSWindow?
     private var replaysWindow: NSWindow?
-    weak var system: System!
+
+    private var clientWindowManagers: [MacOSClientWindowManager] = []
 
     /// The controller for storing and retrieving interface-related defaults.
     private let defaultsController = InterfaceDefaultsController()
 
-    // MARK: - WindowManager
+    let resourceManager: ResourceManager
 
-    func newClientWindowManager(clientController: ClientController) -> ClientWindowManager {
-        let manager = MacOSClientWindowManager(defaultsController: defaultsController)
-        manager.clientController = clientController
-        return manager
+    init(resourceManager: ResourceManager) {
+        self.resourceManager = resourceManager
     }
 
-    func presentReplays(_ controller: ReplayController, springProcessController: SpringProcessController) {
+    // MARK: - Presenting
+
+    func presentReplays(_ controller: ReplayController) {
         if let replaysWindow = replaysWindow {
             replaysWindow.orderFront(self)
             return
@@ -36,7 +37,7 @@ final class MacOSWindowManager: WindowManager {
         let viewController = ListViewController()
         viewController.selectionHandler = ReplayListSelectionHandler(
             replayList: controller.replays,
-            springProcessController: springProcessController
+            resourceManager: resourceManager
         )
         viewController.itemViewProvider = ReplayListItemViewProvider(replayList: controller.replays)
         viewController.addSection(controller.replays)
@@ -70,5 +71,19 @@ final class MacOSWindowManager: WindowManager {
         }
     }
 
+    // MARK: - Client Controller Updates
 
+    func clientController(_ clientController: ClientController, didCreate client: Client) {
+        let windowManager = MacOSClientWindowManager(defaultsController: defaultsController)
+        client.addObject(windowManager)
+        windowManager.client = client
+        windowManager.clientController = clientController
+
+        windowManager.prepare()
+        if client.connection == nil {
+            windowManager.selectServer(completionHandler: client.connect(to:))
+        }
+
+        clientWindowManagers.append(windowManager)
+    }
 }
