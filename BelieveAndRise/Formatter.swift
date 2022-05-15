@@ -249,7 +249,7 @@ struct BattleroomMessageListItemViewProvider: _ItemViewProvider {
             else {
             return nil
         }
-        let user = battleroom.battle.userList.items[message.senderID] ?? User(profile: User.Profile(id: 0, fullUsername: message.senderName, lobbyID: ""))
+        let user = battleroom.battle.userList.items[message.senderID] ?? User(profile: User.Profile(id: 0, fullUsername: message.senderName, lobbyID: "", country: nil))
 
         let view = _view(for: listView)
 
