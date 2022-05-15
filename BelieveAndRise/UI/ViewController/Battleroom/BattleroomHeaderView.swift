@@ -15,6 +15,7 @@ import UberserverClientCore
 protocol BattleroomHeaderViewDelegate: AnyObject {
     func startGame()
 	func setReadyState(_ ready: Bool)
+    func showControlPanel()
 }
 
 /// The header view for a battleroom, containing basic controls and information.
@@ -29,6 +30,7 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
     @IBOutlet var mapNameField: NSTextField!
 
     @IBOutlet var watchGameButton: NSButton!
+    @IBOutlet weak var showControlPanelButton: NSButton!
 
     @IBOutlet var allySelectorPopupButton: NSPopUpButton!
     @IBOutlet var syncStatusLabel: NSTextField!
@@ -95,7 +97,10 @@ final class BattleroomHeaderView: NSVisualEffectView, NibLoadable {
 	@IBAction func setReadyState(_ sender: NSButton) {
 		delegate?.setReadyState(sender.state == .on)
 	}
-	
+    @IBAction func showControlPanel(_ sender: Any) {
+        delegate?.showControlPanel()
+    }
+
     // MARK: - Setting control states
 
     /// Sets a state for the watch game button.

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -153,6 +153,9 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="showControlPanel:" target="bx3-Yc-SHj" id="7eX-Yr-gms"/>
+                    </connections>
                 </button>
             </subviews>
             <constraints>
@@ -182,6 +185,7 @@
                 <outlet property="mapNameField" destination="imD-2p-wDK" id="cb1-XY-Fa0"/>
                 <outlet property="minimapView" destination="R9P-RK-rbP" id="B7I-wL-dZj"/>
                 <outlet property="readyButton" destination="alq-nu-gOW" id="x9L-1Q-Fao"/>
+                <outlet property="showControlPanelButton" destination="xsU-KB-Jqj" id="ZRW-Ke-g8c"/>
                 <outlet property="syncStatusLabel" destination="Y3k-LU-Gra" id="Tp7-Qz-vvN"/>
                 <outlet property="watchGameButton" destination="Rim-IF-jhv" id="1Xl-FO-vKf"/>
             </connections>

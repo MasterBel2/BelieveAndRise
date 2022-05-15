@@ -303,6 +303,12 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
 
     // MARK: - BattleroomHeaderViewDelegate
 
+    func showControlPanel() {
+        let viewController = BattleroomControlPanelViewController()
+        let window = NSPanel(contentViewController: viewController)
+        window.makeKeyAndOrderFront(self)
+    }
+
     func startGame() {
         try? battleroom.startGame()
     }
