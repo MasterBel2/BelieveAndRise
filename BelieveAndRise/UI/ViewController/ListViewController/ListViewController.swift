@@ -175,8 +175,8 @@ class ListViewController: NSViewController,
 	///
 	/// This method will always execute synchronously on the main thread.
     func addSection(_ list: ListProtocol) {
-        executeOnMain { [weak self] in
-            self?._addSection(list)
+        executeOnMainSync {
+            self._addSection(list)
         }
     }
 
@@ -206,18 +206,17 @@ class ListViewController: NSViewController,
     ///
     /// Called asynchronously on the main thread
     func removeAllSections() {
-        executeOnMain { [weak self] in
-            guard let self = self else { return }
+        executeOnMainSync {
             self.sections.forEach(self._removeSection(_:))
         }
     }
 
     /// Removes a section from the view.
 	///
-	/// This method will always execute synchronously on the main thread.
+	/// This method will always execute asynchronously on the main thread.
     func removeSection(_ list: ListProtocol) {
-        executeOnMain { [weak self] in
-            self?._removeSection(list)
+        executeOnMainSync {
+            self._removeSection(list)
         }
     }
 
@@ -240,8 +239,8 @@ class ListViewController: NSViewController,
     }
 
     func listWillClear(_ list: ListProtocol) {
-        executeOnMain { [weak self] in
-            self?._listWillClear(list)
+        executeOnMainSync {
+            self._listWillClear(list)
         }
     }
 
@@ -295,8 +294,8 @@ class ListViewController: NSViewController,
 	///
 	/// This method will always execute synchronously on the main thread.
     func list(_ list: ListProtocol, didAddItemWithID id: Int, at index: Int) {
-        executeOnMain { [weak self] in
-            self?._list(list, didAddItemWithID: id, at: index)
+        executeOnMainSync {
+            self._list(list, didAddItemWithID: id, at: index)
         }
     }
 
@@ -328,8 +327,8 @@ class ListViewController: NSViewController,
 	///
 	/// This method will always execute synchronously on the main thread.
     func list(_ list: ListProtocol, didRemoveItemAt index: Int) {
-        executeOnMain(target: self) { viewController in
-            viewController._list(list, didRemoveItemAt: index)
+        executeOnMainSync {
+            self._list(list, didRemoveItemAt: index)
         }
     }
 
@@ -361,9 +360,9 @@ class ListViewController: NSViewController,
 	///
 	/// This method will always execute synchronously on the main thread.
     func list(_ list: ListProtocol, itemWasUpdatedAt index: Int) {
-        executeOnMain(target: self) { viewController in
-            viewController.tableView.reloadData(
-                forRowIndexes: IndexSet(integer: viewController.offset(forSectionNamed: list.title) + index),
+        executeOnMainSync {
+            self.tableView.reloadData(
+                forRowIndexes: IndexSet(integer: self.offset(forSectionNamed: list.title) + index),
                 columnIndexes: IndexSet(integer: 0)
             )
         }
@@ -373,13 +372,13 @@ class ListViewController: NSViewController,
 	///
 	/// This method will always execute synchronously on the main thread.
     func list(_ list: ListProtocol, didMoveItemFrom index1: Int, to index2: Int) {
-        executeOnMain(target: self) { viewController in
-            let sectionOffset = viewController.offset(forSectionNamed: list.title)
+        executeOnMainSync {
+            let sectionOffset = self.offset(forSectionNamed: list.title)
 
             let from = sectionOffset + index1
             let to = sectionOffset + index2
-            viewController.rows.moveItem(from: from, to: to)
-            viewController.tableView.moveRow(at: from, to: to)
+            self.rows.moveItem(from: from, to: to)
+            self.tableView.moveRow(at: from, to: to)
         }
     }
 	

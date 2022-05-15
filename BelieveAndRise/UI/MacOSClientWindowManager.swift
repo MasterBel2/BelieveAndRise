@@ -44,8 +44,10 @@ final class MacOSClientWindowManager: NSResponder, ClientWindowManager {
 	@IBAction func openBattle(_ sender: Any) {
 		let vc = BattleroomSetupViewController()
         vc.completionHandler = { [weak self] in
-            self?.openBattleWindow?.close()
-            self?.openBattleWindow = nil
+            executeOnMainSync {
+                self?.openBattleWindow?.close()
+                self?.openBattleWindow = nil
+            }
         }
 		vc.client = client
 		let window = NSWindow(contentViewController: vc)

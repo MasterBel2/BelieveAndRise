@@ -208,7 +208,7 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
     // MARK: - Battleroom Updates
 
     func display(isHostIngame: Bool, isPlayerIngame: Bool) {
-        executeOnMain(target: header) { header in
+        executeOnMainSync { [self] in
             if !isHostIngame {
                 header.setWatchGameButtonState(.hidden)
             } else {
