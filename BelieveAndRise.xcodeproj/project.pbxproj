@@ -69,6 +69,8 @@
 		6B880619249BCC3700BAF05B /* SingleTextInputDialogSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B880617249BCC3700BAF05B /* SingleTextInputDialogSheet.swift */; };
 		6B88061A249BCC3700BAF05B /* SingleTextInputDialogSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B880618249BCC3700BAF05B /* SingleTextInputDialogSheet.xib */; };
 		6B9C807A25CEC2F900D5987C /* ListSelectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9C807925CEC2F900D5987C /* ListSelectionHandler.swift */; };
+		6B9E87C0282CFEA600471C5B /* AgreementDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E87BE282CFEA600471C5B /* AgreementDialogViewController.swift */; };
+		6B9E87C1282CFEA600471C5B /* AgreementDialogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B9E87BF282CFEA600471C5B /* AgreementDialogViewController.xib */; };
 		6BA9359D282A965400E816AB /* BattleroomControlPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9359B282A965300E816AB /* BattleroomControlPanelViewController.swift */; };
 		6BA9359E282A965400E816AB /* BattleroomControlPanelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BA9359C282A965300E816AB /* BattleroomControlPanelViewController.xib */; };
 		6BAF4ABA24A86F7F0078A64E /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF4AB824A86F7F0078A64E /* TextViewController.swift */; };
@@ -202,6 +204,8 @@
 		6B880617249BCC3700BAF05B /* SingleTextInputDialogSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTextInputDialogSheet.swift; sourceTree = "<group>"; };
 		6B880618249BCC3700BAF05B /* SingleTextInputDialogSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SingleTextInputDialogSheet.xib; sourceTree = "<group>"; };
 		6B9C807925CEC2F900D5987C /* ListSelectionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListSelectionHandler.swift; sourceTree = "<group>"; };
+		6B9E87BE282CFEA600471C5B /* AgreementDialogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementDialogViewController.swift; sourceTree = "<group>"; };
+		6B9E87BF282CFEA600471C5B /* AgreementDialogViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AgreementDialogViewController.xib; sourceTree = "<group>"; };
 		6BA9359B282A965300E816AB /* BattleroomControlPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleroomControlPanelViewController.swift; sourceTree = "<group>"; };
 		6BA9359C282A965300E816AB /* BattleroomControlPanelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattleroomControlPanelViewController.xib; sourceTree = "<group>"; };
 		6BAF4AB824A86F7F0078A64E /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
@@ -440,6 +444,7 @@
 		6B179C3D249B161800D3DC56 /* DialogSheet */ = {
 			isa = PBXGroup;
 			children = (
+				6B9E87C3282CFF0000471C5B /* AgreementDialogViewController */,
 				6B179C392499E5ED00D3DC56 /* DialogSheet.swift */,
 				6B179C3A2499E5ED00D3DC56 /* DialogSheet.xib */,
 				6B880616249BCC1000BAF05B /* SingleTextInputDialogSheet */,
@@ -542,6 +547,15 @@
 				6B7C82D522D9489A0031F9C9 /* UserAuthenticationViewController.xib */,
 			);
 			path = UserAuthentication;
+			sourceTree = "<group>";
+		};
+		6B9E87C3282CFF0000471C5B /* AgreementDialogViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6B9E87BE282CFEA600471C5B /* AgreementDialogViewController.swift */,
+				6B9E87BF282CFEA600471C5B /* AgreementDialogViewController.xib */,
+			);
+			path = AgreementDialogViewController;
 			sourceTree = "<group>";
 		};
 		6BAE46C12379A81C0065CD53 /* Main Window */ = {
@@ -787,6 +801,7 @@
 				6B4F076A2321151800B52C7E /* MainWindowController.xib in Resources */,
 				6BE233B523269ACE0029425E /* ChatViewController.xib in Resources */,
 				6BA9359E282A965400E816AB /* BattleroomControlPanelViewController.xib in Resources */,
+				6B9E87C1282CFEA600471C5B /* AgreementDialogViewController.xib in Resources */,
 				6BEE6526239A8F2A0029528A /* LICENSE in Resources */,
 				6BAF4ABB24A86F7F0078A64E /* TextViewController.xib in Resources */,
 				3E7C8285239CC312004B835D /* RankIngameAndUsernameView.xib in Resources */,
@@ -860,6 +875,7 @@
 				3E46333522C0C2D000AE0F2F /* AppDelegate.swift in Sources */,
 				6B37421924D352C9000E0BBD /* FormViewController.swift in Sources */,
 				6BE233B423269ACE0029425E /* ChatViewController.swift in Sources */,
+				6B9E87C0282CFEA600471C5B /* AgreementDialogViewController.swift in Sources */,
 				6B30FB4F237D73D600A893C8 /* MinimapView.swift in Sources */,
 				6B4F07692321151800B52C7E /* MainWindowController.swift in Sources */,
 				6B7C82D622D9489A0031F9C9 /* UserAuthenticationViewController.swift in Sources */,

@@ -102,7 +102,7 @@ final class AccountViewController: NSViewController {
                     if let errorMessage = errorMessage {
                         viewController.operationDidFailWithError(errorMessage)
                     } else {
-                        viewController.operationDidSucceed()
+                        viewController.dismiss(self)
                         self.confirmEmail(newEmail, confirmedPassword: passwordToConfirm)
                     }
                 }
@@ -130,7 +130,7 @@ final class AccountViewController: NSViewController {
                     if let response = response {
                         viewController.operationDidFailWithError(response)
                     } else {
-                        viewController.operationDidSucceed()
+                        viewController.dismiss(self)
                     }
                 }
             )

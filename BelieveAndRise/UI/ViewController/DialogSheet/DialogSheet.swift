@@ -42,8 +42,7 @@ class DialogSheet: NSViewController {
 
     /// Abandons the user's edits and dismisses the sheet.
     @IBAction private func cancelOperations(_ sender: Any?) {
-        dismiss(self)
-        didCancelOperation?()
+        didCancelOperation?(self)
     }
 
     /// Submits the user's edits.
@@ -68,7 +67,7 @@ class DialogSheet: NSViewController {
     /// The operation is called in `submitOperation(_:)`.
     var operation: Operation!
     /// Allows cleanup relating to 
-    var didCancelOperation: (() -> Void)?
+    var didCancelOperation: ((DialogSheet) -> Void)?
 
     /// Indicates that the operation has completed with an error.
     ///
@@ -80,9 +79,7 @@ class DialogSheet: NSViewController {
     }
 
     /// Indicates the operation has completed succesfully and the sheet may be dismissed.
-    func operationDidSucceed() {
-        dismiss(self)
-    }
+    func operationDidSucceed() {}
 
     // MARK: - Private helpers
 
