@@ -84,7 +84,6 @@ struct LoginView: View {
             case .success(_):
                 break
             }
-            print(result)
         })
     }
 }

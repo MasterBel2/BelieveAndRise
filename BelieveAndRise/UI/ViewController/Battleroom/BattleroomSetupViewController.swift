@@ -9,7 +9,7 @@
 import Cocoa
 import UberserverClientCore
 
-class BattleroomSetupViewController: NSViewController, NSTextFieldDelegate {
+final class BattleroomSetupViewController: NSViewController, NSTextFieldDelegate {
     
     // MARK: - Associated Objects
 	
@@ -118,7 +118,21 @@ class BattleroomSetupViewController: NSViewController, NSTextFieldDelegate {
         let map = archiveLoader.mapArchives.first!
         
         // TODO: Add support for restrictions (password, rank, maxPlayers etc.)
-        let command = CSOpenBattleCommand(isReplay: false, natType: .none, password: nil, port: 8452, maxPlayers: 32, gameHash: selectedGame.completeChecksum, rank: 0, mapHash: map.completeChecksum, engineName: "Spring", engineVersion: selectedEngine.syncVersion, mapName: map.name, title: descriptionField.stringValue, gameName: selectedGame.name)
+        let command = CSOpenBattleCommand(
+            isReplay: false,
+            natType: .none,
+            password: nil,
+            port: 8452,
+            maxPlayers: 32,
+            gameHash: selectedGame.completeChecksum,
+            rank: 0,
+            mapHash: map.completeChecksum,
+            engineName: "Spring",
+            engineVersion: selectedEngine.syncVersion,
+            mapName: map.name,
+            title: descriptionField.stringValue,
+            gameName: selectedGame.name
+        )
         client.connection?.send(command, specificHandler: { [weak self] response in
             guard let self = self else { return true }
             if let _ = response as? SCOpenBattleCommand {

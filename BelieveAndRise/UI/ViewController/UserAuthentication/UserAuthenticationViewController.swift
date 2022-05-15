@@ -35,7 +35,6 @@ final class UserAuthenticationViewController: DialogSheet {
         emailRow.isHidden = true
         contentStackView.removeArrangedSubview(confirmPasswordRow)
         confirmPasswordRow.isHidden = true
-
         prefillUsernameAndPassword()
 
         controlsToDisable += [usernameField, emailField, passwordField, confirmPasswordField, toggleModeButton]

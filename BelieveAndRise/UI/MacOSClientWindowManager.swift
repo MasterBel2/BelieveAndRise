@@ -74,34 +74,37 @@ final class MacOSClientWindowManager: NSResponder, ReceivesClientUpdates, Receiv
         }
         presentAccountWindow(session)
     }
-
+    
     // MARK: - Lifecycle
-
+    
     init(defaultsController: InterfaceDefaultsController) {
         chatSidebar = ListViewController()
         let chatViewController = ChatViewController()
         let splitViewController = ResizeTrackingSplitViewController()
         chatSidebar.view.setFrameSize(CGSize(width: defaultsController.defaultChatSidebarWidth, height: chatViewController.view.frame.height))
-
+        
         splitViewController.resizeDelegate = ChatWindowSplitViewControllerResizeDelegate(
             chatSidebar: chatSidebar,
             chatViewController: chatViewController,
             interfaceDefaultsController: defaultsController
         )
-
+        
         splitViewController.addItems(forViewControllers: [chatSidebar, chatViewController])
-
+        
         let chatWindow = NSPanel(contentViewController: splitViewController)
         chatWindow.title = "Chat"
         chatWindow.isFloatingPanel = true
         self.chatWindow = chatWindow
         chatWindow.setFrameAutosaveName("com.believeAndRise.chat")
         self.chatViewController = chatViewController
-
+        
         self.defaultsController = defaultsController
+        
         super.init()
+        
         nextResponder = mainWindowController.nextResponder
         mainWindowController.nextResponder = self
+        
         chatWindow.nextResponder = self
 
         mainWindowController.defaultsController = defaultsController

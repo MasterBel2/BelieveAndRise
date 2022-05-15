@@ -122,4 +122,3 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         self.clientController = clientController
     }
 }
-

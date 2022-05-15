@@ -45,6 +45,7 @@ final class ChatViewController: NSViewController, ChatBarControllerDelegate {
 
             self.chatBarController.isChatBarEnabled = true
             self.logViewController.itemViewProvider = DefaultMessageListItemViewProvider(messageList: channel.messageList, userlist: channel.userlist)
+
             self.logViewController.sections.forEach(self.logViewController.removeSection(_:))
             self.logViewController.addSection(channel.messageList)
             self.logViewController.shouldDisplaySectionHeaders = false

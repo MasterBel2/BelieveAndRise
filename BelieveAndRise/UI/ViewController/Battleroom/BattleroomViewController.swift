@@ -46,7 +46,7 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
                 battleroom.addObject(self)
                 
                 self.playerlistViewController.itemViewProvider = BattleroomPlayerListItemViewProvider(battleroom: battleroom)
-                
+
                 self.chatViewController.setChannel(battleroom.channel)
 
                 self.chatViewController.logViewController.itemViewProvider = BattleroomMessageListItemViewProvider(
@@ -248,7 +248,7 @@ final class BattleroomViewController: NSViewController, BattleroomHeaderViewDele
 			insertAllyOption(named: teamName, at: header.allyItems.count - 2)
 		}
     }
-    
+
     private func insertAllyOption(named teamName: String, at index: Int) {
         let allyItem = BattleroomHeaderView.AllyItem(title: allyItemTitle(forAllyNamed: teamName), action: { [weak self] in
             guard let self = self else {
