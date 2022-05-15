@@ -75,7 +75,6 @@
 		6BA9359E282A965400E816AB /* BattleroomControlPanelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BA9359C282A965300E816AB /* BattleroomControlPanelViewController.xib */; };
 		6BAF4ABA24A86F7F0078A64E /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF4AB824A86F7F0078A64E /* TextViewController.swift */; };
 		6BAF4ABB24A86F7F0078A64E /* TextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BAF4AB924A86F7F0078A64E /* TextViewController.xib */; };
-		6BBBEFC5244D3E350063F2A0 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBBEFC4244D3E350063F2A0 /* Logger.swift */; };
 		6BBF44A4238B6AD80076B656 /* ChatLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBF44A3238B6AD80076B656 /* ChatLogViewController.swift */; };
 		6BCC43AE2497BB8C00C7AA53 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCC43AC2497BB8C00C7AA53 /* AccountViewController.swift */; };
 		6BCC43AF2497BB8C00C7AA53 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BCC43AD2497BB8C00C7AA53 /* AccountViewController.xib */; };
@@ -210,7 +209,6 @@
 		6BA9359C282A965300E816AB /* BattleroomControlPanelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattleroomControlPanelViewController.xib; sourceTree = "<group>"; };
 		6BAF4AB824A86F7F0078A64E /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
 		6BAF4AB924A86F7F0078A64E /* TextViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextViewController.xib; sourceTree = "<group>"; };
-		6BBBEFC4244D3E350063F2A0 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		6BBF44A3238B6AD80076B656 /* ChatLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewController.swift; sourceTree = "<group>"; };
 		6BCC43AC2497BB8C00C7AA53 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		6BCC43AD2497BB8C00C7AA53 /* AccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
@@ -320,7 +318,6 @@
 		3E46333322C0C2D000AE0F2F /* BelieveAndRise */ = {
 			isa = PBXGroup;
 			children = (
-				6BBBEFC4244D3E350063F2A0 /* Logger.swift */,
 				6BAF4AB824A86F7F0078A64E /* TextViewController.swift */,
 				6BAF4AB924A86F7F0078A64E /* TextViewController.xib */,
 				6BEE6525239A8F2A0029528A /* LICENSE */,
@@ -868,7 +865,6 @@
 				6B7304A123E7B5FA0027E757 /* ResizeTrackingSplitViewController.swift in Sources */,
 				6B9C807A25CEC2F900D5987C /* ListSelectionHandler.swift in Sources */,
 				6B880619249BCC3700BAF05B /* SingleTextInputDialogSheet.swift in Sources */,
-				6BBBEFC5244D3E350063F2A0 /* Logger.swift in Sources */,
 				6BCD568C24D48DC7001131BA /* NSView+addBacking.swift in Sources */,
 				3E7C827E239CC25F004B835D /* DownloadItemViewProvider.swift in Sources */,
 				6BA9359D282A965400E816AB /* BattleroomControlPanelViewController.swift in Sources */,

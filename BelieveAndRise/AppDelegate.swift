@@ -93,7 +93,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func runNormally() {
-        Logger.log("Logger is online", tag: .General)
+//        Logger.log("Logger is online", tag: .General)
 
         system = MacOS()
 
